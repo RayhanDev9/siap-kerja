@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+
+
+@theme {
+  /* Mendaftarkan Warna */
+  --color-primary: #0052CC;
+  --color-secondary: #36B37E;
+  --color-tertiary: #FFAB00;
+  --color-neutral: #172B4D;
+
+  /* Mendaftarkan Font */
+  --font-headline: "Hanken Grotesk", sans-serif;
+  --font-body: "Inter", sans-serif;
+}
