@@ -10,7 +10,7 @@ const data = [
 
 const AIInsightCardRecharts = () => {
   return (
-    <div className="w-full max-w-sm rounded-2xl border border-gray-100 bg-white p-6 font-sans shadow-sm">
+    <div className="w-full max-w-xs  rounded-2xl border border-gray-100 bg-white  p-6 font-sans shadow-sm">
       {/* Header Section */}
       <div className="mb-6 flex items-center justify-between">
         <h3 className="text-sm font-bold tracking-wider text-gray-400">

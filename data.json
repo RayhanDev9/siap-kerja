@@ -1,0 +1,574 @@
+// Data page analytis
+
+{
+  summaryCards: {
+    views: {
+      value: 342,
+      label: "Dilihat",
+      trend: {
+        value: 12,
+        isPositive: true,
+        text: "~ 12%",
+      },
+    },
+    applications: {
+      value: 18,
+      label: "Lamaran",
+      timeframe: "Minggu ini",
+    },
+    courses: {
+      value: 5,
+      label: "Kursus",
+      description: "Diselesaikan bulan ini",
+    },
+  },
+  profileEngagement: {
+    title: "Keterlibatan Profil",
+    subtitle: "Interaksi 7 hari terakhir",
+    actionLabel: "Detail",
+    chartData: [
+      { name: "Sen", fullName: "Senin", value: 30 },
+      { name: "Sel", fullName: "Selasa", value: 50 },
+      { name: "Rab", fullName: "Rabu", value: 80 },
+      { name: "Kam", fullName: "Kamis", value: 82 },
+      { name: "Jum", fullName: "Jumat", value: 40 },
+      { name: "Sab", fullName: "Sabtu", value: 60 },
+    ],
+  },
+  skillDevelopment: {
+    title: "Pengembangan Keahlian",
+    skills: [
+      {
+        name: "Data Analysis (Python)",
+        progressPercentage: 75,
+      },
+      {
+        name: "UI/UX Research",
+        progressPercentage: 40,
+      },
+    ],
+    buttonLabel: "Lihat Semua Keahlian",
+  },
+  bottomNavigation: [
+    { id: "dashboard", label: "Dashboard", isActive: false },
+    { id: "explorer", label: "Explorer", isActive: false },
+    { id: "profile", label: "Profile", isActive: true },
+    { id: "roadmap", label: "Roadmap", isActive: false },
+  ],
+};
+
+// Data page Career Explorer
+{
+  
+  filterCategories: [
+    { id: "all", label: "Semua", isActive: true },
+    { id: "tech", label: "Teknologi", isActive: false },
+    { id: "business", label: "Bisnis", isActive: false },
+    { id: "creative", label: "Kreatif", isActive: false },
+  ],
+  jobListings: [
+    {
+      id: 1,
+      title: "AI Product Manager",
+      company: "Perusahaan Teknologi Terkemuka",
+      badge: {
+        text: "AI MATCH",
+        type: "primary", // Bisa digunakan untuk menentukan warna ungu di CSS/Tailwind
+      },
+      matchPercentage: 92,
+      skills: ["Machine Learning", "Agile", "Data Strategy"],
+      salary: "Rp 25-35 Jt/bln",
+      linkText: "Lihat Detail",
+    },
+    {
+      id: 2,
+      title: "Cloud Solutions Architect",
+      company: "Global IT Services",
+      badge: {
+        text: "HOT",
+        type: "warning", // Bisa digunakan untuk menentukan warna oranye di CSS/Tailwind
+      },
+      matchPercentage: 85,
+      skills: ["AWS/Azure", "System Design", "DevOps"],
+      salary: "Rp 30-45 Jt/bln",
+      linkText: "Lihat Detail",
+    },
+    {
+      id: 3,
+      title: "UX/UI Engineer",
+      company: "Startup Unicorn",
+      badge: {
+        text: "AI MATCH",
+        type: "success",
+      },
+      matchPercentage: 88,
+      skills: ["Figma", "React", "User Research"],
+      salary: "Rp 15-25 Jt/bln",
+      linkText: "Lihat Detail",
+    },
+  ],
+};
+
+// Data Dashbord
+ {
+
+
+
+  // 2. Kesiapan Karier (Grafik Melingkar)
+  careerReadiness: {
+    scoreData: [
+      { name: "Skor", value: 78 },
+      { name: "Sisa", value: 22 },
+    ],
+    progressMessage: "Kesiapan kamu meningkat 5 poin minggu ini!",
+  },
+
+  // 3. Kartu Metrik (Highlight Cards)
+  metrics: {
+    aiReadiness: {
+      grade: "A-",
+      description: "Top 15%",
+      icon: "fa-solid fa-user-gear",
+    },
+    learningStreak: {
+      days: 12,
+      label: "Hari",
+      icon: "fa-fire-flame-curved",
+    },
+  },
+
+  // 4. Celah Keterampilan (Bisa di-map menggunakan array)
+  prioritySkills: [
+    {
+      id: 1,
+      title: "Machine Learning",
+      subtitle: "Fundamental & Applied",
+      icon: "fa-solid fa-brain", // Contoh nama icon FontAwesome
+    },
+    {
+      id: 2,
+      title: "Cloud Architecture",
+      subtitle: "AWS / GCP Basics",
+      icon: "fa-solid fa-cloud",
+    },
+  ],
+
+  // 5. Rekomendasi Karier (Bisa di-map menggunakan array)
+  careerRecommendations: [
+    {
+      id: 101,
+      role: "Product Manager",
+      matchPercentage: 92,
+      description: "Berdasarkan kemampuan analitis dan komunikasi Anda.",
+      themeColor: "purple", // Untuk menentukan warna border/icon di Tailwind
+      icon: "fa-solid fa-briefcase ",
+    },
+    {
+      id: 102,
+      role: "Solutions Architect",
+      matchPercentage: 88, // Nilai asumsi
+      description:
+        "Cocok dengan kemampuan teknis Anda pada infrastruktur cloud.",
+      themeColor: "blue",
+      icon: "fa-solid fa-compass-drafting",
+    },
+  ],
+};
+
+// Data lerning roadmap
+{
+  overallProgress: {
+    label: "Progres Keseluruhan",
+    percentage: 45,
+    estimatedTime: "4 Bulan",
+  },
+  stages: [
+    {
+      id: 1,
+      stepLabel: "Tahap 1",
+      badge: "SELESAI",
+      title: "Dasar Jaringan Saraf Tiruan",
+      description: "Pemahaman mendasar tentang perceptron, aktivasi, dan...",
+      isLocked: false,
+      status: "completed",
+    },
+    {
+      id: 2,
+      stepLabel: "Tahap 2",
+      badge: "SEDANG BERLANGSUNG",
+      title: "Arsitektur Lanjutan & NLP",
+      description:
+        "Mendalami Transformer, BERT, dan pemrosesan bahasa alami modern.",
+      progress: 60,
+      actionButton: "Lanjutkan",
+      isLocked: false,
+      status: "in_progress",
+    },
+    {
+      id: 3,
+      stepLabel: "Tahap 3",
+      badge: "MENENGAH",
+      title: "Computer Vision & MLOps",
+      description:
+        "Penerapan CNN dan deployment model ke environment produksi...",
+      isLocked: true,
+      status: "locked",
+    },
+    {
+      id: 4,
+      stepLabel: "Tahap 4",
+      badge: "LANJUTAN",
+      title: "Proyek Akhir & Sertifikasi",
+      description:
+        "Penyelesaian proyek nyata end-to-end untuk portofolio tingkat senior.",
+      isLocked: true,
+      status: "locked",
+    },
+  ],
+};
+
+
+// Data Market Trends
+{
+  jobGrowth: {
+   
+    trend: {
+      text: "+15%",
+      isPositive: true,
+    },
+    chartData: [
+      { name: "IT Support", value: 30 },
+      { name: "", value: 50 },
+      { name: "Data", value: 70 },
+      { name: "", value: 90 },
+      { name: "AI/ML", value: 110 },
+    ],
+  },
+  topSkills: {
+    title: "Keahlian Paling Dicari",
+    items: [
+      {
+        rank: "#1",
+        name: "AI & Machine Learning",
+        description: "Permintaan naik tinggi",
+        icon: "fa-solid fa-microchip ",
+        thame: "purple",
+      },
+      {
+        rank: "#2",
+        name: "Cloud Architecture",
+        description: "AWS, GCP, Azure",
+        icon: "fa-solid fa-cloud ",
+        thame: "blue",
+      },
+    ],
+  },
+  salaryAnalysis: {
+    title: "Analisis Gaji",
+    items: [
+      {
+        role: "AI Engineer",
+        salaryRange: "Rp 25M - 45M",
+        description: "Rata-rata per bulan",
+        progressPercentage: 85,
+      },
+    ],
+  },
+};
+
+
+// Data profile
+{
+  profile: {
+    name: "Budi Santoso",
+    headline: "Senior UI/UX Designer di TechIndo",
+    availabilityStatus: "Tersedia untuk Kerja",
+    location: "Jakarta, ID",
+    bio: "Mendesain pengalaman digital yang intuitif dengan fokus pada aksesibilitas dan sistem desain terukur.",
+    avatarUrl:
+      "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  },
+  aiMatchScore: {
+    title: "Skor Kecocokan AI",
+    description: "Sangat cocok untuk peran Senior Product Design.",
+    scorePercentage: 92,
+  },
+  skills: {
+    primary: [
+      "Figma",
+      "Design Systems",
+      "User Research",
+      "Prototyping",
+      "CSS/HTML",
+    ],
+    additionalCount: 3,
+  },
+  experience: [
+    {
+      id: 1,
+      role: "Senior UI/UX Designer",
+      company: "TechIndo",
+      period: "2021 - Sekarang",
+      description:
+        "Memimpin tim desain beranggotakan 5 orang untuk merombak aplikasi mobile utama. Meningkatkan retensi pengguna sebesar 25%.",
+      isCurrent: true,
+    },
+    {
+      id: 2,
+      role: "Product Designer",
+      company: "StartupLokal",
+      period: "2018 - 2021",
+      description: null,
+      isCurrent: false,
+    },
+  ],
+  educations: [
+    {
+      id: 1,
+      institution: "Universitas Indonesia",
+      degree: "S1 Sistem Informasi",
+      period: "2014 - 2018",
+      gpa: 3.85,
+    },
+    {
+      id: 2,
+      institution: "Institut Teknologi Bandung",
+      degree: "S2 Teknik Informatika",
+      period: "2019 - 2021",
+      gpa: 3.92,
+    },
+    {
+      id: 3,
+      institution: "Universitas Gadjah Mada",
+      degree: "S3 Ilmu Komputer",
+      period: "2023 - 2026",
+      gpa: 3.78,
+    },
+
+  ],
+};
+
+// Data Saved Careers
+ [
+  {
+    id: 1,
+    role: "AI Solutions Architect",
+    matchScore: 92,
+    salaryEstimate: "Rp 25jt - 45jt/bln",
+    tags: [
+      {
+        label: "TEKNOLOGI",
+        theme: "purple",
+      },
+      {
+        label: "TINGGI",
+        theme: "orange",
+      },
+    ],
+    skillReadiness: {
+      label: "Kesiapan Skill",
+      mastered: 4,
+      total: 6,
+      statusText: "Dikuasai",
+      progressPercentage: 66.67,
+    },
+    aiRecommendation: {
+      title: "Rekomendasi AI",
+      headerIcon: "fa-regular fa-lightbulb",
+      tasks: [
+        {
+          id: "task-1",
+          text: 'Selesaikan modul "Advanced Neural Networks"',
+          icon: "fa-regular fa-circle-check",
+          theme: "blue",
+        },
+      ],
+    },
+  },
+
+  {
+    id: 2,
+    role: "Front-End Web Developer",
+    matchScore: 88,
+    salaryEstimate: "Rp 12jt - 20jt/bln",
+    tags: [
+      {
+        label: "JAVASCRIPT",
+        theme: "yellow",
+      },
+      {
+        label: "MENENGAH",
+        theme: "green",
+      },
+    ],
+    skillReadiness: {
+      label: "Kesiapan Skill",
+      mastered: 5,
+      total: 6,
+      statusText: "Dikuasai",
+      progressPercentage: 83.33,
+    },
+    aiRecommendation: {
+      title: "Rekomendasi AI",
+      headerIcon: "fa-regular fa-lightbulb",
+      tasks: [
+        {
+          id: "task-2",
+          text: "Tingkatkan efisiensi komponen layout menggunakan Tailwind CSS",
+          icon: "fa-regular fa-circle-check",
+          theme: "blue",
+        },
+      ],
+    },
+  },
+  {
+    id: 3,
+    role: "Java Software Engineer",
+    matchScore: 75,
+    salaryEstimate: "Rp 15jt - 28jt/bln",
+    tags: [
+      {
+        label: "BACKEND",
+        theme: "blue",
+      },
+      {
+        label: "TINGGI",
+        theme: "orange",
+      },
+    ],
+    skillReadiness: {
+      label: "Kesiapan Skill",
+      mastered: 1,
+      total: 5,
+      statusText: "Dikuasai",
+      progressPercentage: 60.0,
+    },
+    aiRecommendation: {
+      title: "Rekomendasi AI",
+      headerIcon: "fa-regular fa-lightbulb",
+      tasks: [
+        {
+          id: "task-3",
+          text: "Pelajari lebih dalam optimasi rendering grafik dengan Java Swing",
+          icon: "fa-regular fa-circle-check",
+          theme: "blue",
+        },
+      ],
+    },
+  },
+];
+
+// Data Setting
+{
+  profilPengguna: {
+    namaLengkap: "Budi Santoso",
+    email: "budi.santoso@example.com",
+    fotoProfil:
+      "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", // Representasi untuk tombol "Ganti Foto"
+  },
+  keamanan: {
+    kataSandiSaatIni: "********",
+    kataSandiBaru: "", // Placeholder untuk input "Masukkan kata sandi baru"
+  },
+  pengaturanLainnya: [
+    {
+      id: 1,
+      kategori: "Notifikasi",
+      status: "Email & Push",
+      icon: "fa-bell", // Estimasi icon FontAwesome
+    },
+    {
+      id: 2,
+      kategori: "Tampilan",
+      status: "Mode Terang",
+      icon: "fa-palette",
+    },
+    {
+      id: 3,
+      kategori: "Privasi & Data",
+      status: "Kelola izin",
+      icon: "fa-shield-halved",
+    },
+  ],
+};
+
+// Data Skill gap
+ {
+  // 1. Overall Readiness
+  overallReadiness: {
+    percentage: 68,
+    message:
+      "Anda memiliki dasar yang kuat. Fokus pada pengembangan kepemimpinan strategis.",
+  },
+
+  // 2. Competency Matrix (Estimated values from 0-100 scale based on chart)
+  competencyMatrix: {
+    labels: [
+      "UI Design",
+      "UX Research",
+      "Prototyping",
+      "Strategy",
+      "Leadership",
+      "Tech",
+    ],
+    datasets: [
+      {
+        label: "Keahlian Anda",
+        data: [100, 50, 90, 40, 20, 40], // Solid blue dot
+        color: "#0d6efd", // Blue
+      },
+      {
+        label: "Target Peran",
+        data: [90, 70, 80, 80, 70, 60], // Dashed purple dot
+        color: "#6f42c1", // Purple
+      },
+    ],
+  },
+
+  // 3. Skill Category Details
+  skillCategoryDetails: [
+    {
+      id: 1,
+      category: "Teknologi & Tools",
+      icon: "fa-cubes", // Estimated FontAwesome icon
+      skills: [
+        {
+          name: "Figma (Advanced Prototyping)",
+          status: "Tercapai",
+          statusType: "success", // Can be used for badge styling
+        },
+        {
+          name: "HTML/CSS Dasar",
+          status: "Kesenjangan",
+          statusType: "danger",
+        },
+      ],
+    },
+    {
+      id: 2,
+      category: "Kreatif & Strategi",
+      icon: "fa-lightbulb", // Estimated FontAwesome icon
+      skills: [
+        {
+          name: "Desain Sistem Skalabel",
+          status: "Pengembangan",
+          statusType: "warning",
+        },
+        {
+          name: "Riset Pengguna Kualitatif",
+          status: "Tercapai",
+          statusType: "success",
+        },
+      ],
+    },
+  ],
+
+  // 4. Market Demand Map
+  marketDemandMap: {
+    title: "Peta Permintaan Pasar",
+    placeholderMessage:
+      "Heatmap visualisasi akan dimuat di sini menampilkan tren permintaan keterampilan terkini.",
+    placeholderImage: "url_heatmap_image.png",
+  },
+};
+

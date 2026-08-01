@@ -1,15 +1,32 @@
 @import "tailwindcss";
 
-
-
 @theme {
-  /* Mendaftarkan Warna */
-  --color-primary: #0052CC;
-  --color-secondary: #36B37E;
-  --color-tertiary: #FFAB00;
-  --color-neutral: #172B4D;
+  --color-primary: #0052cc;
+  --color-secondary: #36b37e;
+  --color-tertiary: #ffab00;
+  --color-neutral: #172b4d;
 
-  /* Mendaftarkan Font */
   --font-headline: "Hanken Grotesk", sans-serif;
   --font-body: "Inter", sans-serif;
+
+  --breakpoint-xs: 30rem;
+  --breakpoint-3xl: 120rem;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.show-scrollbar::-webkit-scrollbar {
+  display: block; /* atau bisa juga pakai 'auto' */
+}
+
+.show-scrollbar {
+  -ms-overflow-style: auto;
+  scrollbar-width: auto;
 }

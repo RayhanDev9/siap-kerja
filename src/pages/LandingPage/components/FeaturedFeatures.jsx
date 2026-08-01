@@ -72,17 +72,23 @@ const dataFeaturedFeatures = [
 
 function FeaturedFeatures() {
   return (
-    <section className="space-y-5">
-      <H2 type="primary">Feature Unggulan</H2>
-      {dataFeaturedFeatures.map((item) => (
-        <FeaturedFeaturesItems
-          heading={item.heading}
-          paraghraf={item.paraghraf}
-          svg={item.svg}
-          bgColor={item.bgColor}
-          key={item.heading}
-        />
-      ))}
+    <section className="flex flex-col items-center">
+      <div className="self-start">
+        <H2 type="primary">Feature Unggulan</H2>
+      </div>
+      <div className="inline-block space-y-5">
+        <div className="grid-cols-1 gap-5 max-sm:space-y-5 sm:grid sm:grid-cols-2">
+          {dataFeaturedFeatures.map((item) => (
+            <FeaturedFeaturesItems
+              heading={item.heading}
+              paraghraf={item.paraghraf}
+              svg={item.svg}
+              bgColor={item.bgColor}
+              key={item.heading}
+            />
+          ))}
+        </div>
+      </div>
     </section>
   );
 }
