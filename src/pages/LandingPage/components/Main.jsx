@@ -8,9 +8,9 @@ function Main() {
   return (
     <Section>
       <div className="space-y-7 overflow-x-hidden">
-        <section className="mx-auto w-full sm:w-4/5 md:w-[70%] lg:grid lg:w-full lg:grid-cols-2 lg:gap-5">
+        <section className="mx-auto grid w-full gap-7 sm:w-4/5 md:w-[70%] lg:w-full lg:grid-cols-2 lg:gap-5">
           <div className="col-span-1">
-            <h1 className="text-center text-3xl lg:text-5xl leading-10 lg:leading-20 font-bold capitalize">
+            <h1 className="text-center text-3xl leading-10 font-bold capitalize lg:text-5xl lg:leading-20">
               Temukan Karir masa depan anda dengan
               <span className="text-primary block capitalize"> ai</span>
             </h1>
@@ -19,13 +19,13 @@ function Main() {
                 Platform cerdas yang menganalisis keahlian Anda, memetakan
                 potensi, dan membimbing langkah karier selanjutnya.
               </p>
-              <div className="flex justify-center max-xs:flex-col  xs:gap-5">
+              <div className="max-xs:flex-col xs:gap-5 flex justify-center">
                 <div className="text-center">
                   <Button to="/login" type="primary">
                     Mulai Sekarang
                   </Button>
                 </div>
-                <div className=" self-center text-center lg:block">
+                <div className="self-center text-center lg:block">
                   <Button to="/" type="generalSecondary">
                     Eksplorasi Karir
                   </Button>
@@ -34,7 +34,7 @@ function Main() {
             </div>
           </div>
 
-          <div className="col-span-1 hidden rotate-2 rounded-2xl bg-white p-7 transition-all duration-300 hover:rotate-0 lg:block">
+          <div className="col-span-1 rotate-2 rounded-2xl bg-white p-7 transition-all duration-300 hover:rotate-0 lg:block active:rotate-0">
             <div className="flex gap-2 border-b border-slate-300 p-7">
               <span className="pr-2">
                 <i class="fa-solid fa-user-cog rounded-full bg-purple-100 p-3 text-purple-600"></i>

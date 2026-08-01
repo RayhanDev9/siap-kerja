@@ -4,7 +4,7 @@ function AuthBanner() {
       <div className="flex h-screen w-full flex-col justify-between p-8 pl-12 lg:p-12">
         {/* Bagian Atas: Logo */}
         <div className="self-start">
-          <h1 className="text-start text-4xl font-extrabold tracking-tight text-[#0033CC]">
+          <h1 className="text-start text-4xl  font-extrabold tracking-tight text-[#0033CC]">
             SiapKerja
           </h1>
         </div>
@@ -25,10 +25,10 @@ function AuthBanner() {
 
         {/* Bagian Bawah: Card Teks */}
         <div className="w-full max-w-lg rounded-[24px] bg-white p-7 shadow-sm">
-          <h3 className="text-xl leading-snug font-bold text-slate-900">
+          <h3 className="text-2xl leading-snug font-bold text-slate-900">
             Navigasi masa depan Anda dengan kecerdasan.
           </h3>
-          <p className="mt-3 text-[15px] leading-relaxed text-slate-500">
+          <p className="mt-3 text-lg leading-relaxed text-slate-500">
             Wawasan karier berbasis AI untuk mendorong perjalanan profesional
             Anda ke depan.
           </p>

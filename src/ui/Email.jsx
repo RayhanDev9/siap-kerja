@@ -1,7 +1,10 @@
-function Email({value,onChange}) {
+function Email({ value, onChange }) {
   return (
     <div className="flex flex-col gap-2">
-      <label htmlFor="email" className="text-sm font-medium text-gray-700">
+      <label
+        htmlFor="email"
+        className="text-sm font-medium text-gray-700 sm:text-base lg:text-lg"
+      >
         Alamat Email
       </label>
       <div className="relative">
@@ -13,7 +16,7 @@ function Email({value,onChange}) {
           onChange={onChange}
           placeholder="nama@gmail.com"
           required
-          className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 pl-10 text-sm transition outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600"
+          className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 pl-10 text-sm transition outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 sm:text-base lg:text-lg"
         />
         <i className="fa-regular fa-envelope absolute top-1/2 left-4 -translate-y-1/2 text-gray-400"></i>
       </div>

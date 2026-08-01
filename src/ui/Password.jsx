@@ -8,7 +8,10 @@ function Password({ value, onChange }) {
   }
   return (
     <div className="flex flex-col gap-2">
-      <label htmlFor="password" className="text-sm font-medium text-gray-700">
+      <label
+        htmlFor="password"
+        className="text-sm font-medium text-gray-700 sm:text-base lg:text-lg"
+      >
         Kata Sandi
       </label>
       <div className="relative">
@@ -21,7 +24,7 @@ function Password({ value, onChange }) {
           onChange={onChange}
           required
           placeholder="*****"
-          className="w-full rounded-xl border border-gray-200 bg-white px-10 py-3 text-sm transition outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600"
+          className="w-full rounded-xl border border-gray-200 bg-white px-10 py-3 text-sm transition outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 sm:text-base lg:text-lg"
         />
         <i
           onClick={handlePasswordVisibility}

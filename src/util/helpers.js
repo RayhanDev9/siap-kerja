@@ -40,12 +40,11 @@ export function validateEmail(email) {
 }
 
 export function validatePassword(password) {
-  console.info(password);
   if (!password) {
     return "Kata sandi tidak boleh kosong.";
   }
 
-  if (password.length > 8) {
+  if (password.length < 8) {
     return "Kata sandi harus terdiri dari minimal 8 karakter.";
   }
 
