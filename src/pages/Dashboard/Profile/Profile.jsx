@@ -8,6 +8,9 @@ import Button from "./../../../ui/Button";
 import Progres from "./../../../ui/Progres";
 import ExperienceItems from "./components/ExperienceItems";
 import EducationItems from "./components/EducationItems";
+import Text from "../../../ui/Text";
+import { cardVariants } from "../../../util/animations";
+import { motion } from "framer-motion"; // 1. Import Framer Motion
 
 function Profile() {
   const { profile, aiMatchScore, skills, experience, educations } = dataProfile;
@@ -26,7 +29,10 @@ function Profile() {
         />
         <div className="grid grid-cols-1 justify-items-center gap-7 lg:grid-cols-3">
           {/* data profile mobile*/}
-          <div className="lg:col-span-2 col-span-1 flex flex-col items-center gap-7 lg:hidden">
+          <motion.div
+            variants={cardVariants}
+            className="col-span-1 flex flex-col items-center gap-7 lg:col-span-2 lg:hidden"
+          >
             <div className="flex flex-col items-center gap-1">
               <div className="flex items-center rounded-full">
                 <img
@@ -38,22 +44,25 @@ function Profile() {
               <div className="mt-4">
                 <H2 type="netural">{name}</H2>
               </div>
-              <p className="text-xl">{headline}</p>
+              <Text className="text-xl">{headline}</Text>
             </div>
             <div className="flex justify-center gap-3">
-              <p className="truncate rounded-2xl bg-blue-500 px-3 py-1 font-semibold text-white">
+              <Text className="truncate rounded-2xl bg-blue-500 px-3 py-1 font-semibold text-white">
                 {availabilityStatus}
-              </p>
-              <p className="truncate rounded-2xl bg-slate-300 px-3 py-1 font-semibold text-black">
+              </Text>
+              <Text className="truncate rounded-2xl bg-slate-300 px-3 py-1 font-semibold text-black">
                 <i className="fa-solid fa-location-dot pr-2"></i>
                 {location}
-              </p>
+              </Text>
             </div>
-            <p className="c text-center">{bio}</p>
-          </div>
+            <Text className="c text-center">{bio}</Text>
+          </motion.div>
 
           {/* data profile destop*/}
-          <div className="col-span-2 hidden w-full flex-col gap-6 rounded-xl border border-gray-200 bg-white p-6 sm:flex-row lg:flex">
+          <motion.div
+            variants={cardVariants}
+            className="col-span-2 hidden w-full flex-col gap-6 rounded-xl border border-gray-200 bg-white p-6 sm:flex-row lg:flex"
+          >
             {/* Kolom Kiri: Foto Profil */}
             <div className="shrink-0">
               <img
@@ -85,51 +94,54 @@ function Profile() {
               </div>
 
               {/* Baris 3: Label Judul Bio */}
-              <p className="mt-6 text-sm font-semibold tracking-wide text-slate-500 uppercase">
+              <Text className="mt-6 text-sm font-semibold tracking-wide text-slate-500 uppercase">
                 Professional Bio
-              </p>
+              </Text>
 
               {/* Baris 4: Teks Bio */}
-              <p className="mt-3 text-base leading-relaxed text-slate-700">
+              <Text className="mt-3 text-base leading-relaxed text-slate-700">
                 {bio}
-              </p>
+              </Text>
             </div>
-          </div>
+          </motion.div>
 
           {/* Resume */}
-          <div className="col-span-1 justify-self-center flex w-full max-w-xl flex-col items-center gap-7 rounded-2xl bg-white p-7  self-center">
+          <motion.div
+            variants={cardVariants}
+            className="col-span-1 flex w-full max-w-xl flex-col items-center gap-7 self-center justify-self-center rounded-2xl bg-white p-7"
+          >
             <div className="flex w-full justify-between">
               <H2 type="netural">Resume</H2>
-              <p>
+              <div className="self-center">
                 <i className="far fa-file-alt self-center text-2xl text-purple-500"></i>
-              </p>
+              </div>
             </div>
 
             <div className="flex w-full justify-around rounded-2xl bg-blue-50 px-3 py-4">
-              <p className="self-center rounded-2xl bg-white">
+              <Text className="self-center rounded-2xl bg-white">
                 <i className="fa-regular fa-file-pdf text-2xl text-blue-600"></i>
-              </p>
+              </Text>
 
               <div className="flex flex-col flex-wrap">
-                <p className="xl:w-min-0 xs:min-w-0 w-24 truncate font-bold lg:w-20">
+                <Text className="xl:w-min-0 xs:min-w-0 w-24 truncate font-bold lg:w-20">
                   Budi_Santoso_Cv.Pdf
-                </p>
-                <p className="xl:w-min-0 xs:min-w-0 w-24 truncate lg:w-20">
+                </Text>
+                <Text className="xl:w-min-0 xs:min-w-0 w-24 truncate lg:w-20">
                   {" "}
                   Update 2 weeks ego
-                </p>
+                </Text>
               </div>
 
-              <p className="self-center">
+              <Text className="self-center">
                 <i className="fas fa-download text-2xl"></i>
-              </p>
+              </Text>
             </div>
 
             <div className="flex w-full flex-col gap-4 self-start">
               <div className="flex justify-between">
-                <p className="self-start text-start font-semibold capitalize">
+                <Text className="self-start text-start font-semibold capitalize">
                   All parsing complate
-                </p>
+                </Text>
                 <span>100%</span>
               </div>
               <Progres progressPercentage={100} />
@@ -137,48 +149,53 @@ function Profile() {
                 <i className="fas fa-upload"></i> Uploud New Version
               </Button>
             </div>
-          </div>
+          </motion.div>
         </div>
 
         {/* Ai match score */}
 
-        <div className="flex justify-between gap-5 rounded-2xl bg-white p-7 lg:hidden">
+        <motion.div
+          variants={cardVariants}
+          className="flex justify-between gap-5 rounded-2xl bg-white p-7 lg:hidden"
+        >
           <div className="w-full min-w-0 flex-1">
             <H2 type="netural">
               {" "}
               <div className="flex gap-2">
                 <i class="fa-solid fa-robot pr-2 text-2xl text-purple-600"></i>
-                <p className="truncate"> {title}</p>
+                <Text className="truncate"> {title}</Text>
               </div>
             </H2>
-            <p className="line-clamp-2">{description}</p>
+            <Text className="line-clamp-2">{description}</Text>
           </div>
           <div className="self-center text-end">
-            <p className="inline-block rounded-full text-xl font-bold text-blue-500 ring-4 ring-offset-8">
+            <Text className="inline-block rounded-full text-xl font-bold text-blue-500 ring-4 ring-offset-8">
               {scorePercentage}%
-            </p>
+            </Text>
           </div>
           <div className="col-span-2">
             <Progres progressPercentage={scorePercentage} />
           </div>
-        </div>
+        </motion.div>
 
         {/* Skills */}
-        <div className="">
+        <motion.div variants={cardVariants} className="">
           <H2 type="secondry">Keahlian Utama</H2>
           <div className="mt-7 flex flex-wrap gap-4">
             {skills.primary.map((skill) => (
               <SkillsItems skill={skill} />
             ))}
-            <p className="inline-block rounded-md bg-slate-50 p-2 text-blue-500">
+            <Text className="inline-block rounded-md bg-slate-50 p-2 text-blue-500">
               +{skills.additionalCount} Lainnya
-            </p>
+            </Text>
           </div>
-        </div>
+        </motion.div>
 
         {/* experience */}
         <div>
-          <H2 type="secondry">Experience</H2>
+          <motion.div variants={cardVariants}>
+            <H2 type="secondry">Experience</H2>
+          </motion.div>
           <div className="mt-7">
             {experience.map((item) => (
               <ExperienceItems
@@ -195,7 +212,10 @@ function Profile() {
 
         {/* Education */}
         <div>
-          <H2 type="secondry">Pendidikan</H2>
+          <motion.div variants={cardVariants}>
+            <H2 type="secondry">Pendidikan</H2>
+          </motion.div>
+
           <div className="mt-7 space-y-5">
             {educations.map((education) => (
               <EducationItems

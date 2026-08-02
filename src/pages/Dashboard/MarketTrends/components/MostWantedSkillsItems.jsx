@@ -1,4 +1,7 @@
+import Text from "../../../../ui/Text";
 import H3 from "./../../../../ui/H3";
+import { cardVariants } from "../../../../util/animations";
+import { motion } from "framer-motion"; // 1. Import Framer Motion
 
 function Skills({ icon, name, description, rank, thame }) {
   // Object kondisi untuk memetakan nama "thame" ke class Tailwind
@@ -25,7 +28,10 @@ function Skills({ icon, name, description, rank, thame }) {
   const activeTheme = themeColorConfig[thame] || themeColorConfig.default;
 
   return (
-    <div className="flex justify-between rounded-2xl bg-white p-7">
+    <motion.div
+      variants={cardVariants}
+      className="flex justify-between rounded-2xl bg-white p-7"
+    >
       <div className="flex gap-5">
         <p>
           <i
@@ -34,11 +40,11 @@ function Skills({ icon, name, description, rank, thame }) {
         </p>
         <div>
           <H3>{name}</H3>
-          <p>{description}</p>
+          <Text>{description}</Text>
         </div>
       </div>
-      <p>{rank}</p>
-    </div>
+      <Text>{rank}</Text>
+    </motion.div>
   );
 }
 

@@ -1,4 +1,3 @@
-import React from "react";
 
 function InputAboutMe({ value, onChange, onBlur }) {
   const maxLength = 300;

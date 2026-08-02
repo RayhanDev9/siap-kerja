@@ -7,7 +7,7 @@ function ButtonMdOnboarding({ button1, button2, to }) {
   return (
     <div className="hidden justify-between bg-white p-7 text-center md:flex">
       <div className="inline-block">
-        <Button type="secondry" onClick={() => navigate(-1)}>
+        <Button type="secondary" onClick={() => navigate(-1)}>
           {button1}
         </Button>
       </div>

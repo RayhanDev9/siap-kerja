@@ -4,7 +4,7 @@ import "react-datepicker/dist/react-datepicker.css"; // Wajib di-import agar kal
 function InputDateOfBirth({ value, onChange, onBlur }) {
   return (
     <div className="flex flex-col gap-2">
-      <label htmlFor="Date" className="text-sm font-medium text-gray-700">
+      <label htmlFor="Date" className="text-sm sm:text-base lg:text-lg font-medium text-gray-700">
         Tanggal Lahir
       </label>
 
@@ -21,7 +21,7 @@ function InputDateOfBirth({ value, onChange, onBlur }) {
           showMonthDropdown // Memunculkan dropdown untuk Bulan
           dropdownMode="select"
           // Class Tailwind milikmu dimasukkan ke sini
-          className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 pl-10 text-sm transition outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600"
+          className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 pl-10 text-sm sm:text-base lg:text-lg transition outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600"
           // Properti khusus DatePicker agar lebarnya mengikuti parent (penting)
           wrapperClassName="w-full"
         />

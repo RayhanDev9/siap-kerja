@@ -1,6 +1,9 @@
-function InputName({ value, onChange }) {
+import { cardVariants } from "./../util/animations";
+import { motion } from "framer-motion"; // 1. Import Framer Motion
+
+function InputName({ value, onChange, disabled }) {
   return (
-    <div className="flex flex-col gap-2">
+    <motion.div variants={cardVariants} className="flex flex-col gap-2">
       <label
         htmlFor="fullname"
         className="text-sm font-medium text-gray-700 sm:text-base lg:text-lg"
@@ -13,6 +16,7 @@ function InputName({ value, onChange }) {
           name="fullname"
           id="fullname"
           value={value}
+          disabled={disabled}
           onChange={onChange}
           required
 
@@ -22,7 +26,7 @@ function InputName({ value, onChange }) {
         {/* Asumsi menggunakan FontAwesome seperti di login */}
         <i className="fa-regular fa-user absolute top-1/2 left-4 -translate-y-1/2 text-gray-400"></i>
       </div>
-    </div>
+    </motion.div>
   );
 }
 

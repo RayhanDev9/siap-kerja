@@ -1,15 +1,19 @@
 import H2 from "../../../ui/H2";
+import Text from "../../../ui/Text";
+import { cardVariants } from "../../../util/animations";
+import { motion } from "framer-motion"; // 1. Import Framer Motion
+
 
 function HeaderSection({ title, description, icon = "" }) {
   return (
-    <div>
+    <motion.div variants={cardVariants}>
       <H2 type="netural"> {title} </H2>
 
-      <p>
+      <Text>
         {icon && <i className={`${icon}`}></i>}
         {description}
-      </p>
-    </div>
+      </Text>
+    </motion.div>
   );
 }
 

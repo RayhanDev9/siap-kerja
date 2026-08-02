@@ -1,5 +1,6 @@
 import React from "react";
 import { BarChart, Bar, Cell, ResponsiveContainer } from "recharts";
+import Text from "./Text";
 
 // Data statis untuk contoh (bisa diganti dengan data dari API)
 const data = [
@@ -10,10 +11,10 @@ const data = [
 
 const AIInsightCardRecharts = () => {
   return (
-    <div className="w-full max-w-xs  rounded-2xl border border-gray-100 bg-white  p-6 font-sans shadow-sm">
+    <div className="w-full max-w-xs rounded-2xl border border-gray-100 bg-white p-6 font-sans shadow-sm">
       {/* Header Section */}
       <div className="mb-6 flex items-center justify-between">
-        <h3 className="text-sm font-bold tracking-wider text-gray-400">
+        <h3 className="text-sm font-bold tracking-wider text-gray-400 sm:text-base lg:text-xl">
           AI INSIGHT
         </h3>
         {/* <svg
@@ -71,7 +72,9 @@ const AIInsightCardRecharts = () => {
 
       {/* Footer Section */}
       <div className="text-[17px] font-bold text-gray-700">
-        Tingkat Kecocokan Karier: <span className="text-violet-600">94%</span>
+        <Text>
+          Tingkat Kecocokan Karier: <span className="text-violet-600">94%</span>
+        </Text>
       </div>
     </div>
   );

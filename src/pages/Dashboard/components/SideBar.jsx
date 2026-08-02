@@ -2,6 +2,7 @@ import { NavLink } from "react-router";
 import SideBarItems from "./SideBarItems";
 import Button from "../../../ui/Button";
 import Logo from "../../../ui/Logo";
+import Text from "../../../ui/Text";
 
 const NavLinks = [
   { path: "/", icon: "fa-table-cells-large", description: "Dashboard" },
@@ -44,7 +45,7 @@ function SideBar() {
           <Logo type="secondaryBold" type="small">
             SiapKerja
           </Logo>
-          <p className="text-sm">Mitra Pertumbuhan Karir</p>
+          <Text className="text-sm">Mitra Pertumbuhan Karir</Text>
         </div>
         <div className="flex flex-col gap-5 pr-5 pl-3">
           {NavLinks.map((link) => (
@@ -66,10 +67,10 @@ function SideBar() {
         <div className="flex flex-col justify-end gap-5 border-t border-slate-300 py-7 pr-5 pl-3">
           <Button type="generalPrimary">Upgrade to Pro</Button>
           <div className="flex gap-3">
-            <i class="far fa-user-circle self-center rounded-full bg-slate-100 p-3 text-2xl text-slate-500"></i>
+            <i class="far fa-user-circle self-center rounded-full bg-slate-100 p-3 text-3xl text-slate-500"></i>
             <div>
               <p className="slef-ce text-xl font-medium">Budi Santoso</p>
-              <p className="text-sm font-normal">Senior UI/UX</p>
+              <p className="text-base font-normal">Senior UI/UX</p>
             </div>
           </div>
         </div>

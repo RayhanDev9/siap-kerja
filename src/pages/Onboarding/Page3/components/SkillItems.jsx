@@ -1,19 +1,22 @@
 import { useState } from "react";
 import H3 from "../../../../ui/H3";
+import Text from "../../../../ui/Text";
+import { cardVariants } from "../../../../util/animations";
+import { calcBoxDelta, motion } from "framer-motion"; // 1. Import Framer Motion
 
 function SkillItems({ lavel, title, progres, tools }) {
   const [progresInput, setProgresInput] = useState(progres);
   return (
-    <div className="w-full space-y-5 rounded-2xl bg-white p-7 shadow-sm">
+    <motion.div variants={cardVariants} className="w-full space-y-5 rounded-2xl bg-white p-7 shadow-sm">
       <div className="flex justify-between">
         <div className="">
           <H3 type="small">{title}</H3>
-          <p className="mt-2">{tools}</p>
+          <Text className="mt-2">{tools}</Text>
         </div>
         <div>
-          <p className="inline-block rounded-2xl bg-indigo-100 p-2 text-indigo-600">
+          <Text className="inline-block rounded-2xl bg-indigo-100 p-2 text-indigo-600">
             {lavel}
-          </p>
+          </Text>
         </div>
       </div>
 
@@ -31,11 +34,11 @@ function SkillItems({ lavel, title, progres, tools }) {
           onChange={(e) => setProgresInput(e.target.value)} // Perlu ada event ini agar state berubah
         />
         <div className="flex justify-between">
-          <p>Pemula</p>
-          <p>Ahli</p>
+          <Text>Pemula</Text>
+          <Text>Ahli</Text>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 

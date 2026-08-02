@@ -1,5 +1,7 @@
 import H2 from "../../../ui/H2";
 import FeaturedFeaturesItems from "./FeaturedFeaturesItems";
+import { cardVariants } from "../../../util/animations";
+import { motion } from "framer-motion"; // 1. Import Framer Motio
 
 const dataFeaturedFeatures = [
   {
@@ -14,7 +16,7 @@ const dataFeaturedFeatures = [
         viewBox="0 0 24 24"
         strokeWidth={1.5}
         stroke="currentColor"
-        className="size-6"
+        className="size-6 sm:size-7 md:size-8 lg:size-9 "
       >
         <path
           strokeLinecap="round"
@@ -36,7 +38,7 @@ const dataFeaturedFeatures = [
         viewBox="0 0 24 24"
         strokeWidth={1.5}
         stroke="currentColor"
-        className="size-6"
+        className="size-6 sm:size-7 md:size-8 lg:size-9"
       >
         <path
           strokeLinecap="round"
@@ -58,7 +60,7 @@ const dataFeaturedFeatures = [
         viewBox="0 0 24 24"
         strokeWidth={1.5}
         stroke="currentColor"
-        className="size-6"
+        className="size-6 sm:size-7 md:size-8 lg:size-9"
       >
         <path
           strokeLinecap="round"
@@ -73,9 +75,9 @@ const dataFeaturedFeatures = [
 function FeaturedFeatures() {
   return (
     <section className="flex flex-col items-center">
-      <div className="self-start">
+      <motion.div variants={cardVariants} className="self-start">
         <H2 type="primary">Feature Unggulan</H2>
-      </div>
+      </motion.div>
       <div className="inline-block space-y-5">
         <div className="grid-cols-1 gap-5 max-sm:space-y-5 sm:grid sm:grid-cols-2">
           {dataFeaturedFeatures.map((item) => (

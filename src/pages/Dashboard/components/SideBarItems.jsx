@@ -1,8 +1,10 @@
+import Text from "../../../ui/Text";
+
 function SideBarItems({ icon, description }) {
   return (
-    <div className="flex  gap-3 p-2 font-bold">
-      <i class={`fa-solid text-lg  self-center ${icon}`}></i>
-      <p className="self-center text-center text-md font-medium">
+    <div className="flex gap-3 p-2 font-bold">
+      <i class={`fa-solid self-center text-lg ${icon}`}></i>
+      <p className="text-base self-center text-center font-medium ">
         {description}
       </p>
     </div>

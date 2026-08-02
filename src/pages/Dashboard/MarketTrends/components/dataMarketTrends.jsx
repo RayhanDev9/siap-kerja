@@ -42,6 +42,24 @@ const dataMarketTrends = {
         description: "Rata-rata per bulan",
         progressPercentage: 85,
       },
+      {
+        role: "Front-End Developer",
+        salaryRange: "Rp 12M - 25M",
+        description: "Rata-rata per bulan",
+        progressPercentage: 75,
+      },
+      {
+        role: "Java Software Engineer",
+        salaryRange: "Rp 15M - 30M",
+        description: "Rata-rata per bulan",
+        progressPercentage: 60,
+      },
+      {
+        role: "Full-Stack JavaScript Developer",
+        salaryRange: "Rp 18M - 35M",
+        description: "Rata-rata per bulan",
+        progressPercentage: 40,
+      },
     ],
   },
 };

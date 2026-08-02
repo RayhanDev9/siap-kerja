@@ -4,6 +4,9 @@ import FilterCategoriesItems from "./components/FilterCategoriesItems";
 import JobListingsItems from "./components/JobListingsItems";
 import Section from "./../../../ui/Section";
 import TopBar from "../../../ui/TopBar";
+import { cardVariants } from "../../../util/animations";
+import { motion } from "framer-motion"; // 1. Import Framer Motion
+
 function CareerExplorer() {
   const { title, description } = dataCareerExplorer.headerData;
   const { filterCategories } = dataCareerExplorer;
@@ -13,12 +16,10 @@ function CareerExplorer() {
     <Section>
       <div className="mx-auto flex flex-col gap-5 md:w-2xl lg:w-full">
         {/* Top bar lg */}
-        <TopBar
-          placeholder="cari peran, keahlian, atau industri"
-        />
+        <TopBar placeholder="cari peran, keahlian, atau industri" />
         <HeaderSection title={title} description={description} />
         {/* // Filter data input serch*/}
-        <div className="lg:hidden">
+        <motion.div variants={cardVariants} className="lg:hidden">
           <div className="relative w-[90vw] md:w-2xl lg:w-full">
             <input
               type="text"
@@ -29,7 +30,7 @@ function CareerExplorer() {
             />
             <i class="fa-solid fa-magnifying-glass absolute top-3 left-3"></i>
           </div>
-        </div>
+        </motion.div>
 
         {/* catagory filter */}
         <div className="no-scrollbar flex gap-3 overflow-x-auto py-2 whitespace-nowrap">
@@ -44,7 +45,7 @@ function CareerExplorer() {
         </div>
 
         {/*  jobListings */}
-        <div className="flex flex-col items-center gap-7 md:mx-auto md:w-2xl lg:mx-0.5 lg:w-full">
+        <div className="grid grid-cols-1 justify-items-center gap-7 md:mx-auto md:w-2xl lg:mx-0.5 lg:w-full md:grid-cols-2">
           {jobListings.map((item) => (
             <JobListingsItems
               title={item.title}

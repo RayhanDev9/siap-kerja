@@ -1,4 +1,5 @@
 import Logo from "../../../ui/Logo";
+import Text from "../../../ui/Text";
 
 function Header() {
   return (
@@ -22,7 +23,7 @@ function Header() {
       <div className="flex justify-center">
         <Logo type={"large"} />
       </div>
-      <p className="py-4">Masuk ke akun anda untuk melanjutkan</p>
+      <Text className="py-4">Masuk ke akun anda untuk melanjutkan</Text>
     </header>
   );
 }

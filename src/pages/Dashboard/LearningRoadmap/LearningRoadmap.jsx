@@ -1,11 +1,15 @@
 import dataLearningRoadmap from "./components/dataLearningRoadmap";
 import H2 from "../../../ui/H2";
-import H3 from "../../../ui/H3";
 import Section from "../../../ui/Section";
 import Progres from "../../../ui/Progres";
 import HeaderSection from "../components/HeaderSection";
 import StageItems from "./components/StageItems";
 import TopBar from "../../../ui/TopBar";
+import Text from "../../../ui/Text";
+import H3 from "../../../ui/H3";
+import { cardVariants } from "../../../util/animations";
+import { motion } from "framer-motion"; // 1. Import Framer Motion
+
 function LearningRoadmap() {
   const { overallProgress, stages } = dataLearningRoadmap;
 
@@ -26,36 +30,42 @@ function LearningRoadmap() {
 
         <div className="grid grid-cols-1 gap-3 lg:grid-cols-3">
           {/* overallProgress */}
-          <div className="col-span-1 flex flex-col gap-3 rounded-2xl bg-white p-7 lg:col-span-2 lg:max-h-36">
+          <motion.div
+            variants={cardVariants}
+            className="col-span-1 flex flex-col gap-3 rounded-2xl bg-white p-7 lg:col-span-2 lg:max-h-36"
+          >
             <div className="flex justify-between">
-              <H2 type="secondry">{label}</H2>
-              <p>{percentage}%</p>
+              <H3 type="secondry">{label}</H3>
+              <Text>{percentage}%</Text>
             </div>
             <Progres progressPercentage={percentage} />
-            <p className="text-end">Perkiran Waktu: {estimatedTime}</p>
-          </div>
+            <Text className="text-end">Perkiran Waktu: {estimatedTime}</Text>
+          </motion.div>
 
           {/* Ai sugestion */}
-          <div className="col-span-1 hidden space-y-3 rounded-2xl bg-white p-7 lg:block">
+          <motion.div
+            variants={cardVariants}
+            className="col-span-1 hidden space-y-3 rounded-2xl bg-white p-7 lg:block"
+          >
             <div className="flex gap-3">
-              <p>
+              <H3 type="secondry">
                 <i class="fa-solid fa-user-cog"></i>
-              </p>
-              <p>Ai Suggestion</p>
+              </H3>
+              <H3 type="secondry">Ai Suggestion</H3>
             </div>
-            <p>
+            <Text>
               Berdasarkan tren pasar, fokus pada MLOps saat ini akan
               meningkatkan tingkat kecocokan profil Anda sebesar 22% untuk peran
               senior.
-            </p>
+            </Text>
             <button className="text-start font-semibold text-blue-700">
               Sesuaikan Garis Waktu <i className="fa-solid fa-arrow-right"></i>
             </button>
-          </div>
+          </motion.div>
         </div>
 
         {/* Staged */}
-        <div className="ml-7">
+        <div variants={cardVariants} className="ml-7">
           {stages.map((stage) => (
             <StageItems
               stepLabel={stage.stepLabel}

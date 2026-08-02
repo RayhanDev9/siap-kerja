@@ -1,11 +1,13 @@
 import Button from "../../../ui/Button";
 import H2 from "../../../ui/H2";
-import Progres from "../../../ui/Progres";
 import Section from "../../../ui/Section";
+import Text from "../../../ui/Text";
 import ButtonMdOnboarding from "../components/ButtonMdOnboarding";
 import ProgresOnboarding from "../components/ProgresOnboarding";
 import dataSkill from "./components/dataSkill";
 import SkillItems from "./components/SkillItems";
+import { cardVariants } from "../../../util/animations";
+import { motion } from "framer-motion"; // 1. Import Framer Motion
 
 function OnboardingPage3() {
   return (
@@ -18,13 +20,15 @@ function OnboardingPage3() {
 
             {/*Header*/}
             <div className="rounded-2xl bg-white p-7 shadow-md">
-              <div className="pb-1">
+              <motion.div variants={cardVariants} className="pb-1">
                 <H2 type="secondaryBold">Nilai Keterampilan Anda</H2>
-              </div>
-              <p className="">
-                Beri nilai kemampuan Anda di bidang-bidang utama ini untuk
-                membantu AI kami menyesuaikan jalur karier Anda. Jujurlah!
-              </p>
+              </motion.div>
+              <motion.div variants={cardVariants}>
+                <Text className="">
+                  Beri nilai kemampuan Anda di bidang-bidang utama ini untuk
+                  membantu AI kami menyesuaikan jalur karier Anda. Jujurlah!
+                </Text>
+              </motion.div>
             </div>
 
             {/* Content */}
@@ -39,19 +43,27 @@ function OnboardingPage3() {
                 />
               ))}
             </div>
-
-            <Button type="generalSecondary">
-              <i className="fa-solid fa-plus pr-1"></i>
-              Add Another Skill
-            </Button>
+            <motion.div variants={cardVariants}>
+              <Button type="generalSecondary">
+                <i className="fa-solid fa-plus pr-1"></i>
+                Add Another Skill
+              </Button>
+            </motion.div>
           </div>{" "}
         </Section>{" "}
-        <div className="bg-white p-7 text-center lg:*:hidden">
+        <motion.div
+          variants={cardVariants}
+          className="bg-white p-7 text-center lg:*:hidden"
+        >
           <Button type="generalPrimary" to="/onboardingPage4">
             Selanjutnya <i className="fa-solid fa-arrow-right pl-1"></i>
           </Button>
-        </div>
-        <ButtonMdOnboarding button1="Lewati" button2="Selanjutnya"to='/onboardingPage4'/>
+        </motion.div>
+        <ButtonMdOnboarding
+          button1="Lewati"
+          button2="Selanjutnya"
+          to="/onboardingPage4"
+        />
       </div>
     </>
   );

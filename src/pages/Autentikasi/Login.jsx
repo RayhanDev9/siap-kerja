@@ -4,6 +4,7 @@ import { validateEmail, validatePassword } from "../../util/helpers";
 import AuthHeader from "./components/AuthHeader";
 import Email from "./../../ui/Email";
 import Password from "../../ui/Password";
+import Text from "../../ui/Text";
 
 function Login() {
   const navigate = useNavigate();
@@ -51,9 +52,9 @@ function Login() {
                 onChange={(e) => setInputEmail(e.target.value)}
               />
               {textErrorInputEmail && (
-                <p className="my-3 rounded-2xl bg-red-600 px-2 py-2 text-red-50">
+                <Text className="my-3 rounded-2xl bg-red-600 px-2 py-2 text-red-50">
                   {textErrorInputEmail}
-                </p>
+                </Text>
               )}
 
               {/* Input Password */}
@@ -62,9 +63,9 @@ function Login() {
                 onChange={(e) => setInputPassword(e.target.value)}
               />
               {textErrorInputPassword && (
-                <p className="my-3 rounded-2xl bg-red-600 px-2 py-2 text-red-50">
+                <Text className="my-3 rounded-2xl bg-red-600 px-2 py-2 text-red-50">
                   {textErrorInputPassword}
-                </p>
+                </Text>
               )}
 
               {/* Tombol Submit */}

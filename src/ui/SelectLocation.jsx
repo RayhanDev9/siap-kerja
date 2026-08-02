@@ -23,7 +23,7 @@ function SelectLocation({ value, onChange, onBlur }) {
   return (
     // Struktur luar disamakan persis dengan referensi: flex flex-col gap-2
     <div className="flex flex-col gap-2">
-      <label htmlFor="location" className="text-sm font-medium text-gray-700">
+      <label htmlFor="location" className="text-sm sm:text-base lg:text-lg font-medium text-gray-700">
         Domisili Saat Ini
       </label>
 
@@ -36,7 +36,7 @@ function SelectLocation({ value, onChange, onBlur }) {
           */}
           <ComboboxInput
             id="location"
-            className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 pl-10 text-sm transition outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600"
+            className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 pl-10 text-sm sm:text-base lg:text-lg transition outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600"
             displayValue={(city) => (city ? city.name : "")}
             onChange={(event) => setQuery(event.target.value)}
             onBlur={onBlur}
@@ -47,9 +47,9 @@ function SelectLocation({ value, onChange, onBlur }) {
           <i className="fa-solid fa-location-dot pointer-events-none absolute top-1/2 left-4 -translate-y-1/2 text-gray-400"></i>
 
           {/* 
-            Penyesuaian gaya Dropdown agar senada dengan input (rounded-xl, text-sm) 
+            Penyesuaian gaya Dropdown agar senada dengan input (rounded-xl, text-sm sm:text-base lg:text-lg) 
           */}
-          <ComboboxOptions className="absolute z-50 mt-2 max-h-60 w-full overflow-auto rounded-xl bg-white py-1 text-sm shadow-lg ring-1 ring-black/5 focus:outline-none">
+          <ComboboxOptions className="absolute z-50 mt-2 max-h-60 w-full overflow-auto rounded-xl bg-white py-1 text-sm sm:text-base lg:text-lg shadow-lg ring-1 ring-black/5 focus:outline-none">
             {filteredCities.length === 0 && query !== "" ? (
               <div className="relative cursor-default px-4 py-3 text-gray-700 select-none">
                 Kota tidak ditemukan.
@@ -88,7 +88,7 @@ function SelectLocation({ value, onChange, onBlur }) {
               ))
             )}
           </ComboboxOptions>
-          <i className="fa-solid fa-chevron-down text-sm pointer-events-none absolute top-1/2 right-4 z-10 -translate-y-1/2 text-gray-400"></i>
+          <i className="fa-solid fa-chevron-down text-sm sm:text-base lg:text-lg pointer-events-none absolute top-1/2 right-4 z-10 -translate-y-1/2 text-gray-400"></i>
         </div>
       </Combobox>
     </div>

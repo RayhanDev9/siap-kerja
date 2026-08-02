@@ -1,3 +1,6 @@
+import H3 from "../../../../ui/H3";
+import Text from "../../../../ui/Text";
+
 const themeVariants = {
   blue: {
     text: "text-blue-600",
@@ -14,7 +17,7 @@ const themeVariants = {
     bg: "bg-emerald-50",
     iconText: "text-emerald-500",
   },
- purple: {
+  purple: {
     text: "text-purple-600",
     bg: "bg-purple-50",
     iconText: "text-purple-500",
@@ -42,19 +45,19 @@ function CareerRecommendationsItems({
       <div className="flex justify-between">
         <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-purple-100">
           <i
-            className={`${icon} text-xl ${currentTheme.bg} ${currentTheme.text}`}
+            className={`${icon} text-xl sm:text-2xl lg:text-3xl ${currentTheme.bg} ${currentTheme.text}`}
           ></i>
         </div>
 
         <div
           className={`flex items-center justify-center rounded-2xl bg-${themeColor}-100 p-2`}
         >
-          <p>{` ${matchPercentage}% Match `} </p>
+          <Text>{` ${matchPercentage}% Match `} </Text>
         </div>
       </div>
       <div className="space-y-2">
-        <h3 className="text-xl font-semibold">{role}</h3>
-        <p className="text-lg">{description}</p>
+        <H3 className="text-xl font-semibold">{role}</H3>
+        <Text className="text-lg">{description}</Text>
       </div>
     </div>
   );

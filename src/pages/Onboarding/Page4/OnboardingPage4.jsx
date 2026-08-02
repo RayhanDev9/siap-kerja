@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom"; // Tambahkan ini untuk navigasi
 import Button from "../../../ui/Button";
 import H2 from "../../../ui/H2";
-import Logo from "../../../ui/Logo";
 import Section from "../../../ui/Section";
 import ProgresOnboarding from "../components/ProgresOnboarding";
 import { validateEmail, validateName } from "../../../util/helpers";
@@ -13,6 +12,9 @@ import SelectLocation from "../../../ui/SelectLocation";
 import SelectSpecialization from "../../../ui/SelectSpecialization";
 import InputAboutMe from "../../../ui/InputAboutMe";
 import ButtonMdOnboarding from "../components/ButtonMdOnboarding";
+import Text from "../../../ui/Text";
+import { cardVariants } from "../../../util/animations";
+import { motion } from "framer-motion"; // 1. Import Framer Motion
 
 function OnboardingPage4() {
   const navigate = useNavigate();
@@ -84,127 +86,152 @@ function OnboardingPage4() {
 
             {/* Header */}
             <div className="rounded-2xl bg-white p-7 shadow-md">
-              <div className="pb-1">
+              <motion.div variants={cardVariants} className="pb-1">
                 <H2 type="secondaryBold">Lengkapi Profil Anda</H2>
-              </div>
-              <p>Langkah terakhir sebelum memulai perjalanan karir Anda.</p>
+              </motion.div>
+              <motion.div variants={cardVariants}>
+                {" "}
+                <Text>
+                  Langkah terakhir sebelum memulai perjalanan karir Anda.
+                </Text>
+              </motion.div>
             </div>
 
-            <div className="flex flex-col items-center gap-5 p-7 text-center">
+            <motion.div
+              variants={cardVariants}
+              className="flex flex-col items-center gap-5 p-7 text-center"
+            >
               <div className="flex h-28 w-28 items-center justify-center rounded-full border border-slate-200 bg-slate-200 text-slate-600">
                 <i className="fa-solid fa-camera-rotate text-3xl"></i>
               </div>
-              <p className="font-semibold text-blue-800">Unggah Foto</p>
-            </div>
+              <Text className="font-semibold text-blue-800">Unggah Foto</Text>
+            </motion.div>
 
             {/* Input Name */}
-            <InputName
-              value={inputName}
-              onChange={(e) => setInputName(e.target.value)}
-            />
-            {textErrorInputName && (
-              <p className="my-3 rounded-2xl bg-red-600 px-2 py-2 text-sm text-red-50">
-                {textErrorInputName}
-              </p>
-            )}
+            <motion.div variants={cardVariants}>
+              <InputName
+                value={inputName}
+                onChange={(e) => setInputName(e.target.value)}
+              />
+              {textErrorInputName && (
+                <Text className="my-3 rounded-2xl bg-red-600 px-2 py-2 text-sm text-red-50">
+                  {textErrorInputName}
+                </Text>
+              )}
+            </motion.div>
 
             {/* Input Email */}
-            <Email
-              value={inputEmail}
-              onChange={(e) => setInputEmail(e.target.value)}
-            />
-            {textErrorInputEmail && (
-              <p className="my-3 rounded-2xl bg-red-600 px-2 py-2 text-sm text-red-50">
-                {textErrorInputEmail}
-              </p>
-            )}
+            <motion.div variants={cardVariants}>
+              <Email
+                value={inputEmail}
+                onChange={(e) => setInputEmail(e.target.value)}
+              />
+              {textErrorInputEmail && (
+                <Text className="my-3 rounded-2xl bg-red-600 px-2 py-2 text-sm text-red-50">
+                  {textErrorInputEmail}
+                </Text>
+              )}
+            </motion.div>
 
             {/* Input Date Of Birth */}
-            <InputDateOfBirth
-              value={InputBirthDate}
-              onChange={(date) => {
-                setInputBirthDate(date);
-                if (date) setTextErrorInputBirthDate("");
-              }}
-              onBlur={() => {
-                if (!InputBirthDate)
-                  setTextErrorInputBirthDate(
-                    "Tanggal lahir tidak boleh kosong",
-                  );
-              }}
-            />
-            {textErrorInputBirthDate && (
-              <p className="my-3 rounded-2xl bg-red-600 px-2 py-2 text-sm text-red-50">
-                {textErrorInputBirthDate}
-              </p>
-            )}
+            <motion.div variants={cardVariants}>
+              <InputDateOfBirth
+                value={InputBirthDate}
+                onChange={(date) => {
+                  setInputBirthDate(date);
+                  if (date) setTextErrorInputBirthDate("");
+                }}
+                onBlur={() => {
+                  if (!InputBirthDate)
+                    setTextErrorInputBirthDate(
+                      "Tanggal lahir tidak boleh kosong",
+                    );
+                }}
+              />
+              {textErrorInputBirthDate && (
+                <Text className="my-3 rounded-2xl bg-red-600 px-2 py-2 text-sm text-red-50">
+                  {textErrorInputBirthDate}
+                </Text>
+              )}
+            </motion.div>
 
             {/* Select Domisili */}
-            <SelectLocation
-              value={selectLocation}
-              onChange={(selectedCity) => {
-                setSelectLocation(selectedCity);
-                if (selectedCity) setTextErrorSelectLocation("");
-              }}
-              onBlur={() => {
-                if (!selectLocation)
-                  setTextErrorSelectLocation("Domisili tidak boleh kosong");
-              }}
-            />
-            {/* Perbaikan: Error Domisili dipindah ke sini agar rapi */}
-            {textErrorSelectLocation && (
-              <p className="my-3 rounded-2xl bg-red-600 px-3 py-2 text-sm text-red-50">
-                {textErrorSelectLocation}
-              </p>
-            )}
+            <motion.div variants={cardVariants}>
+              <SelectLocation
+                value={selectLocation}
+                onChange={(selectedCity) => {
+                  setSelectLocation(selectedCity);
+                  if (selectedCity) setTextErrorSelectLocation("");
+                }}
+                onBlur={() => {
+                  if (!selectLocation)
+                    setTextErrorSelectLocation("Domisili tidak boleh kosong");
+                }}
+              />
+              {/* Perbaikan: Error Domisili dipindah ke sini agar rapi */}
+              {textErrorSelectLocation && (
+                <Text className="my-3 rounded-2xl bg-red-600 px-3 py-2 text-sm text-red-50">
+                  {textErrorSelectLocation}
+                </Text>
+              )}
+            </motion.div>
 
             {/* Select Specialization */}
-            <SelectSpecialization
-              value={selectSpecialization}
-              onChange={(selectedItem) => {
-                setSelectSpecialization(selectedItem);
-                if (selectedItem) setTextErrorSpecialization("");
-              }}
-            />
-            {textErrorSpecialization && (
-              <p className="my-3 rounded-2xl bg-red-600 px-3 py-2 text-sm text-red-50">
-                {textErrorSpecialization}
-              </p>
-            )}
+            <motion.div variants={cardVariants}>
+              {" "}
+              <SelectSpecialization
+                value={selectSpecialization}
+                onChange={(selectedItem) => {
+                  setSelectSpecialization(selectedItem);
+                  if (selectedItem) setTextErrorSpecialization("");
+                }}
+              />
+              {textErrorSpecialization && (
+                <Text className="my-3 rounded-2xl bg-red-600 px-3 py-2 text-sm text-red-50">
+                  {textErrorSpecialization}
+                </Text>
+              )}
+            </motion.div>
 
             {/* Input About Me */}
-            <InputAboutMe
-              value={aboutMe}
-              onChange={(e) => {
-                setAboutMe(e.target.value);
-                if (e.target.value.trim() !== "") setTextErrorAboutMe("");
-              }}
-              onBlur={() => {
-                if (aboutMe.trim() === "")
-                  setTextErrorAboutMe(
-                    "Deskripsi tentang saya tidak boleh kosong",
-                  );
-              }}
-            />
-            {textErrorAboutMe && (
-              <p className="my-3 rounded-2xl bg-red-600 px-3 py-2 text-sm text-red-50">
-                {textErrorAboutMe}
-              </p>
-            )}
+            <motion.div variants={cardVariants}>
+              <InputAboutMe
+                value={aboutMe}
+                onChange={(e) => {
+                  setAboutMe(e.target.value);
+                  if (e.target.value.trim() !== "") setTextErrorAboutMe("");
+                }}
+                onBlur={() => {
+                  if (aboutMe.trim() === "")
+                    setTextErrorAboutMe(
+                      "Deskripsi tentang saya tidak boleh kosong",
+                    );
+                }}
+              />
+              {textErrorAboutMe && (
+                <Text className="my-3 rounded-2xl bg-red-600 px-3 py-2 text-sm text-red-50">
+                  {textErrorAboutMe}
+                </Text>
+              )}
+            </motion.div>
           </div>
         </Section>
 
         {/* Tombol Selesai */}
-        <div className="bg-white p-7 text-center md:hidden">
+        <motion.div
+          variants={cardVariants}
+          className="bg-white p-7 text-center md:hidden"
+        >
           {/* 
             Ganti properti 'to' menjadi 'onClick={handleSubmit}'.
             Pastikan komponen <Button> milikmu mendukung props onClick. 
             Jika tidak mendukung, ganti dengan tag <button> standar seperti di halaman Register.
           */}
+
           <Button type="generalPrimary" onClick={handleSubmit}>
             Selesai
           </Button>
-        </div>
+        </motion.div>
         <ButtonMdOnboarding button1="Lewati" button2="Selanjutnya" to="/" />
       </div>
     </>

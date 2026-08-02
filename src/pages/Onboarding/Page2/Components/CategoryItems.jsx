@@ -1,4 +1,6 @@
 import H3 from "../../../../ui/H3";
+import { cardVariants } from "../../../../util/animations";
+import { motion } from "framer-motion"; // 1. Import Framer Motion
 function CategoryItems({ title, icon }) {
   const themeStyles = {
     technology: { bg: "bg-indigo-100", text: "text-indigo-800" },
@@ -20,16 +22,16 @@ function CategoryItems({ title, icon }) {
   };
   console.info(getTheme().bg, getTheme().text);
   return (
-    <div className="w-40 xs:w-56 sm:w-64 space-y-3 rounded-2xl bg-white p-7 shadow-sm">
+    <motion.div variants={cardVariants} className="xs:w-56 w-40 space-y-7 rounded-2xl bg-white p-7 shadow-sm sm:w-64">
       <div className="text-center">
         <i
-          className={`${icon} rounded-2xl ${getTheme().bg} ${getTheme().text} p-2`}
+          className={`${icon} rounded-2xl sm:text-base md:text-xl lg:text-2xl ${getTheme().bg} ${getTheme().text} p-2`}
         ></i>
       </div>
       <div className="mx-auto text-center">
         <H3 type="small">{title}</H3>
       </div>
-    </div>
+    </motion.div>
   );
 }
 

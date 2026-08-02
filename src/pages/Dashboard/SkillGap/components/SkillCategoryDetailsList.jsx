@@ -1,10 +1,11 @@
 import H3 from "../../../../ui/H3";
 import SkillCategoryDetailsItems from "./SkillCategoryDetailsItems";
+import { cardVariants } from "../../../../util/animations";
+import { motion } from "framer-motion"; // 1. Import Framer Motion
 
 function SkillCategoryDetailsList({ category, icon, skills }) {
-
   return (
-    <div className="rounded-2xl bg-white px-7 py-7">
+    <motion.div variants={cardVariants} className="rounded-2xl bg-white px-7 py-7 md:block md:h-full">
       <div className="py-2">
         <H3>
           <i className={`fa-solid text-xl ${icon} pr-2`}></i>
@@ -23,7 +24,7 @@ function SkillCategoryDetailsList({ category, icon, skills }) {
           />
         ))}
       </div>
-    </div>
+    </motion.div>
   );
 }
 

@@ -1,5 +1,8 @@
 import H2 from "../../../../ui/H2";
+import Text from "../../../../ui/Text";
 import SkillsItem from "./SkillsItem";
+import { cardVariants } from "../../../../util/animations";
+import { motion } from "framer-motion"; // 1. Import Framer Motion
 
 function JobListingsItems({
   title,
@@ -22,21 +25,23 @@ function JobListingsItems({
   const currentStyle = badgeStyles[badge.type] || badgeStyles.default;
 
   return (
-    <div className="w-[90%] rounded-2xl bg-white px-3 pt-7 pb-5">
+    <motion.div variants={cardVariants} className="w-[90%] rounded-2xl bg-white px-3 pt-7 pb-5">
       <div className="border-b border-slate-300 pb-5">
         <div className="flex flex-col gap-1">
           {/* Header */}
-          <H2 type="secondaryBold"> {title}</H2>
-          <p className="text-xl">
+          <H2 type="secondry"> {title}</H2>
+          <Text className="text-xl">
             <i className="fa-solid fa-building pr-2 text-gray-500"></i>
             {company}
-          </p>
+          </Text>
 
           <div className="flex flex-col gap-2">
             {/* Kecocokan profile */}
             <div className="flex justify-between">
-              <p className="capitalize">kecocokan profile</p>
-              <p className={`${currentStyle} bg-white`}>{matchPercentage}%</p>
+              <Text className="capitalize">kecocokan profile</Text>
+              <Text className={`${currentStyle} bg-white`}>
+                {matchPercentage}%
+              </Text>
             </div>
 
             {/* progres */}
@@ -59,9 +64,11 @@ function JobListingsItems({
       {/* Pay */}
       <div className="flex justify-between pt-5">
         <h3 className="text-lg font-semibold">{salary}</h3>
-        <p className="text-blue-700">{linkText}</p>
+        <p className="text-sm text-blue-700 font-semibold md:text-base lg:text-lg">
+          {linkText}
+        </p>
       </div>
-    </div>
+    </motion.div>
   );
 }
 

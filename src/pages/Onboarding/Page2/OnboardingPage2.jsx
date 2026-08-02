@@ -4,8 +4,10 @@ import categoryData from "./Components/dataOnboardingPage2";
 import CategoryItems from "./Components/CategoryItems";
 import Button from "../../../ui/Button";
 import ProgresOnboarding from "../components/ProgresOnboarding";
-import Email from "../../../ui/Email";
 import ButtonMdOnboarding from "../components/ButtonMdOnboarding";
+import Text from "../../../ui/Text";
+import { containerVariants, cardVariants } from "../../../util/animations";
+import { motion } from "framer-motion"; // 1. Import Framer Motion
 
 function OnboardingPage2() {
   // id: 6,
@@ -20,12 +22,15 @@ function OnboardingPage2() {
             <ProgresOnboarding progresOnboarding={1} />
 
             <div className="rounded-2xl bg-white p-7 shadow-md">
-              <div className="pb-1">
+              <motion.div variants={cardVariants} className="pb-1">
                 <H2 type="secondaryBold">Apa yang menarik minat Anda?</H2>
-              </div>
-              <p className="">
-                Pilih topik yang ingin Anda eksplorasi untuk jalur karier Anda.
-              </p>
+              </motion.div>
+              <motion.div variants={cardVariants}>
+                <Text className="">
+                  Pilih topik yang ingin Anda eksplorasi untuk jalur karier
+                  Anda.
+                </Text>
+              </motion.div>
             </div>
             <div className="grid grid-cols-2 justify-items-center gap-7">
               {categoryData.map((category) => (
@@ -40,11 +45,11 @@ function OnboardingPage2() {
 
           {/* Nama */}
         </Section>
-        <div className="bg-white p-7 text-center lg:hidden">
+        <motion.div variants={cardVariants} className="bg-white p-7 text-center lg:hidden">
           <Button type="generalPrimary" to="/onboardingPage3">
             Mulai <i className="fa-solid fa-arrow-right pl-1"></i>
           </Button>
-        </div>
+        </motion.div>
 
         <ButtonMdOnboarding
           button1="Lewati"

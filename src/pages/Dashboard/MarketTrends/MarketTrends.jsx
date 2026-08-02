@@ -7,6 +7,10 @@ import Section from "./../../../ui/Section";
 import H2 from "./../../../ui/H2";
 import SalaryAnalysisItems from "./components/SalaryAnalysisItems";
 import TopBar from "../../../ui/TopBar";
+import Text from "../../../ui/Text";
+import { cardVariants } from "../../../util/animations";
+import { motion } from "framer-motion"; // 1. Import Framer Motion
+
 //
 //
 function MarketTrends() {
@@ -31,24 +35,29 @@ function MarketTrends() {
         />
         <div className="grid grid-cols-1 gap-7 lg:grid-cols-3">
           {/* jobGrowth */}
-          <div className="xs:min-w-lg max-lg:mx-auto flex flex-col gap-3.5 rounded-2xl bg-white p-7 sm:min-w-xl lg:col-span-2 lg:min-w-0">
+          <motion.div
+            variants={cardVariants}
+            className="xs:min-w-lg flex flex-col gap-3.5 rounded-2xl bg-white p-7 max-lg:mx-auto sm:min-w-xl lg:col-span-2 lg:min-w-0"
+          >
             <div className="flex justify-between">
               <H2 type="secondry">{title}</H2>
-              <p className="flex gap-1.5">
+              <Text className="flex gap-1.5">
                 <i class="fa-solid fa-arrow-trend-up trend-icon self-center text-xs"></i>
                 <span className="inline-block self-center">{text}</span>
-              </p>
+              </Text>
             </div>
             <div className="">
               {" "}
-              <p className="slef-end">{period}</p>
+              <Text className="slef-end">{period}</Text>
               <CareerProgressionChart />
             </div>
-          </div>
+          </motion.div>
 
           {/* topSkills */}
           <div className="flex flex-col gap-5 lg:col-span-1">
-            <H2 type="secondry">{titleTopSkill}</H2>
+            <motion.div variants={cardVariants}>
+              <H2 type="secondry">{titleTopSkill}</H2>
+            </motion.div>
 
             {items.map((item) => (
               <Skills
@@ -64,17 +73,19 @@ function MarketTrends() {
         </div>
 
         {/* Salary analysis */}
-        <div className="flex flex-col gap-5">
-          <H2 type="secondry">{titleSalaryAnalysis}</H2>
-
-          {itemsSalaryAnalysis.map((item) => (
-            <SalaryAnalysisItems
-              role={item.role}
-              salaryRange={item.salaryRange}
-              description={item.description}
-              progressPercentage={item.progressPercentage}
-            />
-          ))}
+        <div  className="">
+         
+          <motion.div variants={cardVariants}> <H2 type="secondry">{titleSalaryAnalysis}</H2></motion.div>
+          <div className="grid grid-cols-1 justify-items-center gap-5 py-7 md:grid-cols-2">
+            {itemsSalaryAnalysis.map((item) => (
+              <SalaryAnalysisItems
+                role={item.role}
+                salaryRange={item.salaryRange}
+                description={item.description}
+                progressPercentage={item.progressPercentage}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </Section>

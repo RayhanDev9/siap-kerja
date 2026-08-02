@@ -1,3 +1,5 @@
+import Text from "../../../../ui/Text";
+
 function TagItems({ label, theme }) {
   const themeColorConfig = {
     blue: {
@@ -24,11 +26,11 @@ function TagItems({ label, theme }) {
   const activeTheme = themeColorConfig[theme] || themeColorConfig.default;
 
   return (
-    <p
+    <Text
       className={`${activeTheme.bg} rounded-2xl px-2 py-1 ${activeTheme.text} inline-block font-bold`}
     >
       {label}
-    </p>
+    </Text>
   );
 }
 

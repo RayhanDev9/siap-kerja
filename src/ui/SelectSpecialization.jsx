@@ -13,7 +13,7 @@ function SelectSpecialization({ value, onChange }) {
     <div className="flex w-full flex-col gap-2">
       <label
         htmlFor="specialization"
-        className="text-sm font-medium text-gray-700"
+        className="text-sm sm:text-base lg:text-lg font-medium text-gray-700"
       >
         Spesialisasi
       </label>
@@ -24,7 +24,7 @@ function SelectSpecialization({ value, onChange }) {
           <ListboxButton
             id="specialization"
             // pl-10 ditambahkan agar teks tidak menabrak ikon briefcase di kiri
-            className="relative w-full cursor-pointer rounded-xl border border-gray-200 bg-white py-3 pr-10 pl-10 text-left text-sm transition outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600"
+            className="relative w-full cursor-pointer rounded-xl border border-gray-200 bg-white py-3 pr-10 pl-10 text-left text-sm sm:text-base lg:text-lg transition outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600"
           >
             {/* Teks placeholder atau nilai yang dipilih */}
             <span
@@ -35,7 +35,7 @@ function SelectSpecialization({ value, onChange }) {
 
             {/* Ikon Chevron (Panah Bawah) di Kanan */}
             <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">
-              <i className="fa-solid fa-chevron-down text-sm text-gray-400"></i>
+              <i className="fa-solid fa-chevron-down text-sm sm:text-base lg:text-lg text-gray-400"></i>
             </span>
           </ListboxButton>
 
@@ -45,7 +45,7 @@ function SelectSpecialization({ value, onChange }) {
           </span>
 
           {/* Opsi Dropdown */}
-          <ListboxOptions className="absolute z-50 mt-2 max-h-60 w-full overflow-auto rounded-xl bg-white py-1 text-sm shadow-lg ring-1 ring-black/5 focus:outline-none">
+          <ListboxOptions className="absolute z-50 mt-2 max-h-60 w-full overflow-auto rounded-xl bg-white py-1 text-sm sm:text-base lg:text-lg shadow-lg ring-1 ring-black/5 focus:outline-none">
             {dataSpecializations.map((spec) => (
               <ListboxOption
                 key={spec.id}

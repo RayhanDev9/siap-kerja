@@ -9,6 +9,7 @@ import {
 } from "../../util/helpers";
 import { useNavigate } from "react-router";
 import InputName from "../../ui/InputName";
+import Text from "../../ui/Text";
 
 function Register() {
   const navigate = useNavigate();
@@ -59,9 +60,9 @@ function Register() {
               onChange={(e) => setInputName(e.target.value)}
             />
             {textErrorInputName && (
-              <p className="my-3 rounded-2xl bg-red-600 px-2 py-2 text-red-50">
+              <Text className="my-3 rounded-2xl bg-red-600 px-2 py-2 text-red-50">
                 {textErrorInputName}
-              </p>
+              </Text>
             )}
 
             {/* Input Email */}
@@ -70,9 +71,9 @@ function Register() {
               onChange={(e) => setInputEmail(e.target.value)}
             />
             {textErrorInputEmail && (
-              <p className="my-3 rounded-2xl bg-red-600 px-2 py-2 text-red-50">
+              <Text className="my-3 rounded-2xl bg-red-600 px-2 py-2 text-red-50">
                 {textErrorInputEmail}
-              </p>
+              </Text>
             )}
 
             {/* Input Password */}
@@ -81,9 +82,9 @@ function Register() {
               onChange={(e) => setInputPassword(e.target.value)}
             />
             {textErrorInputPassword && (
-              <p className="my-3 rounded-2xl bg-red-600 px-2 py-2 text-red-50">
+              <Text className="my-3 rounded-2xl bg-red-600 px-2 py-2 text-red-50">
                 {textErrorInputPassword}
-              </p>
+              </Text>
             )}
 
             {/* Tombol Submit */}
