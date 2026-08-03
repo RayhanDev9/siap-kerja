@@ -22,4 +22,10 @@ export const cardVariants = {
       ease: "easeOut", // Gerakan melambat halus di akhir
     },
   },
+  // INI KUNCINYA: Buat varian "instant" yang langsung muncul
+  instant: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0 }, // Jeda waktu nol (instan)
+  },
 };

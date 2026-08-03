@@ -11,12 +11,26 @@ import EducationItems from "./components/EducationItems";
 import Text from "../../../ui/Text";
 import { cardVariants } from "../../../util/animations";
 import { motion } from "framer-motion"; // 1. Import Framer Motion
+import { useRef } from "react";
 
 function Profile() {
   const { profile, aiMatchScore, skills, experience, educations } = dataProfile;
 
   const { name, headline, availabilityStatus, location, bio, avatarUrl } =
     profile;
+
+  const fileInputRef = useRef(null);
+
+  function handleButtonClick() {
+    fileInputRef.current.click();
+  }
+
+  function handleFileChange(event) {
+    const selectedFile = event.target.files[0];
+    if (selectedFile) {
+      console.log( event.target.files[0], selectedFile.name);
+    }
+  }
 
   const { title, description, scorePercentage } = aiMatchScore;
   return (
@@ -145,9 +159,18 @@ function Profile() {
                 <span>100%</span>
               </div>
               <Progres progressPercentage={100} />
-              <Button type="generalSecondary">
+
+              <Button type="generalSecondary" onClick={handleButtonClick}>
                 <i className="fas fa-upload"></i> Uploud New Version
               </Button>
+
+              <input
+                type="file"
+                ref={fileInputRef}
+                onChange={handleFileChange}
+                className="hidden"
+                accept=".pdf"
+              />
             </div>
           </motion.div>
         </div>

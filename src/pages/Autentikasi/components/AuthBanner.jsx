@@ -4,7 +4,7 @@ import { motion } from "framer-motion"; // 1. Import Framer Motion
 
 function AuthBanner() {
   return (
-    <div className="mx-auto hidden flex-col items-center bg-[#F4F6FF] lg:flex">
+    <div className="mx-auto flex-col items-center bg-[#F4F6FF] lg:flex">
       <div className="flex h-screen w-full flex-col justify-between p-8 pl-12 lg:p-12">
         {/* Bagian Atas: Logo */}
         <motion.div variants={cardVariants} className="self-start">

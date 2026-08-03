@@ -2,6 +2,7 @@
 import Footer from "../../ui/Footer";
 import Header from "../../ui/Header";
 import Main from "./components/Main";
+import Tes from "./../../services/Tes"
 
 function LandingPage() {
   return (
@@ -9,6 +10,7 @@ function LandingPage() {
       <Header condition={false} />
       <Main />
       <Footer />
+      <Tes/>
     </>
   );
 }

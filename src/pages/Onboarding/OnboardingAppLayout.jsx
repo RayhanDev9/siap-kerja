@@ -3,9 +3,16 @@ import Header from "./components/Header";
 import Logo from "../../ui/Logo";
 import { containerVariants, cardVariants } from "../../util/animations.js";
 import { motion } from "framer-motion"; // 1. Import Framer Motion
+import { useEffect } from "react";
 
 function OnboardingAppLayout() {
   const location = useLocation();
+  useEffect(
+    function () {
+      window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+    },
+    [location.pathname],
+  );
   return (
     <>
       <Header />

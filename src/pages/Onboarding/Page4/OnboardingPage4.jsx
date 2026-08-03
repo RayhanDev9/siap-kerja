@@ -232,7 +232,7 @@ function OnboardingPage4() {
             Selesai
           </Button>
         </motion.div>
-        <ButtonMdOnboarding button1="Lewati" button2="Selanjutnya" to="/" />
+        <ButtonMdOnboarding button1="Lewati" button2="Selanjutnya" onFinish={handleSubmit} />
       </div>
     </>
   );

@@ -4,9 +4,21 @@ import Login from "./Login";
 import { Outlet, useLocation, useNavigation } from "react-router-dom";
 import { cardVariants, containerVariants } from "../../util/animations";
 import { motion } from "framer-motion"; // 1. Import Framer Motion
+import { useEffect, useState } from "react";
 
 function Autentikasi() {
   const location = useLocation();
+  const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1024);
+
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsDesktop(window.innerWidth >= 1024);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
   return (
     <>
       {/* <Header /> */}
@@ -17,7 +29,7 @@ function Autentikasi() {
         animate="visible"
         className="relative grid grid-cols-1 lg:grid-cols-2"
       >
-        <AuthBanner />
+        {isDesktop && <AuthBanner />}
         <Outlet />
       </motion.div>
     </>
