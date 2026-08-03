@@ -39,7 +39,6 @@ function CareerRecommendationsItems({
 }) {
   const currentTheme = themeVariants[themeColor] || themeVariants.default;
 
-  console.info(currentTheme);
   return (
     <div className="w-96 shrink-0 space-y-5 rounded-2xl bg-white p-6">
       <div className="flex justify-between">

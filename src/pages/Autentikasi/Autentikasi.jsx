@@ -5,11 +5,13 @@ import { Outlet, useLocation, useNavigation } from "react-router-dom";
 import { cardVariants, containerVariants } from "../../util/animations";
 import { motion } from "framer-motion"; // 1. Import Framer Motion
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import Loader from "../../ui/Loader";
 
 function Autentikasi() {
   const location = useLocation();
   const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1024);
-
+  const { isLoading, error } = useSelector((state) => state.auth);
 
   useEffect(() => {
     const handleResize = () => {
@@ -19,6 +21,12 @@ function Autentikasi() {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  if (error) return <Error />;
   return (
     <>
       {/* <Header /> */}

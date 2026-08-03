@@ -10,6 +10,8 @@ import Button from "../../../ui/Button";
 import { cardVariants } from "../../../util/animations";
 import { motion } from "framer-motion"; // 1. Import Framer Motion
 
+
+
 function Analytics() {
   const { title, subtitle } = dataAnalytis.careerAnalytics;
   const {
@@ -41,6 +43,7 @@ function Analytics() {
     skills,
     buttonLabel,
   } = dataAnalytis.skillDevelopment;
+
 
   return (
     <Section>
@@ -107,16 +110,14 @@ function Analytics() {
             className="col-span-1 mx-auto w-full max-w-md flex-col gap-6 rounded-3xl bg-white p-7 lg:flex"
           >
             {/* Opsional: Header (Bisa disesuaikan dengan kebutuhanmu atau dihapus) */}
-            <motion.div
-            variants={cardVariants} className="flex flex-col gap-1">
+            <motion.div variants={cardVariants} className="flex flex-col gap-1">
               <H2 type="secondry">Statistik Profil</H2>
               <Text className="text-sm font-medium text-slate-500">
                 Pantau visibilitas dan aktivitas lamaran Anda.
               </Text>
             </motion.div>
 
-            <motion.div
-            variants={cardVariants} className="flex flex-col gap-4">
+            <motion.div variants={cardVariants} className="flex flex-col gap-4">
               {/* Card 1: Views (Style bundaran ungu) */}
               <div className="flex items-center justify-between rounded-2xl bg-[#F4F4FB] p-5">
                 <div className="flex items-center gap-5">
@@ -188,7 +189,10 @@ function Analytics() {
 
         <div className="grid grid-cols-1 gap-7 lg:grid-cols-3">
           {/* Course */}
-          <motion.div variants={cardVariants} className="col-span-1 mx-auto flex w-full max-w-md flex-col gap-6 rounded-3xl bg-white p-7">
+          <motion.div
+            variants={cardVariants}
+            className="col-span-1 mx-auto flex w-full max-w-md flex-col gap-6 rounded-3xl bg-white p-7"
+          >
             <div className="flex flex-col gap-1">
               <H2 type="secondry" className="text-2xl font-bold text-gray-900">
                 Progres Belajar
@@ -215,7 +219,10 @@ function Analytics() {
           </motion.div>
 
           {/* skillDevelopment*/}
-          <motion.div variants={cardVariants} className="col-span-1 flex flex-col gap-6 rounded-2xl bg-white p-7 lg:col-span-2">
+          <motion.div
+            variants={cardVariants}
+            className="col-span-1 flex flex-col gap-6 rounded-2xl bg-white p-7 lg:col-span-2"
+          >
             <H2 type="secondry">{titleSkillDevelopment}</H2>
             <div className="flex flex-col gap-5">
               {skills.map((skill) => (

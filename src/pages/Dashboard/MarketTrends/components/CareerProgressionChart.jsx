@@ -1,15 +1,17 @@
 import React from "react";
 import { BarChart, Bar, XAxis, ResponsiveContainer, Cell } from "recharts";
 import dataMarketTrends from "./dataMarketTrends";
+import { useSelector } from "react-redux";
 
 // 1. Data disesuaikan agar menghasilkan efek tangga (stair-step)
 // Label sumbu X hanya diisi untuk index tertentu sesuai gambar
-const data = dataMarketTrends.jobGrowth.chartData;
 
 // 2. Daftar warna dari biru pudar (kiri) ke biru gelap (kanan)
 const COLORS = ["#d1e0f7", "#aabcfa", "#85a4f2", "#5886e8", "#0052cc"];
 
 const CareerProgressionChart = () => {
+// const data = dataMarketTrends.jobGrowth.chartData;
+const data = useSelector(state => state.marketTrends.marketTrendsData.jobGrowth.chartData)
   return (
     <div className="w-full max-w-lg rounded-xl border border-gray-100 bg-white p-6 shadow-sm">
       <div className="mt-4 h-64 w-full">

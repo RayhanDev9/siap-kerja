@@ -5,25 +5,39 @@ import Skills from "./components/MostWantedSkillsItems";
 
 import Section from "./../../../ui/Section";
 import H2 from "./../../../ui/H2";
+import Loader from "../../../ui/Loader";
 import SalaryAnalysisItems from "./components/SalaryAnalysisItems";
 import TopBar from "../../../ui/TopBar";
 import Text from "../../../ui/Text";
 import { cardVariants } from "../../../util/animations";
 import { motion } from "framer-motion"; // 1. Import Framer Motion
+import { useSelector } from "react-redux";
+import Error from "../../../ui/Error";
 
 //
 //
 function MarketTrends() {
-  const { title, period, trend } = dataMarketTrends.jobGrowth;
+  const { isLoading, error, marketTrendsData } = useSelector(
+    (state) => state.marketTrends,
+  );
+
+  const { title, period, trend } = marketTrendsData.jobGrowth;
   const { text } = trend;
-  const { title: titleTopSkill, items } = dataMarketTrends.topSkills;
+  const { title: titleTopSkill, items } = marketTrendsData.topSkills;
   const { title: titleSalaryAnalysis, items: itemsSalaryAnalysis } =
-    dataMarketTrends.salaryAnalysis;
+    marketTrendsData.salaryAnalysis;
+
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  if (error) return <Error />;
 
   return (
     <Section>
       <div className="flex flex-col gap-5 pb-7">
         {/* Top bar Lg */}
+
         <TopBar
           placeholder="cari peran, keahlian, atau industri"
           isSerch={false}
@@ -73,9 +87,11 @@ function MarketTrends() {
         </div>
 
         {/* Salary analysis */}
-        <div  className="">
-         
-          <motion.div variants={cardVariants}> <H2 type="secondry">{titleSalaryAnalysis}</H2></motion.div>
+        <div className="">
+          <motion.div variants={cardVariants}>
+            {" "}
+            <H2 type="secondry">{titleSalaryAnalysis}</H2>
+          </motion.div>
           <div className="grid grid-cols-1 justify-items-center gap-5 py-7 md:grid-cols-2">
             {itemsSalaryAnalysis.map((item) => (
               <SalaryAnalysisItems

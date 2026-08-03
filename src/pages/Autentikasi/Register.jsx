@@ -10,8 +10,11 @@ import {
 import { useNavigate } from "react-router";
 import InputName from "../../ui/InputName";
 import Text from "../../ui/Text";
+import { cardVariants } from "../../util/animations";
+import { motion } from "framer-motion"; // 1. Import Framer Motion
 import { useDispatch, useSelector } from "react-redux";
 import { registerUser } from "../../features/auth/authSlice";
+import Loader from "../../ui/Loader";
 
 function Register() {
   const navigate = useNavigate();
@@ -61,6 +64,8 @@ function Register() {
         });
     }
   }
+
+
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-white lg:flex-row">
@@ -117,14 +122,16 @@ function Register() {
             )}
 
             {/* Tombol Submit Diperbaiki */}
-            <button
-              className="my-8 inline-block w-full rounded-xl bg-blue-600 px-4 py-3 text-center text-sm font-semibold tracking-wide text-white uppercase transition-colors duration-300 hover:bg-blue-700 focus:bg-blue-700 focus:outline-none disabled:cursor-not-allowed disabled:bg-gray-400 md:px-6 md:py-4"
-              onClick={handleSubmit}
-              disabled={isLoading} // Tombol mati saat loading
-            >
-              {/* Teks berubah saat loading */}
-              {isLoading ? "Memproses..." : "Mulai Sekarang"}
-            </button>
+            <motion.div variants={cardVariants}>
+              <button
+                className="my-8 inline-block w-full rounded-xl bg-blue-600 px-4 py-3 text-center text-sm font-semibold tracking-wide text-white uppercase transition-colors duration-300 hover:bg-blue-700 focus:bg-blue-700 focus:outline-none disabled:cursor-not-allowed disabled:bg-gray-400 md:px-6 md:py-4"
+                onClick={handleSubmit}
+                disabled={isLoading} // Tombol mati saat loading
+              >
+                {/* Teks berubah saat loading */}
+                {isLoading ? "Memproses..." : "Mulai Sekarang"}
+              </button>
+            </motion.div>
           </div>
         </div>
       </div>

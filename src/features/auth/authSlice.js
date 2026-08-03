@@ -14,7 +14,7 @@ export const registerUser = createAsyncThunk(
   "auth/registerUser",
   async function (userData, thunkAPI) {
     try {
-      const res = await fetch(`http://127.0.0.1:8000/api/register`, {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -40,7 +40,7 @@ export const loginUser = createAsyncThunk(
   "auth/loginUser",
   async function (userData, thunkAPI) {
     try {
-      const res = await fetch(`http://127.0.0.1:8000/api/login`, {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -54,7 +54,7 @@ export const loginUser = createAsyncThunk(
         return thunkAPI.rejectWithValue(data);
       }
       // 2. SIMPAN KE LOCAL STORAGE JIKA SUKSES
-      // localStorage.setItem("token", data.access_token);
+      localStorage.setItem("token", data.access_token);
       localStorage.setItem("user", JSON.stringify(data.user));
       return data;
     } catch (err) {

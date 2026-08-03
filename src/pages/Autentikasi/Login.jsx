@@ -5,8 +5,11 @@ import AuthHeader from "./components/AuthHeader";
 import Email from "./../../ui/Email";
 import Password from "../../ui/Password";
 import Text from "../../ui/Text";
+import { cardVariants } from "../../util/animations";
+import { motion } from "framer-motion"; // 1. Import Framer Motion
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../../features/auth/authSlice";
+import Loader from "../../ui/Loader";
 
 function Login() {
   const navigate = useNavigate();
@@ -44,6 +47,11 @@ function Login() {
         });
     }
   }
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  if (error) return <Error />;
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-white lg:flex-row">
@@ -93,15 +101,17 @@ function Login() {
               )}
             </div>
 
-            {/* Tombol Submit */}
-            <button
-              className="my-4 inline-block w-full rounded-xl bg-blue-600 px-4 py-3 text-center text-sm font-semibold tracking-wide text-white uppercase transition-colors duration-300 hover:bg-blue-700 focus:bg-blue-700 focus:outline-none disabled:cursor-not-allowed disabled:bg-gray-400 md:px-6 md:py-4"
-              onClick={handleSubmit}
-              disabled={isLoading} // PERBAIKAN: Tombol mati saat loading
-            >
-              {isLoading ? "Sedang Masuk..." : "Mulai Sekarang"}{" "}
-              {/* PERBAIKAN: Teks berubah */}
-            </button>
+            <motion.div variants={cardVariants}>
+              {/* Tombol Submit */}
+              <button
+                className="my-4 inline-block w-full rounded-xl bg-blue-600 px-4 py-3 text-center text-sm font-semibold tracking-wide text-white uppercase transition-colors duration-300 hover:bg-blue-700 focus:bg-blue-700 focus:outline-none disabled:cursor-not-allowed disabled:bg-gray-400 md:px-6 md:py-4"
+                onClick={handleSubmit}
+                disabled={isLoading} // PERBAIKAN: Tombol mati saat loading
+              >
+                {isLoading ? "Sedang Masuk..." : "Mulai Sekarang"}{" "}
+                {/* PERBAIKAN: Teks berubah */}
+              </button>
+            </motion.div>
           </div>
         </div>
       </div>

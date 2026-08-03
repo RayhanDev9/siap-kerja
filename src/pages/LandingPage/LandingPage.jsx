@@ -2,15 +2,15 @@
 import Footer from "../../ui/Footer";
 import Header from "../../ui/Header";
 import Main from "./components/Main";
-import Tes from "./../../services/Tes"
+import tes from "./../../tes";
 
 function LandingPage() {
+  tes();
   return (
     <>
       <Header condition={false} />
       <Main />
       <Footer />
-      <Tes/>
     </>
   );
 }

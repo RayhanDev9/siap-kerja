@@ -11,6 +11,7 @@ import H2 from "../../../ui/H2";
 import { motion } from "framer-motion"; // 1. Import Framer Motion
 import { cardVariants } from "../../../util/animations";
 
+
 function Dashboard() {
   const { firstName, currentDate } = dashboardData.user;
   const { progressMessage } = dashboardData.careerReadiness;
@@ -20,6 +21,9 @@ function Dashboard() {
   const { prioritySkills } = dashboardData;
 
   const { careerRecommendations } = dashboardData;
+
+ 
+
 
   return (
     <Section>
@@ -35,7 +39,10 @@ function Dashboard() {
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
           <div className="flex flex-col gap-5 lg:col-span-1">
             {/* Career readiness*/}
-            <motion.div variants={cardVariants} className="flex flex-col justify-center rounded-2xl bg-white p-7">
+            <motion.div
+              variants={cardVariants}
+              className="flex flex-col justify-center rounded-2xl bg-white p-7"
+            >
               <H2 type="secondry" className="p-3 text-start">
                 Skor kesiapan karir
               </H2>
@@ -46,7 +53,10 @@ function Dashboard() {
             </motion.div>
 
             {/* interesting card */}
-            <motion.div variants={cardVariants} className="grid grid-cols-2 gap-3">
+            <motion.div
+              variants={cardVariants}
+              className="grid grid-cols-2 gap-3"
+            >
               <div className="space-y-8 rounded-2xl bg-white p-7">
                 <div className="flex gap-2">
                   <i className="fa-solid fa-user-gear inline-block self-center text-xl text-purple-600"></i>
@@ -81,7 +91,10 @@ function Dashboard() {
 
           <div className="flex flex-col gap-5 lg:col-span-2">
             {/* priority skills gap */}
-            <motion.div variants={cardVariants} className="flex flex-col justify-center gap-5 rounded-2xl bg-white p-7">
+            <motion.div
+              variants={cardVariants}
+              className="flex flex-col justify-center gap-5 rounded-2xl bg-white p-7"
+            >
               <div className="flex justify-between gap-2">
                 <i className="fa-solid fa-file-waveform self-center text-xl text-blue-700 sm:text-2xl lg:text-3xl"></i>
                 <div className="self-center">
@@ -110,7 +123,10 @@ function Dashboard() {
 
             {/* Carear rekomendasi */}
 
-            <motion.div variants={cardVariants} className="flex flex-col gap-10 p-7">
+            <motion.div
+              variants={cardVariants}
+              className="flex flex-col gap-10 p-7"
+            >
               <div className="flex gap-3">
                 <i className="fa-solid fa-wand-magic-sparkles text-2xl text-purple-600"></i>
                 <H2 type="secondry" className="text-xl capitalize">
