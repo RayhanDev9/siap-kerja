@@ -1,18 +1,27 @@
-import { Outlet, useLocation } from "react-router";
+import { Navigate, Outlet, useLocation, useNavigate } from "react-router";
 import Header from "../../ui/Header";
 import NavMenu from "./components/NavMenu";
 import Footer from "../../ui/Footer";
 import SideBar from "./components/SideBar";
 import { containerVariants, cardVariants } from "../../util/animations.js";
 import { motion } from "framer-motion"; // 1. Import Framer Motion
-import { useEffect } from "react";
+import { use, useEffect } from "react";
+import { useSelector } from "react-redux";
 
 function AppLayout() {
   const location = useLocation();
+  const { user } = useSelector((state) => state.auth);
+
+
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
   }, [location.pathname]);
+
+  if (!user) {
+    console.info("ok");
+    return <Navigate to="/login" replace />;
+  }
   return (
     <>
       <Header />

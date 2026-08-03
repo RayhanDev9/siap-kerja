@@ -10,11 +10,12 @@ import {
 import { useNavigate } from "react-router";
 import InputName from "../../ui/InputName";
 import Text from "../../ui/Text";
+import { useDispatch, useSelector } from "react-redux";
+import { registerUser } from "../../features/auth/authSlice";
 
 function Register() {
   const navigate = useNavigate();
 
-  // 1. Perbaikan nilai awal (kosongkan string untuk form register)
   const [inputName, setInputName] = useState("");
   const [textErrorInputName, setTextErrorInputName] = useState("");
 
@@ -24,21 +25,40 @@ function Register() {
   const [inputPassword, setInputPassword] = useState("");
   const [textErrorInputPassword, setTextErrorInputPassword] = useState("");
 
-  // 2. Fungsi validasi disatukan di sini
+  // Mengambil state dari Redux
+  const { isLoading, error } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+
   function handleSubmit() {
-    // Jalankan semua validasi secara bersamaan
+    // 1. Validasi Lokal
     const nameError = validateName(inputName);
     const emailError = validateEmail(inputEmail);
     const passwordError = validatePassword(inputPassword);
 
-    // Set state error untuk menampilkan UI pesan merah (jika ada)
     setTextErrorInputName(nameError);
     setTextErrorInputEmail(emailError);
     setTextErrorInputPassword(passwordError);
 
-    // 3. Pastikan KETIGANYA tidak memiliki error sebelum navigasi
+    // 2. Jika validasi lokal lolos, jalankan API
     if (nameError === "" && emailError === "" && passwordError === "") {
-      navigate("/login");
+      dispatch(
+        registerUser({
+          name: inputName,
+          email: inputEmail,
+          password: inputPassword,
+          password_confirmation: inputPassword,
+        }),
+      )
+        .unwrap() // <--- PERBAIKAN PENTING: Tunggu hasil API
+        .then(() => {
+          // Jika sukses, baru pindah halaman
+          navigate("/login");
+        })
+        .catch((err) => {
+          // Jika gagal (email sudah ada, dll), tidak usah pindah halaman.
+          // State 'error' dari Redux otomatis akan terisi dan muncul di layar.
+          console.error("Gagal mendaftar:", err);
+        });
     }
   }
 
@@ -54,6 +74,15 @@ function Register() {
           />
 
           <div className="flex flex-col gap-5">
+            {/* TAMBAHAN: Kotak Error dari Backend (API Laravel) */}
+            {error && (
+              <div className="rounded-xl bg-red-100 p-3 text-sm text-red-700">
+                {typeof error === "string"
+                  ? error
+                  : "Terjadi kesalahan pada server. Atau Email sudah digunakan"}
+              </div>
+            )}
+
             {/* Input Name */}
             <InputName
               value={inputName}
@@ -87,12 +116,14 @@ function Register() {
               </Text>
             )}
 
-            {/* Tombol Submit */}
+            {/* Tombol Submit Diperbaiki */}
             <button
-              className="my-8 inline-block w-full rounded-xl bg-blue-600 px-4 py-3 text-center text-sm font-semibold tracking-wide text-white uppercase transition-colors duration-300 hover:bg-blue-600 focus:bg-blue-600 focus:outline-none disabled:cursor-not-allowed md:px-6 md:py-4"
+              className="my-8 inline-block w-full rounded-xl bg-blue-600 px-4 py-3 text-center text-sm font-semibold tracking-wide text-white uppercase transition-colors duration-300 hover:bg-blue-700 focus:bg-blue-700 focus:outline-none disabled:cursor-not-allowed disabled:bg-gray-400 md:px-6 md:py-4"
               onClick={handleSubmit}
+              disabled={isLoading} // Tombol mati saat loading
             >
-              Mulai Sekarang
+              {/* Teks berubah saat loading */}
+              {isLoading ? "Memproses..." : "Mulai Sekarang"}
             </button>
           </div>
         </div>
