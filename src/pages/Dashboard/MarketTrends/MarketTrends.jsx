@@ -13,6 +13,7 @@ import { cardVariants } from "../../../util/animations";
 import { motion } from "framer-motion"; // 1. Import Framer Motion
 import { useSelector } from "react-redux";
 import Error from "../../../ui/Error";
+import { data } from "react-router";
 
 //
 //
@@ -21,18 +22,20 @@ function MarketTrends() {
     (state) => state.marketTrends,
   );
 
+  console.log(marketTrendsData)
+
+  // console.info(marketTrendsData);
+  // if (isLoading || ) {
+  //   return <Loader />;
+  // }
+
+  // if (error) return <Error />;
 
   const { title, period, trend } = marketTrendsData.jobGrowth;
   const { text } = trend;
   const { title: titleTopSkill, items } = marketTrendsData.topSkills;
   const { title: titleSalaryAnalysis, items: itemsSalaryAnalysis } =
     marketTrendsData.salaryAnalysis;
-
-  if (isLoading) {
-    return <Loader />;
-  }
-
-  if (error) return <Error />;
 
   return (
     <Section>

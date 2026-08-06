@@ -53,7 +53,7 @@ function OnboardingPage3() {
         </Section>{" "}
         <motion.div
           variants={cardVariants}
-          className="bg-white p-7 text-center lg:*:hidden"
+          className="bg-white p-7 text-center md:hidden"
         >
           <Button type="generalPrimary" to="/onboardingPage4">
             Selanjutnya <i className="fa-solid fa-arrow-right pl-1"></i>

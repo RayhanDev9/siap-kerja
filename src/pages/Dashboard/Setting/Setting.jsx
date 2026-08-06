@@ -21,7 +21,7 @@ import { useNavigate } from "react-router";
 
 function Setting() {
   const { settingData, isLoading, error } = useSelector(
-    (state) => state.setting,
+    (state) => state.setting
   );
   const { isLoading: isLoadingLogout, error: errorLogout } = useSelector(
     (state) => state.auth,
@@ -32,6 +32,8 @@ function Setting() {
   const dispatch = useDispatch();
 
   const { profilPengguna, keamanan, pengaturanLainnya } = settingData;
+  console.info(pengaturanLainnya,'tes')
+
   const { namaLengkap, email, fotoProfil } = profilPengguna;
   const [inputPasswordOld, setInputPasswordOld] = useState("");
   const [textErrorInputPasswordOld, setTextErrorInputPasswordOld] =
@@ -104,7 +106,7 @@ function Setting() {
             <motion.div variants={cardVariants} className="flex gap-6">
               <img
                 className="inline-block h-20 w-20 shrink-0 rounded-full object-cover sm:h-24 sm:w-24 md:h-26 md:w-28 lg:h-32 lg:w-32"
-                src={`${fotoProfil}`}
+                src={`${dataSetting.profilPengguna.fotoProfil}`}
                 alt={`${namaLengkap}`}
               />
               <div className="min-w-0 self-center">
@@ -237,7 +239,7 @@ function Setting() {
 
         {/* Pengaturan lainnya */}
         <div className="rounded-2xl bg-white px-7">
-          {pengaturanLainnya.map((item) => (
+          {dataSetting.pengaturanLainnya.map((item) => (
             <OtherSettingsItems
               kategori={item.kategori}
               status={item.status}
@@ -248,7 +250,7 @@ function Setting() {
 
         <div
           onClick={handleLogout}
-          className="flex cursor-pointer items-center gap-40"
+          className="flex cursor-pointer items-center justify-end gap-40"
         >
           <div className="inline-block">
             <div className="flex items-center justify-center justify-items-center gap-5 rounded-2xl bg-red-500 px-5 py-2 transition-all duration-300 hover:bg-red-600">
@@ -257,9 +259,9 @@ function Setting() {
                 <h3 className="pb-1 text-sm font-semibold text-white sm:text-lg lg:text-xl">
                   Logout
                 </h3>
-                <Text className="text-sm text-white">
+                {/* <Text className="text-sm text-white">
                   Akhiri sesi dan keluar dari akun
-                </Text>
+                </Text> */}
               </div>
             </div>
           </div>

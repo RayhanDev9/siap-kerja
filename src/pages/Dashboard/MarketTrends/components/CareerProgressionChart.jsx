@@ -2,6 +2,7 @@ import React from "react";
 import { BarChart, Bar, XAxis, ResponsiveContainer, Cell } from "recharts";
 import dataMarketTrends from "./dataMarketTrends";
 import { useSelector } from "react-redux";
+import Loader from "../../../../ui/Loader";
 
 // 1. Data disesuaikan agar menghasilkan efek tangga (stair-step)
 // Label sumbu X hanya diisi untuk index tertentu sesuai gambar
@@ -10,8 +11,17 @@ import { useSelector } from "react-redux";
 const COLORS = ["#d1e0f7", "#aabcfa", "#85a4f2", "#5886e8", "#0052cc"];
 
 const CareerProgressionChart = () => {
-// const data = dataMarketTrends.jobGrowth.chartData;
-const data = useSelector(state => state.marketTrends.marketTrendsData.jobGrowth.chartData)
+  // const data = dataMarketTrends.jobGrowth.chartData;
+  const data = useSelector(
+    (state) => state.marketTrends.marketTrendsData.jobGrowth.chartData,
+  );
+  console.info(data)
+  const { isLoading, error } = useSelector((state) => state.marketTrends);
+  if (isLoading ) {
+    return <Loader />;
+  }
+
+  if (error) return <Error />;
   return (
     <div className="w-full max-w-lg rounded-xl border border-gray-100 bg-white p-6 shadow-sm">
       <div className="mt-4 h-64 w-full">

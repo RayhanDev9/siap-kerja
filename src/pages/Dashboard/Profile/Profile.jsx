@@ -16,16 +16,16 @@ import { useSelector } from "react-redux";
 import Loader from "../../../ui/Loader";
 
 function Profile() {
-  const { data, isLoading, error } = useSelector((state) => state.profile);
+//   const { data, isLoading, error } = useSelector((state) => state.profile);
+//   console.info(dataProfile)
+//   console.info(data)
+
+//  if (isLoading || data === null) {
+//     return <Loader />;
+//   }
+
+//   if (error) return <Error />;
   const fileInputRef = useRef(null);
-  console.info(dataProfile)
-  console.info(data)
-
- if (isLoading || data === null) {
-    return <Loader />;
-  }
-
-  if (error) return <Error />;
 
   const { profile, aiMatchScore, skills, experience, educations } = dataProfile;
 

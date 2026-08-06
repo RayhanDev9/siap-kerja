@@ -20,8 +20,13 @@ function SavedCareersItems({
   aiRecommendation,
 }) {
   return (
-    <motion.div variants={cardVariants} className="rounded-2xl bg-white p-7">
+    <motion.div variants={cardVariants} className="rounded-2xl bg-white p-7 relative">
       {/* Tag */}
+      <div className="absolute top-4 right-4">
+        <i
+          className={`fa-solid fa-bookmark text-lg text-blue-500 sm:text-xl lg:text-2xl`}
+        ></i>
+      </div>
       <div className="mb-4 flex gap-4">
         {tags.map((tag) => (
           <TagItems label={tag.label} theme={tag.theme} key={tag.label} />

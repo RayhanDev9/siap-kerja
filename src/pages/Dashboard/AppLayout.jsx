@@ -7,10 +7,12 @@ import { containerVariants, cardVariants } from "../../util/animations.js";
 import { motion } from "framer-motion"; // 1. Import Framer Motion
 import { use, useEffect } from "react";
 import { useSelector } from "react-redux";
+import useFetch from "../../hooks/useFetch.jsx";
 
 function AppLayout() {
   const location = useLocation();
   const { user } = useSelector((state) => state.auth);
+  useFetch();
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
@@ -20,6 +22,7 @@ function AppLayout() {
     console.info("ok");
     return <Navigate to="/login" replace />;
   }
+
   return (
     <>
       <Header />

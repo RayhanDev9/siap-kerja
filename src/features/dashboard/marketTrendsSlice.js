@@ -22,7 +22,11 @@ export const fetchMarketTrends = createAsyncThunk(
       );
 
       const data = await res.json();
-      if (!res.ok) return thunkAPI.rejectWithValue(data);
+        console.info(data);
+
+      if (!res.ok) {
+        return thunkAPI.rejectWithValue(data);
+      }
 
       return data;
     } catch (err) {
@@ -67,6 +71,7 @@ const marketTrendsSlice = createSlice({
       // 3. CARA MENGISI RESPONSE SUKSES (fulfilled)
       .addCase(fetchMarketTrends.fulfilled, (state, action) => {
         state.isLoading = false;
+        console.info(action.payload);
         // Langsung timpa seluruh marketTrendsData dengan data asli dari action.payload
         state.marketTrendsData = action.payload;
       })
@@ -74,8 +79,8 @@ const marketTrendsSlice = createSlice({
       .addCase(fetchMarketTrends.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload; // Simpan errornya ke dalam state.error
+        console.error("Gagal ambil market trends:", action.payload);
       }),
 });
 
 export default marketTrendsSlice.reducer;
-

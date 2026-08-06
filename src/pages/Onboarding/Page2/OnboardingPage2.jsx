@@ -45,7 +45,7 @@ function OnboardingPage2() {
 
           {/* Nama */}
         </Section>
-        <motion.div variants={cardVariants} className="bg-white p-7 text-center lg:hidden">
+        <motion.div variants={cardVariants} className="bg-white p-7 text-center md:hidden">
           <Button type="generalPrimary" to="/onboardingPage3">
             Mulai <i className="fa-solid fa-arrow-right pl-1"></i>
           </Button>
