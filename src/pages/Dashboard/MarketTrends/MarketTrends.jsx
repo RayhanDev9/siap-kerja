@@ -21,6 +21,7 @@ function MarketTrends() {
     (state) => state.marketTrends,
   );
 
+
   const { title, period, trend } = marketTrendsData.jobGrowth;
   const { text } = trend;
   const { title: titleTopSkill, items } = marketTrendsData.topSkills;

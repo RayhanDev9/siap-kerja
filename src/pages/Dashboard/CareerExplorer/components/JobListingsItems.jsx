@@ -3,6 +3,7 @@ import Text from "../../../../ui/Text";
 import SkillsItem from "./SkillsItem";
 import { cardVariants } from "../../../../util/animations";
 import { motion } from "framer-motion"; // 1. Import Framer Motion
+import { useSelector } from "react-redux";
 
 function JobListingsItems({
   title,
@@ -13,7 +14,6 @@ function JobListingsItems({
   salary,
   linkText,
 }) {
-  console.info(skills);
   const badgeStyles = {
     primary: "bg-purple-800 text-purple-800", // Sesuaikan warnanya
     warning: "bg-orange-300 text-orange-800",
@@ -21,11 +21,22 @@ function JobListingsItems({
     default: "bg-gray-800 text-gray-800",
   };
 
+
   // 2. Ambil style sesuai tipe, jika tidak ada gunakan default
   const currentStyle = badgeStyles[badge.type] || badgeStyles.default;
 
+  const tes = false;
+
   return (
-    <motion.div variants={cardVariants} className="w-[90%] rounded-2xl bg-white px-3 pt-7 pb-5">
+    <motion.div
+      variants={cardVariants}
+      className="relative w-[90%] rounded-2xl bg-white px-3 pt-7 pb-5"
+    >
+      <div className="absolute top-4 right-4">
+        <i
+          className={`${tes ? "fa-solid" : "fa-regular"} fa-bookmark text-lg text-blue-500 sm:text-xl lg:text-2xl`}
+        ></i>
+      </div>
       <div className="border-b border-slate-300 pb-5">
         <div className="flex flex-col gap-1">
           {/* Header */}
@@ -64,7 +75,7 @@ function JobListingsItems({
       {/* Pay */}
       <div className="flex justify-between pt-5">
         <h3 className="text-lg font-semibold">{salary}</h3>
-        <p className="text-sm text-blue-700 font-semibold md:text-base lg:text-lg">
+        <p className="text-sm font-semibold text-blue-700 md:text-base lg:text-lg">
           {linkText}
         </p>
       </div>

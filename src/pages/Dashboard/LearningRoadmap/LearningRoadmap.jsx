@@ -9,11 +9,23 @@ import Text from "../../../ui/Text";
 import H3 from "../../../ui/H3";
 import { cardVariants } from "../../../util/animations";
 import { motion } from "framer-motion"; // 1. Import Framer Motion
+import { useSelector } from "react-redux";
+import Loader from "../../../ui/Loader";
 
 function LearningRoadmap() {
-  const { overallProgress, stages } = dataLearningRoadmap;
+  const { roadmapData, isLoading, error } = useSelector(
+    (state) => state.learningRoadmap,
+  );
+  console.info(roadmapData);
+  const { overallProgress, stages } = roadmapData;
 
   const { estimatedTime, label, percentage } = overallProgress;
+
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  if (error) return <Error />;
   return (
     <Section>
       <div className="flex flex-col gap-7">

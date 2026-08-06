@@ -10,13 +10,28 @@ import H3 from "../../../ui/H3";
 import Email from "../../../ui/Email";
 import InputName from "../../../ui/InputName";
 import Password from "../../../ui/Password";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { validatePassword } from "../../../util/helpers";
 import { cardVariants } from "../../../util/animations";
 import { motion } from "framer-motion"; // 1. Import Framer Motion
+import { useDispatch, useSelector } from "react-redux";
+import Loader from "../../../ui/Loader";
+import { logoutUserThunk } from "../../../features/auth/authSlice";
+import { useNavigate } from "react-router";
 
 function Setting() {
-  const { profilPengguna, keamanan, pengaturanLainnya } = dataSetting;
+  const { settingData, isLoading, error } = useSelector(
+    (state) => state.setting,
+  );
+  const { isLoading: isLoadingLogout, error: errorLogout } = useSelector(
+    (state) => state.auth,
+  );
+
+  const navigate = useNavigate();
+
+  const dispatch = useDispatch();
+
+  const { profilPengguna, keamanan, pengaturanLainnya } = settingData;
   const { namaLengkap, email, fotoProfil } = profilPengguna;
   const [inputPasswordOld, setInputPasswordOld] = useState("");
   const [textErrorInputPasswordOld, setTextErrorInputPasswordOld] =
@@ -33,6 +48,33 @@ function Setting() {
     setTextErrorInputPasswordNew(passwordErrorNew);
   }
 
+  function handleLogout() {
+    dispatch(logoutUserThunk())
+      .unwrap()
+      .then(() => {
+        navigate("/login"); // Lempar ke halaman login setelah sukses
+      })
+      .catch((err) => {
+        console.error("Logout gagal:", err);
+        navigate("/login"); // Tetap paksa ke login meskipun server error
+      });
+  }
+
+  const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1024);
+  useEffect(() => {
+    const handleResize = () => {
+      setIsDesktop(window.innerWidth >= 1024);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  if (error) return <Error />;
   return (
     <Section>
       <div className="flex flex-col gap-7 pb-7">
@@ -46,7 +88,7 @@ function Setting() {
           title="Pengaturan"
           description="Kelola preferensi akun dan aplikasi anda"
         ></HeaderSection>
-        
+
         <div className="grid grid-cols-1 gap-7 lg:grid-cols-2">
           {/* Profile Penggunna */}
           <div className="space-y-5 rounded-2xl bg-white p-7">
@@ -93,7 +135,59 @@ function Setting() {
           </div> */}
           </div>
           {/* Keamanan Penggunna lg*/}
-          <div className="hidden space-y-5 rounded-2xl bg-white p-7 lg:block">
+          {isDesktop && (
+            <div className="hidden space-y-5 rounded-2xl bg-white p-7 lg:block">
+              {/* Heading profile */}
+              <motion.div variants={cardVariants}>
+                <H2 type="secondry">
+                  <i class="fa-solid fa-lock pr-3 text-slate-700"></i>Keamanan
+                  Penggunna
+                </H2>
+              </motion.div>
+
+              {/* input nama lengkap dan gmail disable */}
+              <div className="flex flex-col gap-1.5 lg:grid lg:grid-cols-1 lg:gap-7">
+                {/* username */}
+                <div className="lg:col-span-1">
+                  {/* Input Password */}
+                  <Password
+                    value={inputPasswordOld}
+                    onChange={(e) => setInputPasswordOld(e.target.value)}
+                  />
+                  {textErrorInputPasswordOld && (
+                    <Text className="my-3 rounded-2xl bg-red-600 px-2 py-2 text-red-50">
+                      {textErrorInputPasswordOld}
+                    </Text>
+                  )}
+                </div>
+                {/*  */}
+                {/* Input Email */}
+                <div className="lg:col-span-1">
+                  {/* Input Password */}
+                  <Password
+                    value={inputPasswordNew}
+                    onChange={(e) => setInputPasswordNew(e.target.value)}
+                  />
+                  {textErrorInputPasswordNew && (
+                    <Text className="my-3 rounded-2xl bg-red-600 px-2 py-2 text-red-50">
+                      {textErrorInputPasswordNew}
+                    </Text>
+                  )}
+                </div>
+              </div>
+              {/* Button */}
+              <motion.div variants={cardVariants}>
+                <Button type="generalSecondary" onClick={handleSubmit}>
+                  Simpan Perubahan
+                </Button>
+              </motion.div>
+            </div>
+          )}
+        </div>
+
+        {/* Keamanan Penggunna mobile*/}
+        {!isDesktop && (
+          <div className="space-y-5 rounded-2xl bg-white p-7 lg:hidden">
             {/* Heading profile */}
             <motion.div variants={cardVariants}>
               <H2 type="secondry">
@@ -139,55 +233,7 @@ function Setting() {
               </Button>
             </motion.div>
           </div>
-        </div>
-
-        {/* Keamanan Penggunna mobile*/}
-        <div className="space-y-5 rounded-2xl bg-white p-7 lg:hidden">
-          {/* Heading profile */}
-          <motion.div variants={cardVariants}>
-            <H2 type="secondry">
-              <i class="fa-solid fa-lock pr-3 text-slate-700"></i>Keamanan
-              Penggunna
-            </H2>
-          </motion.div>
-
-          {/* input nama lengkap dan gmail disable */}
-          <div className="flex flex-col gap-1.5 lg:grid lg:grid-cols-1 lg:gap-7">
-            {/* username */}
-            <div className="lg:col-span-1">
-              {/* Input Password */}
-              <Password
-                value={inputPasswordOld}
-                onChange={(e) => setInputPasswordOld(e.target.value)}
-              />
-              {textErrorInputPasswordOld && (
-                <Text className="my-3 rounded-2xl bg-red-600 px-2 py-2 text-red-50">
-                  {textErrorInputPasswordOld}
-                </Text>
-              )}
-            </div>
-            {/*  */}
-            {/* Input Email */}
-            <div className="lg:col-span-1">
-              {/* Input Password */}
-              <Password
-                value={inputPasswordNew}
-                onChange={(e) => setInputPasswordNew(e.target.value)}
-              />
-              {textErrorInputPasswordNew && (
-                <Text className="my-3 rounded-2xl bg-red-600 px-2 py-2 text-red-50">
-                  {textErrorInputPasswordNew}
-                </Text>
-              )}
-            </div>
-          </div>
-          {/* Button */}
-          <motion.div variants={cardVariants}>
-            <Button type="generalSecondary" onClick={handleSubmit}>
-              Simpan Perubahan
-            </Button>
-          </motion.div>
-        </div>
+        )}
 
         {/* Pengaturan lainnya */}
         <div className="rounded-2xl bg-white px-7">
@@ -198,6 +244,25 @@ function Setting() {
               icon={item.icon}
             />
           ))}
+        </div>
+
+        <div
+          onClick={handleLogout}
+          className="flex cursor-pointer items-center gap-40"
+        >
+          <div className="inline-block">
+            <div className="flex items-center justify-center justify-items-center gap-5 rounded-2xl bg-red-500 px-5 py-2 transition-all duration-300 hover:bg-red-600">
+              <i className="fa-solid fa-arrow-right-from-bracket text-xl text-white sm:text-xl lg:text-2xl"></i>
+              <div className="">
+                <h3 className="pb-1 text-sm font-semibold text-white sm:text-lg lg:text-xl">
+                  Logout
+                </h3>
+                <Text className="text-sm text-white">
+                  Akhiri sesi dan keluar dari akun
+                </Text>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </Section>

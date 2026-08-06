@@ -1,4 +1,4 @@
-import dataAnalytis from "./components/dataAnalytis";
+// import dataAnalytis from "./components/dataAnalytis";
 import Section from "../../../ui/Section";
 import H2 from "../../../ui/H2";
 import HeaderSection from "../components/HeaderSection";
@@ -9,41 +9,50 @@ import Text from "../../../ui/Text";
 import Button from "../../../ui/Button";
 import { cardVariants } from "../../../util/animations";
 import { motion } from "framer-motion"; // 1. Import Framer Motion
-
-
+import { useSelector } from "react-redux";
+import Loader from "../../../ui/Loader";
 
 function Analytics() {
-  const { title, subtitle } = dataAnalytis.careerAnalytics;
+  const { analyticsData, isLoading, error } = useSelector(
+    (state) => state.analytics,
+  );
+
+  if (isLoading || !analyticsData?.summaryCards?.views) {
+    return <Loader />;
+  }
+
+  if (error) return <Error />;
+  console.info(analyticsData);
+
   const {
     value: valueViews,
     label: labelViews,
     trend,
-  } = dataAnalytis.summaryCards.views;
+  } = analyticsData.summaryCards.views;
   const { value: valueTrend, isPositive, text } = trend;
 
   const {
     value: valueApplications,
     label: labelApplications,
     timeframe,
-  } = dataAnalytis.summaryCards.applications;
+  } = analyticsData.summaryCards.applications;
   const {
     value: valueCourse,
     label: labelCourse,
     description,
-  } = dataAnalytis.summaryCards.courses;
+  } = analyticsData.summaryCards.courses;
 
   const {
     title: titleProfileEngagement,
     subtitle: subtitleProfileEngagement,
     actionLabel,
-  } = dataAnalytis.profileEngagement;
+  } = analyticsData.profileEngagement;
 
   const {
     title: titleSkillDevelopment,
     skills,
     buttonLabel,
-  } = dataAnalytis.skillDevelopment;
-
+  } = analyticsData.skillDevelopment;
 
   return (
     <Section>
@@ -55,7 +64,10 @@ function Analytics() {
         />
 
         {/* Header Section */}
-        <HeaderSection title={title} description={subtitle} />
+        <HeaderSection
+          title="Analitik Karir"
+          description="Perkembangan Anda minggu ini."
+        />
 
         <div className="grid grid-cols-1 gap-7 lg:grid-cols-3">
           {/* Summary cards Mobile */}

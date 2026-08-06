@@ -12,14 +12,26 @@ import Text from "../../../ui/Text";
 import { cardVariants } from "../../../util/animations";
 import { motion } from "framer-motion"; // 1. Import Framer Motion
 import { useRef } from "react";
+import { useSelector } from "react-redux";
+import Loader from "../../../ui/Loader";
 
 function Profile() {
+  const { data, isLoading, error } = useSelector((state) => state.profile);
+  const fileInputRef = useRef(null);
+  console.info(dataProfile)
+  console.info(data)
+
+ if (isLoading || data === null) {
+    return <Loader />;
+  }
+
+  if (error) return <Error />;
+
   const { profile, aiMatchScore, skills, experience, educations } = dataProfile;
 
   const { name, headline, availabilityStatus, location, bio, avatarUrl } =
     profile;
 
-  const fileInputRef = useRef(null);
 
   function handleButtonClick() {
     fileInputRef.current.click();
@@ -28,7 +40,7 @@ function Profile() {
   function handleFileChange(event) {
     const selectedFile = event.target.files[0];
     if (selectedFile) {
-      console.log( event.target.files[0], selectedFile.name);
+      console.log(event.target.files[0], selectedFile.name);
     }
   }
 

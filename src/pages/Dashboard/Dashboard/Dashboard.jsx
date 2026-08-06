@@ -1,6 +1,6 @@
 import TopBar from "../../../ui/TopBar";
 import Section from "../../../ui/Section";
-import dashboardData from "./components/dashboardData";
+// import dashboardData from "./components/dashboardData";
 import CareerScoreChart from "./components/CareerScoreChart";
 import CareerRecommendationsItems from "./components/CareerRecommendationsItems";
 import PrioritySkillsGapItems from "./components/PrioritySkillsGapItems";
@@ -10,10 +10,23 @@ import H3 from "../../../ui/H3";
 import H2 from "../../../ui/H2";
 import { motion } from "framer-motion"; // 1. Import Framer Motion
 import { cardVariants } from "../../../util/animations";
-
+import { useSelector } from "react-redux";
+import Loader from "../../../ui/Loader";
+import { getDate } from "../../../util/helpers";
 
 function Dashboard() {
-  const { firstName, currentDate } = dashboardData.user;
+  const { dashboardData, isLoading, error } = useSelector(
+    (state) => state.dashboard,
+  );
+
+  const {name} = useSelector((state) => state.auth.user);
+
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  if (error) return <Error />;
+
   const { progressMessage } = dashboardData.careerReadiness;
   const { grade, description } = dashboardData.metrics.aiReadiness;
   const { days, label } = dashboardData.metrics.learningStreak;
@@ -21,9 +34,6 @@ function Dashboard() {
   const { prioritySkills } = dashboardData;
 
   const { careerRecommendations } = dashboardData;
-
- 
-
 
   return (
     <Section>
@@ -34,7 +44,7 @@ function Dashboard() {
           isSerch={false}
         />
         {/* username */}
-        <HeaderSection title={firstName} description={currentDate} />
+        <HeaderSection title={name} description={getDate()} />
 
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
           <div className="flex flex-col gap-5 lg:col-span-1">

@@ -6,12 +6,27 @@ import Section from "./../../../ui/Section";
 import TopBar from "../../../ui/TopBar";
 import { cardVariants } from "../../../util/animations";
 import { motion } from "framer-motion"; // 1. Import Framer Motion
+import { useSelector } from "react-redux";
+import Loader from "../../../ui/Loader";
 
 function CareerExplorer() {
-  const { title, description } = dataCareerExplorer.headerData;
-  const { filterCategories } = dataCareerExplorer;
-  const { jobListings } = dataCareerExplorer;
-  console.info(filterCategories);
+  const { careersData, isLoading, error } = useSelector(
+    (state) => state.careerExplorer,
+  );
+  console.info(careersData);
+
+  // const { title, description } = careersData.headerData;
+  const title = "Eksplorasi Karir";
+  const description =
+    "Temukan peluang karir yang sesuai dengan profil AI Anda.";
+  const { filterCategories } = careersData;
+  const { jobListings } = careersData;
+
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  if (error) return <Error />;
   return (
     <Section>
       <div className="mx-auto flex flex-col gap-5 md:w-2xl lg:w-full">
@@ -45,7 +60,7 @@ function CareerExplorer() {
         </div>
 
         {/*  jobListings */}
-        <div className="grid grid-cols-1 justify-items-center gap-7 md:mx-auto md:w-2xl lg:mx-0.5 lg:w-full md:grid-cols-2">
+        <div className="grid grid-cols-1 justify-items-center gap-7 md:mx-auto md:w-2xl md:grid-cols-2 lg:mx-0.5 lg:w-full">
           {jobListings.map((item) => (
             <JobListingsItems
               title={item.title}

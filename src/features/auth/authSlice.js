@@ -29,6 +29,9 @@ export const registerUser = createAsyncThunk(
         return thunkAPI.rejectWithValue(data);
       }
 
+      // 2. SIMPAN KE LOCAL STORAGE JIKA SUKSES
+      localStorage.setItem("token", data.access_token);
+
       return data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -51,7 +54,8 @@ export const loginUser = createAsyncThunk(
 
       const data = await res.json();
       if (!res.ok) {
-        return thunkAPI.rejectWithValue(data);
+        const errorMessage = data.message || "Email atau password salah.";
+        return thunkAPI.rejectWithValue(errorMessage);
       }
       // 2. SIMPAN KE LOCAL STORAGE JIKA SUKSES
       localStorage.setItem("token", data.access_token);
@@ -63,18 +67,38 @@ export const loginUser = createAsyncThunk(
   },
 );
 
+export const logoutUserThunk = createAsyncThunk(
+  "auth/logoutUserThunk",
+  async function (_, thunkAPI) {
+    const token = localStorage.getItem("token");
+
+    try {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/logout`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        return thunkAPI.rejectWithValue(
+          data.message || "Gagal melakukan logout",
+        );
+      }
+      return data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  },
+);
+
 const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {
-    logoutUser: (state) => {
-      state.user = null;
-      state.token = null;
-      state.error = null;
-      localStorage.removeItem("token");
-      localStorage.removeItem("user");
-    },
-  },
+  reducers: {},
   extraReducers: (builder) =>
     builder
 
@@ -105,10 +129,33 @@ const authSlice = createSlice({
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.isLoading = false;
+
+        // if(action.payload)
         state.error = action.payload;
+      })
+
+      // Logout
+      .addCase(logoutUserThunk.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(logoutUserThunk.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.user = null;
+        state.token = null;
+        state.error = null;
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+      })
+      .addCase(logoutUserThunk.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+        state.user = null;
+        state.token = null;
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
       }),
 });
 
 // Diperbaiki: Menambahkan export agar bisa dipakai di tempat lain
-export const { logoutUser } = authSlice.actions;
+// export const { logoutUser } = authSlice.actions;
 export default authSlice.reducer;

@@ -78,3 +78,4 @@ const marketTrendsSlice = createSlice({
 });
 
 export default marketTrendsSlice.reducer;
+

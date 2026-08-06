@@ -15,12 +15,17 @@ function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { isLoading, error } = useSelector((state) => state.auth);
+  console.info(error);
 
-  const [inputEmail, setInputEmail] = useState("");
+  const [inputEmail, setInputEmail] = useState("m.rayhaddn@gmail.com");
   const [textErrorInputEmail, setTextErrorInputEmail] = useState("");
 
-  const [inputPassword, setInputPassword] = useState("");
+  const [inputPassword, setInputPassword] = useState("123456ffg");
   const [textErrorInputPassword, setTextErrorInputPassword] = useState("");
+
+  console.info(error);
+
+
 
   function handleSubmit() {
     const emailError = validateEmail(inputEmail);
@@ -28,7 +33,6 @@ function Login() {
 
     setTextErrorInputEmail(emailError);
     setTextErrorInputPassword(passwordError);
-
     if (emailError === "" && passwordError === "") {
       // PERBAIKAN: Posisi tutup kurung dispatch diubah
       dispatch(
@@ -47,11 +51,6 @@ function Login() {
         });
     }
   }
-  if (isLoading) {
-    return <Loader />;
-  }
-
-  if (error) return <Error />;
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-white lg:flex-row">

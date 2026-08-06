@@ -5,11 +5,20 @@ import SavedCareersItems from "./components/SavedCareersItems";
 import TopBar from "../../../ui/TopBar";
 import { cardVariants } from "../../../util/animations";
 import { motion } from "framer-motion"; // 1. Import Framer Motion
-
+import { useSelector } from "react-redux";
+import Loader from "../../../ui/Loader";
 
 // import { data } from "react-router";
 
 function SavedCareers() {
+  const { data, isLoading, error } = useSelector((state) => state.savedCareers);
+
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  if (error) return <Error />;
+
   return (
     <Section>
       <div className="flex flex-col gap-7">
@@ -21,8 +30,8 @@ function SavedCareers() {
           description="Lanjutkan perjalanan menuju peran impian Anda."
         />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-7">
-          {dataSavedCareers.map((item) => (
+        <div className="grid grid-cols-1 gap-7 md:grid-cols-2">
+          {data.map((item) => (
             <SavedCareersItems
               tags={item.tags}
               role={item.role}

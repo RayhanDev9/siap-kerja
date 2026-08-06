@@ -1,4 +1,4 @@
-import { useState } from "react";
+// import { useState } from "react";
 // 1. UBAH IMPORT KE 'react-router-dom' dan gunakan 'createHashRouter'
 import { createHashRouter, RouterProvider } from "react-router-dom";
 
@@ -30,6 +30,7 @@ import OnboardingPage4 from "./pages/Onboarding/Page4/OnboardingPage4.jsx";
 
 // Another
 import Error from "./ui/Error.jsx";
+import tes from "./tes.js";
 
 // 2. GANTI MENJADI createHashRouter
 const router = createHashRouter(
@@ -101,6 +102,8 @@ const router = createHashRouter(
 );
 
 function App() {
+  // tes();
+
   return <RouterProvider router={router} />;
 }
 

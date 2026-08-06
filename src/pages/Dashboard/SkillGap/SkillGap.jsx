@@ -10,8 +10,17 @@ import { MarketDemandCardItems } from "./components/MarketDemandCardItems";
 import Text from "../../../ui/Text";
 import { cardVariants } from "../../../util/animations";
 import { motion } from "framer-motion"; // 1. Import Framer Motion
+import { useSelector } from "react-redux";
+import Loader from "../../../ui/Loader";
 
 function SkillGap() {
+  const { skillGapData,isLoading,error } = useSelector((state) => state.skillGap);
+  if (isLoading || !skillGapData) {
+    return <Loader />;
+  }
+
+  if (error) return <Error />;
+
   const {
     overallReadiness,
     competencyMatrix,
@@ -92,7 +101,10 @@ function SkillGap() {
               </Text>
             </motion.div>
 
-            <motion.div  variants={cardVariants} className="flex items-center gap-2">
+            <motion.div
+              variants={cardVariants}
+              className="flex items-center gap-2"
+            >
               <Text className="rounded-full bg-indigo-100 px-3 py-1.5 text-sm font-bold text-indigo-900">
                 High Demand
               </Text>

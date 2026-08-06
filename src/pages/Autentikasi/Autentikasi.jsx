@@ -1,7 +1,7 @@
 // import Header from "./components/Header";
 import AuthBanner from "./components/AuthBanner";
 import Login from "./Login";
-import { Outlet, useLocation, useNavigation } from "react-router-dom";
+import { Navigate, Outlet, useLocation, useNavigation } from "react-router-dom";
 import { cardVariants, containerVariants } from "../../util/animations";
 import { motion } from "framer-motion"; // 1. Import Framer Motion
 import { useEffect, useState } from "react";
@@ -13,6 +13,8 @@ function Autentikasi() {
   const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1024);
   const { isLoading, error } = useSelector((state) => state.auth);
 
+  const { user } = useSelector((state) => state.auth);
+
   useEffect(() => {
     const handleResize = () => {
       setIsDesktop(window.innerWidth >= 1024);
@@ -22,11 +24,12 @@ function Autentikasi() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  if (isLoading) {
-    return <Loader />;
+  if (user) {
+    console.info("ok");
+    return <Navigate to="/" replace />;
   }
 
-  if (error) return <Error />;
+ 
   return (
     <>
       {/* <Header /> */}
