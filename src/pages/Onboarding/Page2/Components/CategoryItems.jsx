@@ -20,7 +20,6 @@ function CategoryItems({ title, icon }) {
       }
     );
   };
-  console.info(getTheme().bg, getTheme().text);
   return (
     <motion.div variants={cardVariants} className="xs:w-56 w-40 space-y-7 rounded-2xl bg-white p-7 shadow-sm sm:w-64">
       <div className="text-center">

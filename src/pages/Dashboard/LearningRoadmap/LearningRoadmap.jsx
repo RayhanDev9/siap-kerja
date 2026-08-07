@@ -16,7 +16,6 @@ function LearningRoadmap() {
   const { roadmapData, isLoading, error } = useSelector(
     (state) => state.learningRoadmap,
   );
-  console.info(roadmapData);
   const { overallProgress, stages } = roadmapData;
 
   const { estimatedTime, label, percentage } = overallProgress;
@@ -30,7 +29,10 @@ function LearningRoadmap() {
     <Section>
       <div className="flex flex-col gap-7">
         {/* Top bar Lg */}
-        <TopBar placeholder="cari peran, keahlian, atau industri" />
+        <TopBar
+          placeholder="cari peran, keahlian, atau industri"
+          isSerch={false}
+        />
         {/* Header Section */}
         <div>
           <HeaderSection

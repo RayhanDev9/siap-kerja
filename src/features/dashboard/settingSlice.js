@@ -27,11 +27,12 @@ export const fetchSetting = createAsyncThunk(
   async function (_, thunkAPI) {
     const token = localStorage.getItem("token");
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/settings`, {
+      const res = await fetch(`https://spotted-stoke-flattered.ngrok-free.dev/api/settings`, {
         method: "GET",
         headers: {
           Accept: "application/json",
           Authorization: `Bearer ${token}`,
+          "ngrok-skip-browser-warning": "true", // <-- Tambahkan baris ini
         },
       });
 

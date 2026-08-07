@@ -102,7 +102,7 @@ const router = createHashRouter(
 );
 
 function App() {
-  // tes();
+  tes();
 
   return <RouterProvider router={router} />;
 }

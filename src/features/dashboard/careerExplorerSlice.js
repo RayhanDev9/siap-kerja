@@ -1,20 +1,16 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  // Bungkus utama data karir
   careersData: {
     headerData: {
       title: "",
       description: "",
     },
-    filterCategories: [], // Array kosong agar aman saat di-map (tidak error)
-    jobListings: [], // Array kosong untuk daftar pekerjaan
+    filterCategories: [],
+    jobListings: [],
   },
-
-  // Status untuk menampilkan animasi skeleton/loading
+  filteredJobs: [], // Tambahan properti penampung filter
   isLoading: false,
-
-  // Menyimpan pesan error jika API gagal dipanggil
   error: null,
 };
 
@@ -24,19 +20,21 @@ export const fetchCareerExplorer = createAsyncThunk(
     const token = localStorage.getItem("token");
 
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/careers`, {
-        method: "GET",
-
-        headers: {
-          Accept: "application/json",
-          Authorization: `Bearer ${token}`,
+      const res = await fetch(
+        `https://spotted-stoke-flattered.ngrok-free.dev/api/careers`,
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${token}`,
+            "ngrok-skip-browser-warning": "true",
+          },
         },
-      });
+      );
       const data = await res.json();
       if (!res.ok) {
         return thunkAPI.rejectWithValue(data);
       }
-      console.info(data);
       return data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -47,7 +45,77 @@ export const fetchCareerExplorer = createAsyncThunk(
 const careerExplorerSlice = createSlice({
   name: "careerExplorer",
   initialState,
-  reducers: {},
+  reducers: {
+    catagory(state, action) {
+      console.info(
+        "Filtered Jobs:",
+        JSON.parse(JSON.stringify(state.filteredJobs)),
+      );
+      const keyword = action.payload
+        ? action.payload.trim().toLowerCase()
+        : "semua";
+
+      // 1. Update status aktif tombol kategori (jika yang diklik/dicari adalah salah satu label tombol)
+      state.careersData.filterCategories =
+        state.careersData.filterCategories.map((item) => ({
+          ...item,
+          isActive: item.label.toLowerCase() === keyword,
+        }));
+
+      // 2. Jika keyword adalah "semua" atau kosong, tampilkan semua data lowongan
+      if (keyword === "semua" || keyword === "") {
+        state.filteredJobs = state.careersData.jobListings;
+        return;
+      }
+
+      // 3. Filter data berdasarkan kategori tombol ATAU pencarian bebas (judul, perusahaan, skills)
+      state.filteredJobs = state.careersData.jobListings.filter((item) => {
+        const titleLower = item.title ? item.title.toLowerCase() : "";
+        const companyLower = item.company ? item.company.toLowerCase() : "";
+        const skillsString = item.skills
+          ? item.skills.join(" ").toLowerCase()
+          : "";
+
+        // Kondisi khusus jika memilih kategori utama dari tombol
+        if (keyword === "teknologi") {
+          return (
+            titleLower.includes("developer") ||
+            titleLower.includes("engineer") ||
+            titleLower.includes("frontend") ||
+            titleLower.includes("backend") ||
+            skillsString.includes("laravel") ||
+            skillsString.includes("mysql") ||
+            skillsString.includes("react")
+          );
+        }
+
+        if (keyword === "bisnis") {
+          return (
+            titleLower.includes("analyst") ||
+            titleLower.includes("business") ||
+            titleLower.includes("product") ||
+            titleLower.includes("marketing")
+          );
+        }
+
+        if (keyword === "kreatif") {
+          return (
+            titleLower.includes("ui") ||
+            titleLower.includes("ux") ||
+            titleLower.includes("designer") ||
+            titleLower.includes("content")
+          );
+        }
+
+        // Kondisi pencarian bebas (ketikan di input search)
+        return (
+          titleLower.includes(keyword) ||
+          companyLower.includes(keyword) ||
+          skillsString.includes(keyword)
+        );
+      });
+    },
+  },
   extraReducers: (builder) =>
     builder
       .addCase(fetchCareerExplorer.pending, (state) => {
@@ -56,6 +124,7 @@ const careerExplorerSlice = createSlice({
       })
       .addCase(fetchCareerExplorer.fulfilled, (state, action) => {
         state.careersData = action.payload;
+        state.filteredJobs = action.payload.jobListings; // Inisialisasi data awal
         state.isLoading = false;
       })
       .addCase(fetchCareerExplorer.rejected, (state, action) => {
@@ -64,4 +133,5 @@ const careerExplorerSlice = createSlice({
       }),
 });
 
+export const { catagory } = careerExplorerSlice.actions;
 export default careerExplorerSlice.reducer;

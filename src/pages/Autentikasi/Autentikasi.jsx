@@ -25,7 +25,6 @@ function Autentikasi() {
   }, []);
 
   if (user) {
-    console.info("ok");
     return <Navigate to="/" replace />;
   }
 

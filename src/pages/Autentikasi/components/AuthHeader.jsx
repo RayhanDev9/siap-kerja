@@ -16,7 +16,7 @@ const AuthHeader = ({ title, description, isActive, dividerText }) => {
 
   // Di komponen tombol Login React
   const handleLoginWithGoogle = () => {
-    window.location.href = `${import.meta.env.VITE_API_BASE_URL}/auth/google/redirect`;
+    window.location.href = `https://spotted-stoke-flattered.ngrok-free.dev/api/auth/google/redirect`;
   };
 
   return (
@@ -38,7 +38,7 @@ const AuthHeader = ({ title, description, isActive, dividerText }) => {
       >
         <Link
           to={`/login`}
-        
+
           className={`w-1/2 rounded-full py-2 text-center text-sm font-semibold transition-all duration-700 sm:text-sm lg:text-lg ${
             isActive === "login"
               ? "bg-white text-gray-900 shadow-sm"

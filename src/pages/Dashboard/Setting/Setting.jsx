@@ -21,7 +21,7 @@ import { useNavigate } from "react-router";
 
 function Setting() {
   const { settingData, isLoading, error } = useSelector(
-    (state) => state.setting
+    (state) => state.setting,
   );
   const { isLoading: isLoadingLogout, error: errorLogout } = useSelector(
     (state) => state.auth,
@@ -32,7 +32,6 @@ function Setting() {
   const dispatch = useDispatch();
 
   const { profilPengguna, keamanan, pengaturanLainnya } = settingData;
-  console.info(pengaturanLainnya,'tes')
 
   const { namaLengkap, email, fotoProfil } = profilPengguna;
   const [inputPasswordOld, setInputPasswordOld] = useState("");
@@ -77,6 +76,12 @@ function Setting() {
   }
 
   if (error) return <Error />;
+
+  if (isLoadingLogout) {
+    return <Loader />;
+  }
+
+  if (errorLogout) return <Error />;
   return (
     <Section>
       <div className="flex flex-col gap-7 pb-7">
@@ -253,12 +258,12 @@ function Setting() {
           className="flex cursor-pointer items-center justify-end gap-40"
         >
           <div className="inline-block">
-            <div className="flex items-center justify-center justify-items-center gap-5 rounded-2xl bg-red-500 px-5 py-2 transition-all duration-300 hover:bg-red-600">
-              <i className="fa-solid fa-arrow-right-from-bracket text-xl text-white sm:text-xl lg:text-2xl"></i>
-              <div className="">
-                <h3 className="pb-1 text-sm font-semibold text-white sm:text-lg lg:text-xl">
+            <div className="jus flex items-center justify-center justify-items-center gap-1 rounded-2xl bg-red-500 transition-all duration-300 hover:bg-red-600 py-2 px-5">
+              <div className="flex gap-3 items-center">
+                <h3 className="pb-1 text-sm font-semibold text-white sm:text-lg lg:text-xl inline-block">
                   Logout
                 </h3>
+                <i className="fa-solid fa-arrow-right-from-bracket text-xl text-white sm:text-xl lg:text-2xl"></i>
                 {/* <Text className="text-sm text-white">
                   Akhiri sesi dan keluar dari akun
                 </Text> */}

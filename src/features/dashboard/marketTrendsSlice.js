@@ -10,19 +10,19 @@ export const fetchMarketTrends = createAsyncThunk(
 
       // 2. PERBAIKAN FETCH: Tambahkan await, benarkan method, dan bungkus headers
       const res = await fetch(
-        `${import.meta.env.VITE_API_BASE_URL}/market-trends`,
+        `https://spotted-stoke-flattered.ngrok-free.dev/api/market-trends`,
         {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
             Accept: "application/json",
             Authorization: `Bearer ${token}`,
+            'ngrok-skip-browser-warning': 'true' // <-- Tambahkan baris ini
           },
         },
       );
 
       const data = await res.json();
-        console.info(data);
 
       if (!res.ok) {
         return thunkAPI.rejectWithValue(data);
@@ -71,7 +71,6 @@ const marketTrendsSlice = createSlice({
       // 3. CARA MENGISI RESPONSE SUKSES (fulfilled)
       .addCase(fetchMarketTrends.fulfilled, (state, action) => {
         state.isLoading = false;
-        console.info(action.payload);
         // Langsung timpa seluruh marketTrendsData dengan data asli dari action.payload
         state.marketTrendsData = action.payload;
       })

@@ -21,7 +21,6 @@ function TagItems({ label, theme }) {
     },
   };
 
-  console.info(themeColorConfig[theme], theme);
 
   const activeTheme = themeColorConfig[theme] || themeColorConfig.default;
 

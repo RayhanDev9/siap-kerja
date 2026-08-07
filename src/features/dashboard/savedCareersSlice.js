@@ -9,12 +9,13 @@ export const fetchSavedCareers = createAsyncThunk(
     try {
       const token = localStorage.getItem("token");
       
-      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/saved-careers`, {
+      const response = await fetch(`https://spotted-stoke-flattered.ngrok-free.dev/api/saved-careers`, {
         method: "GET", // Gunakan GET untuk mengambil data
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
           Authorization: `Bearer ${token}`,
+          'ngrok-skip-browser-warning': 'true' // <-- Tambahkan baris ini
         },
       });
 

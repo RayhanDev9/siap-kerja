@@ -8,6 +8,7 @@ import { motion } from "framer-motion"; // 1. Import Framer Motion
 import { use, useEffect } from "react";
 import { useSelector } from "react-redux";
 import useFetch from "../../hooks/useFetch.jsx";
+import tes from "../../tes.js";
 
 function AppLayout() {
   const location = useLocation();
@@ -19,9 +20,13 @@ function AppLayout() {
   }, [location.pathname]);
 
   if (!user) {
-    console.info("ok");
     return <Navigate to="/login" replace />;
   }
+
+  function CareerExplorer() {
+  useEffect(() => {
+    tes(); // <-- Memanggil fungsi tes saat komponen dimuat
+  }, []);}
 
   return (
     <>

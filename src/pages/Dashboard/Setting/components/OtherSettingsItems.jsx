@@ -4,7 +4,6 @@ import { cardVariants } from "../../../../util/animations";
 import { motion } from "framer-motion"; // 1. Import Framer Motion
 
 function OtherSettingsItems({ kategori, status, icon }) {
-  console.info(kategori)
   return (
     <motion.div
       variants={cardVariants}

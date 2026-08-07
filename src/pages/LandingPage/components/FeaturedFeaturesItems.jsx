@@ -4,7 +4,6 @@ import { cardVariants } from "../../../util/animations";
 import { motion } from "framer-motion"; // 1. Import Framer Motio
 
 function FeaturedFeaturesItems({ paraghraf, heading, svg, bgColor }) {
-  console.info(bgColor);
   return (
     <motion.div variants={cardVariants} className="max-w-lg rounded-2xl bg-white px-6 py-8">
       <div className={`inline-block rounded-md px-2 py-2 ${bgColor} `}>

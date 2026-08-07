@@ -15,7 +15,6 @@ function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { isLoading, error } = useSelector((state) => state.auth);
-  console.info(error);
 
   const [inputEmail, setInputEmail] = useState("m.rayhaddn@gmail.com");
   const [textErrorInputEmail, setTextErrorInputEmail] = useState("");
@@ -23,7 +22,6 @@ function Login() {
   const [inputPassword, setInputPassword] = useState("123456ffg");
   const [textErrorInputPassword, setTextErrorInputPassword] = useState("");
 
-  console.info(error);
 
 
 

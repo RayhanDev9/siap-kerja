@@ -17,8 +17,7 @@ import Loader from "../../../ui/Loader";
 
 function Profile() {
 //   const { data, isLoading, error } = useSelector((state) => state.profile);
-//   console.info(dataProfile)
-//   console.info(data)
+
 
 //  if (isLoading || data === null) {
 //     return <Loader />;

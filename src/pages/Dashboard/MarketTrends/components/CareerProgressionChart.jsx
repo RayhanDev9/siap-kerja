@@ -15,7 +15,6 @@ const CareerProgressionChart = () => {
   const data = useSelector(
     (state) => state.marketTrends.marketTrendsData.jobGrowth.chartData,
   );
-  console.info(data)
   const { isLoading, error } = useSelector((state) => state.marketTrends);
   if (isLoading ) {
     return <Loader />;

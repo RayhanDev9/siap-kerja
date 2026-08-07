@@ -22,9 +22,7 @@ function MarketTrends() {
     (state) => state.marketTrends,
   );
 
-  console.log(marketTrendsData)
 
-  // console.info(marketTrendsData);
   // if (isLoading || ) {
   //   return <Loader />;
   // }

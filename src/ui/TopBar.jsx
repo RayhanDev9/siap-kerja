@@ -1,10 +1,10 @@
 import Search from "./Search";
 import Text from "./Text";
 
-function TopBar({ placeholder, isSerch = true }) {
+function TopBar({ placeholder, isSerch = true,onChange }) {
   return (
     <div className="hidden gap-5 lg:flex lg:justify-end">
-      {isSerch && <Search placeholder={placeholder} />}
+      {isSerch && <Search placeholder={placeholder} onChange={onChange} />}
       <div className="flex gap-5 self-center">
         <div className="self-center">
           <i className="far fa-bell text-2xl"></i>

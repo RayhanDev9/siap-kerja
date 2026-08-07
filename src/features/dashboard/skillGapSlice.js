@@ -29,12 +29,13 @@ export const fetchSkillGap = createAsyncThunk(
 
     try {
       const res = await fetch(
-        `${import.meta.env.VITE_API_BASE_URL}/ai/skill-gap`,
+        `https://spotted-stoke-flattered.ngrok-free.dev/api/ai/skill-gap`,
         {
           method: "GET",
           headers: {
             Accept: "application/json",
             Authorization: `Bearer ${token}`,
+            "ngrok-skip-browser-warning": "true", // <-- Tambahkan baris ini
           },
         },
       );
@@ -61,8 +62,7 @@ const skillGapSlice = createSlice({
       })
       .addCase(fetchSkillGap.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.skillGapData= action.payload;
-        console.info('ok,',action.payload)
+        state.skillGapData = action.payload;
       })
       .addCase(fetchSkillGap.rejected, (state, action) => {
         state.isLoading = false;

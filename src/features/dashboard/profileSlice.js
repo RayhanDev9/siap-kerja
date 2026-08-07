@@ -13,11 +13,12 @@ export const fetchProfile = createAsyncThunk('profile/fetchProfile', async funct
   const token = localStorage.getItem('token');
 
   try {
-    const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/profile`, {
+    const res = await fetch(`https://spotted-stoke-flattered.ngrok-free.dev/api/profile`, {
       method: 'GET', // 2. PERBAIKAN: Gunakan titik dua (:), bukan sama dengan (=)
       headers: {
         Accept: 'application/json',
         Authorization: `Bearer ${token}`,
+        'ngrok-skip-browser-warning': 'true' // <-- Tambahkan baris ini'ngrok-skip-browser-warning': 'true' // <-- Tambahkan baris ini
       },
     });
 
@@ -51,7 +52,6 @@ const profileSlice = createSlice({
         state.isError = null; // Bersihkan error lama saat memuat ulang
       })
       .addCase(fetchProfile.fulfilled, (state, action) => {
-        console.info(action.payload)
         state.isLoading = false;
         // action.payload sekarang berisi objek profil user (id, name, email, dll)
         state.data = action.payload; 

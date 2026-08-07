@@ -22,7 +22,6 @@ function Analytics() {
   }
 
   if (error) return <Error />;
-  console.info(analyticsData);
 
   const {
     value: valueViews,

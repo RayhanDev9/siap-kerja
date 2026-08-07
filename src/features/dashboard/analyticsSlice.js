@@ -31,12 +31,13 @@ export const fetchAnalytics = createAsyncThunk(
 
     try {
       const res = await fetch(
-        `${import.meta.env.VITE_API_BASE_URL}/ai/analytics`,
+        `https://spotted-stoke-flattered.ngrok-free.dev/api/ai/analytics`,
         {
           method: "GET",
           headers: {
             Accept: "application/json",
             Authorization: `Bearer ${token}`,
+            'ngrok-skip-browser-warning': 'true' // <-- Tambahkan baris ini
           },
         },
       );

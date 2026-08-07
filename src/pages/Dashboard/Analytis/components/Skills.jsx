@@ -4,7 +4,6 @@ import { cardVariants } from "../../../../util/animations";
 import { motion } from "framer-motion"; // 1. Import Framer Motio
 
 function Skills({ skill, progressPercentage }) {
-  console.info(skill, progressPercentage);
   return (
     <>
       {/* progres */}
