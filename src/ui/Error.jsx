@@ -1,3 +1,4 @@
+import { div } from "framer-motion/client";
 import { useRouteError, useNavigate } from "react-router-dom";
 
 function Error() {
@@ -12,6 +13,8 @@ function Error() {
 
   // Menentukan apakah ini error 404 atau error tipe lain
   const is404 = error?.status === 404;
+
+  // return <div>Error</div>;
 
   return (
     <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#F8FAFC] p-4">

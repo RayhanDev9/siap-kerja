@@ -10,14 +10,14 @@ export const fetchMarketTrends = createAsyncThunk(
 
       // 2. PERBAIKAN FETCH: Tambahkan await, benarkan method, dan bungkus headers
       const res = await fetch(
-        `https://spotted-stoke-flattered.ngrok-free.dev/api/market-trends`,
+        `https://free-ducks-see.loca.lt/api/market-trends`,
         {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
             Accept: "application/json",
             Authorization: `Bearer ${token}`,
-            'ngrok-skip-browser-warning': 'true' // <-- Tambahkan baris ini
+            "ngrok-skip-browser-warning": "true", // <-- Tambahkan baris ini
           },
         },
       );

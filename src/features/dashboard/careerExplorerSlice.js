@@ -20,17 +20,14 @@ export const fetchCareerExplorer = createAsyncThunk(
     const token = localStorage.getItem("token");
 
     try {
-      const res = await fetch(
-        `https://spotted-stoke-flattered.ngrok-free.dev/api/careers`,
-        {
-          method: "GET",
-          headers: {
-            Accept: "application/json",
-            Authorization: `Bearer ${token}`,
-            "ngrok-skip-browser-warning": "true",
-          },
+      const res = await fetch(`https://free-ducks-see.loca.lt/api/careers`, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+          "ngrok-skip-browser-warning": "true",
         },
-      );
+      });
       const data = await res.json();
       if (!res.ok) {
         return thunkAPI.rejectWithValue(data);

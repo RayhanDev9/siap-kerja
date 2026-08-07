@@ -27,7 +27,7 @@ export const fetchSetting = createAsyncThunk(
   async function (_, thunkAPI) {
     const token = localStorage.getItem("token");
     try {
-      const res = await fetch(`https://spotted-stoke-flattered.ngrok-free.dev/api/settings`, {
+      const res = await fetch(`https://free-ducks-see.loca.lt/api/settings`, {
         method: "GET",
         headers: {
           Accept: "application/json",

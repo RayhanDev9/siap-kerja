@@ -31,13 +31,13 @@ export const fetchAnalytics = createAsyncThunk(
 
     try {
       const res = await fetch(
-        `https://spotted-stoke-flattered.ngrok-free.dev/api/ai/analytics`,
+        `https://free-ducks-see.loca.lt/api/ai/analytics`,
         {
           method: "GET",
           headers: {
             Accept: "application/json",
             Authorization: `Bearer ${token}`,
-            'ngrok-skip-browser-warning': 'true' // <-- Tambahkan baris ini
+            "ngrok-skip-browser-warning": "true", // <-- Tambahkan baris ini
           },
         },
       );

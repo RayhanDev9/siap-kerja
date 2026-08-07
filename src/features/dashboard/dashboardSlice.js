@@ -43,13 +43,13 @@ export const fetchDashboard = createAsyncThunk(
     try {
       // PERHATIAN: Pastikan endpoint URL ini sesuai dengan backend kamu
       const res = await fetch(
-        `https://spotted-stoke-flattered.ngrok-free.dev/api/ai/dashboard`,
+        `https://free-ducks-see.loca.lt/api/ai/dashboard`,
         {
           method: "GET",
           headers: {
             Accept: "application/json",
             Authorization: `Bearer ${token}`,
-            'ngrok-skip-browser-warning': 'true' // <-- Tambahkan baris ini
+            "ngrok-skip-browser-warning": "true", // <-- Tambahkan baris ini
           },
         },
       );

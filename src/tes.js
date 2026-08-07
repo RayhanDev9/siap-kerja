@@ -13,7 +13,7 @@ async function tes() {
       // `${import.meta.env.VITE_API_BASE_URL}/profile`,
       // `${import.meta.env.VITE_API_BASE_URL}/auth/google/redirect`
       // `${import.meta.env.VITE_API_BASE_URL}/auth/google/callback`
-      // `https://spotted-stoke-flattered.ngrok-free.dev/api/onboarding`,
+      // `https://free-ducks-see.loca.lt/api/onboarding`,
       // `${import.meta.env.VITE_API_BASE_URL}/logout`
       {
         method: "GET",

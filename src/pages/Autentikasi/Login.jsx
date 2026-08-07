@@ -16,10 +16,10 @@ function Login() {
   const dispatch = useDispatch();
   const { isLoading, error } = useSelector((state) => state.auth);
 
-  const [inputEmail, setInputEmail] = useState("m.rayhaddn@gmail.com");
+  const [inputEmail, setInputEmail] = useState("rayhan@gmail.com");
   const [textErrorInputEmail, setTextErrorInputEmail] = useState("");
 
-  const [inputPassword, setInputPassword] = useState("123456ffg");
+  const [inputPassword, setInputPassword] = useState("123456789r");
   const [textErrorInputPassword, setTextErrorInputPassword] = useState("");
 
 

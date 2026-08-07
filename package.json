@@ -2,7 +2,7 @@
   "name": "siap-kerja",
   "private": true,
   "version": "0.0.0",
-  "homepage": "https://rayhandev9.github.io/siap-kerja",
+  "homepage": "https://rayhandev9.github.io/siap-kerja-testing",
   "type": "module",
   "scripts": {
     "dev": "vite",

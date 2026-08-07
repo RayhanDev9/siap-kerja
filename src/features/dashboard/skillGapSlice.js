@@ -29,7 +29,7 @@ export const fetchSkillGap = createAsyncThunk(
 
     try {
       const res = await fetch(
-        `https://spotted-stoke-flattered.ngrok-free.dev/api/ai/skill-gap`,
+        `https://free-ducks-see.loca.lt/api/ai/skill-gap`,
         {
           method: "GET",
           headers: {

@@ -14,17 +14,14 @@ export const registerUser = createAsyncThunk(
   "auth/registerUser",
   async function (userData, thunkAPI) {
     try {
-      const res = await fetch(
-        `https://spotted-stoke-flattered.ngrok-free.dev/api/register`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-          body: JSON.stringify(userData),
+      const res = await fetch(`https://free-ducks-see.loca.lt/api/register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
         },
-      );
+        body: JSON.stringify(userData),
+      });
 
       const data = await res.json();
       if (!res.ok) {
@@ -45,18 +42,15 @@ export const loginUser = createAsyncThunk(
   "auth/loginUser",
   async function (userData, thunkAPI) {
     try {
-      const res = await fetch(
-        `https://spotted-stoke-flattered.ngrok-free.dev/api/login`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-            "ngrok-skip-browser-warning": "true", // <-- Tambahkan baris ini
-          },
-          body: JSON.stringify(userData),
+      const res = await fetch(`https://free-ducks-see.loca.lt/api/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          "ngrok-skip-browser-warning": "true", // <-- Tambahkan baris ini
         },
-      );
+        body: JSON.stringify(userData),
+      });
 
       const data = await res.json();
       if (!res.ok) {
@@ -79,16 +73,13 @@ export const logoutUserThunk = createAsyncThunk(
     const token = localStorage.getItem("token");
 
     try {
-      const res = await fetch(
-        `https://spotted-stoke-flattered.ngrok-free.dev/api/logout`,
-        {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            Authorization: `Bearer ${token}`,
-          },
+      const res = await fetch(`https://free-ducks-see.loca.lt/api/logout`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
         },
-      );
+      });
 
       const data = await res.json();
 

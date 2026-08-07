@@ -23,7 +23,7 @@ export const submitOnboarding = createAsyncThunk(
       const token = localStorage.getItem("token");
 
       const response = await fetch(
-        `https://spotted-stoke-flattered.ngrok-free.dev/api/onboarding`,
+        `https://free-ducks-see.loca.lt/api/onboarding`,
         {
           method: "POST",
           headers: {

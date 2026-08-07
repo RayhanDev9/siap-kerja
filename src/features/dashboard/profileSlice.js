@@ -1,48 +1,51 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  // 1. PERBAIKAN: Ubah [] menjadi null. 
+  // 1. PERBAIKAN: Ubah [] menjadi null.
   // Karena data profil dari API berbentuk Object, bukan Array.
-  data: null, 
+  data: null,
   isLoading: false,
   isError: null,
 };
 
 // Biasakan format penamaan type: 'namaSlice/namaAksi'
-export const fetchProfile = createAsyncThunk('profile/fetchProfile', async function (_, thunkAPI) {
-  const token = localStorage.getItem('token');
+export const fetchProfile = createAsyncThunk(
+  "profile/fetchProfile",
+  async function (_, thunkAPI) {
+    const token = localStorage.getItem("token");
 
-  try {
-    const res = await fetch(`https://spotted-stoke-flattered.ngrok-free.dev/api/profile`, {
-      method: 'GET', // 2. PERBAIKAN: Gunakan titik dua (:), bukan sama dengan (=)
-      headers: {
-        Accept: 'application/json',
-        Authorization: `Bearer ${token}`,
-        'ngrok-skip-browser-warning': 'true' // <-- Tambahkan baris ini'ngrok-skip-browser-warning': 'true' // <-- Tambahkan baris ini
-      },
-    });
+    try {
+      const res = await fetch(`https://free-ducks-see.loca.lt/api/profile`, {
+        method: "GET", // 2. PERBAIKAN: Gunakan titik dua (:), bukan sama dengan (=)
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+          "ngrok-skip-browser-warning": "true", // <-- Tambahkan baris ini'ngrok-skip-browser-warning': 'true' // <-- Tambahkan baris ini
+        },
+      });
 
-    const data = await res.json();
+      const data = await res.json();
 
+      if (!res.ok) {
+        // Mengambil pesan error spesifik dari API jika ada
+        return thunkAPI.rejectWithValue(
+          data.message || "Profile tidak ditemukan datanya",
+        );
+      }
 
-    if (!res.ok) {
-      // Mengambil pesan error spesifik dari API jika ada
-      return thunkAPI.rejectWithValue(data.message || 'Profile tidak ditemukan datanya');
+      // 3. PERBAIKAN PENTING: Kamu lupa me-return datanya!
+      // Jika tidak di-return, action.payload di bawah akan bernilai "undefined"
+      // Karena response API-mu dibungkus dalam object "data", kita ambil data.data
+      return data.data;
+    } catch (error) {
+      // 4. PERBAIKAN: Tambahkan kata 'return' di sini
+      return thunkAPI.rejectWithValue(error.message);
     }
-
-    // 3. PERBAIKAN PENTING: Kamu lupa me-return datanya! 
-    // Jika tidak di-return, action.payload di bawah akan bernilai "undefined"
-    // Karena response API-mu dibungkus dalam object "data", kita ambil data.data
-    return data.data; 
-
-  } catch (error) {
-    // 4. PERBAIKAN: Tambahkan kata 'return' di sini
-    return thunkAPI.rejectWithValue(error.message);
-  }
-});
+  },
+);
 
 const profileSlice = createSlice({
-  name: 'profile',
+  name: "profile",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -54,7 +57,7 @@ const profileSlice = createSlice({
       .addCase(fetchProfile.fulfilled, (state, action) => {
         state.isLoading = false;
         // action.payload sekarang berisi objek profil user (id, name, email, dll)
-        state.data = action.payload; 
+        state.data = action.payload;
       })
       .addCase(fetchProfile.rejected, (state, action) => {
         state.isLoading = false;

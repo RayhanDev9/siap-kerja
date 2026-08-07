@@ -23,19 +23,16 @@ export const fetchLearningRoadmap = createAsyncThunk(
   async function (_, thunkAPI) {
     const token = localStorage.getItem("token");
     try {
-      const res = await fetch(
-        `https://spotted-stoke-flattered.ngrok-free.dev/api/ai/roadmap`,
-        {
-          method: "GET",
-          headers: {
-            Accept: "application/json",
-            Authorization: `Bearer ${token}`,
-            'ngrok-skip-browser-warning': 'true' // <-- Tambahkan baris ini
-          },
+      const res = await fetch(`https://free-ducks-see.loca.lt/api/ai/roadmap`, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+          "ngrok-skip-browser-warning": "true", // <-- Tambahkan baris ini
         },
-      );
+      });
 
-      const data = res.json();
+      const data = await res.json();
 
       if (!res.ok) {
         return thunkAPI.rejectWithValue(data);
