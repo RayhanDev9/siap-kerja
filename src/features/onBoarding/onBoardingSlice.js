@@ -22,19 +22,16 @@ export const submitOnboarding = createAsyncThunk(
     try {
       const token = localStorage.getItem("token");
 
-      const response = await fetch(
-        `https://free-ducks-see.loca.lt/api/onboarding`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-            Authorization: `Bearer ${token}`,
-            "ngrok-skip-browser-warning": "true", // <-- Tambahkan baris ini
-          },
-          body: JSON.stringify(onboardingData), // Mengirim data ke backend
+      const response = await fetch(`http://127.0.0.1:8000/api/onboarding`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+          "ngrok-skip-browser-warning": "true", // <-- Tambahkan baris ini
         },
-      );
+        body: JSON.stringify(onboardingData), // Mengirim data ke backend
+      });
 
       const data = await response.json();
 

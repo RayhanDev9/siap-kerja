@@ -16,7 +16,6 @@ const NavLinks = [
     icon: "fa-chart-line",
     description: "Market Trends",
   },
-  { path: "/profile", icon: "fa-user", description: "Profile" },
   { path: "/analytics", icon: "fa-chart-column", description: "Analytics" },
   {
     path: "/aiRecommendations",
@@ -30,6 +29,8 @@ const NavLinks = [
     icon: "fa-bookmark",
     description: "Saved Careers",
   },
+  { path: "/profile", icon: "fa-user", description: "Profile" },
+
   { path: "/setting", icon: "fa-gear", description: "Settings" },
 ];
 

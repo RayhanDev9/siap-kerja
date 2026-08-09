@@ -15,7 +15,7 @@ export const fetchProfile = createAsyncThunk(
     const token = localStorage.getItem("token");
 
     try {
-      const res = await fetch(`https://free-ducks-see.loca.lt/api/profile`, {
+      const res = await fetch(`http://127.0.0.1:8000/api/profile`, {
         method: "GET", // 2. PERBAIKAN: Gunakan titik dua (:), bukan sama dengan (=)
         headers: {
           Accept: "application/json",

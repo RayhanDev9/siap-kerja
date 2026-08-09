@@ -42,17 +42,14 @@ export const fetchDashboard = createAsyncThunk(
 
     try {
       // PERHATIAN: Pastikan endpoint URL ini sesuai dengan backend kamu
-      const res = await fetch(
-        `https://free-ducks-see.loca.lt/api/ai/dashboard`,
-        {
-          method: "GET",
-          headers: {
-            Accept: "application/json",
-            Authorization: `Bearer ${token}`,
-            "ngrok-skip-browser-warning": "true", // <-- Tambahkan baris ini
-          },
+      const res = await fetch(`http://127.0.0.1:8000/api/ai/dashboard`, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+          "ngrok-skip-browser-warning": "true", // <-- Tambahkan baris ini
         },
-      );
+      });
 
       const data = await res.json();
 

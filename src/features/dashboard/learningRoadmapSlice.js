@@ -23,7 +23,7 @@ export const fetchLearningRoadmap = createAsyncThunk(
   async function (_, thunkAPI) {
     const token = localStorage.getItem("token");
     try {
-      const res = await fetch(`https://free-ducks-see.loca.lt/api/ai/roadmap`, {
+      const res = await fetch(`http://127.0.0.1:8000/api/ai/roadmap`, {
         method: "GET",
         headers: {
           Accept: "application/json",

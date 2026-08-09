@@ -14,7 +14,7 @@ export const registerUser = createAsyncThunk(
   "auth/registerUser",
   async function (userData, thunkAPI) {
     try {
-      const res = await fetch(`https://free-ducks-see.loca.lt/api/register`, {
+      const res = await fetch(`http://127.0.0.1:8000/api/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -42,7 +42,7 @@ export const loginUser = createAsyncThunk(
   "auth/loginUser",
   async function (userData, thunkAPI) {
     try {
-      const res = await fetch(`https://free-ducks-see.loca.lt/api/login`, {
+      const res = await fetch(`http://127.0.0.1:8000/api/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -73,7 +73,7 @@ export const logoutUserThunk = createAsyncThunk(
     const token = localStorage.getItem("token");
 
     try {
-      const res = await fetch(`https://free-ducks-see.loca.lt/api/logout`, {
+      const res = await fetch(`http://127.0.0.1:8000/api/logout`, {
         method: "POST",
         headers: {
           Accept: "application/json",

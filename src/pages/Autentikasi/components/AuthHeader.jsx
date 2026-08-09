@@ -16,7 +16,7 @@ const AuthHeader = ({ title, description, isActive, dividerText }) => {
 
   // Di komponen tombol Login React
   const handleLoginWithGoogle = () => {
-    window.location.href = `https://free-ducks-see.loca.lt/api/auth/google/redirect`;
+    window.location.href = `http://127.0.0.1:8000/api/auth/google/redirect`;
   };
 
   return (
