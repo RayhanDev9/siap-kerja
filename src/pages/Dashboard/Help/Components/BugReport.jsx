@@ -1,0 +1,12 @@
+import React from "react";
+
+const BugReport = () => {
+  return (
+    <div className="flex flex-col items-center justify-center h-screen">
+      <h1 className="text-2xl font-bold">Bug Report</h1>
+      <p>This is the Bug Report page.</p>
+    </div>
+  );
+};
+
+export default BugReport;

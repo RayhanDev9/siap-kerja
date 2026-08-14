@@ -11,18 +11,6 @@ const dataSetting = {
   },
   pengaturanLainnya: [
     {
-      id: 1,
-      kategori: "Notifikasi",
-      status: "Email & Push",
-      icon: "fa-bell",
-    },
-    {
-      id: 2,
-      kategori: "Privasi & Data",
-      status: "Kelola izin",
-      icon: "fa-shield-halved",
-    },
-    {
       id: 3,
       kategori: "Nama Pengguna",
       status: "Ubah nama", // Khusus untuk nama dan foto

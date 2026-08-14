@@ -66,10 +66,10 @@ function Theme() {
           <ListboxButton className="relative flex w-full cursor-pointer items-center justify-center rounded-xl border border-slate-200 bg-white p-2 text-left text-slate-900 shadow-sm transition-all hover:border-blue-400 focus:outline-none sm:justify-between sm:px-3.5 sm:py-2 dark:border-slate-800 dark:bg-black dark:text-white">
             <div className="flex items-center gap-2">
               <i
-                className={`fa-solid ${currentTheme?.icon} text-base text-blue-500 sm:text-sm`}
+                className={`fa-solid ${currentTheme?.icon} text-base text-blue-500 sm:text-sm lg:text-lg`}
               ></i>
               {/* Teks disembunyikan di layar sangat kecil (mobile), muncul di sm: */}
-              <span className="hidden text-xs font-semibold sm:inline md:text-sm">
+              <span className="hidden text-xs font-semibold sm:inline md:text-sm lg:text-base">
                 {currentTheme?.name}
               </span>
             </div>
@@ -91,9 +91,9 @@ function Theme() {
               >
                 <div className="flex items-center gap-2.5">
                   <i
-                    className={`fa-solid ${option.icon} text-sm text-slate-500 group-hover:text-blue-500 dark:text-slate-400 dark:group-hover:text-blue-400`}
+                    className={`fa-solid ${option.icon} text-sm text-slate-500 not-last:group-hover:text-blue-500 lg:text-lg dark:text-slate-400 dark:group-hover:text-blue-400`}
                   ></i>
-                  <span className="text-slate-700 dark:text-slate-200">
+                  <span className="text-slate-700 lg:text-base dark:text-slate-200">
                     {option.name}
                   </span>
                 </div>

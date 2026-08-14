@@ -4,7 +4,7 @@ import Email from "../../../../ui/Email";
 import InputName from "../../../../ui/InputName";
 import Password from "../../../../ui/Password";
 import Text from "../../../../ui/Text";
-import SettingModalShell from "./Modal/components/SettingModalShell";
+import SettingModalShell from "./SettingModalShell";
 
 function SettingModal({
   isOpen,
