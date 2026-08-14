@@ -118,7 +118,7 @@ function Analytics() {
           {/* Summary cards destop */}
           <motion.div
             variants={cardVariants}
-            className="col-span-1 mx-auto w-full max-w-md flex-col gap-6 rounded-3xl bg-white p-7 lg:flex"
+            className="col-span-1 mx-auto w-full max-w-md flex-col gap-6 rounded-3xl bg-white p-7 lg:flex  dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35"
           >
             {/* Opsional: Header (Bisa disesuaikan dengan kebutuhanmu atau dihapus) */}
             <motion.div variants={cardVariants} className="flex flex-col gap-1">
@@ -130,7 +130,7 @@ function Analytics() {
 
             <motion.div variants={cardVariants} className="flex flex-col gap-4">
               {/* Card 1: Views (Style bundaran ungu) */}
-              <div className="flex items-center justify-between rounded-2xl bg-[#F4F4FB] p-5">
+              <div className="flex items-center justify-between rounded-2xl bg-[#F4F4FB] p-5  dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35 ">
                 <div className="flex items-center gap-5">
                   {/* Ikon Lingkaran */}
                   <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-purple-500 text-white shadow-sm">
@@ -138,10 +138,10 @@ function Analytics() {
                   </div>
                   {/* Teks Views */}
                   <div className="flex flex-col">
-                    <span className="text-2xl font-bold text-gray-900">
+                    <span className="text-2xl font-bold text-gray-900 dark:text-white">
                       {valueViews}
                     </span>
-                    <span className="text-sm font-semibold text-slate-600">
+                    <span className="text-sm font-semibold text-slate-600 dark:text-white/80">
                       {labelViews}
                     </span>
                   </div>
@@ -153,10 +153,10 @@ function Analytics() {
               </div>
 
               {/* Card 2: Applications (Style bundaran oranye) */}
-              <div className="flex items-center justify-between rounded-2xl bg-[#FFF6F0] p-5">
+              <div className="flex items-center justify-between rounded-2xl bg-[#FFF6F0] p-5  dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35">
                 <div className="flex items-center gap-5">
                   {/* Ikon Lingkaran */}
-                  <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-orange-500 text-white shadow-sm">
+                  <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-orange-500 text-white  shadow-sm">
                     <i className="fa-solid fa-fire-flame-curved text-2xl"></i>
                   </div>
                   {/* Teks Applications */}
@@ -170,7 +170,7 @@ function Analytics() {
                   </div>
                 </div>
                 {/* Badge/Pill timeframe asli ditempatkan di kanan */}
-                <Text className="rounded-xl bg-orange-100 px-3 py-1 text-sm font-bold text-orange-600">
+                <Text className="rounded-xl bg-orange-100 px-3 py-1 text-sm font-bold text-orange-600 ">
                   {timeframe}
                 </Text>
               </div>
@@ -180,7 +180,7 @@ function Analytics() {
           {/* profileEngagement */}
           <motion.div
             variants={cardVariants}
-            className="col-span-1 rounded-2xl bg-white p-7 lg:order-first lg:col-span-2"
+            className="col-span-1 rounded-2xl bg-white p-7 lg:order-first lg:col-span-2  dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35"
           >
             <H2 type="secondry">{titleProfileEngagement}</H2>
             <div className="flex justify-between">
@@ -202,7 +202,7 @@ function Analytics() {
           {/* Course */}
           <motion.div
             variants={cardVariants}
-            className="col-span-1 mx-auto flex w-full max-w-md flex-col gap-6 rounded-3xl bg-white p-7"
+            className="col-span-1 mx-auto flex w-full max-w-md flex-col gap-6 rounded-3xl bg-white p-7  dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35"
           >
             <div className="flex flex-col gap-1">
               <H2 type="secondry" className="text-2xl font-bold text-gray-900">
@@ -215,9 +215,9 @@ function Analytics() {
 
             <div className="relative mt-0 space-y-7">
               <div className="inline-block">
-                <i className="fa-solid slef fa-graduation-cap inline-block rounded-2xl bg-blue-100 px-3 py-3 text-3xl text-blue-400"></i>
+                <i className="fa-solid slef fa-graduation-cap inline-block rounded-2xl bg-blue-100 px-3 py-3 text-3xl text-blue-400  dark:border dark:border-white/25 dark:bg-black hover:dark:border-white/35"></i>
               </div>
-              <div className="rounded-2xl bg-blue-100 px-3 py-3 font-medium">
+              <div className="rounded-2xl bg-blue-100 px-3 py-3 font-medium  dark:border dark:border-white/25 dark:bg-black hover:dark:border-white/35">
                 <div className="flex gap-2">
                   <h3 className="text-2xl font-semibold">
                     {valueCourse} {labelCourse}
@@ -232,7 +232,7 @@ function Analytics() {
           {/* skillDevelopment*/}
           <motion.div
             variants={cardVariants}
-            className="col-span-1 flex flex-col gap-6 rounded-2xl bg-white p-7 lg:col-span-2"
+            className="col-span-1 flex flex-col gap-6 rounded-2xl bg-white p-7 lg:col-span-2  dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35"
           >
             <H2 type="secondry">{titleSkillDevelopment}</H2>
             <div className="flex flex-col gap-5">

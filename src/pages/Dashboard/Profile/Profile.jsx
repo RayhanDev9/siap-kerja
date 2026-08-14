@@ -16,21 +16,19 @@ import { useSelector } from "react-redux";
 import Loader from "../../../ui/Loader";
 
 function Profile() {
-//   const { data, isLoading, error } = useSelector((state) => state.profile);
+  //   const { data, isLoading, error } = useSelector((state) => state.profile);
 
+  //  if (isLoading || data === null) {
+  //     return <Loader />;
+  //   }
 
-//  if (isLoading || data === null) {
-//     return <Loader />;
-//   }
-
-//   if (error) return <Error />;
+  //   if (error) return <Error />;
   const fileInputRef = useRef(null);
 
   const { profile, aiMatchScore, skills, experience, educations } = dataProfile;
 
   const { name, headline, availabilityStatus, location, bio, avatarUrl } =
     profile;
-
 
   function handleButtonClick() {
     fileInputRef.current.click();
@@ -86,12 +84,12 @@ function Profile() {
           {/* data profile destop*/}
           <motion.div
             variants={cardVariants}
-            className="col-span-2 hidden w-full flex-col gap-6 rounded-xl border border-gray-200 bg-white p-6 sm:flex-row lg:flex"
+            className="col-span-2 hidden w-full flex-col gap-6 rounded-xl border border-gray-200 bg-white p-6 sm:flex-row lg:flex dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35"
           >
             {/* Kolom Kiri: Foto Profil */}
             <div className="shrink-0">
               <img
-                className="h-28 w-28 rounded-full object-cover ring-4 ring-slate-100"
+                className="h-28 w-28 rounded-full object-cover ring-4 ring-slate-100 dark:ring-white/25 hover:dark:ring-white/35"
                 src={avatarUrl}
                 alt={name}
               />
@@ -106,14 +104,14 @@ function Profile() {
                 </H2>
 
                 {/* Pill Lokasi (Otomatis terdorong ke kanan karena justify-between di parent) */}
-                <div className="flex items-center gap-1.5 rounded-full bg-slate-100 px-3 py-1 text-sm font-medium text-slate-700">
-                  <i className="fa-solid fa-location-dot text-slate-500"></i>
-                  <span>{location}</span>
+                <div className="flex items-center gap-1.5 rounded-full bg-slate-100 px-3 py-1 text-sm font-medium text-slate-700 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35">
+                  <i className="fa-solid fa-location-dot text-slate-500 dark:text-white"></i>
+                  <span className="dark:text-white/80">{location}</span>
                 </div>
               </div>
 
               {/* Baris 2: Headline / Posisi */}
-              <div className="mt-1 flex items-center gap-2 text-lg font-medium text-blue-600">
+              <div className="mt-1 flex items-center gap-2 text-lg font-medium text-blue-600 dark:text-blue-500">
                 <i className="fa-solid fa-briefcase"></i>
                 <span>{headline}</span>
               </div>
@@ -133,7 +131,7 @@ function Profile() {
           {/* Resume */}
           <motion.div
             variants={cardVariants}
-            className="col-span-1 flex w-full max-w-xl flex-col items-center gap-7 self-center justify-self-center rounded-2xl bg-white p-7"
+            className="col-span-1 flex w-full max-w-xl flex-col items-center gap-7 self-center justify-self-center rounded-2xl bg-white p-7 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35"
           >
             <div className="flex w-full justify-between">
               <H2 type="netural">Resume</H2>
@@ -142,8 +140,8 @@ function Profile() {
               </div>
             </div>
 
-            <div className="flex w-full justify-around rounded-2xl bg-blue-50 px-3 py-4">
-              <Text className="self-center rounded-2xl bg-white">
+            <div className="flex w-full justify-around rounded-2xl bg-blue-50 px-3 py-4 dark:border dark:border-white/25 dark:bg-black hover:dark:border-white/35">
+              <Text className="self-center rounded-2xl bg-white dark:bg-transparent">
                 <i className="fa-regular fa-file-pdf text-2xl text-blue-600"></i>
               </Text>
 
@@ -186,31 +184,7 @@ function Profile() {
           </motion.div>
         </div>
 
-        {/* Ai match score */}
-
-        <motion.div
-          variants={cardVariants}
-          className="flex justify-between gap-5 rounded-2xl bg-white p-7 lg:hidden"
-        >
-          <div className="w-full min-w-0 flex-1">
-            <H2 type="netural">
-              {" "}
-              <div className="flex gap-2">
-                <i class="fa-solid fa-robot pr-2 text-2xl text-purple-600"></i>
-                <Text className="truncate"> {title}</Text>
-              </div>
-            </H2>
-            <Text className="line-clamp-2">{description}</Text>
-          </div>
-          <div className="self-center text-end">
-            <Text className="inline-block rounded-full text-xl font-bold text-blue-500 ring-4 ring-offset-8">
-              {scorePercentage}%
-            </Text>
-          </div>
-          <div className="col-span-2">
-            <Progres progressPercentage={scorePercentage} />
-          </div>
-        </motion.div>
+       
 
         {/* Skills */}
         <motion.div variants={cardVariants} className="">
@@ -219,7 +193,7 @@ function Profile() {
             {skills.primary.map((skill) => (
               <SkillsItems skill={skill} />
             ))}
-            <Text className="inline-block rounded-md bg-slate-50 p-2 text-blue-500">
+            <Text className="inline-block rounded-md bg-slate-50 p-2 text-blue-500 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35">
               +{skills.additionalCount} Lainnya
             </Text>
           </div>

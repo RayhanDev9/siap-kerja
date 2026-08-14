@@ -12,9 +12,9 @@ const activeIndices = [0, 3, 6, 9];
 
 // --- STYLING CONFIGURATION ---
 const colors = {
-  active: "#2563EB",
+  active: "#336be6",
   base: "#E8EAFD",
-  text: "#2563EB",
+  text: "#3774f5",
 };
 
 const SegmentedRadialProgress = ({ mastered, total }) => {
@@ -35,6 +35,7 @@ const SegmentedRadialProgress = ({ mastered, total }) => {
         width: containerSize,
         height: containerSize,
       }}
+      className="dark:border dark:border-white/25 dark:bg-black dark:py-1 dark:px-2 dark:rounded-2xl hover:dark:border-white/35"
     >
       <ResponsiveContainer width="100%" height="100%">
         <PieChart margin={chartMargin}>

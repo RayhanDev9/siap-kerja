@@ -4,6 +4,7 @@ import Logo from "../../ui/Logo";
 import { containerVariants, cardVariants } from "../../util/animations.js";
 import { motion } from "framer-motion"; // 1. Import Framer Motion
 import { useEffect } from "react";
+import Theme from "../../ui/Theme.jsx";
 
 function OnboardingAppLayout() {
   const location = useLocation();
@@ -15,11 +16,14 @@ function OnboardingAppLayout() {
   );
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <header className="hidden justify-center py-7 lg:flex">
         <Logo type="large" />
       </header>
-      <main className="mx-auto max-w-3xl lg:pb-12">
+      <main className=" mx-auto flex min-h-screen max-w-3xl flex-col items-center justify-center p-4 lg:pb-12">
+        <div className="absolute top-5 right-10 z-50 ">
+          <Theme />
+        </div>
         <motion.div
           variants={containerVariants}
           key={location.pathname}

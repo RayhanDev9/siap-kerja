@@ -18,13 +18,13 @@ function NavMenu() {
       icon: "fa-chart-line",
       description: "Market Trends",
     },
-    { path: "/profile", icon: "fa-user", description: "Profile" },
+    // { path: "/profile", icon: "fa-user", description: "Profile" },
     { path: "/analytics", icon: "fa-chart-column", description: "Analytics" },
-    {
-      path: "/aiRecommendations",
-      icon: "fa-magic",
-      description: "AI Picks",
-    },
+    // {
+    //   path: "/aiRecommendations",
+    //   icon: "fa-magic",
+    //   description: "AI Picks",
+    // },
     { path: "/skillGap", icon: "fa-list-ul", description: "Skill Gap" },
     { path: "/learningRoadmap", icon: "fa-map", description: "Roadmap" },
     {
@@ -52,8 +52,8 @@ function NavMenu() {
     newHidden[indexInHidden] = linkToHide;
 
     // Perbarui state
-    setVisibleLinks(newVisible);
-    setHiddenLinks(newHidden);
+    // setVisibleLinks(newVisible);
+    // setHiddenLinks(newHidden);
     setIsMoreOpen(false);
   };
 
@@ -61,13 +61,13 @@ function NavMenu() {
     <div className="relative mt-28 lg:hidden">
       {/* WADAH UTAMA BOTTOM NAV */}
       <nav
-        className={`fixed bottom-0 left-0 z-50 flex w-full justify-around border-t border-slate-200 bg-white px-2 py-3 text-2xl font-semibold opacity-0 transition-all duration-300 ${
+        className={`fixed bottom-0 left-0 z-50 flex w-full justify-around border-t border-slate-200 bg-white px-2 py-3 text-2xl font-semibold opacity-0 transition-all duration-300 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35 ${
           isTrue ? "block opacity-100" : ""
         }`}
       >
         {/* POPUP MENU (MUNCUL KE ATAS) */}
         {isMoreOpen && (
-          <div className="absolute right-4 bottom-full mb-2 flex max-h-[60vh] w-56 flex-col overflow-y-auto rounded-xl border border-slate-200 bg-white shadow-xl">
+          <div className="absolute right-4 bottom-full mb-2 flex max-h-[60vh] w-56 flex-col overflow-y-auto rounded-xl border border-slate-200 bg-white shadow-xl dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35">
             {hiddenLinks.map((link, index) => (
               <NavLink
                 key={link.path}
@@ -77,13 +77,13 @@ function NavMenu() {
                   `flex items-center gap-3 border-b border-slate-100 px-4 py-3 transition-all duration-200 ${
                     isActive
                       ? "bg-blue-50 font-bold text-blue-600"
-                      : "text-gray-500 hover:bg-gray-50 hover:text-blue-500"
+                      : "text-gray-500 hover:bg-gray-50 hover:text-blue-500 dark:text-white"
                   }`
                 }
               >
                 <div className="flex gap-2">
                   <i
-                    className={`fa-solid ${link.icon} w-6 text-center text-lg`}
+                    className={`fa-solid self-center ${link.icon} w-6 text-center text-lg`}
                   ></i>
                   <span className="text-lg font-medium">
                     {link.description}
@@ -103,7 +103,7 @@ function NavMenu() {
               `flex flex-1 justify-center rounded-lg transition-all duration-200 ${
                 isActive
                   ? "font-bold text-blue-600"
-                  : "text-gray-500 hover:bg-gray-100 hover:text-blue-500"
+                  : "text-gray-500 hover:bg-gray-100 hover:text-blue-500 dark:text-white"
               }`
             }
           >
@@ -114,7 +114,7 @@ function NavMenu() {
         {/* TOMBOL MORE */}
         <button
           onClick={() => setIsMoreOpen(!isMoreOpen)}
-          className={`flex flex-1 justify-center rounded-lg transition-all duration-200 ${
+          className={`flex flex-1 justify-center rounded-lg transition-all duration-200 text-white ${
             isMoreOpen
               ? "font-bold text-blue-600"
               : "text-gray-500 hover:bg-gray-100"

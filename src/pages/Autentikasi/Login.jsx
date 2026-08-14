@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { validateEmail, validatePassword } from "../../util/helpers";
 import AuthHeader from "./components/AuthHeader";
@@ -21,9 +21,6 @@ function Login() {
 
   const [inputPassword, setInputPassword] = useState("123456789r");
   const [textErrorInputPassword, setTextErrorInputPassword] = useState("");
-
-
-
 
   function handleSubmit() {
     const emailError = validateEmail(inputEmail);
@@ -49,6 +46,8 @@ function Login() {
         });
     }
   }
+
+
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-white lg:flex-row">

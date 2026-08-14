@@ -32,7 +32,8 @@ const CompetencyChart = ({ competencyMatrix }) => {
           {/* Label Sudut (UI Design, UX Research, dll) */}
           <PolarAngleAxis
             dataKey="subject"
-            tick={{ fill: "#4b5563", fontSize: 12, fontWeight: 500 }}
+            className="text-gray-600 dark:text-white"
+            tick={{ fontSize: 12, fontWeight: 500 }}
           />
 
           {/* Sumbu Skala: Sembunyikan angka agar bersih seperti di gambar, set max 100 */}
@@ -47,6 +48,7 @@ const CompetencyChart = ({ competencyMatrix }) => {
           {/* Ditempatkan lebih awal agar posisinya di bawah/belakang warna biru */}
           <Radar
             name="Target Peran"
+            className="dark:fill-purple-500 dark:stroke-purple-500"
             dataKey="targetPeran"
             stroke="#6f42c1"
             strokeWidth={2}
@@ -61,6 +63,7 @@ const CompetencyChart = ({ competencyMatrix }) => {
             name="Keahlian Anda"
             dataKey="keahlianAnda"
             stroke="#0d6efd"
+            className="dark:fill-blue-500 dark:stroke-blue-500"
             strokeWidth={2}
             fill="#0d6efd"
             fillOpacity={0.3}

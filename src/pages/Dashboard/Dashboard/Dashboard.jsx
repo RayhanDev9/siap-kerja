@@ -19,7 +19,7 @@ function Dashboard() {
     (state) => state.dashboard,
   );
 
-  const {name} = useSelector((state) => state.auth.user);
+  const { name } = useSelector((state) => state.auth.user);
 
   if (isLoading) {
     return <Loader />;
@@ -51,7 +51,7 @@ function Dashboard() {
             {/* Career readiness*/}
             <motion.div
               variants={cardVariants}
-              className="flex flex-col justify-center rounded-2xl bg-white p-7"
+            className="flex flex-col justify-center rounded-2xl bg-white p-7 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35"
             >
               <H2 type="secondry" className="p-3 text-start">
                 Skor kesiapan karir
@@ -67,9 +67,9 @@ function Dashboard() {
               variants={cardVariants}
               className="grid grid-cols-2 gap-3"
             >
-              <div className="space-y-8 rounded-2xl bg-white p-7">
+              <div className="space-y-8 rounded-2xl bg-white p-7 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35">
                 <div className="flex gap-2">
-                  <i className="fa-solid fa-user-gear inline-block self-center text-xl text-purple-600"></i>
+                  <i className="fa-solid fa-user-gear inline-block self-center text-xl text-purple-600 dark:text-purple-500"></i>
                   <p className="truncate text-lg font-medium sm:text-xl lg:text-2xl">
                     Kesiapan AI
                   </p>
@@ -77,14 +77,14 @@ function Dashboard() {
                 <p className="text-2xl font-bold sm:text-3xl lg:text-4xl">
                   {grade}
                   {"   "}
-                  <span className="text-sm text-red-600 md:text-base lg:text-lg">
+                  <span className="truncate text-sm text-red-600 md:text-base lg:text-lg dark:text-red-400">
                     {description}
                   </span>
                 </p>
               </div>
-              <div className="space-y-8 rounded-2xl bg-white p-7">
+              <div className="space-y-8 rounded-2xl border-white/25 bg-white p-7 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35">
                 <div className="flex gap-2">
-                  <i className="fa-solid fa-fire-flame-curved self-center text-xl text-orange-600"></i>
+                  <i className="fa-solid fa-fire-flame-curved self-center text-xl text-orange-600 dark:text-orange-500"></i>
 
                   <p className="truncate text-lg font-medium sm:text-xl lg:text-2xl">
                     Streak Belajar
@@ -103,10 +103,10 @@ function Dashboard() {
             {/* priority skills gap */}
             <motion.div
               variants={cardVariants}
-              className="flex flex-col justify-center gap-5 rounded-2xl bg-white p-7"
+              className="flex flex-col justify-center gap-5 rounded-2xl bg-white p-7 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35"
             >
               <div className="flex justify-between gap-2">
-                <i className="fa-solid fa-file-waveform self-center text-xl text-blue-700 sm:text-2xl lg:text-3xl"></i>
+                <i className="fa-solid fa-file-waveform da self-center text-xl text-blue-700 sm:text-2xl lg:text-3xl dark:text-blue-500"></i>
                 <div className="self-center">
                   <H2 type="secondry" className="text-lg capitalize">
                     <span className="max-sm:-w-30 inline-block truncate">
@@ -114,7 +114,7 @@ function Dashboard() {
                     </span>
                   </H2>
                 </div>
-                <p className="self-center text-lg text-blue-700">
+                <p className="self-center text-lg text-blue-700 dark:text-blue-500">
                   Lihat <i className="fa fa-solid fa-arrow-right"></i>
                 </p>
               </div>
@@ -138,7 +138,7 @@ function Dashboard() {
               className="flex flex-col gap-10 p-7"
             >
               <div className="flex gap-3">
-                <i className="fa-solid fa-wand-magic-sparkles text-2xl text-purple-600"></i>
+                <i className="fa-solid fa-wand-magic-sparkles text-2xl text-purple-700 dark:text-purple-500"></i>
                 <H2 type="secondry" className="text-xl capitalize">
                   Rekomendasi karier ai
                 </H2>

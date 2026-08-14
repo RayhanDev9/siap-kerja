@@ -2,10 +2,10 @@ import Text from "./Text";
 
 function Footer() {
   return (
-    <footer className="hidden flex-col justify-between gap-10 bg-white px-8 py-10 md:flex-row md:items-start lg:flex">
+    <footer className="hidden flex-col justify-between gap-10 bg-white px-8 py-10 md:flex-row md:items-start lg:flex dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35">
       {/* Bagian Kiri: Logo dan Deskripsi */}
       <div className="flex max-w-sm flex-col gap-3">
-        <h4 className="text-2xl font-extrabold text-blue-800">SiapKerja</h4>
+        <h4 className="text-2xl font-extrabold text-blue-800 dark:text-blue-500">SiapKerja</h4>
         <Text className="text-gray-600">
           &copy; 2024 SiapKerja. Menavigasi masa depan Anda dengan kecerdasan.
         </Text>

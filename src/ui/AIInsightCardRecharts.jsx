@@ -11,10 +11,10 @@ const data = [
 
 const AIInsightCardRecharts = () => {
   return (
-    <div className="w-full max-w-xs rounded-2xl border border-gray-100 bg-white p-6 font-sans shadow-sm">
+    <div className="w-full max-w-xs hidden lg:block rounded-2xl border border-gray-100 bg-white p-6 font-sans shadow-sm dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35 ">
       {/* Header Section */}
       <div className="mb-6 flex items-center justify-between">
-        <h3 className="text-sm font-bold tracking-wider text-gray-400 sm:text-base lg:text-xl">
+        <h3 className="text-sm font-bold tracking-wider text-gray-400 sm:text-base lg:text-xl ">
           AI INSIGHT
         </h3>
         {/* <svg
@@ -28,7 +28,7 @@ const AIInsightCardRecharts = () => {
       </div>
 
       {/* Recharts Container Section */}
-      <div className="mb-5 h-48 rounded-xl bg-slate-50/70 p-4 pt-8">
+      <div className="mb-5 h-48 rounded-xl bg-slate-50/70 p-4 pt-8 dark:border dark:border-white/25 dark:bg-black hover:dark:border-white/35">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
             data={data}

@@ -9,7 +9,7 @@ function Search({ placeholder, onChange }) {
           id="filter"
           placeholder={placeholder}
           onChange={onChange}
-          className="w-xs rounded-2xl bg-white/30 py-1 pl-10 ring-2 ring-slate-300 outline-none"
+          className="w-xs rounded-2xl py-1 pl-10 ring-2 ring-slate-300 outline-none dark:ring-white/25 dark:bg-black hover:dark:ring-white/35"
         />
         <i class="fa-solid fa-magnifying-glass absolute top-3 left-3 text-sm"></i>
       </div>

@@ -26,7 +26,7 @@ function JobListingsItems({
   return (
     <motion.div
       variants={cardVariants}
-      className="relative w-[90%] rounded-2xl bg-white px-3 pt-7 pb-5"
+      className="relative w-[90%] rounded-2xl bg-white px-3 pt-7 pb-5 sm:w-[80%] md:w-[90%] lg:w-full dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35"
     >
       <div className="absolute top-4 right-4">
         <i
@@ -44,7 +44,9 @@ function JobListingsItems({
           <div className="flex flex-col gap-2">
             <div className="flex justify-between">
               <Text className="capitalize">kecocokan profile</Text>
-              <Text className={`${currentStyle} bg-white`}>
+              <Text
+                className={`${currentStyle} rounded-2xl bg-white px-2 py-1 dark:border dark:border-white/25 dark:bg-black hover:dark:border-white/35`}
+              >
                 {matchPercentage}%
               </Text>
             </div>
@@ -57,18 +59,25 @@ function JobListingsItems({
             </div>
 
             <div className="flex flex-wrap gap-2">
-              {skills && skills.map((item, index) => (
-                <SkillsItem key={index} skill={item} />
-              ))}
+              {skills &&
+                skills.map((item, index) => (
+                  <SkillsItem key={index} skill={item} />
+                ))}
             </div>
           </div>
         </div>
       </div>
       <div className="flex justify-between pt-5">
         <h3 className="text-lg font-semibold">{salary}</h3>
-        <p className="text-sm font-semibold text-blue-700 md:text-base lg:text-lg">
-          {linkText}
-        </p>
+        <a
+          href="https://www.jobstreet.co.id"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <p className="text-sm font-semibold text-blue-700 dark:text-blue-500 md:text-base lg:text-lg">
+            {linkText}
+          </p>
+        </a>
       </div>
     </motion.div>
   );

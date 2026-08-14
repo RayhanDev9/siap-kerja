@@ -16,13 +16,13 @@ const CareerProgressionChart = () => {
     (state) => state.marketTrends.marketTrendsData.jobGrowth.chartData,
   );
   const { isLoading, error } = useSelector((state) => state.marketTrends);
-  if (isLoading ) {
+  if (isLoading) {
     return <Loader />;
   }
 
   if (error) return <Error />;
   return (
-    <div className="w-full max-w-lg rounded-xl border border-gray-100 bg-white p-6 shadow-sm">
+    <div className="w-full max-w-lg rounded-xl border border-gray-100 bg-white p-6 shadow-sm dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35">
       <div className="mt-4 h-64 w-full">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart

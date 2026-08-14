@@ -5,6 +5,7 @@ import Button from "../../../ui/Button";
 import HeaderSection from "./../components/HeaderSection";
 import dataSetting from "./components/dataSetting";
 import OtherSettingsItems from "./components/OtherSettingsItems";
+import NamaPengunaModal from "./components/Modal/NamaPenguna";
 import Text from "../../../ui/Text";
 import H3 from "../../../ui/H3";
 import Email from "../../../ui/Email";
@@ -62,6 +63,8 @@ function Setting() {
   }
 
   const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1024);
+  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+
   useEffect(() => {
     const handleResize = () => {
       setIsDesktop(window.innerWidth >= 1024);
@@ -70,6 +73,14 @@ function Setting() {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  const handleOpenProfileModal = () => {
+    setIsProfileModalOpen(true);
+  };
+
+  const handleCloseProfileModal = () => {
+    setIsProfileModalOpen(false);
+  };
 
   if (isLoading) {
     return <Loader />;
@@ -97,58 +108,14 @@ function Setting() {
         ></HeaderSection>
 
         <div className="grid grid-cols-1 gap-7 lg:grid-cols-2">
-          {/* Profile Penggunna */}
-          <div className="space-y-5 rounded-2xl bg-white p-7">
-            <motion.div variants={cardVariants}>
-              {/* Heading profile */}
-              <H2 type="secondry">
-                <i class="fa-solid fa-user pr-3 text-slate-700"></i>Profile
-                Penggunna
-              </H2>
-            </motion.div>
-
-            {/* foto profile and data diri */}
-            <motion.div variants={cardVariants} className="flex gap-6">
-              <img
-                className="inline-block h-20 w-20 shrink-0 rounded-full object-cover sm:h-24 sm:w-24 md:h-26 md:w-28 lg:h-32 lg:w-32"
-                src={`${dataSetting.profilPengguna.fotoProfil}`}
-                alt={`${namaLengkap}`}
-              />
-              <div className="min-w-0 self-center">
-                <H3 className="md:text-md truncate">{namaLengkap}</H3>
-                <Text className="md:text-md w-full truncate">{email}</Text>
-                <button className="font-semibold text-blue-900 md:text-base">
-                  Ganti foto
-                </button>
-              </div>
-            </motion.div>
-
-            {/* input nama lengkap dan gmail disable */}
-            <div className="flex flex-col gap-1.5 lg:grid lg:grid-cols-1 lg:gap-7">
-              {/* username */}
-              <div className="lg:col-span-1">
-                <InputName value="Budi santoso" disabled={true} />
-              </div>
-              {/*  */}
-              {/* Input Email */}
-              <div className="lg:col-span-1">
-                <Email value="budisantoso@gmail.com" disabled={true} />
-              </div>
-            </div>
-
-            {/* Button */}
-            {/* <div className="inline-block">
-            <Button type="generalPrimary">Simpan Perubahan</Button>
-          </div> */}
-          </div>
           {/* Keamanan Penggunna lg*/}
           {isDesktop && (
-            <div className="hidden space-y-5 rounded-2xl bg-white p-7 lg:block">
+            <div className="hidden space-y-5 rounded-2xl bg-white p-7 lg:block dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35">
               {/* Heading profile */}
               <motion.div variants={cardVariants}>
                 <H2 type="secondry">
-                  <i class="fa-solid fa-lock pr-3 text-slate-700"></i>Keamanan
-                  Penggunna
+                  <i class="fa-solid fa-lock pr-3 text-slate-700 dark:text-white"></i>
+                  Keamanan Penggunna
                 </H2>
               </motion.div>
 
@@ -194,12 +161,12 @@ function Setting() {
 
         {/* Keamanan Penggunna mobile*/}
         {!isDesktop && (
-          <div className="space-y-5 rounded-2xl bg-white p-7 lg:hidden">
+          <div className="space-y-5 rounded-2xl bg-white p-7 lg:hidden dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35">
             {/* Heading profile */}
             <motion.div variants={cardVariants}>
               <H2 type="secondry">
-                <i class="fa-solid fa-lock pr-3 text-slate-700"></i>Keamanan
-                Penggunna
+                <i class="fa-solid fa-lock pr-3 text-slate-700 dark:text-white"></i>
+                Keamanan Penggunna
               </H2>
             </motion.div>
 
@@ -243,24 +210,36 @@ function Setting() {
         )}
 
         {/* Pengaturan lainnya */}
-        <div className="rounded-2xl bg-white px-7">
+        <div className="overflow-hidden rounded-2xl bg-white px-3 pb-7 sm:px-7 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35 ">
           {dataSetting.pengaturanLainnya.map((item) => (
             <OtherSettingsItems
+              key={item.id}
               kategori={item.kategori}
               status={item.status}
               icon={item.icon}
+              onClick={() => {
+                if (item.kategori === "Nama Pengguna") {
+                  handleOpenProfileModal();
+                }
+              }}
             />
           ))}
         </div>
+
+        <NamaPengunaModal
+          isOpen={isProfileModalOpen}
+          onClose={handleCloseProfileModal}
+          profileData={profilPengguna}
+        />
 
         <div
           onClick={handleLogout}
           className="flex cursor-pointer items-center justify-end gap-40"
         >
           <div className="inline-block">
-            <div className="jus flex items-center justify-center justify-items-center gap-1 rounded-2xl bg-red-500 transition-all duration-300 hover:bg-red-600 py-2 px-5">
-              <div className="flex gap-3 items-center">
-                <h3 className="pb-1 text-sm font-semibold text-white sm:text-lg lg:text-xl inline-block">
+            <div className="jus flex items-center justify-center justify-items-center gap-1 rounded-2xl bg-red-500 px-5 py-2 transition-all duration-300 hover:bg-red-600">
+              <div className="flex items-center gap-3">
+                <h3 className="inline-block pb-1 text-sm font-semibold text-white sm:text-lg lg:text-xl">
                   Logout
                 </h3>
                 <i className="fa-solid fa-arrow-right-from-bracket text-xl text-white sm:text-xl lg:text-2xl"></i>

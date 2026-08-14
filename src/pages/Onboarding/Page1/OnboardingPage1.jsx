@@ -9,7 +9,7 @@ import { motion } from "framer-motion"; // 1. Import Framer Motion
 function OnboardingPage1() {
   return (
     <>
-      <div className="md:bg-white md:pb-7">
+      <div className="md:rounded-2xl md:bg-white md:pb-7 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35">
         <Section>
           <div className="space-y-7">
             {/* <ProgresOnboarding progresOnboarding={0} /> */}
@@ -53,25 +53,21 @@ function OnboardingPage1() {
             </div>
           </div>
         </Section>
-        <div className="bg-white p-7 text-center md:hidden">
-          <Button type="generalPrimary" to="/onboardingPage2">
-            Mulai <i className="fa-solid fa-arrow-right pl-1"></i>
-          </Button>
-        </div>
-        <div className="hidden justify-between bg-white p-7 text-center md:flex">
+    
+        <motion.div variants={cardVariants} className=" justify-between bg-white dark:bg-neutral-900  p-7 text-center flex">
           {/* <div className="inline-block">
             <Button type="secondry" to="/onboardingPage2">
               Lewati 
             </Button>
           </div> */}
-          <div className="flex w-full justify-end self-end">
-            <div className="inline-block">
+          <div className="flex w-full justify-end self-end ">
+            <div className="inline-block ">
               <Button type="generalPrimary" to="/onboardingPage2">
                 Mulai
               </Button>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </>
   );

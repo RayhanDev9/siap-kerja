@@ -14,7 +14,9 @@ import { useSelector } from "react-redux";
 import Loader from "../../../ui/Loader";
 
 function SkillGap() {
-  const { skillGapData,isLoading,error } = useSelector((state) => state.skillGap);
+  const { skillGapData, isLoading, error } = useSelector(
+    (state) => state.skillGap,
+  );
   if (isLoading || !skillGapData) {
     return <Loader />;
   }
@@ -34,7 +36,7 @@ function SkillGap() {
     <Section>
       <div className="flex flex-col gap-7">
         {/* Top bar Lg */}
-        <TopBar placeholder="cari peran, keahlian, atau industri" />
+        <TopBar isSerch={false} placeholder="cari peran, keahlian, atau industri" />
         <HeaderSection
           title="Analisis Kesenjangan"
           description="Evaluasi kesiapan Anda untuk peran UI/UX Designer Senior."
@@ -43,10 +45,10 @@ function SkillGap() {
         <div className="grid grid-cols-1 gap-5 lg:grid-cols-3">
           {/* Kesiapan keseluruhan */}
           <motion.div variants={cardVariants} className="col-span-1">
-            <div className="inline-block space-y-3 rounded-2xl bg-white p-7">
+            <div className="inline-block space-y-3 rounded-2xl bg-white p-7 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35">
               <div className="flex justify-between">
                 <H2 type="secondry">Kesiapan Ke Seluruhan</H2>
-                <Text className="self-center text-2xl font-bold text-blue-800">
+                <Text className="self-center text-2xl font-bold text-blue-800 dark:text-blue-500">
                   {percentage}%
                 </Text>
               </div>
@@ -58,10 +60,10 @@ function SkillGap() {
           {/* Matriks Kompetensi */}
           <motion.div
             variants={cardVariants}
-            className="col-span-2 space-y-3 px-7 lg:rounded-2xl lg:bg-white lg:py-7"
+            className="col-span-2 space-y-3 px-7 lg:rounded-2xl lg:bg-white lg:py-7 dark:lg:border dark:lg:border-white/25 dark:lg:bg-neutral-900 hover:dark:lg:border-white/35"
           >
             <H2 type="secondry">Kesiapan Ke Seluruhan</H2>
-            <div className="mt-7 rounded-2xl bg-white">
+            <div className="mt-7 rounded-2xl bg-white dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35">
               <CompetencyChart competencyMatrix={competencyMatrix} />
             </div>
           </motion.div>
@@ -88,11 +90,11 @@ function SkillGap() {
         {/* Market Demand Map */}
         <div
           variants={cardVariants}
-          className="flex w-full flex-col gap-6 rounded-3xl border border-gray-100 bg-white p-7 shadow-sm"
+          className="flex w-full flex-col gap-6 rounded-3xl border border-gray-100 bg-white p-7 shadow-sm dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35"
         >
           {/* Header (Judul & Badge) */}
           <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
-            <motion.div variants={cardVariants} className="flex flex-col gap-1">
+            <motion.div variants={cardVariants} className="flex flex-col gap-1 " >
               <H2 type="secondry" className="text-2xl font-bold text-gray-900">
                 Market Demand Heatmap
               </H2>
@@ -105,10 +107,10 @@ function SkillGap() {
               variants={cardVariants}
               className="flex items-center gap-2"
             >
-              <Text className="rounded-full bg-indigo-100 px-3 py-1.5 text-sm font-bold text-indigo-900">
+              <Text className="rounded-full bg-indigo-100 px-3 py-1.5 text-sm font-bold text-indigo-900 dark:border dark:border-white/25 dark:bg-black hover:dark:border-white/35">
                 High Demand
               </Text>
-              <Text className="rounded-full bg-slate-200 px-3 py-1.5 text-sm font-bold text-slate-700">
+              <Text className="rounded-full bg-slate-200 px-3 py-1.5 text-sm font-bold text-slate-700 dark:border dark:border-white/25 dark:bg-black hover:dark:border-white/35">
                 Average
               </Text>
             </motion.div>

@@ -2,13 +2,14 @@ import H2 from "../../../ui/H2";
 import FeaturedFeaturesItems from "./FeaturedFeaturesItems";
 import { cardVariants } from "../../../util/animations";
 import { motion } from "framer-motion"; // 1. Import Framer Motio
+import Text from "../../../ui/Text";
 
 const dataFeaturedFeatures = [
   {
     heading: "Analisis Tren Pasar",
     paraghraf:
       "     Dapatkan wawasan real-time tentang permintaan industri dan keahlian yang paling dicari saat ini.",
-    bgColor: " bg-blue-200",
+    bgColor: " bg-blue-500",
     svg: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -16,7 +17,7 @@ const dataFeaturedFeatures = [
         viewBox="0 0 24 24"
         strokeWidth={1.5}
         stroke="currentColor"
-        className="size-6 sm:size-7 md:size-8 lg:size-9 "
+        className="size-6 text-white sm:size-7 md:size-8 lg:size-9 dark:text-black"
       >
         <path
           strokeLinecap="round"
@@ -30,7 +31,7 @@ const dataFeaturedFeatures = [
     heading: "Deteksi Celah Keamanan",
     paraghraf:
       "   Al kami memindai profil Anda untuk mengidentifikasi keterampilan yang perlu ditingkatkan untuk peran impian.",
-    bgColor: "bg-red-200",
+    bgColor: "bg-red-500",
     svg: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -38,7 +39,7 @@ const dataFeaturedFeatures = [
         viewBox="0 0 24 24"
         strokeWidth={1.5}
         stroke="currentColor"
-        className="size-6 sm:size-7 md:size-8 lg:size-9"
+        className="size-6 text-white sm:size-7 md:size-8 lg:size-9 dark:text-black"
       >
         <path
           strokeLinecap="round"
@@ -52,7 +53,7 @@ const dataFeaturedFeatures = [
     heading: "Roadmap Personal",
     paraghraf:
       "  Rencana tindakan langkah demi langkah yang disesuaikan secara unik untuk mencapai tujuan karier Anda.",
-    bgColor: "bg-purple-300",
+    bgColor: "bg-purple-500",
     svg: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -60,7 +61,7 @@ const dataFeaturedFeatures = [
         viewBox="0 0 24 24"
         strokeWidth={1.5}
         stroke="currentColor"
-        className="size-6 sm:size-7 md:size-8 lg:size-9"
+        className="size-6 text-white sm:size-7 md:size-8 lg:size-9 dark:text-black"
       >
         <path
           strokeLinecap="round"
@@ -74,9 +75,13 @@ const dataFeaturedFeatures = [
 
 function FeaturedFeatures() {
   return (
-    <section className="flex flex-col items-center">
-      <motion.div variants={cardVariants} className="self-start">
-        <H2 type="primary">Feature Unggulan</H2>
+    <section id="features" className="flex flex-col items-center">
+      <motion.div variants={cardVariants} className="self-start pb-7 ">
+        <H2 type="secondry">Feature Unggulan</H2>
+        <Text>
+          Platform komprehensif yang dirancang untuk mempercepat pertumbuhan
+          karir Anda di era digital.
+        </Text>
       </motion.div>
       <div className="inline-block space-y-5">
         <div className="grid-cols-1 gap-5 max-sm:space-y-5 sm:grid sm:grid-cols-2">

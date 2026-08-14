@@ -24,14 +24,15 @@ function AppLayout() {
   }
 
   function CareerExplorer() {
-  useEffect(() => {
-    tes(); // <-- Memanggil fungsi tes saat komponen dimuat
-  }, []);}
+    useEffect(() => {
+      tes(); // <-- Memanggil fungsi tes saat komponen dimuat
+    }, []);
+  }
 
   return (
     <>
       <Header />
-      <main className="lg:grid lg:grid-cols-[240px_1fr]">
+      <main className=" lg:grid lg:grid-cols-[240px_1fr] max-lg:mt-20">
         <SideBar />
         <motion.div
           key={location.pathname} // INI SANGAT PENTING! Agar animasi jalan saat pindah menu

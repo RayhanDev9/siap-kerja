@@ -22,7 +22,6 @@ function MarketTrends() {
     (state) => state.marketTrends,
   );
 
-
   // if (isLoading || ) {
   //   return <Loader />;
   // }
@@ -53,7 +52,7 @@ function MarketTrends() {
           {/* jobGrowth */}
           <motion.div
             variants={cardVariants}
-            className="xs:min-w-lg flex flex-col gap-3.5 rounded-2xl bg-white p-7 max-lg:mx-auto sm:min-w-xl lg:col-span-2 lg:min-w-0"
+            className="xs:min-w-lg flex flex-col gap-3.5 rounded-2xl bg-white p-7 max-lg:mx-auto sm:min-w-xl lg:col-span-2 lg:min-w-0 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35"
           >
             <div className="flex justify-between">
               <H2 type="secondry">{title}</H2>

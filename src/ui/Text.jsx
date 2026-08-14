@@ -1,8 +1,7 @@
-
 function Text({ children, className = "" }) {
   return (
     <p
-      className={`text-gray-700 text-sm  md:text-base lg:text-lg ${className}`}
+      className={`text-sm text-gray-700 md:text-base lg:text-lg dark:text-white/80 ${className}`}
     >
       {children}
     </p>

@@ -23,7 +23,7 @@ function SavedCareers() {
     <Section>
       <div className="flex flex-col gap-7">
         {/* Top bar Lg */}
-        <TopBar placeholder="cari peran, keahlian, atau industri" isSerch={false}/>
+        <TopBar placeholder="cari peran, keahlian, atau industri" />
 
         <HeaderSection
           title="Karier Tersimpan"

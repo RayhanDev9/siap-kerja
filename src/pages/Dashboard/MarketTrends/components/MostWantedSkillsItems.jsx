@@ -12,7 +12,7 @@ function Skills({ icon, name, description, rank, thame }) {
     },
     purple: {
       bg: "bg-purple-100", // Sesuaikan dengan warna UI Anda
-      text: "text-purple-600",
+      text: "text-purple-500",
     },
     green: {
       bg: "bg-green-100",
@@ -30,12 +30,12 @@ function Skills({ icon, name, description, rank, thame }) {
   return (
     <motion.div
       variants={cardVariants}
-      className="flex justify-between rounded-2xl bg-white p-7"
+      className="flex justify-between rounded-2xl bg-white p-7  dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35"
     >
       <div className="flex gap-5">
         <p>
           <i
-            className={`${icon} ${activeTheme.bg} ${activeTheme.text} rounded-2xl p-4 text-2xl`}
+            className={`${icon} ${activeTheme.bg} ${activeTheme.text} rounded-2xl p-4 text-2xl  dark:border dark:border-white/25 dark:bg-black hover:dark:border-white/35`}
           ></i>
         </p>
         <div>

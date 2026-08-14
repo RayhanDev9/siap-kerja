@@ -59,7 +59,7 @@ function CareerExplorer() {
               id="filter"
               onChange={handleCategorySearch}
               placeholder="cari peran, keahlian, atau industri"
-              className="w-[100%] rounded-2xl bg-white py-2 pl-10 ring-2 ring-slate-300 outline-none"
+              className="w-[100%] rounded-2xl bg-white py-2 pl-10 ring-2 ring-slate-300 outline-none "
             />
             <i className="fa-solid fa-magnifying-glass absolute top-3 left-3"></i>
           </div>

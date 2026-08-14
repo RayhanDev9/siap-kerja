@@ -11,7 +11,7 @@ function Password({ value, onChange }) {
     <motion.div variants={cardVariants} className="flex flex-col gap-2">
       <label
         htmlFor="password"
-        className="text-sm font-medium text-gray-700 sm:text-base lg:text-lg"
+        className="text-sm font-medium text-gray-700 sm:text-base lg:text-lg dark:text-white"
       >
         Kata Sandi
       </label>
@@ -25,7 +25,7 @@ function Password({ value, onChange }) {
           onChange={onChange}
           required
           placeholder="*****"
-          className="w-full rounded-xl border border-gray-200 bg-white px-10 py-3 text-sm transition outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 sm:text-base lg:text-lg"
+          className="w-full rounded-xl border border-gray-200 bg-white px-10 py-3 text-sm transition outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 sm:text-base lg:text-lg dark:border dark:border-white/25 dark:bg-black hover:dark:border-white/35"
         />
         <i
           onClick={handlePasswordVisibility}

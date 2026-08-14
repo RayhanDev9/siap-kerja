@@ -20,7 +20,7 @@ function SavedCareersItems({
   aiRecommendation,
 }) {
   return (
-    <motion.div variants={cardVariants} className="rounded-2xl bg-white p-7 relative">
+    <motion.div variants={cardVariants} className="rounded-2xl bg-white p-7 relative dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35">
       {/* Tag */}
       <div className="absolute top-4 right-4">
         <i
@@ -54,7 +54,7 @@ function SavedCareersItems({
       </div>
 
       {/* Ai recomendation */}
-      <div className="mt-7 flex flex-col gap-2 bg-blue-50 p-3">
+      <div className="mt-7 flex flex-col gap-2 bg-blue-50 p-3 dark:border dark:border-white/25 dark:bg-black hover:dark:border-white/35 rounded-2xl">
         <p className="font-semibold md:text-lg lg:text-xl">
           <i class="fa-regular fa-lightbulb icon-lightbulb pr-1.5 text-orange-500"></i>
           {titleAiRecommendation}

@@ -31,6 +31,11 @@ function Register() {
   // Mengambil state dari Redux
   const { isLoading, error } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  if (error) return <Error />;
 
   function handleSubmit() {
     // 1. Validasi Lokal
@@ -55,7 +60,7 @@ function Register() {
         .unwrap() // <--- PERBAIKAN PENTING: Tunggu hasil API
         .then(() => {
           // Jika sukses, baru pindah halaman
-          navigate("/login");
+          navigate("/login", { replace: true });
         })
         .catch((err) => {
           // Jika gagal (email sudah ada, dll), tidak usah pindah halaman.
@@ -64,8 +69,6 @@ function Register() {
         });
     }
   }
-
-
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-white lg:flex-row">

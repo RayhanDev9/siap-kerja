@@ -1,5 +1,5 @@
 function Logo({ type }) {
-  const base = "text-primary inline-block font-semibold tracking-wide";
+  const base = "text-primary inline-block font-semibold tracking-wide dark:text-blue-500";
 
   const className = {
     small: base + " text-2xl  sm:text-3xl lg:text-4xl",

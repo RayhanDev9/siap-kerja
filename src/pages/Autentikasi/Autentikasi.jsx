@@ -12,7 +12,7 @@ function Autentikasi() {
   const location = useLocation();
   const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1024);
   const { isLoading, error } = useSelector((state) => state.auth);
-
+  const { pathname } = useLocation();
   const { user } = useSelector((state) => state.auth);
 
   useEffect(() => {
@@ -24,23 +24,33 @@ function Autentikasi() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  useEffect(() => {
+    // Force scroll saat location berubah
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
   if (user) {
     return <Navigate to="/" replace />;
   }
 
- 
+  if (isLoading) {
+    return <Loader />;
+  }
+  console.info(pathname);
+
+
   return (
     <>
       {/* <Header /> */}
       <motion.div
         variants={containerVariants}
-        key={location.pathname}
+        key={pathname}
         initial="hidden"
         animate="visible"
         className="relative grid grid-cols-1 lg:grid-cols-2"
       >
         {isDesktop && <AuthBanner />}
-        <Outlet />
+        <Outlet key={pathname} />
       </motion.div>
     </>
   );

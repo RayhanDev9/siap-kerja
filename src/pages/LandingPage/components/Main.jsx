@@ -6,17 +6,20 @@ import Progres from "../../../ui/Progres";
 import Text from "../../../ui/Text";
 import { cardVariants, containerVariants } from "../../../util/animations";
 import { motion } from "framer-motion"; // 1. Import Framer Motio
+import QNA from "./QNA"; // Di landing page
+import Testimonial from "./Testimonial";
 
 function Main() {
   return (
     <Section>
       <motion.div
+        id="home"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className="space-y-7 overflow-y-hidden overflow-x-hidden"
+        className="space-y-7 overflow-x-hidden overflow-y-hidden rounded-2xl mt-24"
       >
-        <section className="mx-auto  grid w-full gap-7 sm:w-4/5 md:w-[70%] lg:w-full lg:grid-cols-2 lg:gap-5">
+        <section className="mx-auto grid w-full gap-7 sm:w-4/5 md:w-[70%] lg:w-full lg:grid-cols-2 lg:gap-5">
           {/* Heading 1 */}
           <motion.div variants={cardVariants} className="col-span-1">
             <h1 className="text-center text-3xl leading-10 font-bold capitalize md:text-4xl lg:text-5xl lg:leading-20">
@@ -46,7 +49,7 @@ function Main() {
           {/* Analisis keterampialn */}
           <motion.div
             variants={cardVariants}
-            className="col-span-1 mt-7 rotate-2 rounded-2xl bg-white p-7 transition-all duration-300 hover:rotate-0 active:rotate-0 lg:mt-0 lg:block"
+            className="col-span-1 mt-7 rotate-2 rounded-2xl bg-white p-7 transition-all duration-300 hover:rotate-0 active:rotate-0 lg:mt-0 lg:block dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35"
           >
             <div className="flex gap-2 border-b border-slate-300 p-7">
               <span className="pr-2">
@@ -69,7 +72,6 @@ function Main() {
             </div>
           </motion.div>
         </section>
-
         {/* Chart and feature */}
         <div className="grid grid-cols-1 gap-5 lg:grid-cols-3">
           <motion.div
@@ -83,6 +85,10 @@ function Main() {
             <FeaturedFeatures />
           </div>
         </div>
+        
+        <Testimonial />
+
+        <QNA />
       </motion.div>
     </Section>
   );

@@ -7,11 +7,11 @@ function ProgresOnboarding({ progresOnboarding }) {
   return (
     <motion.div variants={cardVariants} className="flex flex-col gap-3">
       <div className="flex justify-between">
-        <Text>Step {progresOnboarding + 1} of 4</Text>
-        <Text>{progresOnboarding * 25}%</Text>
+        <Text>Step {progresOnboarding } of 5</Text>
+        <Text>{progresOnboarding * 20}%</Text>
       </div>
       <Progres
-        progressPercentage={progresOnboarding * 25}
+        progressPercentage={progresOnboarding * 20}
         thame="bg-indigo-600"
       />
     </motion.div>

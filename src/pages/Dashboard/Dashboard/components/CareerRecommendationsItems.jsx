@@ -40,16 +40,16 @@ function CareerRecommendationsItems({
   const currentTheme = themeVariants[themeColor] || themeVariants.default;
 
   return (
-    <div className="w-96 shrink-0 space-y-5 rounded-2xl bg-white p-6">
+    <div className="w-96 shrink-0 space-y-5 rounded-2xl bg-white p-6 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35">
       <div className="flex justify-between">
-        <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-purple-100">
+        <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-purple-100 ">
           <i
             className={`${icon} text-xl sm:text-2xl lg:text-3xl ${currentTheme.bg} ${currentTheme.text}`}
           ></i>
         </div>
 
         <div
-          className={`flex items-center justify-center rounded-2xl bg-${themeColor}-100 p-2`}
+          className={`flex items-center justify-center rounded-2xl bg-${themeColor}-100 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35 p-2`}
         >
           <Text>{` ${matchPercentage}% Match `} </Text>
         </div>

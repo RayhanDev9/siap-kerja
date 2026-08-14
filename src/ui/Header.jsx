@@ -1,14 +1,18 @@
-import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { use, useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import Logo from "./Logo";
+import Thame from "./Theme";
+import Theme from "./Theme";
 
 function Header() {
   const [humberger, setHumberger] = useState(false);
 
+  const navigate = useNavigate();
   return (
-    <header className="relative z-50 lg:hidden">
-      <div className="sticky top-0 right-0 left-0 border-b border-slate-200 bg-white px-3 py-2">
+    <header className=" fixed inset-0 z-50 lg:hidden">
+      <div className=" border-b border-slate-200 bg-white px-3 py-2 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35">
         <div className="flex flex-wrap justify-between px-2">
+          {/* Logo */}
           <div className="flex gap-2.5">
             <div className="flex items-center">
               <svg
@@ -35,12 +39,19 @@ function Header() {
             </div>
             <Logo type={"small"} />
           </div>
-          <div className="flex items-center rounded-full">
-            <img
-              className="h-16 w-16 rounded-full object-cover object-[top]"
-              src="https://plus.unsplash.com/premium_photo-1690407617542-2f210cf20d7e?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-              alt=""
-            />
+
+          <div className="flex items-center gap-5">
+            {/* Humberger */}
+            <Theme />
+            <div onClick={() => navigate('/profile')} className="group relative cursor-pointer self-center">
+              <img
+                src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=150"
+                alt="Foto Profil"
+                className="h-11 w-11 rounded-full border-2 border-gray-700 object-cover transition-colors hover:border-blue-500"
+              />
+              {/* Indikator Online Status */}
+              <span className="absolute right-0 bottom-0 h-2.5 w-2.5 rounded-full border-2 border-[#181818] bg-emerald-500" />
+            </div>
           </div>
         </div>
       </div>

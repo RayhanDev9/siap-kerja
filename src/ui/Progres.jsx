@@ -1,10 +1,14 @@
-function Progres({ progressPercentage, thame = "bg-purple-500" }) {
+function Progres({
+  progressPercentage,
+  thame = "bg-purple-500",
+  height = "h-2.5",
+}) {
   const result = thame.slice(0, thame.lastIndexOf("-"));
   const thameDefault = result + "-100";
   return (
-    <div className={`h-2.5 w-full rounded-full ${thameDefault}`}>
+    <div className={`${height} w-full rounded-full ${thameDefault}`}>
       <div
-        className={`h-2.5 rounded-full ${thame}`}
+        className={`${height} rounded-full ${thame}`}
         style={{ width: `${progressPercentage}%` }}
       ></div>
     </div>

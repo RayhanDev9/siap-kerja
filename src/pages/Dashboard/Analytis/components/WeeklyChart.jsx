@@ -44,8 +44,8 @@ const CustomTick = ({ x, y, payload }) => {
 
 const WeeklyChart = () => {
   return (
-    <div className="w-full max-w-lg rounded-xl border border-gray-100 bg-slate-100 p-6 shadow-sm">
-      <div className="h-64 rounded-lg border border-gray-100 bg-white p-4">
+    <div className="w-full max-w-lg rounded-xl border border-gray-100 bg-slate-100 p-6 shadow-sm  dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35">
+      <div className="h-64 rounded-lg border border-gray-100 bg-white p-4  dark:border dark:border-white/25 dark:bg-black hover:dark:border-white/35">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
             data={data}

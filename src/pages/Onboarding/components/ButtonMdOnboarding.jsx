@@ -6,9 +6,9 @@ import { motion } from "framer-motion"; // 1. Import Framer Motion
 function ButtonMdOnboarding({ button1, button2, to = "", onFinish }) {
   const navigate = useNavigate();
   return (
-    <motion.div variants={cardVariants} className="hidden justify-between bg-white p-7 text-center md:flex">
+    <motion.div variants={cardVariants} className="justify-between bg-white p-7 text-center flex  dark:bg-neutral-900 hover:dark:border-white/35">
       <div className="inline-block">
-        <Button type="secondary" onClick={() => navigate(-1)}>
+        <Button  type="generalSecondary" onClick={() => navigate(-1)}>
           {button1}
         </Button>
       </div>

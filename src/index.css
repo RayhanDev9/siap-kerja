@@ -1,4 +1,6 @@
 @import "tailwindcss";
+/* @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *)); */
+@custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
   --color-primary: #0052cc;
@@ -12,10 +14,13 @@
   --breakpoint-xs: 30rem;
   --breakpoint-3xl: 120rem;
 }
-
+html {
+  scrollbar-gutter: stable;
+}
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
 
 .no-scrollbar {
   -ms-overflow-style: none;

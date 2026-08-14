@@ -19,7 +19,8 @@ function SkillCategoryDetailsItems({ status, name, statusType }) {
         <Text
           className={`${badgeColorClass} self-center rounded-full px-2 py-1`}
         >
-          {status}
+        
+          <span className="text-black">  {status}</span>
         </Text>
       </div>
     </div>

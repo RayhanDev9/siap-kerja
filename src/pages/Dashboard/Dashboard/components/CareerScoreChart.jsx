@@ -3,7 +3,7 @@ import dashboardData from "./dashboardData";
 
 const CareerScoreChart = () => {
   // Data skor: 78 didapatkan, sisa 22 kosong (untuk mencapai 100)
-  const{ scoreData} = dashboardData.careerReadiness;
+  const { scoreData } = dashboardData.careerReadiness;
 
   return (
     // Wrapper div dengan class relative agar teks angka bisa diletakkan tepat di tengah
@@ -20,8 +20,9 @@ const CareerScoreChart = () => {
             outerRadius={70}
             strokeWidth={16} // Ketebalan garis lingkaran
             fill="none"
-            stroke="#F3E8FF" // Warna ungu muda (setara Tailwind purple-100)
+            // Warna ungu muda (setara Tailwind purple-100)
             isAnimationActive={false}
+            className="stroke-white "
           />
 
           {/* 2. Lapisan Lingkaran Skor Utama (Ungu Tua Terpotong) */}
@@ -39,9 +40,10 @@ const CareerScoreChart = () => {
             {/* Bagian Skor (78) */}
             <Cell
               fill="none"
-              stroke="#7C3AED" // Warna ungu tua (setara Tailwind violet-600)
+             // Warna ungu tua (setara Tailwind violet-600)
               strokeDasharray="35 15" // Efek putus-putus: 35px garis, 15px celah/spasi
               strokeLinecap="round" // Membuat ujung potongan menjadi melengkung
+              className="stroke-purple-700 dark:stroke-purple-500"
             />
             {/* Bagian Sisa (22) - Dibuat transparan agar lapisan background terlihat */}
             <Cell fill="none" stroke="transparent" />

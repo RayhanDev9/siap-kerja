@@ -36,9 +36,7 @@ function OnboardingPage4() {
   const [textErrorSpecialization, setTextErrorSpecialization] = useState("");
 
   // Data about me tetap dipertahankan sebagai nilai default
-  const [aboutMe, setAboutMe] = useState(
-    "Halo, saya Muhamad Rayhan, mahasiswa yang antusias dalam software development. Saya fokus pada JavaScript, Java, dan teknologi front-end. Berpengalaman membangun web-based game dan aplikasi visualisasi 2D, serta terbiasa menggunakan Git/GitHub untuk kolaborasi proyek secara tim.",
-  );
+  const [aboutMe, setAboutMe] = useState("");
   const [textErrorAboutMe, setTextErrorAboutMe] = useState("");
 
   // 2. Fungsi Utama untuk mengecek semua data sebelum navigasi
@@ -79,13 +77,13 @@ function OnboardingPage4() {
 
   return (
     <>
-      <div className="md:bg-white md:pb-7">
+      <div className="md:rounded-2xl md:bg-white md:pb-7 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35">
         <Section>
           <div className="space-y-7">
-            <ProgresOnboarding progresOnboarding={3} />
+            <ProgresOnboarding progresOnboarding={2} />
 
             {/* Header */}
-            <div className="rounded-2xl bg-white p-7 shadow-md">
+            <div className="rounded-2xl bg-white p-7 shadow-md dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35">
               <motion.div variants={cardVariants} className="pb-1">
                 <H2 type="secondaryBold">Lengkapi Profil Anda</H2>
               </motion.div>
@@ -101,27 +99,80 @@ function OnboardingPage4() {
               variants={cardVariants}
               className="flex flex-col items-center gap-5 p-7 text-center"
             >
-              <div className="flex h-28 w-28 items-center justify-center rounded-full border border-slate-200 bg-slate-200 text-slate-600">
-                <i className="fa-solid fa-camera-rotate text-3xl"></i>
+              <div className="flex h-28 w-28 items-center justify-center rounded-full border border-slate-200 bg-slate-200 text-slate-600 dark:border dark:border-white/25 dark:bg-black hover:dark:border-white/35">
+                <i className="fa-solid fa-camera-rotate text-3xl dark:text-white"></i>
               </div>
               <Text className="font-semibold text-blue-800">Unggah Foto</Text>
             </motion.div>
 
-            {/* Input Name */}
-            <motion.div variants={cardVariants}>
-              <InputName
-                value={inputName}
-                onChange={(e) => setInputName(e.target.value)}
-              />
-              {textErrorInputName && (
-                <Text className="my-3 rounded-2xl bg-red-600 px-2 py-2 text-sm text-red-50">
-                  {textErrorInputName}
-                </Text>
-              )}
-            </motion.div>
+            <div className="">
+              {/* Input Name */}
+              <motion.div variants={cardVariants}>
+                <InputName
+                  value={inputName}
+                  onChange={(e) => setInputName(e.target.value)}
+                />
+                {textErrorInputName && (
+                  <Text className="my-3 rounded-2xl bg-red-600 px-2 py-2 text-sm text-red-50">
+                    {textErrorInputName}
+                  </Text>
+                )}
+              </motion.div>
 
-            {/* Input Email */}
-            <motion.div variants={cardVariants}>
+              <motion.div variants={cardVariants} className="">
+                <InputAboutMe
+              
+                  value={aboutMe}
+                  onChange={(e) => {
+                    setAboutMe(e.target.value);
+                    if (e.target.value.trim() !== "") setTextErrorAboutMe("");
+                  }}
+                  onBlur={() => {
+                    if (aboutMe.trim() === "")
+                      setTextErrorAboutMe(
+                        "Deskripsi tentang saya tidak boleh kosong",
+                      );
+                  }}
+                />
+                {textErrorAboutMe && (
+                  <Text className="my-3 rounded-2xl bg-red-600 px-3 py-2 text-sm text-red-50 ">
+                    {textErrorAboutMe}
+                  </Text>
+                )}
+              </motion.div>
+            </div>
+          </div>
+        </Section>
+
+        {/* Tombol Selesai */}
+        <motion.div
+          variants={cardVariants}
+          className="bg-white p-7 text-center md:hidden dark:bg-neutral-900"
+        >
+          {/* 
+            Ganti properti 'to' menjadi 'onClick={handleSubmit}'.
+            Pastikan komponen <Button> milikmu mendukung props onClick. 
+            Jika tidak mendukung, ganti dengan tag <button> standar seperti di halaman Register.
+          */}
+
+     
+        </motion.div>
+        <ButtonMdOnboarding
+          button1="sebelumnya"
+          button2="Selanjutnya"
+          to="/onboardingPage3"
+        />
+      </div>
+    </>
+  );
+}
+
+export default OnboardingPage4;
+{
+  /* Input Email */
+}
+{
+  /* <motion.div variants={cardVariants}>
               <Email
                 value={inputEmail}
                 onChange={(e) => setInputEmail(e.target.value)}
@@ -131,10 +182,14 @@ function OnboardingPage4() {
                   {textErrorInputEmail}
                 </Text>
               )}
-            </motion.div>
+            </motion.div> */
+}
 
-            {/* Input Date Of Birth */}
-            <motion.div variants={cardVariants}>
+{
+  /* Input Date Of Birth */
+}
+{
+  /* <motion.div variants={cardVariants}>
               <InputDateOfBirth
                 value={InputBirthDate}
                 onChange={(date) => {
@@ -153,10 +208,14 @@ function OnboardingPage4() {
                   {textErrorInputBirthDate}
                 </Text>
               )}
-            </motion.div>
+            </motion.div> */
+}
 
-            {/* Select Domisili */}
-            <motion.div variants={cardVariants}>
+{
+  /* Select Domisili */
+}
+{
+  /* <motion.div variants={cardVariants}>
               <SelectLocation
                 value={selectLocation}
                 onChange={(selectedCity) => {
@@ -168,16 +227,20 @@ function OnboardingPage4() {
                     setTextErrorSelectLocation("Domisili tidak boleh kosong");
                 }}
               />
-              {/* Perbaikan: Error Domisili dipindah ke sini agar rapi */}
+      
               {textErrorSelectLocation && (
                 <Text className="my-3 rounded-2xl bg-red-600 px-3 py-2 text-sm text-red-50">
                   {textErrorSelectLocation}
                 </Text>
               )}
-            </motion.div>
+            </motion.div> */
+}
 
-            {/* Select Specialization */}
-            <motion.div variants={cardVariants}>
+{
+  /* Select Specialization */
+}
+{
+  /* <motion.div variants={cardVariants}>
               {" "}
               <SelectSpecialization
                 value={selectSpecialization}
@@ -191,51 +254,9 @@ function OnboardingPage4() {
                   {textErrorSpecialization}
                 </Text>
               )}
-            </motion.div>
-
-            {/* Input About Me */}
-            <motion.div variants={cardVariants}>
-              <InputAboutMe
-                value={aboutMe}
-                onChange={(e) => {
-                  setAboutMe(e.target.value);
-                  if (e.target.value.trim() !== "") setTextErrorAboutMe("");
-                }}
-                onBlur={() => {
-                  if (aboutMe.trim() === "")
-                    setTextErrorAboutMe(
-                      "Deskripsi tentang saya tidak boleh kosong",
-                    );
-                }}
-              />
-              {textErrorAboutMe && (
-                <Text className="my-3 rounded-2xl bg-red-600 px-3 py-2 text-sm text-red-50">
-                  {textErrorAboutMe}
-                </Text>
-              )}
-            </motion.div>
-          </div>
-        </Section>
-
-        {/* Tombol Selesai */}
-        <motion.div
-          variants={cardVariants}
-          className="bg-white p-7 text-center md:hidden"
-        >
-          {/* 
-            Ganti properti 'to' menjadi 'onClick={handleSubmit}'.
-            Pastikan komponen <Button> milikmu mendukung props onClick. 
-            Jika tidak mendukung, ganti dengan tag <button> standar seperti di halaman Register.
-          */}
-
-          <Button type="generalPrimary" onClick={handleSubmit}>
-            Selesai
-          </Button>
-        </motion.div>
-        <ButtonMdOnboarding button1="Lewati" button2="Selanjutnya" onFinish={handleSubmit} />
-      </div>
-    </>
-  );
+            </motion.div> */
 }
 
-export default OnboardingPage4;
+{
+  /* Input About Me */
+}

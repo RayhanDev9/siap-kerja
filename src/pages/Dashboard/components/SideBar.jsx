@@ -1,4 +1,4 @@
-import { NavLink } from "react-router";
+import { NavLink, useNavigate } from "react-router";
 import SideBarItems from "./SideBarItems";
 import Button from "../../../ui/Button";
 import Logo from "../../../ui/Logo";
@@ -17,11 +17,11 @@ const NavLinks = [
     description: "Market Trends",
   },
   { path: "/analytics", icon: "fa-chart-column", description: "Analytics" },
-  {
-    path: "/aiRecommendations",
-    icon: "fa-magic",
-    description: "AI Picks",
-  },
+  // {
+  //   path: "/aiRecommendations",
+  //   icon: "fa-magic",
+  //   description: "AI Picks",
+  // },
   { path: "/skillGap", icon: "fa-list-ul", description: "Skill Gap" },
   { path: "/learningRoadmap", icon: "fa-map", description: "Roadmap" },
   {
@@ -29,44 +29,51 @@ const NavLinks = [
     icon: "fa-bookmark",
     description: "Saved Careers",
   },
-  { path: "/profile", icon: "fa-user", description: "Profile" },
+  // { path: "/profile", icon: "fa-user", description: "Profile" },
 
   { path: "/setting", icon: "fa-gear", description: "Settings" },
 ];
 
 function SideBar() {
   const isTrue = true;
+  const navgiate = useNavigate();
   return (
-    <div className="3xl:overflow-y-auto sticky top-0 hidden w-full self-start border-r border-gray-200 lg:block">
+    <div className="3xl:overflow-y-auto sticky top-0 hidden w-full self-start border-r border-gray-200 lg:block dark:border dark:border-white/25 hover:dark:border-white/35  ">
       {/* WADAH UTAMA BOTTOM NAV */}
       <nav
-        className={`} flex flex-col justify-between gap-5 border-t border-slate-200 bg-white py-7 transition-all duration-300`}
+        className={`} flex min-h-screen flex-col justify-between gap-5 border-t border-slate-200 bg-white dark:bg-black  transition-all duration-300`}
       >
-        <div className="flex flex-col gap-1 pr-5 pl-3">
-          <Logo type="secondaryBold" type="small">
-            SiapKerja
-          </Logo>
-          <Text className="text-sm">Mitra Pertumbuhan Karir</Text>
+        {/* Bagian menu */}
+        <div className="flex flex-col gap-5 justify-between">
+          <div className="flex flex-col gap-1 pr-5 py-4 pl-3 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35">
+            <Logo type="secondaryBold" type="small">
+              SiapKerja
+            </Logo>
+            <Text className="text-sm">Mitra Pertumbuhan Karir</Text>
+          </div>
+          <div className="flex flex-col gap-5 pr-5 pl-3">
+            {NavLinks.map((link) => (
+              <NavLink
+                key={link.path}
+                to={link.path}
+                className={({ isActive }) =>
+                  `flex justify-start rounded-lg font-semibold transition-all duration-200 text-2xl${
+                    isActive
+                      ? "rounded--2xl rounded-r-full bg-blue-600 font-bold text-white "
+                      : "text-gray-500 hover:bg-gray-100 hover:dark:bg-neutral-800 "
+                  }`
+                }
+              >
+                <SideBarItems icon={link.icon} description={link.description} />
+              </NavLink>
+            ))}
+          </div>
         </div>
-        <div className="flex flex-col gap-5 pr-5 pl-3">
-          {NavLinks.map((link) => (
-            <NavLink
-              key={link.path}
-              to={link.path}
-              className={({ isActive }) =>
-                `flex justify-start rounded-lg font-semibold transition-all duration-200 text-2xl${
-                  isActive
-                    ? "rounded--2xl rounded-r-full bg-blue-600 font-bold text-white "
-                    : "text-gray-500 hover:bg-gray-100 hover:text-blue-500"
-                }`
-              }
-            >
-              <SideBarItems icon={link.icon} description={link.description} />
-            </NavLink>
-          ))}
-        </div>
-        <div className="flex flex-col justify-end gap-5 border-t border-slate-300 py-7 pr-5 pl-3">
-          <Button type="generalPrimary">Upgrade to Pro</Button>
+        {/* Bagian Profile */}
+        <div
+          onClick={() => navgiate("/profile")}
+          className="flex flex-col justify-end gap-5 border-t border-slate-300 py-7 pr-5 pl-3 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35"
+        >
           <div className="flex gap-3">
             <i class="far fa-user-circle self-center rounded-full bg-slate-100 p-3 text-3xl text-slate-500"></i>
             <div>

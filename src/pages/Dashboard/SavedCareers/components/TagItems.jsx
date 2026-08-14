@@ -26,7 +26,7 @@ function TagItems({ label, theme }) {
 
   return (
     <Text
-      className={`${activeTheme.bg} rounded-2xl px-2 py-1 ${activeTheme.text} inline-block font-bold`}
+      className={`${activeTheme.bg} rounded-2xl px-2 py-1 ${activeTheme.text} inline-block font-bold dark:border dark:border-white/25 dark:bg-black hover:dark:border-white/35`}
     >
       {label}
     </Text>

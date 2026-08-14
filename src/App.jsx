@@ -27,10 +27,16 @@ import OnboardingPage1 from "./pages/Onboarding/Page1/OnboardingPage1.jsx";
 import OnboardingPage2 from "./pages/Onboarding/Page2/OnboardingPage2.jsx";
 import OnboardingPage3 from "./pages/Onboarding/Page3/OnboardingPage3.jsx";
 import OnboardingPage4 from "./pages/Onboarding/Page4/OnboardingPage4.jsx";
+import OnboardingPage5 from "./pages/Onboarding/Page5/OnboardingPage5";
+
+// Course
+import CourseLayout from "./pages/course/CourseLayout.jsx";
+import Course from "./pages/course/Course.jsx";
 
 // Another
 import Error from "./ui/Error.jsx";
 import tes from "./tes.js";
+
 
 // 2. GANTI MENJADI createHashRouter
 const router = createHashRouter(
@@ -66,15 +72,19 @@ const router = createHashRouter(
         },
         {
           path: "/onboardingPage2",
-          element: <OnboardingPage2 />,
+          element: <OnboardingPage4 />,
         },
         {
           path: "/onboardingPage3",
-          element: <OnboardingPage3 />,
+          element: <OnboardingPage2 />,
         },
         {
           path: "/onboardingPage4",
-          element: <OnboardingPage4 />,
+          element: <OnboardingPage3 />,
+        },
+        {
+          path: "/onboardingPage5",
+          element: <OnboardingPage5 />,
         },
       ],
     },
@@ -91,6 +101,11 @@ const router = createHashRouter(
           element: <Register />,
         },
       ],
+    },
+    {
+      element: <CourseLayout />,
+      errorElement: <Error />,
+      children: [{ path: "/course", element: <Course /> }],
     },
   ],
   {
