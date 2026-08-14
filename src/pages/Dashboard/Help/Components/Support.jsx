@@ -11,22 +11,22 @@ const Support = () => {
   const contactMethods = [
     {
       title: "Email Dukungan",
-      detail: "support@siapkerja.id",
+      detail: "rayhanoi26@gmail.com",
       icon: "fa-envelope",
       action: "Kirim Email",
       color: "text-blue-600 dark:text-blue-400",
     },
     {
       title: "WhatsApp",
-      detail: "+62 812 3456 7890",
-      icon: "fa-whatsapp",
+      detail: "+62 856 9209 7048",
+      icon: "fa-brands fa-whatsapp ",
       action: "Chat Sekarang",
       color: "text-green-600 dark:text-green-500",
     },
     {
       title: "Komunitas Discord",
       detail: "discord.gg/siapkerja",
-      icon: "fa-discord",
+      icon: "fa-brands fa-discord ",
       action: "Gabung Discord",
       color: "text-indigo-600 dark:text-indigo-400",
     },

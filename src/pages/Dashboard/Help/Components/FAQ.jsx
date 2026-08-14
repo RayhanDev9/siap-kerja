@@ -1,57 +1,180 @@
-import React from "react";
+import React, { useState } from "react";
 import Section from "../../../../ui/Section";
 import TopBar from "../../../../ui/TopBar";
 import HeaderSection from "../../components/HeaderSection";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { cardVariants } from "../../../../util/animations";
 import H3 from "../../../../ui/H3";
 import Text from "../../../../ui/Text";
+import {
+  Disclosure,
+  DisclosureButton,
+  DisclosurePanel,
+} from "@headlessui/react";
+import { useNavigate } from "react-router-dom";
+import Button from "../../../../ui/Button";
 
 const FAQ = () => {
+  const [searchQuery, setSearchQuery] = useState("");
+  const navigate = useNavigate();
+
   const faqs = [
     {
+      id: 1,
       question: "Apa itu SiapKerja?",
-      answer: "SiapKerja adalah platform bimbingan karir berbasis AI yang membantu Anda menemukan jalur karir terbaik, mengidentifikasi celah keahlian, dan memberikan rekomendasi pembelajaran yang dipersonalisasi.",
+      answer:
+        "SiapKerja adalah platform bimbingan karir berbasis AI yang membantu Anda menemukan jalur karir terbaik, mengidentifikasi celah keahlian, dan memberikan rekomendasi pembelajaran yang dipersonalisasi sesuai kebutuhan pasar industri saat ini.",
     },
     {
+      id: 2,
       question: "Bagaimana cara kerja Rekomendasi Karir AI?",
-      answer: "AI kami menganalisis profil, keahlian, dan minat Anda untuk mencocokkannya dengan tren pasar kerja saat ini, memberikan skor kesiapan karir yang akurat.",
+      answer:
+        "AI kami menganalisis profil, keahlian, dan minat Anda untuk mencocokkannya dengan tren pasar kerja secara real-time. Kami membandingkan kualifikasi Anda dengan ribuan lowongan kerja untuk memberikan skor kesiapan karir yang akurat.",
     },
     {
-      question: "Apakah platform ini gratis?",
-      answer: "SiapKerja menawarkan fitur dasar secara gratis untuk membantu semua orang memulai perjalanan karir mereka. Kami juga memiliki paket premium untuk analisis yang lebih mendalam.",
+      id: 3,
+      question: "Bagaimana cara meningkatkan Skor Kesiapan Karir?",
+      answer:
+        "Anda dapat meningkatkan skor dengan menyelesaikan kursus yang direkomendasikan dalam Learning Roadmap, memperbarui sertifikasi di profil, dan melengkapi detail pengalaman proyek atau kerja Anda.",
     },
     {
-      question: "Bagaimana cara melaporkan masalah teknis?",
-      answer: "Anda dapat menggunakan fitur 'Laporkan Bug' di menu bantuan untuk mengirimkan detail kendala yang Anda alami kepada tim teknis kami.",
+      id: 4,
+      question: "Apakah platform ini sepenuhnya gratis?",
+      answer:
+        "SiapKerja menawarkan akses gratis untuk fitur dasar seperti Dashboard, Skill Gap sederhana, dan profil. Kami juga menyediakan fitur Premium untuk analisis mendalam AI dan akses ke mentor eksklusif.",
+    },
+    {
+      id: 5,
+      question: "Di mana saya bisa melihat Roadmap Pembelajaran saya?",
+      answer:
+        "Anda dapat mengaksesnya melalui menu 'Learning Roadmap' di sidebar. Roadmap ini disusun secara otomatis berdasarkan celah keahlian (Skill Gap) yang teridentifikasi oleh sistem AI kami.",
+    },
+    {
+      id: 6,
+      question: "Apakah data pribadi saya aman di SiapKerja?",
+      answer:
+        "Keamanan data Anda adalah prioritas kami. Semua data profil dan aktivitas belajar Anda dilindungi dengan enkripsi standar industri dan tidak akan dibagikan kepada pihak ketiga tanpa izin Anda.",
     },
   ];
+
+  const filteredFaqs = faqs.filter(
+    (faq) =>
+      faq.question.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      faq.answer.toLowerCase().includes(searchQuery.toLowerCase()),
+  );
 
   return (
     <Section>
       <div className="flex flex-col gap-6">
-        <TopBar placeholder="Cari bantuan..." isSerch={true} />
-        <HeaderSection 
-          title="FAQ (Tanya Jawab)" 
-          description="Temukan jawaban cepat untuk pertanyaan umum mengenai SiapKerja."
+        {/* Search Bar terintegrasi dengan TopBar logic */}
+        <TopBar
+          placeholder="Cari bantuan atau pertanyaan..."
+          isSerch={true}
+          onChange={(e) => setSearchQuery(e.target.value)}
         />
 
-        <div className="grid gap-4">
-          {faqs.map((faq, index) => (
+        <HeaderSection
+          title="FAQ (Tanya Jawab)"
+          description="Temukan jawaban cepat untuk pertanyaan umum mengenai penggunaan platform SiapKerja."
+        />
+
+        {/* FAQ List with Search Feedback */}
+        <div className="flex flex-col gap-4">
+          {filteredFaqs.length > 0 ? (
+            filteredFaqs.map((faq) => (
+              <Disclosure key={faq.id}>
+                {({ open }) => (
+                  <motion.div
+                    variants={cardVariants}
+                    className={`group overflow-hidden rounded-2xl bg-white transition-all duration-200 hover:shadow-md dark:bg-neutral-900 ${
+                      open
+                        ? "border-l-4 border-blue-500 shadow-md ring-1 ring-slate-200 dark:ring-white/10"
+                        : "border-l-4 border-transparent hover:border-blue-400 dark:border dark:border-white/20"
+                    }`}
+                  >
+                    <DisclosureButton className="flex w-full items-center justify-between px-6 py-5 text-left outline-none">
+                      <H3
+                        className={`text-sm transition-colors md:text-base ${open ? "text-blue-600 dark:text-blue-400" : "text-slate-700 dark:text-slate-200"}`}
+                      >
+                        {faq.question}
+                      </H3>
+                      <i
+                        className={`fa-solid fa-chevron-up text-slate-400 transition-transform duration-300 ${open ? "rotate-0 text-blue-500" : "rotate-180"}`}
+                      ></i>
+                    </DisclosureButton>
+
+                    <AnimatePresence>
+                      {open && (
+                        <DisclosurePanel
+                          static
+                          as={motion.div}
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.3, ease: "easeInOut" }}
+                          className="overflow-hidden"
+                        >
+                          <div className="px-6 pt-0 pb-6">
+                            <hr className="mb-4 border-slate-100 dark:border-white/5" />
+                            <Text className="text-sm leading-relaxed md:text-base">
+                              {faq.answer}
+                            </Text>
+                          </div>
+                        </DisclosurePanel>
+                      )}
+                    </AnimatePresence>
+                  </motion.div>
+                )}
+              </Disclosure>
+            ))
+          ) : (
             <motion.div
-              key={index}
               variants={cardVariants}
-              className="rounded-2xl bg-white p-6 shadow-sm transition-all hover:shadow-md dark:border dark:border-white/20 dark:bg-neutral-900"
+              className="flex flex-col items-center justify-center py-12 text-center"
             >
-              <H3 className="mb-2 text-blue-600 dark:text-blue-400">
-                {faq.question}
-              </H3>
+              <div className="mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-slate-100 dark:bg-neutral-800">
+                <i className="fa-solid fa-magnifying-glass text-3xl text-slate-400"></i>
+              </div>
+              <H3>FAQ tidak ditemukan</H3>
               <Text>
-                {faq.answer}
+                Maaf, kami tidak dapat menemukan jawaban untuk kata kunci "
+                {searchQuery}"
               </Text>
             </motion.div>
-          ))}
+          )}
         </div>
+
+        {/* CTA Section */}
+        <motion.div
+          variants={cardVariants}
+          className="mt-8 overflow-hidden rounded-2xl bg-blue-50 p-1 dark:bg-blue-500/5"
+        >
+          <div className="flex flex-col items-center justify-between gap-6 rounded-xl border border-blue-100 bg-white p-8 md:flex-row dark:border-blue-500/20 dark:bg-neutral-900">
+            <div className="space-y-2 text-center md:text-left">
+              <H3 className="text-xl">
+                Tidak menemukan jawaban yang Anda cari?
+              </H3>
+              <Text>
+                Hubungi tim kami langsung untuk bantuan lebih lanjut mengenai
+                kendala Anda.
+              </Text>
+            </div>
+            <div className="flex shrink-0 gap-3">
+              <button
+                onClick={() => navigate("/help/support")}
+                className="rounded-xl bg-blue-600 px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-blue-700 hover:shadow-lg active:scale-95 md:text-base lg:text-lg dark:bg-blue-500 dark:hover:bg-blue-600"
+              >
+                Hubungi Dukungan
+              </button>
+              <button
+                onClick={() => navigate("/help/bug-report")}
+                className="rounded-xl border border-slate-200 bg-white px-6 py-3 text-sm md:text-base lg:text-lg font-semibold text-slate-700 transition-all hover:bg-slate-50 dark:border-white/25 hover:dark:border-white/35 dark:bg-black dark:text-white dark:hover:bg-black"
+              >
+                Laporkan Masalah
+              </button>
+            </div>
+          </div>
+        </motion.div>
       </div>
     </Section>
   );
