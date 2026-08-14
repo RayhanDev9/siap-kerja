@@ -1,19 +1,19 @@
 import { useState } from "react";
-import { cardVariants } from "./../util/animations";
-import { motion } from "framer-motion"; // 1. Import Framer Motion
-function Password({ value, onChange }) {
+
+function Password({ value, onChange, label = "Kata Sandi" }) {
   const [showPassword, setShowPassword] = useState(false);
 
   function handlePasswordVisibility() {
     setShowPassword(!showPassword);
   }
+
   return (
-    <motion.div variants={cardVariants} className="flex flex-col gap-2">
+    <div className="flex flex-col gap-2">
       <label
         htmlFor="password"
         className="text-sm font-medium text-gray-700 sm:text-base lg:text-lg dark:text-white"
       >
-        Kata Sandi
+        {label}
       </label>
       <div className="relative">
         <i className="fa-solid fa-lock absolute top-1/2 left-4 -translate-y-1/2 text-gray-400"></i>
@@ -32,7 +32,7 @@ function Password({ value, onChange }) {
           className={`fa-regular absolute top-1/2 right-4 -translate-y-1/2 cursor-pointer text-gray-400 hover:text-gray-600 ${showPassword ? "fa-eye" : "fa-eye-slash"}`}
         ></i>
       </div>
-    </motion.div>
+    </div>
   );
 }
 

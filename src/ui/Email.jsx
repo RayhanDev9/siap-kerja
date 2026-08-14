@@ -1,14 +1,11 @@
-import { cardVariants } from "./../util/animations";
-import { motion } from "framer-motion"; // 1. Import Framer Motion
-
-function Email({ value, onChange, disabled = false }) {
+function Email({ value, onChange, disabled = false, label = "Alamat Email" }) {
   return (
-    <motion.div variants={cardVariants} className="flex flex-col gap-2">
+    <div className="flex flex-col gap-2">
       <label
         htmlFor="email"
         className="text-sm font-medium text-gray-700 sm:text-base lg:text-lg dark:text-white"
       >
-        Alamat Email
+        {label}
       </label>
       <div className="relative">
         <input
@@ -24,7 +21,7 @@ function Email({ value, onChange, disabled = false }) {
         />
         <i className="fa-regular fa-envelope absolute top-1/2 left-4 -translate-y-1/2 text-gray-400"></i>
       </div>
-    </motion.div>
+    </div>
   );
 }
 

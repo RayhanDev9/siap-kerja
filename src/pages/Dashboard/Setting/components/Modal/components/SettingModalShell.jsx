@@ -1,15 +1,15 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import { DialogPanel, DialogTitle } from "@headlessui/react";
 
-export default function SettingModalShell({
-  title,
-  onClose,
-  onSubmit,
-  submitLabel = "Simpan Perubahan",
-  children,
-}) {
+const SettingModalShell = forwardRef(function SettingModalShell(
+  { title, onClose, onSubmit, submitLabel = "Simpan Perubahan", children },
+  ref,
+) {
   return (
-    <DialogPanel className="w-full overflow-hidden rounded-2xl bg-white p-4 text-left shadow-2xl sm:p-6 dark:bg-neutral-900 dark:text-white">
+    <DialogPanel
+      ref={ref}
+      className="w-[92vw] max-w-xl overflow-hidden rounded-2xl bg-white p-4 text-left shadow-2xl sm:p-6 dark:bg-neutral-900 dark:text-white"
+    >
       {/* Header */}
       <div className="mb-5 flex items-center justify-between gap-3">
         <DialogTitle
@@ -51,4 +51,6 @@ export default function SettingModalShell({
       </div>
     </DialogPanel>
   );
-}
+});
+
+export default SettingModalShell;

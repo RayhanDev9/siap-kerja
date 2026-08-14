@@ -5,11 +5,8 @@ import Button from "../../../ui/Button";
 import HeaderSection from "./../components/HeaderSection";
 import dataSetting from "./components/dataSetting";
 import OtherSettingsItems from "./components/OtherSettingsItems";
-import NamaPengunaModal from "./components/Modal/NamaPenguna";
+import SettingModal from "./components/SettingModal";
 import Text from "../../../ui/Text";
-import H3 from "../../../ui/H3";
-import Email from "../../../ui/Email";
-import InputName from "../../../ui/InputName";
 import Password from "../../../ui/Password";
 import { useEffect, useState } from "react";
 import { validatePassword } from "../../../util/helpers";
@@ -29,18 +26,25 @@ function Setting() {
   );
 
   const navigate = useNavigate();
-
   const dispatch = useDispatch();
 
   const { profilPengguna, keamanan, pengaturanLainnya } = settingData;
-
   const { namaLengkap, email, fotoProfil } = profilPengguna;
+
   const [inputPasswordOld, setInputPasswordOld] = useState("");
   const [textErrorInputPasswordOld, setTextErrorInputPasswordOld] =
     useState("");
   const [inputPasswordNew, setInputPasswordNew] = useState("");
   const [textErrorInputPasswordNew, setTextErrorInputPasswordNew] =
     useState("");
+
+  const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1024);
+  const [activeModal, setActiveModal] = useState(null);
+  const [nameDraft, setNameDraft] = useState("");
+  const [emailDraft, setEmailDraft] = useState("");
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [modalError, setModalError] = useState("");
 
   function handleSubmit() {
     const passworErrordOld = validatePassword(inputPasswordOld);
@@ -54,16 +58,13 @@ function Setting() {
     dispatch(logoutUserThunk())
       .unwrap()
       .then(() => {
-        navigate("/login"); // Lempar ke halaman login setelah sukses
+        navigate("/login");
       })
       .catch((err) => {
         console.error("Logout gagal:", err);
-        navigate("/login"); // Tetap paksa ke login meskipun server error
+        navigate("/login");
       });
   }
-
-  const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1024);
-  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -74,13 +75,140 @@ function Setting() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const handleOpenProfileModal = () => {
-    setIsProfileModalOpen(true);
+  const resetModalForm = () => {
+    setNameDraft("");
+    setEmailDraft("");
+    setCurrentPassword("");
+    setNewPassword("");
+    setModalError("");
   };
 
-  const handleCloseProfileModal = () => {
-    setIsProfileModalOpen(false);
+  const handleOpenModal = (kategori) => {
+    resetModalForm();
+    setActiveModal(kategori);
   };
+
+  const handleCloseModal = () => {
+    setActiveModal(null);
+    resetModalForm();
+  };
+
+  const openModalFields = {
+    "Nama Pengguna": {
+      title: "Nama Pengguna",
+      submitLabel: "Simpan Perubahan",
+      fields: [
+        {
+          type: "text",
+          label: "Nama Saat Ini",
+          value: profilPengguna?.namaLengkap ?? "",
+          disabled: true,
+        },
+        {
+          type: "text",
+          label: "Nama Baru",
+          value: nameDraft,
+          placeholder: "Masukkan nama lengkap baru",
+          onChange: (e) => {
+            setNameDraft(e.target.value);
+            if (modalError) setModalError("");
+          },
+        },
+      ],
+      onSubmit: () => {
+        const trimmed = nameDraft.trim();
+        const validationError = trimmed ? "" : "Nama tidak boleh kosong.";
+
+        if (validationError) {
+          setModalError(validationError);
+          return;
+        }
+
+        handleCloseModal();
+      },
+    },
+    "Alamat Email": {
+      title: "Alamat Email",
+      submitLabel: "Simpan Perubahan",
+      fields: [
+        {
+          type: "email",
+          label: "Email Saat Ini",
+          value: profilPengguna?.email ?? "",
+          disabled: true,
+        },
+        {
+          type: "email",
+          label: "Email Baru",
+          value: emailDraft,
+          placeholder: "nama@gmail.com",
+          onChange: (e) => {
+            setEmailDraft(e.target.value);
+            if (modalError) setModalError("");
+          },
+        },
+      ],
+      onSubmit: () => {
+        const trimmed = emailDraft.trim();
+        const validationError = trimmed
+          ? /^\S+@gmail\.com$/.test(trimmed)
+            ? ""
+            : "Format email tidak valid. Harap gunakan domain @gmail.com."
+          : "Alamat email tidak boleh kosong.";
+
+        if (validationError) {
+          setModalError(validationError);
+          return;
+        }
+
+        handleCloseModal();
+      },
+    },
+    "Keamanan Pengguna": {
+      title: "Keamanan Pengguna",
+      submitLabel: "Simpan Perubahan",
+      fields: [
+        {
+          type: "password",
+          label: "Kata Sandi Saat Ini",
+          value: currentPassword,
+          placeholder: "Masukkan kata sandi saat ini",
+          onChange: (e) => {
+            setCurrentPassword(e.target.value);
+            if (modalError) setModalError("");
+          },
+        },
+        {
+          type: "password",
+          label: "Kata Sandi Baru",
+          value: newPassword,
+          placeholder: "Masukkan kata sandi baru",
+          onChange: (e) => {
+            setNewPassword(e.target.value);
+            if (modalError) setModalError("");
+          },
+        },
+      ],
+      onSubmit: () => {
+        const currentError =
+          currentPassword.length >= 8
+            ? ""
+            : "Kata sandi tidak boleh kosong atau kurang dari 8 karakter.";
+        const newError =
+          newPassword.length >= 8 ? "" : "Kata sandi baru minimal 8 karakter.";
+        const validationError = currentError || newError;
+
+        if (validationError) {
+          setModalError(validationError);
+          return;
+        }
+
+        handleCloseModal();
+      },
+    },
+  };
+
+  const activeModalConfig = activeModal ? openModalFields[activeModal] : null;
 
   if (isLoading) {
     return <Loader />;
@@ -107,130 +235,32 @@ function Setting() {
           description="Kelola preferensi akun dan aplikasi anda"
         ></HeaderSection>
 
-        <div className="grid grid-cols-1 gap-7 lg:grid-cols-2">
-          {/* Keamanan Penggunna lg*/}
-          {isDesktop && (
-            <div className="hidden space-y-5 rounded-2xl bg-white p-7 lg:block dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35">
-              {/* Heading profile */}
-              <motion.div variants={cardVariants}>
-                <H2 type="secondry">
-                  <i class="fa-solid fa-lock pr-3 text-slate-700 dark:text-white"></i>
-                  Keamanan Penggunna
-                </H2>
-              </motion.div>
-
-              {/* input nama lengkap dan gmail disable */}
-              <div className="flex flex-col gap-1.5 lg:grid lg:grid-cols-1 lg:gap-7">
-                {/* username */}
-                <div className="lg:col-span-1">
-                  {/* Input Password */}
-                  <Password
-                    value={inputPasswordOld}
-                    onChange={(e) => setInputPasswordOld(e.target.value)}
-                  />
-                  {textErrorInputPasswordOld && (
-                    <Text className="my-3 rounded-2xl bg-red-600 px-2 py-2 text-red-50">
-                      {textErrorInputPasswordOld}
-                    </Text>
-                  )}
-                </div>
-                {/*  */}
-                {/* Input Email */}
-                <div className="lg:col-span-1">
-                  {/* Input Password */}
-                  <Password
-                    value={inputPasswordNew}
-                    onChange={(e) => setInputPasswordNew(e.target.value)}
-                  />
-                  {textErrorInputPasswordNew && (
-                    <Text className="my-3 rounded-2xl bg-red-600 px-2 py-2 text-red-50">
-                      {textErrorInputPasswordNew}
-                    </Text>
-                  )}
-                </div>
-              </div>
-              {/* Button */}
-              <motion.div variants={cardVariants}>
-                <Button type="generalSecondary" onClick={handleSubmit}>
-                  Simpan Perubahan
-                </Button>
-              </motion.div>
-            </div>
-          )}
-        </div>
-
-        {/* Keamanan Penggunna mobile*/}
-        {!isDesktop && (
-          <div className="space-y-5 rounded-2xl bg-white p-7 lg:hidden dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35">
-            {/* Heading profile */}
-            <motion.div variants={cardVariants}>
-              <H2 type="secondry">
-                <i class="fa-solid fa-lock pr-3 text-slate-700 dark:text-white"></i>
-                Keamanan Penggunna
-              </H2>
-            </motion.div>
-
-            {/* input nama lengkap dan gmail disable */}
-            <div className="flex flex-col gap-1.5 lg:grid lg:grid-cols-1 lg:gap-7">
-              {/* username */}
-              <div className="lg:col-span-1">
-                {/* Input Password */}
-                <Password
-                  value={inputPasswordOld}
-                  onChange={(e) => setInputPasswordOld(e.target.value)}
-                />
-                {textErrorInputPasswordOld && (
-                  <Text className="my-3 rounded-2xl bg-red-600 px-2 py-2 text-red-50">
-                    {textErrorInputPasswordOld}
-                  </Text>
-                )}
-              </div>
-              {/*  */}
-              {/* Input Email */}
-              <div className="lg:col-span-1">
-                {/* Input Password */}
-                <Password
-                  value={inputPasswordNew}
-                  onChange={(e) => setInputPasswordNew(e.target.value)}
-                />
-                {textErrorInputPasswordNew && (
-                  <Text className="my-3 rounded-2xl bg-red-600 px-2 py-2 text-red-50">
-                    {textErrorInputPasswordNew}
-                  </Text>
-                )}
-              </div>
-            </div>
-            {/* Button */}
-            <motion.div variants={cardVariants}>
-              <Button type="generalSecondary" onClick={handleSubmit}>
-                Simpan Perubahan
-              </Button>
-            </motion.div>
-          </div>
-        )}
+      
 
         {/* Pengaturan lainnya */}
-        <div className="overflow-hidden rounded-2xl bg-white px-3 pb-7 sm:px-7 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35 ">
+        <div className="overflow-hidden rounded-2xl  bg-white px-3 pb-7 md:p-7 sm:px-7 dark:border dark:border-white/25 dark:bg-neutral-900  md:gap-3 hover:dark:border-white/35 grid md:grid-cols-2">
           {dataSetting.pengaturanLainnya.map((item) => (
             <OtherSettingsItems
               key={item.id}
               kategori={item.kategori}
               status={item.status}
               icon={item.icon}
-              onClick={() => {
-                if (item.kategori === "Nama Pengguna") {
-                  handleOpenProfileModal();
-                }
-              }}
+              onClick={() => handleOpenModal(item.kategori)}
             />
           ))}
         </div>
 
-        <NamaPengunaModal
-          isOpen={isProfileModalOpen}
-          onClose={handleCloseProfileModal}
-          profileData={profilPengguna}
-        />
+        {activeModalConfig && (
+          <SettingModal
+            isOpen={Boolean(activeModal)}
+            onClose={handleCloseModal}
+            title={activeModalConfig.title}
+            fields={activeModalConfig.fields}
+            onSubmit={activeModalConfig.onSubmit}
+            submitLabel={activeModalConfig.submitLabel}
+            errorMessage={modalError}
+          />
+        )}
 
         <div
           onClick={handleLogout}
