@@ -37,6 +37,13 @@ import Course from "./pages/course/Course.jsx";
 import Error from "./ui/Error.jsx";
 import tes from "./tes.js";
 
+// Help Components
+import FAQ from "./pages/Dashboard/Help/Components/FAQ.jsx";
+import Support from "./pages/Dashboard/Help/Components/Support.jsx";
+import BugReport from "./pages/Dashboard/Help/Components/BugReport.jsx";
+import About from "./pages/Dashboard/Help/Components/About.jsx";
+import VersionInfo from "./pages/Dashboard/Help/Components/VersionInfo.jsx";
+import Guide from "./pages/Dashboard/Help/Components/Guide.jsx";
 
 // 2. GANTI MENJADI createHashRouter
 const router = createHashRouter(
@@ -55,6 +62,13 @@ const router = createHashRouter(
         { path: "/savedCareers", element: <SavedCareers /> },
         { path: "/setting", element: <Setting /> },
         { path: "/learningRoadmap", element: <LearningRoadmap /> },
+        // Help Routes
+        { path: "/help/guide", element: <Guide /> },
+        { path: "/help/faq", element: <FAQ /> },
+        { path: "/help/support", element: <Support /> },
+        { path: "/help/bug-report", element: <BugReport /> },
+        { path: "/help/about", element: <About /> },
+        { path: "/help/version", element: <VersionInfo /> },
       ],
     },
     {

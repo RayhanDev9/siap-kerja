@@ -55,3 +55,36 @@ Buka terminal/command prompt, lalu jalankan perintah berikut untuk mengunduh pro
 ```bash
 git clone [https://github.com/RayhanDev9/siap-kerja-testing.git](https://github.com/RayhanDev9/siap-kerja-testing.git)
 cd siap-kerja
+```
+
+---
+
+# 🛠️ Rencana Pengembangan Halaman Help (Pusat Bantuan)
+
+Berikut adalah rencana langkah-langkah untuk mengimplementasikan halaman bantuan yang responsif, teranimasi, dan terintegrasi dengan layout utama:
+
+### 1. Konfigurasi Routing
+Menambahkan rute anak (child routes) di bawah `AppLayout` pada `src/App.jsx` untuk setiap menu bantuan:
+- `/help/guide` -> Panduan Penggunaan
+- `/help/faq` -> FAQ (Tanya Jawab)
+- `/help/support` -> Hubungi Dukungan
+- `/help/bug-report` -> Laporkan Bug
+- `/help/about` -> Tentang SiapKerja
+
+### 2. Integrasi Navigasi (HelpDropdown)
+- Memperbarui `src/ui/HelpDropdown.jsx` agar menggunakan `useNavigate` dari `react-router-dom`.
+- Menghubungkan setiap item menu dengan rute yang telah dibuat.
+
+### 3. Implementasi Komponen Halaman
+Setiap halaman di `src/pages/Dashboard/Help/` akan mengikuti standar berikut:
+- **Layout:** Menggunakan komponen `Section` dan `TopBar` untuk konsistensi.
+- **Animasi:** Menerapkan `framer-motion` dengan `cardVariants` dari `src/util/animations.js`.
+- **Responsivitas:** Menggunakan utility Tailwind CSS (`lg:grid-cols-2`, `sm:p-5`, dll).
+- **Style:** Mengikuti tema *Dark/Light mode* yang sudah ada.
+
+### 4. Detail Konten Halaman
+- **FAQ:** Akordion interaktif untuk pertanyaan umum.
+- **Support:** Formulir kontak atau informasi saluran dukungan.
+- **Bug Report:** Formulir pelaporan kendala teknis.
+- **About & Version:** Informasi aplikasi dan catatan rilis.
+- **Guide:** Langkah-langkah penggunaan fitur utama aplikasi.

@@ -1,12 +1,16 @@
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
+import { useNavigate } from "react-router-dom";
 
 function HelpDropdown() {
+  const navigate = useNavigate();
+
   const helpItems = [
-    { id: 1, label: "Panduan Penggunaan", icon: "fa-book" },
-    { id: 2, label: "FAQ (Tanya Jawab)", icon: "fa-comments" },
-    { id: 3, label: "Hubungi Dukungan", icon: "fa-headset" },
-    { id: 4, label: "Laporkan Bug / Kendala", icon: "fa-bug" },
-    { id: 5, label: "Tentang SiapKerja (v1.0.0)", icon: "fa-info-circle" }, 
+    { id: 1, label: "Panduan Penggunaan", icon: "fa-book", path: "/help/guide" },
+    { id: 2, label: "FAQ (Tanya Jawab)", icon: "fa-comments", path: "/help/faq" },
+    { id: 3, label: "Hubungi Dukungan", icon: "fa-headset", path: "/help/support" },
+    { id: 4, label: "Laporkan Bug / Kendala", icon: "fa-bug", path: "/help/bug-report" },
+    { id: 5, label: "Tentang SiapKerja", icon: "fa-info-circle", path: "/help/about" }, 
+    { id: 6, label: "Informasi Versi", icon: "fa-code-branch", path: "/help/version" }, 
   ];
 
   return (
@@ -35,7 +39,7 @@ function HelpDropdown() {
               <button
                 key={item.id}
                 onClick={() => {
-                  console.log(`Clicked: ${item.label}`);
+                  navigate(item.path);
                 }}
                 className="group relative flex w-full cursor-pointer items-center gap-3 rounded-xl px-3 py-2.5 text-left text-xs font-medium transition-colors hover:bg-slate-100 dark:hover:bg-slate-800/60"
               >
@@ -48,7 +52,6 @@ function HelpDropdown() {
               </button>
             ))}
           </div>
-          {/* Footer */}
         
         </PopoverPanel>
       </Popover>
@@ -57,15 +60,3 @@ function HelpDropdown() {
 }
 
 export default HelpDropdown;
-
-  // {/* <div className="space-x-2 border-t border-slate-200 px-4 py-2 dark:border-white/25 hover:dark:border-white/35">
-  //           <i
-  //             className={`fa-solid fa-info-circle pl-1 text-xs text-slate-500 group-hover:text-blue-500 md:text-base dark:text-slate-400 dark:group-hover:text-blue-400`}
-  //           ></i>
-  //           <span className="text-xs whitespace-nowrap text-white/80 md:text-base">
-  //             Tentang SiapKerja (v1.0.0)
-  //           </span>
-  //           {/* <p className="text-xs md:text-sm text-slate-500 dark:text-slate-400">
-              
-  //           </p> */}
-  //         </div> */}
