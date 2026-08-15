@@ -113,15 +113,15 @@ function QNA() {
                 onClick={() => toggleAccordion(index)}
                 className="flex w-full items-center justify-between rounded-2xl p-5 text-left transition-colors hover:bg-slate-50 md:p-6 dark:hover:bg-slate-800/30"
               >
-                <h3
-                  className={`flex-1 font-semibold transition-colors ${
+                <p
+                  className={`flex-1 text-base font-semibold transition-colors sm:text-lg lg:text-xl ${
                     openIndex === index
                       ? "text-blue-600 dark:text-blue-400"
                       : "text-slate-900 dark:text-white"
                   } text-sm md:text-base`}
                 >
                   {faq.question}
-                </h3>
+                </p>
 
                 {/* Chevron Icon */}
                 <motion.div
@@ -150,7 +150,7 @@ function QNA() {
                     className="overflow-hidden"
                   >
                     <div className="border-t-2 border-slate-200 px-5 py-4 md:px-6 md:py-5 dark:border-slate-700">
-                      <p className="text-sm leading-relaxed text-slate-600 md:text-base dark:text-slate-300">
+                      <p className="text-xs leading-relaxed text-slate-600 md:text-base md:text-sm lg:text-lg dark:text-slate-300">
                         {faq.answer}
                       </p>
                     </div>

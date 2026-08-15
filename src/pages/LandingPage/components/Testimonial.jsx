@@ -3,6 +3,7 @@ import { useState } from "react";
 import H2 from "../../../ui/H2";
 import Text from "../../../ui/Text";
 import Section from "../../../ui/Section";
+import H3 from "../../../ui/H3";
 
 const testimonialData = [
   {
@@ -103,9 +104,9 @@ function Testimonial() {
                 </div>
 
                 {/* Quote Text */}
-                <p className="mb-6 flex-1 text-sm leading-relaxed text-slate-600 italic md:text-base dark:text-slate-300">
+                <Text className="mb-6 flex-1 text-sm leading-relaxed text-slate-600 italic md:text-base dark:text-slate-300">
                   "{testimonial.quote}"
-                </p>
+                </Text>
 
                 {/* Divider */}
                 <div className="mb-5 h-1 w-12 rounded-full bg-gradient-to-r from-blue-600 to-blue-400"></div>
@@ -121,10 +122,10 @@ function Testimonial() {
 
                   {/* Name & Position */}
                   <div className="min-w-0 flex-1">
-                    <p className="truncate text-sm font-semibold text-slate-900 md:text-base dark:text-white">
+                    <H3 className="truncate text-sm font-semibold text-slate-900 md:text-base dark:text-white">
                       {testimonial.name}
-                    </p>
-                    <p className="truncate text-xs text-slate-500 dark:text-slate-400">
+                    </H3>
+                    <p className="truncate text-xs md:text-sm lg:text-base text-slate-500 dark:text-slate-400">
                       {testimonial.position}
                     </p>
                   </div>
