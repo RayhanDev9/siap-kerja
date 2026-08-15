@@ -6,16 +6,13 @@ import Text from "../../../ui/Text";
 
 const NavLinks = [
   { path: "/", icon: "fa-table-cells-large", description: "Dashboard" },
-  {
-    path: "/careerExplorer",
-    icon: "fa-compass",
-    description: "Career Explorer",
-  },
-  {
-    path: "/marketTrends",
-    icon: "fa-chart-line",
-    description: "Market Trends",
-  },
+  
+  // Eksplorasi & Riset
+  { path: "/careerExplorer", icon: "fa-compass", description: "Career Explorer" },
+  { path: "/savedCareers", icon: "fa-bookmark", description: "Saved Careers" },
+  { path: "/marketTrends", icon: "fa-chart-line", description: "Market Trends" },
+  
+  // Analisis Data Diri
   { path: "/analytics", icon: "fa-chart-column", description: "Analytics" },
   // {
   //   path: "/aiRecommendations",
@@ -23,14 +20,13 @@ const NavLinks = [
   //   description: "AI Picks",
   // },
   { path: "/skillGap", icon: "fa-list-ul", description: "Skill Gap" },
+  
+  // Aksi / Belajar
   { path: "/learningRoadmap", icon: "fa-map", description: "Roadmap" },
-  {
-    path: "/savedCareers",
-    icon: "fa-bookmark",
-    description: "Saved Careers",
-  },
+  { path: "/courses", icon: "fa-book-open", description: "Courses" },
+  
+  // Utilitas
   // { path: "/profile", icon: "fa-user", description: "Profile" },
-
   { path: "/setting", icon: "fa-gear", description: "Settings" },
 ];
 
@@ -38,14 +34,14 @@ function SideBar() {
   const isTrue = true;
   const navgiate = useNavigate();
   return (
-    <div className="3xl:overflow-y-auto sticky top-0 hidden w-full self-start border-r border-gray-200 lg:block dark:border dark:border-white/25 hover:dark:border-white/35  ">
+    <div className="3xl:overflow-y-auto sticky top-0 hidden w-full self-start border-r border-gray-200 lg:block dark:border dark:border-white/25 hover:dark:border-white/35">
       {/* WADAH UTAMA BOTTOM NAV */}
       <nav
-        className={`} flex min-h-screen flex-col justify-between gap-5 border-t border-slate-200 bg-white dark:bg-black  transition-all duration-300`}
+        className={`} flex min-h-screen flex-col justify-between gap-5 border-t border-slate-200 bg-white transition-all duration-300 dark:bg-black`}
       >
         {/* Bagian menu */}
-        <div className="flex flex-col gap-5 justify-between">
-          <div className="flex flex-col gap-1 pr-5 py-4 pl-3 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35">
+        <div className="flex flex-col justify-between gap-5">
+          <div className="flex flex-col gap-1 py-4 pr-5 pl-3 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35">
             <Logo type="secondaryBold" type="small">
               SiapKerja
             </Logo>
@@ -70,18 +66,36 @@ function SideBar() {
           </div>
         </div>
         {/* Bagian Profile */}
-        <div
-          onClick={() => navgiate("/profile")}
-          className="flex flex-col justify-end gap-5 border-t border-slate-300 py-7 pr-5 pl-3 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35"
+        <NavLink
+          to="/profile"
+          className={({ isActive }) =>
+            `flex flex-col justify-end gap-5 border-t border-slate-300 py-7 pr-5 pl-3 transition-colors dark:border-t-white/25 dark:bg-neutral-900 dark:hover:border-t-white/35 ${
+              isActive
+                ? "bg-slate-50 dark:bg-neutral-800"
+                : "hover:bg-slate-50 dark:hover:bg-neutral-800/80"
+            }`
+          }
         >
-          <div className="flex gap-3">
-            <i class="far fa-user-circle self-center rounded-full bg-slate-100 p-3 text-3xl text-slate-500"></i>
-            <div>
-              <p className="slef-ce text-xl font-medium">Budi Santoso</p>
-              <p className="text-base font-normal">Senior UI/UX</p>
+          {({ isActive }) => (
+            <div className="flex gap-3">
+              <i
+                className={`far fa-user-circle self-center rounded-full p-3 text-3xl transition-colors ${
+                  isActive
+                    ? "bg-blue-500 text-white"
+                    : "bg-slate-100 text-slate-500 dark:bg-neutral-900 dark:text-slate-400"
+                }`}
+              ></i>
+              <div>
+                <p className="text-xl font-medium text-slate-800 dark:text-white">
+                  Budi Santoso
+                </p>
+                <p className="text-base font-normal text-slate-500 dark:text-slate-400">
+                  Senior UI/UX
+                </p>
+              </div>
             </div>
-          </div>
-        </div>
+          )}
+        </NavLink>
       </nav>
     </div>
   );

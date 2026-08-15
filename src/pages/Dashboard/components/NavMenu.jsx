@@ -6,34 +6,31 @@ function NavMenu() {
   const isTrue = true;
 
   // 1. Data utama (Tanpa item "More")
-  const initialNavLinks = [
-    { path: "/", icon: "fa-table-cells-large", description: "Dashboard" },
-    {
-      path: "/careerExplorer",
-      icon: "fa-compass",
-      description: "Career Explorer",
-    },
-    {
-      path: "/marketTrends",
-      icon: "fa-chart-line",
-      description: "Market Trends",
-    },
-    // { path: "/profile", icon: "fa-user", description: "Profile" },
-    { path: "/analytics", icon: "fa-chart-column", description: "Analytics" },
-    // {
-    //   path: "/aiRecommendations",
-    //   icon: "fa-magic",
-    //   description: "AI Picks",
-    // },
-    { path: "/skillGap", icon: "fa-list-ul", description: "Skill Gap" },
-    { path: "/learningRoadmap", icon: "fa-map", description: "Roadmap" },
-    {
-      path: "/savedCareers",
-      icon: "fa-bookmark",
-      description: "Saved Careers",
-    },
-    { path: "/setting", icon: "fa-gear", description: "Settings" },
-  ];
+const initialNavLinks = [
+  { path: "/", icon: "fa-table-cells-large", description: "Dashboard" },
+  
+  // Eksplorasi & Riset
+  { path: "/careerExplorer", icon: "fa-compass", description: "Career Explorer" },
+  { path: "/savedCareers", icon: "fa-bookmark", description: "Saved Careers" },
+  { path: "/marketTrends", icon: "fa-chart-line", description: "Market Trends" },
+  
+  // Analisis Data Diri
+  { path: "/analytics", icon: "fa-chart-column", description: "Analytics" },
+  // {
+  //   path: "/aiRecommendations",
+  //   icon: "fa-magic",
+  //   description: "AI Picks",
+  // },
+  { path: "/skillGap", icon: "fa-list-ul", description: "Skill Gap" },
+  
+  // Aksi / Belajar
+  { path: "/learningRoadmap", icon: "fa-map", description: "Roadmap" },
+  { path: "/courses", icon: "fa-book-open", description: "Courses" },
+  
+  // Utilitas
+  // { path: "/profile", icon: "fa-user", description: "Profile" },
+  { path: "/setting", icon: "fa-gear", description: "Settings" },
+];
 
   const [visibleLinks, setVisibleLinks] = useState(initialNavLinks.slice(0, 3));
   const [hiddenLinks, setHiddenLinks] = useState(initialNavLinks.slice(3));

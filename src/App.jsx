@@ -44,6 +44,7 @@ import BugReport from "./pages/Dashboard/Help/Components/BugReport.jsx";
 import About from "./pages/Dashboard/Help/Components/About.jsx";
 import VersionInfo from "./pages/Dashboard/Help/Components/VersionInfo.jsx";
 import Guide from "./pages/Dashboard/Help/Components/Guide.jsx";
+import Courses from "./pages/Dashboard/Courses/Courses.jsx";
 
 // 2. GANTI MENJADI createHashRouter
 const router = createHashRouter(
@@ -62,6 +63,7 @@ const router = createHashRouter(
         { path: "/savedCareers", element: <SavedCareers /> },
         { path: "/setting", element: <Setting /> },
         { path: "/learningRoadmap", element: <LearningRoadmap /> },
+        { path: "/courses", element: <Courses /> },
         // Help Routes
         { path: "/help/guide", element: <Guide /> },
         { path: "/help/faq", element: <FAQ /> },

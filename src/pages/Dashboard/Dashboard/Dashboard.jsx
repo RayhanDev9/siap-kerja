@@ -13,6 +13,7 @@ import { cardVariants } from "../../../util/animations";
 import { useSelector } from "react-redux";
 import Loader from "../../../ui/Loader";
 import { getDate } from "../../../util/helpers";
+import Button from "../../../ui/Button";
 
 function Dashboard() {
   const { dashboardData, isLoading, error } = useSelector(
@@ -51,7 +52,7 @@ function Dashboard() {
             {/* Career readiness*/}
             <motion.div
               variants={cardVariants}
-            className="flex flex-col justify-center rounded-2xl bg-white p-7 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35"
+              className="flex flex-col justify-center rounded-2xl bg-white p-7 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35"
             >
               <H2 type="secondry" className="p-3 text-start">
                 Skor kesiapan karir
@@ -114,9 +115,11 @@ function Dashboard() {
                     </span>
                   </H2>
                 </div>
-                <p className="self-center text-lg text-blue-700 dark:text-blue-500">
-                  Lihat <i className="fa fa-solid fa-arrow-right"></i>
-                </p>
+                <Button to="/skillGap">
+                  <p className="self-center text-lg text-blue-700 dark:text-blue-500">
+                    Lihat <i className="fa fa-solid fa-arrow-right"></i>
+                  </p>
+                </Button>
               </div>
 
               <div className="flex flex-col items-center gap-3">

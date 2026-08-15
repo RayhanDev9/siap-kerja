@@ -2,6 +2,8 @@ const dataProfile = {
   profile: {
     name: "Budi Santoso",
     headline: "Senior UI/UX Designer di TechIndo",
+    careerCategory: "Teknologi Informasi / UI-UX",
+    targetRole: "Lead Product Designer",
     availabilityStatus: "Tersedia untuk Kerja",
     location: "Jakarta, ID",
     bio: "Mendesain pengalaman digital yang intuitif dengan fokus pada aksesibilitas dan sistem desain terukur.",

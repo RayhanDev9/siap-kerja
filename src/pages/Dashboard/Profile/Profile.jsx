@@ -2,239 +2,132 @@ import Section from "../../../ui/Section";
 import dataProfile from "./components/dataProfile";
 import SkillsItems from "./components/SkillsItems";
 import H2 from "./../../../ui/H2";
-import H3 from "./../../../ui/H3";
 import TopBar from "./../../../ui/TopBar";
-import Button from "./../../../ui/Button";
-import Progres from "./../../../ui/Progres";
-import ExperienceItems from "./components/ExperienceItems";
-import EducationItems from "./components/EducationItems";
 import Text from "../../../ui/Text";
+import Button from "../../../ui/Button"; // Import Button
 import { cardVariants } from "../../../util/animations";
-import { motion } from "framer-motion"; // 1. Import Framer Motion
-import { useRef } from "react";
-import { useSelector } from "react-redux";
-import Loader from "../../../ui/Loader";
+import { motion } from "framer-motion";
+import H3 from "../../../ui/H3";
 
 function Profile() {
-  //   const { data, isLoading, error } = useSelector((state) => state.profile);
-
-  //  if (isLoading || data === null) {
-  //     return <Loader />;
-  //   }
-
-  //   if (error) return <Error />;
-  const fileInputRef = useRef(null);
-
-  const { profile, aiMatchScore, skills, experience, educations } = dataProfile;
-
-  const { name, headline, availabilityStatus, location, bio, avatarUrl } =
+  const { profile, skills } = dataProfile;
+  const { name, city, headline, bio, avatarUrl, careerCategory, targetRole } =
     profile;
 
-  function handleButtonClick() {
-    fileInputRef.current.click();
-  }
-
-  function handleFileChange(event) {
-    const selectedFile = event.target.files[0];
-    if (selectedFile) {
-      console.log(event.target.files[0], selectedFile.name);
-    }
-  }
-
-  const { title, description, scorePercentage } = aiMatchScore;
   return (
     <Section>
       <div className="flex flex-col gap-7 pb-7">
-        {/* Top bar Lg */}
         <TopBar
           placeholder="cari peran, keahlian, atau industri"
           isSerch={false}
         />
-        <div className="grid grid-cols-1 justify-items-center gap-7 lg:grid-cols-3">
-          {/* data profile mobile*/}
-          <motion.div
-            variants={cardVariants}
-            className="col-span-1 flex flex-col items-center gap-7 lg:col-span-2 lg:hidden"
-          >
-            <div className="flex flex-col items-center gap-1">
-              <div className="flex items-center rounded-full">
-                <img
-                  className="inline-block h-36 w-36 rounded-full object-cover ring-3 ring-blue-700 ring-offset-4"
-                  src={`${avatarUrl}`}
-                  alt={`${name}`}
-                />
-              </div>
-              <div className="mt-4">
-                <H2 type="netural">{name}</H2>
-              </div>
-              <Text className="text-xl">{headline}</Text>
-            </div>
-            <div className="flex justify-center gap-3">
-              <Text className="truncate rounded-2xl bg-blue-500 px-3 py-1 font-semibold text-white">
-                {availabilityStatus}
-              </Text>
-              <Text className="truncate rounded-2xl bg-slate-300 px-3 py-1 font-semibold text-black">
-                <i className="fa-solid fa-location-dot pr-2"></i>
-                {location}
-              </Text>
-            </div>
-            <Text className="c text-center">{bio}</Text>
-          </motion.div>
 
-          {/* data profile destop*/}
-          <motion.div
-            variants={cardVariants}
-            className="col-span-2 hidden w-full flex-col gap-6 rounded-xl border border-gray-200 bg-white p-6 sm:flex-row lg:flex dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35"
-          >
-            {/* Kolom Kiri: Foto Profil */}
-            <div className="shrink-0">
-              <img
-                className="h-28 w-28 rounded-full object-cover ring-4 ring-slate-100 dark:ring-white/25 hover:dark:ring-white/35"
-                src={avatarUrl}
-                alt={name}
-              />
-            </div>
+        {/* Profile Header */}
+        <motion.div
+          variants={cardVariants}
+          className="flex w-full flex-col gap-6 rounded-xl border border-gray-200 bg-white p-6 sm:flex-row lg:flex dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35"
+        >
+          {/* Column Left: Photo */}
+          <div className="flex shrink-0 items-center justify-center">
+            <img
+              className="h-28 w-28 rounded-full object-cover ring-4 ring-slate-100 dark:ring-white/25"
+              src={avatarUrl}
+              alt={name}
+            />
+          </div>
 
-            {/* Kolom Kanan: Detail Informasi */}
-            <div className="flex flex-1 flex-col">
-              {/* Baris 1: Nama dan Lokasi */}
-              <div className="flex flex-wrap items-start justify-between gap-4">
-                <H2 type="netural" className="text-3xl font-bold text-gray-900">
-                  {name}
-                </H2>
+          {/* Column Right: Info */}
+          <div className="flex flex-1 flex-col">
+            <div className="flex flex-wrap items-start justify-between gap-4">
+              <H2 type="netural" className="text-3xl font-bold text-gray-900">
+                {name}
+              </H2>
 
-                {/* Pill Lokasi (Otomatis terdorong ke kanan karena justify-between di parent) */}
-                <div className="flex items-center gap-1.5 rounded-full bg-slate-100 px-3 py-1 text-sm font-medium text-slate-700 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35">
-                  <i className="fa-solid fa-location-dot text-slate-500 dark:text-white"></i>
-                  <span className="dark:text-white/80">{location}</span>
-                </div>
-              </div>
-
-              {/* Baris 2: Headline / Posisi */}
-              <div className="mt-1 flex items-center gap-2 text-lg font-medium text-blue-600 dark:text-blue-500">
-                <i className="fa-solid fa-briefcase"></i>
-                <span>{headline}</span>
-              </div>
-
-              {/* Baris 3: Label Judul Bio */}
-              <Text className="mt-6 text-sm font-semibold tracking-wide text-slate-500 uppercase">
-                Professional Bio
-              </Text>
-
-              {/* Baris 4: Teks Bio */}
-              <Text className="mt-3 text-base leading-relaxed text-slate-700">
-                {bio}
-              </Text>
-            </div>
-          </motion.div>
-
-          {/* Resume */}
-          <motion.div
-            variants={cardVariants}
-            className="col-span-1 flex w-full max-w-xl flex-col items-center gap-7 self-center justify-self-center rounded-2xl bg-white p-7 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35"
-          >
-            <div className="flex w-full justify-between">
-              <H2 type="netural">Resume</H2>
-              <div className="self-center">
-                <i className="far fa-file-alt self-center text-2xl text-purple-500"></i>
+              <div className="flex items-center gap-1.5 rounded-full bg-slate-100 px-3 py-1 text-sm font-medium text-slate-700 md:text-base lg:text-lg dark:border dark:border-white/25 dark:bg-neutral-900">
+                <i className="fa-solid fa-location-dot text-slate-500 dark:text-white"></i>
+                <span className="dark:text-white/80">{city}</span>
               </div>
             </div>
 
-            <div className="flex w-full justify-around rounded-2xl bg-blue-50 px-3 py-4 dark:border dark:border-white/25 dark:bg-black hover:dark:border-white/35">
-              <Text className="self-center rounded-2xl bg-white dark:bg-transparent">
-                <i className="fa-regular fa-file-pdf text-2xl text-blue-600"></i>
-              </Text>
-
-              <div className="flex flex-col flex-wrap">
-                <Text className="xl:w-min-0 xs:min-w-0 w-24 truncate font-bold lg:w-20">
-                  Budi_Santoso_Cv.Pdf
-                </Text>
-                <Text className="xl:w-min-0 xs:min-w-0 w-24 truncate lg:w-20">
-                  {" "}
-                  Update 2 weeks ego
-                </Text>
-              </div>
-
-              <Text className="self-center">
-                <i className="fas fa-download text-2xl"></i>
-              </Text>
+            <div className="mt-1 flex items-center gap-2 text-lg font-medium text-blue-600 dark:text-blue-500">
+              <i className="fa-solid fa-briefcase"></i>
+              <span>{headline}</span>
             </div>
 
-            <div className="flex w-full flex-col gap-4 self-start">
-              <div className="flex justify-between">
-                <Text className="self-start text-start font-semibold capitalize">
-                  All parsing complate
-                </Text>
-                <span>100%</span>
-              </div>
-              <Progres progressPercentage={100} />
+            <Text className="mt-6 text-sm font-semibold tracking-wide text-slate-500 uppercase md:text-base lg:text-lg">
+              Professional Bio
+            </Text>
 
-              <Button type="generalSecondary" onClick={handleButtonClick}>
-                <i className="fas fa-upload"></i> Uploud New Version
-              </Button>
-
-              <input
-                type="file"
-                ref={fileInputRef}
-                onChange={handleFileChange}
-                className="hidden"
-                accept=".pdf"
-              />
-            </div>
-          </motion.div>
-        </div>
-
-       
-
-        {/* Skills */}
-        <motion.div variants={cardVariants} className="">
-          <H2 type="secondry">Keahlian Utama</H2>
-          <div className="mt-7 flex flex-wrap gap-4">
-            {skills.primary.map((skill) => (
-              <SkillsItems skill={skill} />
-            ))}
-            <Text className="inline-block rounded-md bg-slate-50 p-2 text-blue-500 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35">
-              +{skills.additionalCount} Lainnya
+            <Text className="mt-3 text-base leading-relaxed text-slate-700">
+              {bio}
             </Text>
           </div>
         </motion.div>
 
-        {/* experience */}
-        <div>
+        {/* Skills */}
+        {skills && skills.primary && (
           <motion.div variants={cardVariants}>
-            <H2 type="secondry">Experience</H2>
+            <H2 type="secondry">Keahlian Utama</H2>
+            <div className="mt-7 flex flex-wrap gap-4">
+              {skills.primary.map((skill, index) => (
+                <SkillsItems key={index} skill={skill} />
+              ))}
+              <Text className="inline-block rounded-md bg-slate-50 p-2 text-blue-500 dark:border dark:border-white/25 dark:bg-neutral-900">
+                +{skills.additionalCount} Lainnya
+              </Text>
+            </div>
           </motion.div>
-          <div className="mt-7">
-            {experience.map((item) => (
-              <ExperienceItems
-                key={item.id}
-                role={item.role}
-                company={item.company}
-                period={item.period}
-                description={item.description}
-                isCurrent={item.isCurrent}
-              />
-            ))}
-          </div>
-        </div>
+        )}
 
-        {/* Education */}
-        <div>
-          <motion.div variants={cardVariants}>
-            <H2 type="secondry">Pendidikan</H2>
-          </motion.div>
+        {/* Career Info (Aspirasi Karir) */}
+        <motion.div variants={cardVariants} className="mt-8">
+          {/* Judul Bagian */}
+          <H2 type="primary" className="mb-6">
+            Aspirasi Karir
+          </H2>
 
-          <div className="mt-7 space-y-5">
-            {educations.map((education) => (
-              <EducationItems
-                institution={education.institution}
-                degree={education.degree}
-                period={education.period}
-                gpa={education.gpa}
-              />
-            ))}
+          {/* Unified Card Container with modern border and hover effect */}
+          <div className="flex flex-col gap-6 rounded-2xl border border-gray-200 bg-white p-6 transition-colors dark:border-white/20 dark:bg-neutral-900 hover:dark:border-white/35">
+            {/* Layout Data (Grid 2 Kolom di Desktop, 1 Kolom di HP) */}
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+              <div className="flex flex-col gap-2 rounded-xl border border-slate-100 p-4 transition-colors dark:border-white/10 hover:dark:border-white/20">
+                <H3 className="text-lg font-semibold text-slate-900 dark:text-white">
+                  Kategori Karir
+                </H3>
+                <Text className="text-slate-600 dark:text-slate-300">
+                  {careerCategory}
+                </Text>
+              </div>
+              <div className="flex flex-col gap-2 rounded-xl border border-slate-100 p-4 transition-colors  dark:border-white/10 hover:dark:border-white/20">
+                <H3 className="text-lg font-semibold text-slate-900 dark:text-white">
+                  Target Role
+                </H3>
+                <Text className="text-slate-600 dark:text-slate-300">
+                  {targetRole}
+                </Text>
+              </div>
+            </div>
+
+            {/* Garis Pemisah (Divider) */}
+            <hr className="border-t border-slate-200 dark:border-white/10" />
+
+            {/* Layout Action (Tombol Kiri, Teks Kanan di Desktop) */}
+            <div className="flex flex-col items-start gap-5 md:flex-row md:items-center md:gap-6 md:justify-cente">
+              <div className="inline-block">
+                <Button
+                  type="buttonCardLearning"
+                  onClick={() => console.log("Edit clicked")}
+                >
+                  EDIT DATA PROFIL
+                </Button>
+              </div>
+              <Text className="text-xs leading-relaxed text-slate-500 md:max-w-xl md:text-sm dark:text-slate-400">
+                Perbarui data diri, target karir, dan keahlian Anda agar sistem
+                kami dapat memberikan rekomendasi langkah yang paling akurat.
+              </Text>
+            </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </Section>
   );

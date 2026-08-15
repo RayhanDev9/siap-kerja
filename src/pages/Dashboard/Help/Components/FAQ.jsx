@@ -1,181 +1,183 @@
 import React, { useState } from "react";
 import Section from "../../../../ui/Section";
-import HeaderSection from "../../components/HeaderSection";
-import Text from "../../../../ui/Text";
 import TopBar from "../../../../ui/TopBar";
-import { motion } from "framer-motion";
+import HeaderSection from "../../components/HeaderSection";
+import { motion, AnimatePresence } from "framer-motion";
 import { cardVariants } from "../../../../util/animations";
+import H3 from "../../../../ui/H3";
+import Text from "../../../../ui/Text";
+import {
+  Disclosure,
+  DisclosureButton,
+  DisclosurePanel,
+} from "@headlessui/react";
+import { useNavigate } from "react-router-dom";
+import Button from "../../../../ui/Button";
 
-const BugReport = () => {
-  const [formData, setFormData] = useState({
-    title: "",
-    category: "Dashboard",
-    description: "",
-    file: null,
-  });
+const FAQ = () => {
+  const [searchQuery, setSearchQuery] = useState("");
+  const navigate = useNavigate();
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
+  const faqs = [
+    {
+      id: 1,
+      question: "Apa itu SiapKerja?",
+      answer:
+        "SiapKerja adalah platform bimbingan karir berbasis AI yang membantu Anda menemukan jalur karir terbaik, mengidentifikasi celah keahlian, dan memberikan rekomendasi pembelajaran yang dipersonalisasi sesuai kebutuhan pasar industri saat ini.",
+    },
+    {
+      id: 2,
+      question: "Bagaimana cara kerja Rekomendasi Karir AI?",
+      answer:
+        "AI kami menganalisis profil, keahlian, dan minat Anda untuk mencocokkannya dengan tren pasar kerja secara real-time. Kami membandingkan kualifikasi Anda dengan ribuan lowongan kerja untuk memberikan skor kesiapan karir yang akurat.",
+    },
+    {
+      id: 3,
+      question: "Bagaimana cara meningkatkan Skor Kesiapan Karir?",
+      answer:
+        "Anda dapat meningkatkan skor dengan menyelesaikan kursus yang direkomendasikan dalam Learning Roadmap, memperbarui sertifikasi di profil, dan melengkapi detail pengalaman proyek atau kerja Anda.",
+    },
+    {
+      id: 4,
+      question: "Apakah platform ini sepenuhnya gratis?",
+      answer:
+        "SiapKerja menawarkan akses gratis untuk fitur dasar seperti Dashboard, Skill Gap sederhana, dan profil. Kami juga menyediakan fitur Premium untuk analisis mendalam AI dan akses ke mentor eksklusif.",
+    },
+    {
+      id: 5,
+      question: "Di mana saya bisa melihat Roadmap Pembelajaran saya?",
+      answer:
+        "Anda dapat mengaksesnya melalui menu 'Learning Roadmap' di sidebar. Roadmap ini disusun secara otomatis berdasarkan celah keahlian (Skill Gap) yang teridentifikasi oleh sistem AI kami.",
+    },
+    {
+      id: 6,
+      question: "Apakah data pribadi saya aman di SiapKerja?",
+      answer:
+        "Keamanan data Anda adalah prioritas kami. Semua data profil dan aktivitas belajar Anda dilindungi dengan enkripsi standar industri dan tidak akan dibagikan kepada pihak ketiga tanpa izin Anda.",
+    },
+  ];
 
-  const handleFileChange = (e) => {
-    setFormData({ ...formData, file: e.target.files[0] });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Data Laporan:", formData);
-    // Tambahkan logika pengiriman data API di sini
-    alert("Laporan berhasil dikirim!");
-  };
+  const filteredFaqs = faqs.filter(
+    (faq) =>
+      faq.question.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      faq.answer.toLowerCase().includes(searchQuery.toLowerCase()),
+  );
 
   return (
     <Section>
       <div className="flex flex-col gap-6">
-        <TopBar placeholder="Cari bantuan..." isSerch={false} />
-
-        <HeaderSection
-          title="Laporkan Bug / Kendala"
-          description="Bantu kami meningkatkan SiapKerja dengan melaporkan masalah yang Anda temukan."
+        {/* Search Bar terintegrasi dengan TopBar logic */}
+        <TopBar
+          placeholder="Cari bantuan atau pertanyaan..."
+          isSerch={true}
+          onChange={(e) => setSearchQuery(e.target.value)}
         />
 
-        {/* Form Container dengan Animasi Framer Motion */}
+        <HeaderSection
+          title="FAQ (Tanya Jawab)"
+          description="Temukan jawaban cepat untuk pertanyaan umum mengenai penggunaan platform SiapKerja."
+        />
+
+        {/* FAQ List with Search Feedback */}
+        <div className="flex flex-col gap-4">
+          {filteredFaqs.length > 0 ? (
+            filteredFaqs.map((faq) => (
+              <Disclosure key={faq.id}>
+                {({ open }) => (
+                  <motion.div
+                    variants={cardVariants}
+                    className={`group overflow-hidden rounded-2xl bg-white transition-all duration-200 hover:shadow-md dark:bg-neutral-900 ${
+                      open
+                        ? "border-l-4 border-blue-500 shadow-md ring-1 ring-slate-200 dark:ring-white/10"
+                        : "border-l-4 border-transparent hover:border-blue-400 dark:border dark:border-white/20"
+                    }`}
+                  >
+                    <DisclosureButton className="flex w-full items-center justify-between px-6 py-5 text-left outline-none">
+                      <H3
+                        className={`text-sm transition-colors md:text-base ${open ? "text-blue-600 dark:text-blue-400" : "text-slate-700 dark:text-slate-200"}`}
+                      >
+                        {faq.question}
+                      </H3>
+                      <i
+                        className={`fa-solid fa-chevron-up text-slate-400 transition-transform duration-300 ${open ? "rotate-0 text-blue-500" : "rotate-180"}`}
+                      ></i>
+                    </DisclosureButton>
+
+                    <AnimatePresence>
+                      {open && (
+                        <DisclosurePanel
+                          static
+                          as={motion.div}
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.3, ease: "easeInOut" }}
+                          className="overflow-hidden"
+                        >
+                          <div className="px-6 pt-0 pb-6">
+                            <hr className="mb-4 border-slate-100 dark:border-white/5" />
+                            <Text className="text-sm leading-relaxed md:text-base">
+                              {faq.answer}
+                            </Text>
+                          </div>
+                        </DisclosurePanel>
+                      )}
+                    </AnimatePresence>
+                  </motion.div>
+                )}
+              </Disclosure>
+            ))
+          ) : (
+            <motion.div
+              variants={cardVariants}
+              className="flex flex-col items-center justify-center py-12 text-center"
+            >
+              <div className="mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-slate-100 dark:bg-neutral-800">
+                <i className="fa-solid fa-magnifying-glass text-3xl text-slate-400"></i>
+              </div>
+              <H3>FAQ tidak ditemukan</H3>
+              <Text>
+                Maaf, kami tidak dapat menemukan jawaban untuk kata kunci "
+                {searchQuery}"
+              </Text>
+            </motion.div>
+          )}
+        </div>
+
+        {/* CTA Section */}
         <motion.div
           variants={cardVariants}
-          initial="hidden"
-          animate="visible"
-          className="mx-auto mt-4 w-full max-w-2xl"
+          className="mt-8 overflow-hidden rounded-2xl bg-blue-50 p-1 dark:bg-blue-500/5"
         >
-          <motion.form variants={cardVariants}
-            onSubmit={handleSubmit}
-            className="flex flex-col gap-6 rounded-2xl bg-white p-6 shadow-md ring-1 ring-slate-200 transition-all md:p-8 dark:bg-neutral-900 dark:ring-white/10"
-          >
-            {/* Field: Judul Masalah */}
-            <div className="flex flex-col gap-2">
-              <label
-                htmlFor="title"
-                className="text-sm font-medium text-slate-700 md:text-base dark:text-slate-200"
-              >
-                Judul Masalah
-              </label>
-              <input
-                type="text"
-                id="title"
-                name="title"
-                value={formData.title}
-                onChange={handleChange}
-                placeholder="Contoh: Gagal memuat skor kesiapan"
-                required
-                className="w-full rounded-xl border border-slate-300 bg-transparent px-4 py-3 text-sm text-slate-800 transition-colors focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none md:text-base dark:border-white/20 dark:text-slate-200 dark:focus:border-blue-500 "
-              />
+          <div className="flex flex-col items-center justify-between gap-6 rounded-xl border border-blue-100 bg-white p-8 md:flex-row dark:border-blue-500/20 dark:bg-neutral-900">
+            <div className="space-y-2 text-center md:text-left">
+              <H3 className="text-xl">
+                Tidak menemukan jawaban yang Anda cari?
+              </H3>
+              <Text>
+                Hubungi tim kami langsung untuk bantuan lebih lanjut mengenai
+                kendala Anda.
+              </Text>
             </div>
-
-            {/* Field: Kategori */}
-            <div className="flex flex-col gap-2">
-              <label
-                htmlFor="category"
-                className="text-sm font-medium text-slate-700 md:text-base dark:text-slate-200"
+            <div className="flex shrink-0 gap-3">
+              <button
+                onClick={() => navigate("/help/support")}
+                className="rounded-xl bg-blue-600 px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-blue-700 hover:shadow-lg active:scale-95 md:text-base lg:text-lg dark:bg-blue-500 dark:hover:bg-blue-600"
               >
-                Kategori
-              </label>
-              <select
-                id="category"
-                name="category"
-                value={formData.category}
-                onChange={handleChange}
-                className="w-full appearance-none rounded-xl border border-slate-300 bg-transparent px-4 py-3 text-sm text-slate-800 transition-colors focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none md:text-base dark:border-white/20 dark:text-slate-200 dark:focus:border-blue-500 "
+                Hubungi Dukungan
+              </button>
+              <button
+                onClick={() => navigate("/help/bug-report")}
+                className="rounded-xl border border-slate-200 bg-white px-6 py-3 text-sm md:text-base lg:text-lg font-semibold text-slate-700 transition-all hover:bg-slate-50 dark:border-white/25 hover:dark:border-white/35 dark:bg-black dark:text-white dark:hover:bg-black"
               >
-                <option
-                  value="Dashboard"
-                  className="bg-white dark:bg-neutral-800"
-                >
-                  Dashboard
-                </option>
-                <option value="Profil" className="bg-white dark:bg-neutral-800">
-                  Profil & Akun
-                </option>
-                <option
-                  value="Rekomendasi"
-                  className="bg-white dark:bg-neutral-800"
-                >
-                  Rekomendasi Karir
-                </option>
-                <option
-                  value="Roadmap"
-                  className="bg-white dark:bg-neutral-800"
-                >
-                  Roadmap Belajar
-                </option>
-                <option
-                  value="Lainnya"
-                  className="bg-white dark:bg-neutral-800"
-                >
-                  Lainnya
-                </option>
-              </select>
+                Laporkan Masalah
+              </button>
             </div>
-
-            {/* Field: Deskripsi Detail */}
-            <div className="flex flex-col gap-2">
-              <label
-                htmlFor="description"
-                className="text-sm font-medium text-slate-700 md:text-base dark:text-slate-200"
-              >
-                Deskripsi Detail
-              </label>
-              <textarea
-                id="description"
-                name="description"
-                value={formData.description}
-                onChange={handleChange}
-                placeholder="Jelaskan apa yang terjadi dan langkah untuk mereproduksinya..."
-                rows="5"
-                required
-                className="w-full resize-none rounded-xl border border-slate-300 bg-transparent px-4 py-3 text-sm text-slate-800 transition-colors focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none md:text-base dark:border-white/20 dark:text-slate-200 dark:focus:border-blue-500"
-              ></textarea>
-            </div>
-
-            {/* Upload Screenshot */}
-            <div className="flex flex-col gap-2">
-              <label className="text-sm font-medium text-slate-700 md:text-base dark:text-slate-200">
-                Lampiran Screenshot (Opsional)
-              </label>
-              <label
-                htmlFor="file-upload"
-                className="group flex cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-slate-300 bg-slate-50 py-8 transition-colors hover:border-blue-400 hover:bg-blue-50/50 dark:border-white/20 dark:bg-neutral-900/50 dark:hover:border-blue-500 dark:hover:bg-neutral-800"
-              >
-                <i className="fa-solid fa-cloud-arrow-up mb-3 text-3xl text-slate-400 transition-colors duration-300 group-hover:-translate-y-1 group-hover:text-blue-500"></i>
-                <Text className="text-sm font-medium md:text-base">
-                  {formData.file
-                    ? formData.file.name
-                    : "Klik untuk unggah gambar screenshot"}
-                </Text>
-                <Text className="mt-1 text-xs text-slate-500">
-                  Maksimal ukuran file: 5MB (JPG, PNG)
-                </Text>
-                <input
-                  id="file-upload"
-                  type="file"
-                  accept="image/png, image/jpeg"
-                  className="hidden"
-                  onChange={handleFileChange}
-                />
-              </label>
-            </div>
-
-            {/* Tombol Submit (Styling persis seperti tombol CTA di FAQ) */}
-            <button
-              type="submit"
-              className="mt-4 w-full rounded-xl bg-blue-600 px-6 py-3.5 text-sm font-semibold text-white transition-all hover:bg-blue-700 hover:shadow-lg active:scale-95 md:text-base lg:text-lg dark:bg-blue-500 dark:hover:bg-blue-600"
-            >
-              Kirim Laporan
-            </button>
-          </motion.form>
+          </div>
         </motion.div>
       </div>
     </Section>
   );
 };
 
-export default BugReport;
+export default FAQ;

@@ -11,12 +11,14 @@ import { cardVariants } from "../../../util/animations";
 import { motion } from "framer-motion"; // 1. Import Framer Motion
 import { useSelector } from "react-redux";
 import Loader from "../../../ui/Loader";
+import { useNavigate } from "react-router";
 
 function Analytics() {
   const { analyticsData, isLoading, error } = useSelector(
     (state) => state.analytics,
   );
 
+  const navigate = useNavigate();
   if (isLoading || !analyticsData?.summaryCards?.views) {
     return <Loader />;
   }
@@ -118,60 +120,54 @@ function Analytics() {
           {/* Summary cards destop */}
           <motion.div
             variants={cardVariants}
-            className="col-span-1 mx-auto w-full max-w-md flex-col gap-6 rounded-3xl bg-white p-7 lg:flex  dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35"
+            className="col-span-1 mx-auto w-full max-w-md flex-col gap-6 rounded-3xl bg-white p-7 lg:flex dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35"
           >
-            {/* Opsional: Header (Bisa disesuaikan dengan kebutuhanmu atau dihapus) */}
             <motion.div variants={cardVariants} className="flex flex-col gap-1">
-              <H2 type="secondry">Statistik Profil</H2>
+              <H2 type="secondry">AI Insight & Kesiapan</H2>
               <Text className="text-sm font-medium text-slate-500">
-                Pantau visibilitas dan aktivitas lamaran Anda.
+                Analisis kecerdasan buatan untuk karir Anda.
               </Text>
             </motion.div>
 
             <motion.div variants={cardVariants} className="flex flex-col gap-4">
-              {/* Card 1: Views (Style bundaran ungu) */}
-              <div className="flex items-center justify-between rounded-2xl bg-[#F4F4FB] p-5  dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35 ">
+              {/* Card 1: AI Readiness Score */}
+              <div className="flex items-center justify-between rounded-2xl bg-[#F4F4FB] p-5 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35">
                 <div className="flex items-center gap-5">
-                  {/* Ikon Lingkaran */}
                   <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-purple-500 text-white shadow-sm">
-                    <i className="fa-regular fa-eye text-2xl"></i>
+                    <i className="fa-solid fa-brain text-2xl"></i>
                   </div>
-                  {/* Teks Views */}
                   <div className="flex flex-col">
                     <span className="text-2xl font-bold text-gray-900 dark:text-white">
-                      {valueViews}
+                      85%
                     </span>
                     <span className="text-sm font-semibold text-slate-600 dark:text-white/80">
-                      {labelViews}
+                      Kesiapan Karir
                     </span>
                   </div>
                 </div>
-                {/* Badge/Pill Data asli ditempatkan di kanan */}
-                <Text className="rounded-xl bg-purple-100 px-3 py-1 text-sm font-bold text-purple-600">
-                  {text}
+                <Text className="rounded-xl bg-purple-100 px-3 py-1  font-bold  dark:border dark:border-white/25 dark:bg-black hover:dark:border-white/35">
+                  <span className="dark:text-purple-300 text-purple-600"> Optimal</span>
                 </Text>
               </div>
 
-              {/* Card 2: Applications (Style bundaran oranye) */}
-              <div className="flex items-center justify-between rounded-2xl bg-[#FFF6F0] p-5  dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35">
+              {/* Card 2: Market Alignment */}
+              <div className="flex items-center justify-between rounded-2xl bg-[#FFF6F0] p-5 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35">
                 <div className="flex items-center gap-5">
-                  {/* Ikon Lingkaran */}
-                  <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-orange-500 text-white  shadow-sm">
-                    <i className="fa-solid fa-fire-flame-curved text-2xl"></i>
+                  <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-orange-500 text-white shadow-sm">
+                    <i className="fa-solid fa-chart-line text-2xl"></i>
                   </div>
-                  {/* Teks Applications */}
                   <div className="flex flex-col">
-                    <span className="text-2xl font-bold text-gray-900">
-                      {valueApplications}
+                    <span className="text-2xl font-bold text-gray-900 dark:text-white">
+                      Tinggi
                     </span>
-                    <span className="text-sm font-semibold text-slate-600">
-                      {labelApplications}
+                    <span className="text-sm font-semibold text-slate-600 dark:text-white/80">
+                      Kesesuaian Pasar
                     </span>
                   </div>
                 </div>
-                {/* Badge/Pill timeframe asli ditempatkan di kanan */}
-                <Text className="rounded-xl bg-orange-100 px-3 py-1 text-sm font-bold text-orange-600 ">
-                  {timeframe}
+                <Text className="rounded-xl bg-orange-100 px-3 py-1 text-sm font-bold text-orange-600 dark:border dark:border-white/25 dark:bg-black hover:dark:border-white/35">
+                 <span className="dark:text-orange-300 text-orange-600"> Trend</span>
+                  
                 </Text>
               </div>
             </motion.div>
@@ -180,15 +176,11 @@ function Analytics() {
           {/* profileEngagement */}
           <motion.div
             variants={cardVariants}
-            className="col-span-1 rounded-2xl bg-white p-7 lg:order-first lg:col-span-2  dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35"
+            className="col-span-1 rounded-2xl bg-white p-7 lg:order-first lg:col-span-2 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35"
           >
             <H2 type="secondry">{titleProfileEngagement}</H2>
             <div className="flex justify-between">
               <Text>{subtitleProfileEngagement}</Text>
-              <p className="self-center text-sm font-semibold text-blue-400 md:text-base lg:text-lg">
-                {actionLabel}{" "}
-                <i className="fa-solid fa-arrow-right blue-arrow"></i>
-              </p>
             </div>
             <div className="mt-7 flex justify-center">
               <WeeklyChart />
@@ -202,7 +194,7 @@ function Analytics() {
           {/* Course */}
           <motion.div
             variants={cardVariants}
-            className="col-span-1 mx-auto flex w-full max-w-md flex-col gap-6 rounded-3xl bg-white p-7  dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35"
+            className="col-span-1 mx-auto flex w-full max-w-md flex-col gap-6 rounded-3xl bg-white p-7 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35"
           >
             <div className="flex flex-col gap-1">
               <H2 type="secondry" className="text-2xl font-bold text-gray-900">
@@ -215,9 +207,12 @@ function Analytics() {
 
             <div className="relative mt-0 space-y-7">
               <div className="inline-block">
-                <i className="fa-solid slef fa-graduation-cap inline-block rounded-2xl bg-blue-100 px-3 py-3 text-3xl text-blue-400  dark:border dark:border-white/25 dark:bg-black hover:dark:border-white/35"></i>
+                <i className="fa-solid slef fa-graduation-cap inline-block rounded-2xl bg-blue-100 px-3 py-3 text-3xl text-blue-400 dark:border dark:border-white/25 dark:bg-black hover:dark:border-white/35"></i>
               </div>
-              <div className="rounded-2xl bg-blue-100 px-3 py-3 font-medium  dark:border dark:border-white/25 dark:bg-black hover:dark:border-white/35">
+              <div
+                onClick={() => navigate("/learningRoadmap")}
+                className="rounded-2xl bg-blue-100 px-3 py-3 font-medium dark:border dark:border-white/25 dark:bg-black hover:dark:border-white/35"
+              >
                 <div className="flex gap-2">
                   <h3 className="text-2xl font-semibold">
                     {valueCourse} {labelCourse}
@@ -232,7 +227,7 @@ function Analytics() {
           {/* skillDevelopment*/}
           <motion.div
             variants={cardVariants}
-            className="col-span-1 flex flex-col gap-6 rounded-2xl bg-white p-7 lg:col-span-2  dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35"
+            className="col-span-1 flex flex-col gap-6 rounded-2xl bg-white p-7 lg:col-span-2 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35"
           >
             <H2 type="secondry">{titleSkillDevelopment}</H2>
             <div className="flex flex-col gap-5">
@@ -245,6 +240,7 @@ function Analytics() {
               ))}
             </div>
             <Button
+              onClick={() => navigate("/learningRoadmap")}
               type="generalSecondary"
               className="w-full rounded-2xl border border-slate-300 py-2 text-sm md:text-base lg:text-lg"
             >

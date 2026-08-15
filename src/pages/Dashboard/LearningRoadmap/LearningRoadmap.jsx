@@ -1,133 +1,127 @@
-import dataLearningRoadmap from "./components/dataLearningRoadmap";
-import H2 from "../../../ui/H2";
+import React from "react";
+import { useNavigate } from "react-router-dom";
 import Section from "../../../ui/Section";
-import Progres from "../../../ui/Progres";
 import HeaderSection from "../components/HeaderSection";
-import StageItems from "./components/StageItems";
 import TopBar from "../../../ui/TopBar";
-import Text from "../../../ui/Text";
-import H3 from "../../../ui/H3";
+import { motion } from "framer-motion";
 import { cardVariants } from "../../../util/animations";
-import { motion } from "framer-motion"; // 1. Import Framer Motion
-import { useSelector } from "react-redux";
-import Loader from "../../../ui/Loader";
-import Button from "../../../ui/Button";
-import CardCourse from "./components/CardCourse";
 
-// function LearningRoadmap() {
-//   const { roadmapData, isLoading, error } = useSelector(
-//     (state) => state.learningRoadmap,
-//   );
-//   const { overallProgress, stages } = roadmapData;
+const LearningRoadmap = () => {
+  const navigate = useNavigate();
 
-//   const { estimatedTime, label, percentage } = overallProgress;
+  // Data statis untuk tahapan Roadmap
+  const roadmapSteps = [
+    {
+      id: 1,
+      title: "Tahap 1: Fondasi Desain & Riset",
+      description:
+        "Pahami dasar-dasar UI/UX, psikologi warna, dan cara melakukan riset pengguna yang efektif.",
+      status: "completed", // completed, current, locked
+    },
+    {
+      id: 2,
+      title: "Tahap 2: Wireframing & Prototyping",
+      description:
+        "Mulai merancang struktur aplikasi menggunakan Figma dan membuat interaksi prototipe.",
+      status: "current",
+    },
+    {
+      id: 3,
+      title: "Tahap 3: Design System & Handoff",
+      description:
+        "Pelajari cara membuat komponen yang dapat digunakan ulang dan bekerja sama dengan developer.",
+      status: "locked",
+    },
+  ];
 
-
-//   return (
-//     <Section>
-//       <div className="flex flex-col gap-7">
-//         {/* Top bar Lg */}
-//         <TopBar
-//           placeholder="cari peran, keahlian, atau industri"
-//           isSerch={false}
-//         />
-//         {/* Header Section */}
-//         <div>
-//           <HeaderSection
-//             title="Senior Machine Learning Engineer"
-//             description="Jalur Karir Tujuan"
-//             icon="fa-solid fa-briefcase pr-2"
-//           />
-//         </div>
-
-//         <div className="grid grid-cols-1 gap-3 lg:grid-cols-3">
-//           {/* overallProgress */}
-//           <motion.div
-//             variants={cardVariants}
-//             className="col-span-1 flex flex-col gap-3 rounded-2xl bg-white p-7 lg:col-span-2 lg:max-h-36"
-//           >
-//             <div className="flex justify-between">
-//               <H3 type="secondry">{label}</H3>
-//               <Text>{percentage}%</Text>
-//             </div>
-//             <Progres progressPercentage={percentage} />
-//             <Text className="text-end">Perkiran Waktu: {estimatedTime}</Text>
-//           </motion.div>
-
-//           {/* Ai sugestion */}
-//           <motion.div
-//             variants={cardVariants}
-//             className="col-span-1 hidden space-y-3 rounded-2xl bg-white p-7 lg:block"
-//           >
-//             <div className="flex gap-3">
-//               <H3 type="secondry">
-//                 <i class="fa-solid fa-user-cog"></i>
-//               </H3>
-//               <H3 type="secondry">Ai Suggestion</H3>
-//             </div>
-//             <Text>
-//               Berdasarkan tren pasar, fokus pada MLOps saat ini akan
-//               meningkatkan tingkat kecocokan profil Anda sebesar 22% untuk peran
-//               senior.
-//             </Text>
-//             <button className="text-start font-semibold text-blue-700">
-//               Sesuaikan Garis Waktu <i className="fa-solid fa-arrow-right"></i>
-//             </button>
-//           </motion.div>
-//         </div>
-
-//         {/* Staged */}
-//         <div variants={cardVariants} className="ml-7">
-//           {stages.map((stage) => (
-//             <StageItems
-//               stepLabel={stage.stepLabel}
-//               badge={stage.badge}
-//               title={stage.title}
-//               description={stage.description}
-//               isLocked={stage.isLocked}
-//               status={stage.status}
-//               progres={stage?.progress}
-//               id={stage.id}
-//               key={stage.id}
-//             />
-//           ))}
-//         </div>
-//       </div>
-//     </Section>
-//   );
-// }
-
-// export default LearningRoadmap;
-const tes = ["tes", "tes", "tes"];
-
-
-function LearningRoadmap() {
   return (
     <Section>
-      <div>
-        <div className="flex flex-col gap-7">
-          {/* Top bar Lg */}
-          <TopBar
-            placeholder="cari peran, keahlian, atau industri"
-            isSerch={false}
+      <div className="flex flex-col gap-6">
+        <TopBar placeholder="Cari tahap pembelajaran..." isSerch={false} />
+
+        <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+          <HeaderSection
+            title="Roadmap Pembelajaran"
+            description="Ikuti alur belajar yang direkomendasikan AI untuk mencapai target karir Anda."
           />
-          {/* Header Section */}
-          <div>
-            <HeaderSection
-              title="Katalog Kursus"
-              description="Lanjutkan pembelajaran Anda untuk mencapai tujuan karir berikutnya."
-              icon="fa-solid fa-briefcase pr-2"
-            />
-          </div>
-          <div className="flex flex-wrap justify-center gap-5 md:justify-start">
-            {tes.map((tes) => (
-              <CardCourse />
+          {/* Tombol Pindah ke Pages Courses */}
+          <button
+            onClick={() => navigate("/courses")}
+            className="flex shrink-0 items-center gap-2 rounded-xl bg-blue-600 px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-blue-700 active:scale-95 md:text-base dark:bg-blue-600 dark:hover:bg-blue-500"
+          >
+            <i className="fa-solid fa-book-open"></i>
+            Lihat Katalog Kursus
+          </button>
+        </div>
+
+        {/* Container Roadmap Timeline */}
+        <motion.div
+          variants={cardVariants}
+          initial="hidden"
+          animate="visible"
+          className="mt-4 flex flex-col rounded-2xl border border-slate-200 bg-white p-6 shadow-sm md:p-8 dark:border-white/10 dark:bg-neutral-900"
+        >
+          <div className="relative ml-3 border-l-2 border-slate-200 dark:border-white/10">
+            {roadmapSteps.map((step, index) => (
+              <div key={step.id} className="relative mb-10 ml-8 last:mb-0">
+                {/* Indikator Bulat (Timeline Dot) */}
+                <span
+                  className={`absolute -left-[41px] flex h-5 w-5 items-center justify-center rounded-full ring-4 ring-white dark:ring-neutral-900 ${
+                    step.status === "completed"
+                      ? "bg-green-500"
+                      : step.status === "current"
+                        ? "animate-pulse bg-blue-500"
+                        : "bg-slate-300 dark:bg-neutral-700"
+                  }`}
+                ></span>
+
+                {/* Konten Tahapan */}
+                <div className="flex flex-col gap-1">
+                  <h3
+                    className={`text-lg font-bold md:text-xl ${
+                      step.status === "locked"
+                        ? "text-slate-400 dark:text-slate-500"
+                        : "text-slate-800 dark:text-white"
+                    }`}
+                  >
+                    {step.title}
+                  </h3>
+                  <p
+                    className={`text-sm md:text-base ${
+                      step.status === "locked"
+                        ? "text-slate-400/80 dark:text-slate-600"
+                        : "text-slate-600 dark:text-slate-400"
+                    }`}
+                  >
+                    {step.description}
+                  </p>
+
+                  {/* Status Badge */}
+                  <div className="mt-2 flex">
+                    <span
+                      className={`inline-flex items-center rounded-md px-2.5 py-1 text-xs font-medium ${
+                        step.status === "completed"
+                          ? "bg-green-100 text-green-700 dark:bg-green-500/10 dark:text-green-400"
+                          : step.status === "current"
+                            ? "bg-blue-100 text-blue-700 dark:bg-blue-500/10 dark:text-blue-400"
+                            : "bg-slate-100 text-slate-600 dark:bg-white/5 dark:text-slate-400"
+                      }`}
+                    >
+                      {step.status === "completed"
+                        ? "Selesai"
+                        : step.status === "current"
+                          ? "Sedang Dipelajari"
+                          : "Terkunci"}
+                    </span>
+                  </div>
+                </div>
+              </div>
             ))}
           </div>
-        </div>
+        </motion.div>
       </div>
     </Section>
   );
-}
+};
 
 export default LearningRoadmap;
