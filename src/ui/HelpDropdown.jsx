@@ -1,16 +1,46 @@
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 function HelpDropdown() {
   const navigate = useNavigate();
 
   const helpItems = [
-    { id: 1, label: "Panduan Penggunaan", icon: "fa-book", path: "/help/guide" },
-    { id: 2, label: "FAQ (Tanya Jawab)", icon: "fa-comments", path: "/help/faq" },
-    { id: 3, label: "Hubungi Dukungan", icon: "fa-headset", path: "/help/support" },
-    { id: 4, label: "Laporkan Bug / Kendala", icon: "fa-bug", path: "/help/bug-report" },
-    { id: 5, label: "Tentang SiapKerja", icon: "fa-info-circle", path: "/help/about" }, 
-    { id: 6, label: "Informasi Versi", icon: "fa-code-branch", path: "/help/version" }, 
+    {
+      id: 1,
+      label: "Panduan Penggunaan",
+      icon: "fa-book",
+      path: "/help/guide",
+    },
+    {
+      id: 2,
+      label: "FAQ (Tanya Jawab)",
+      icon: "fa-comments",
+      path: "/help/faq",
+    },
+    {
+      id: 3,
+      label: "Hubungi Dukungan",
+      icon: "fa-headset",
+      path: "/help/support",
+    },
+    {
+      id: 4,
+      label: "Laporkan Bug / Kendala",
+      icon: "fa-bug",
+      path: "/help/bug-report",
+    },
+    {
+      id: 5,
+      label: "Tentang SiapKerja",
+      icon: "fa-info-circle",
+      path: "/help/about",
+    },
+    {
+      id: 6,
+      label: "Informasi Versi",
+      icon: "fa-code-branch",
+      path: "/help/version",
+    },
   ];
 
   return (
@@ -36,23 +66,33 @@ function HelpDropdown() {
           {/* Menu Items */}
           <div className="p-1.5">
             {helpItems.map((item) => (
-              <button
+              <NavLink
                 key={item.id}
-                onClick={() => {
-                  navigate(item.path);
-                }}
-                className="group relative flex w-full cursor-pointer items-center gap-3 rounded-xl px-3 py-2.5 text-left text-xs font-medium transition-colors hover:bg-slate-100 dark:hover:bg-slate-800/60"
+                to={item.path} // Menggantikan onClick={() => navigate(item.path)}
+                className={({ isActive }) =>
+                  `group relative flex w-full cursor-pointer items-center gap-3 rounded-xl px-3 py-2.5 text-left text-xs font-medium transition-colors md:text-base ${
+                    isActive
+                      ? "bg-blue-50 text-blue-600 dark:bg-blue-500/10 dark:text-blue-400" // Kelas saat menu AKTIF
+                      : "text-slate-700 hover:bg-slate-100 dark:text-white/80 dark:hover:bg-slate-800/60" // Kelas saat menu TIDAK AKTIF
+                  }`
+                }
               >
-                <i
-                  className={`fa-solid ${item.icon} text-xs text-slate-500 group-hover:text-blue-500 md:text-base dark:text-slate-400 dark:group-hover:text-blue-400`}
-                ></i>
-                <span className="text-xs whitespace-nowrap text-white/80 md:text-base">
-                  {item.label}
-                </span>
-              </button>
+                {/* Untuk mengubah warna ikon saat aktif, kita juga bisa mengakses isActive di dalam children */}
+                {({ isActive }) => (
+                  <>
+                    <i
+                      className={`fa-solid ${item.icon} text-xs transition-colors md:text-base ${
+                        isActive
+                          ? "text-blue-600 dark:text-blue-400" // Ikon saat AKTIF
+                          : "text-slate-500 group-hover:text-blue-500 dark:text-slate-400 dark:group-hover:text-blue-400" // Ikon saat TIDAK AKTIF
+                      }`}
+                    ></i>
+                    <span className="whitespace-nowrap">{item.label}</span>
+                  </>
+                )}
+              </NavLink>
             ))}
           </div>
-        
         </PopoverPanel>
       </Popover>
     </div>
