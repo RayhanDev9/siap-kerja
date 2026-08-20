@@ -5,8 +5,33 @@ import Button from "../../../ui/Button";
 import Text from "../../../ui/Text";
 import { containerVariants, cardVariants } from "../../../util/animations.js";
 import { motion } from "framer-motion"; // 1. Import Framer Motion
+import { useDispatch, useSelector } from "react-redux";
+import { fetchOnboarding } from "../../../features/onBoarding/onBoardingSlice.js";
+import Loader from "../../../ui/Loader.jsx";
+import { useNavigate } from "react-router";
 
 function OnboardingPage1() {
+  const dispatch = useDispatch();
+  const { isLoading, isError } = useSelector((state) => state.onBoarding);
+  const navigate = useNavigate(); // 2. Inisialisasi navigate
+
+  const handleMulai = async () => {
+    try {
+      // Tunggu sampai thunk selesai dan sukses
+      await dispatch(fetchOnboarding()).unwrap();
+      // Pindah halaman hanya jika berhasil
+      navigate("/onboardingPage2");
+    } catch (err) {
+      console.error("Gagal mengambil data onboarding:", err);
+    }
+  };
+
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  if (isError) return <Error />;
+
   return (
     <>
       <div className="md:rounded-2xl md:bg-white md:pb-7 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35">
@@ -53,16 +78,22 @@ function OnboardingPage1() {
             </div>
           </div>
         </Section>
-    
-        <motion.div variants={cardVariants} className=" justify-between bg-white dark:bg-neutral-900  p-7 text-center flex">
+
+        <motion.div
+          variants={cardVariants}
+          className="flex justify-between bg-white p-7 text-center dark:bg-neutral-900"
+        >
           {/* <div className="inline-block">
             <Button type="secondry" to="/onboardingPage2">
               Lewati 
             </Button>
           </div> */}
-          <div className="flex w-full justify-end self-end ">
-            <div className="inline-block ">
-              <Button type="generalPrimary" to="/onboardingPage2">
+          <div className="flex w-full justify-end self-end">
+            <div className="inline-block">
+              <Button
+                onClick={handleMulai} // 4. Gunakan handler (tanpa prop 'to')
+                type="generalPrimary"
+              >
                 Mulai
               </Button>
             </div>

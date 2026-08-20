@@ -19,9 +19,9 @@ function AppLayout() {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
   }, [location.pathname]);
 
-  if (!user) {
-    return <Navigate to="/login" replace />;
-  }
+  // if (!user) {
+  //   return <Navigate to="/login" replace />;
+  // }
 
   function CareerExplorer() {
     useEffect(() => {

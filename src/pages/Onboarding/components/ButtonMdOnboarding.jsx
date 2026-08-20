@@ -13,7 +13,7 @@ function ButtonMdOnboarding({ button1, button2, to = "", onFinish }) {
         </Button>
       </div>
       <div className="inline-block">
-        <Button type="generalPrimary" to={to} onClick={onFinish}>
+        <Button type="generalPrimary" onClick={onFinish} to={onFinish ? "" : to} >
           {button2}
         </Button>
       </div>

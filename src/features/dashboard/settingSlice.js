@@ -27,7 +27,7 @@ export const fetchSetting = createAsyncThunk(
   async function (_, thunkAPI) {
     const token = localStorage.getItem("token");
     try {
-      const res = await fetch(`http://127.0.0.1:8000/api/settings`, {
+      const res = await fetch(`http://127.0.0.1:8000/api/v1/settings`, {
         method: "GET",
         headers: {
           Accept: "application/json",

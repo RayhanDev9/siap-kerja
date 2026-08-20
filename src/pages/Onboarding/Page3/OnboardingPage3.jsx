@@ -14,10 +14,11 @@ import dataSkill from "./components/dataSkill";
 import SkillItems from "./components/SkillItems";
 import { cardVariants } from "../../../util/animations";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import H3 from "../../../ui/H3";
-
-const targetRoles = ["Frontend Developer"];
+import { RoleSelection } from "../../../features/onBoarding/onBoardingSlice";
+import { Navigate, useNavigate } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
 
 const currentRoles = [
   "Student",
@@ -33,13 +34,26 @@ const currentRoles = [
 ];
 
 function OnboardingPage3() {
-  const [selectedTargetRole, setSelectedTargetRole] = useState(targetRoles[0]);
+  const { selectedCategoryData } = useSelector(
+    (state) => state.learningRoadmap,
+  );
+
+  const targetRoles = selectedCategoryData.map((item) => item.path);
+  const dispatch = useDispatch();
+  const { data } = useSelector((state) => state.onBoarding);
+  const navigate = useNavigate();
+  const [selectedTargetRole, setSelectedTargetRole] = useState('');
   const [selectedCurrentRole, setSelectedCurrentRole] = useState("");
   const [queryTargetRole, setQueryTargetRole] = useState("");
   const [queryCurrentRole, setQueryCurrentRole] = useState("");
   const [openTargetRole, setOpenTargetRole] = useState(false);
   const [openCurrentRole, setOpenCurrentRole] = useState(false);
 
+  useEffect(() => {
+    if (data === null) {
+      navigate("/onboardingPage1", { replace: true });
+    }
+  }, [data, navigate]);
   // Filter roles berdasarkan query
   const filteredTargetRoles =
     queryTargetRole === ""
@@ -55,6 +69,18 @@ function OnboardingPage3() {
           role.toLowerCase().includes(queryCurrentRole.toLowerCase()),
         );
 
+  function handleNext() {
+    if (selectedTargetRole && selectedCurrentRole) {
+      dispatch(
+        RoleSelection({
+          target_role_slug: selectedTargetRole,
+          current_role: selectedCurrentRole,
+        }),
+      );
+
+      navigate("/onboardingPage5"); // Navigasi ke halaman onboarding selanjutnya
+    }
+  }
   return (
     <>
       <div className="md:rounded-2xl md:bg-white md:pb-3 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35">
@@ -99,7 +125,6 @@ function OnboardingPage3() {
                       onChange={(event) =>
                         setQueryTargetRole(event.target.value)
                       }
-                      disabled={true}
                       onFocus={() => setOpenTargetRole(true)}
                       placeholder="Pilih peran target..."
                     />
@@ -183,9 +208,9 @@ function OnboardingPage3() {
         </Section>
 
         <ButtonMdOnboarding
+          onFinish={handleNext}
           button1="Sebelumnya"
           button2="Selanjutnya"
-          to="/onboardingPage5"
         />
       </div>
     </>

@@ -54,7 +54,6 @@ function Register() {
           name: inputName,
           email: inputEmail,
           password: inputPassword,
-          password_confirmation: inputPassword,
         }),
       )
         .unwrap() // <--- PERBAIKAN PENTING: Tunggu hasil API

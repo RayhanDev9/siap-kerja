@@ -9,7 +9,7 @@ export const fetchMarketTrends = createAsyncThunk(
       const token = localStorage.getItem("token");
 
       // 2. PERBAIKAN FETCH: Tambahkan await, benarkan method, dan bungkus headers
-      const res = await fetch(`http://127.0.0.1:8000/api/market-trends`, {
+      const res = await fetch(`http://127.0.0.1:8000/api/v1/market-trends`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom"; // Tambahkan ini untuk navigasi
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Button from "../../../ui/Button";
 import H2 from "../../../ui/H2";
 import Section from "../../../ui/Section";
@@ -14,64 +14,66 @@ import InputAboutMe from "../../../ui/InputAboutMe";
 import ButtonMdOnboarding from "../components/ButtonMdOnboarding";
 import Text from "../../../ui/Text";
 import { cardVariants } from "../../../util/animations";
-import { motion } from "framer-motion"; // 1. Import Framer Motion
+import { motion } from "framer-motion";
+import { useDispatch, useSelector } from "react-redux";
+import { completeYourProfile } from "../../../features/onBoarding/onBoardingSlice";
 
 function OnboardingPage4() {
   const navigate = useNavigate();
+  const { isLoading, isError, data } = useSelector((state) => state.onBoarding);
+  console.info(data);
 
-  // 1. Bersihkan nilai awal yang tadinya "rayhan@gmail.com" menjadi string kosong
+  const dispatch = useDispatch();
+
+  const [selectedFile, setSelectedFile] = useState(null);
+
   const [inputName, setInputName] = useState("");
   const [textErrorInputName, setTextErrorInputName] = useState("");
 
   const [inputEmail, setInputEmail] = useState("");
   const [textErrorInputEmail, setTextErrorInputEmail] = useState("");
 
-  const [InputBirthDate, setInputBirthDate] = useState(null); // Gunakan null untuk tanggal
+  const [InputBirthDate, setInputBirthDate] = useState(null);
   const [textErrorInputBirthDate, setTextErrorInputBirthDate] = useState("");
 
-  const [selectLocation, setSelectLocation] = useState(null); // Gunakan null untuk object location
+  const [selectLocation, setSelectLocation] = useState(null);
   const [textErrorSelectLocation, setTextErrorSelectLocation] = useState("");
 
   const [selectSpecialization, setSelectSpecialization] = useState(null);
   const [textErrorSpecialization, setTextErrorSpecialization] = useState("");
 
-  // Data about me tetap dipertahankan sebagai nilai default
   const [aboutMe, setAboutMe] = useState("");
   const [textErrorAboutMe, setTextErrorAboutMe] = useState("");
 
-  // 2. Fungsi Utama untuk mengecek semua data sebelum navigasi
+  useEffect(() => {
+    if (data === null) {
+      navigate("/onboardingPage1", { replace: true });
+    }
+  }, [data, navigate]);
+
   function handleSubmit() {
-    // Validasi satu per satu
     const nameError = validateName(inputName);
-    const emailError = validateEmail(inputEmail);
-    const birthDateError = !InputBirthDate
-      ? "Tanggal lahir tidak boleh kosong"
-      : "";
-    const locationError = !selectLocation ? "Domisili tidak boleh kosong" : "";
-    const specializationError = !selectSpecialization
-      ? "Spesialisasi tidak boleh kosong"
-      : "";
     const aboutMeError =
       aboutMe.trim() === "" ? "Deskripsi tentang saya tidak boleh kosong" : "";
+    console.log(aboutMeError);
 
-    // Setel state error agar muncul merah-merah di layar jika ada yang kosong
     setTextErrorInputName(nameError);
-    setTextErrorInputEmail(emailError);
-    setTextErrorInputBirthDate(birthDateError);
-    setTextErrorSelectLocation(locationError);
-    setTextErrorSpecialization(specializationError);
     setTextErrorAboutMe(aboutMeError);
 
-    // 3. Pengecekan Akhir: Jika SEMUA error kosong (artinya data valid), baru pindah halaman
-    if (
-      nameError === "" &&
-      emailError === "" &&
-      birthDateError === "" &&
-      locationError === "" &&
-      specializationError === "" &&
-      aboutMeError === ""
-    ) {
-      navigate("/");
+    if (nameError === "" && aboutMeError === "" && selectedFile !== null) {
+      console.log("Data valid! Navigasi ke halaman selanjutnya.");
+
+      dispatch(
+        completeYourProfile({
+          fullName: inputName,
+          description: aboutMe,
+          foto_profile: selectedFile, // <-- LANGSUNG KIRIM FILE ASLI KE SINI
+        }),
+      );
+
+      navigate("/onboardingPage3");
+    } else if (selectedFile === null) {
+      alert("Foto profil tidak boleh kosong!");
     }
   }
 
@@ -82,13 +84,11 @@ function OnboardingPage4() {
           <div className="space-y-7">
             <ProgresOnboarding progresOnboarding={2} />
 
-            {/* Header */}
             <div className="rounded-2xl bg-white p-7 shadow-md dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35">
               <motion.div variants={cardVariants} className="pb-1">
                 <H2 type="secondaryBold">Lengkapi Profil Anda</H2>
               </motion.div>
               <motion.div variants={cardVariants}>
-                {" "}
                 <Text>
                   Langkah terakhir sebelum memulai perjalanan karir Anda.
                 </Text>
@@ -99,14 +99,40 @@ function OnboardingPage4() {
               variants={cardVariants}
               className="flex flex-col items-center gap-5 p-7 text-center"
             >
-              <div className="flex h-28 w-28 items-center justify-center rounded-full border border-slate-200 bg-slate-200 text-slate-600 dark:border dark:border-white/25 dark:bg-black hover:dark:border-white/35">
-                <i className="fa-solid fa-camera-rotate text-3xl dark:text-white"></i>
-              </div>
-              <Text className="font-semibold text-blue-800">Unggah Foto</Text>
+              <label
+                htmlFor="upload-photo"
+                className="group flex cursor-pointer flex-col items-center"
+              >
+                <div className="flex h-28 w-28 items-center justify-center rounded-full border border-slate-200 bg-slate-200 text-slate-600 transition-all dark:border dark:border-white/25 dark:bg-black group-hover:dark:border-white/35">
+                  <i className="fa-solid fa-camera-rotate text-3xl dark:text-white"></i>
+                </div>
+                <Text className="mt-3 font-semibold text-blue-800">
+                  Unggah Foto
+                </Text>
+
+                <input
+                  id="upload-photo"
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={(e) => {
+                    const file = e.target.files[0];
+                    if (file) {
+                      setSelectedFile(file);
+                      console.log("File terpilih:", file);
+                    }
+                  }}
+                />
+              </label>
+
+              {selectedFile && (
+                <Text className="text-sm text-green-600">
+                  File dipilih: {selectedFile.name}
+                </Text>
+              )}
             </motion.div>
 
             <div className="">
-              {/* Input Name */}
               <motion.div variants={cardVariants}>
                 <InputName
                   value={inputName}
@@ -121,7 +147,6 @@ function OnboardingPage4() {
 
               <motion.div variants={cardVariants} className="">
                 <InputAboutMe
-              
                   value={aboutMe}
                   onChange={(e) => {
                     setAboutMe(e.target.value);
@@ -135,7 +160,7 @@ function OnboardingPage4() {
                   }}
                 />
                 {textErrorAboutMe && (
-                  <Text className="my-3 rounded-2xl bg-red-600 px-3 py-2 text-sm text-red-50 ">
+                  <Text className="my-3 rounded-2xl bg-red-600 px-3 py-2 text-sm text-red-50">
                     {textErrorAboutMe}
                   </Text>
                 )}
@@ -144,23 +169,14 @@ function OnboardingPage4() {
           </div>
         </Section>
 
-        {/* Tombol Selesai */}
         <motion.div
           variants={cardVariants}
           className="bg-white p-7 text-center md:hidden dark:bg-neutral-900"
-        >
-          {/* 
-            Ganti properti 'to' menjadi 'onClick={handleSubmit}'.
-            Pastikan komponen <Button> milikmu mendukung props onClick. 
-            Jika tidak mendukung, ganti dengan tag <button> standar seperti di halaman Register.
-          */}
-
-     
-        </motion.div>
+        ></motion.div>
         <ButtonMdOnboarding
+          onFinish={handleSubmit}
           button1="sebelumnya"
           button2="Selanjutnya"
-          to="/onboardingPage3"
         />
       </div>
     </>
@@ -168,95 +184,3 @@ function OnboardingPage4() {
 }
 
 export default OnboardingPage4;
-{
-  /* Input Email */
-}
-{
-  /* <motion.div variants={cardVariants}>
-              <Email
-                value={inputEmail}
-                onChange={(e) => setInputEmail(e.target.value)}
-              />
-              {textErrorInputEmail && (
-                <Text className="my-3 rounded-2xl bg-red-600 px-2 py-2 text-sm text-red-50">
-                  {textErrorInputEmail}
-                </Text>
-              )}
-            </motion.div> */
-}
-
-{
-  /* Input Date Of Birth */
-}
-{
-  /* <motion.div variants={cardVariants}>
-              <InputDateOfBirth
-                value={InputBirthDate}
-                onChange={(date) => {
-                  setInputBirthDate(date);
-                  if (date) setTextErrorInputBirthDate("");
-                }}
-                onBlur={() => {
-                  if (!InputBirthDate)
-                    setTextErrorInputBirthDate(
-                      "Tanggal lahir tidak boleh kosong",
-                    );
-                }}
-              />
-              {textErrorInputBirthDate && (
-                <Text className="my-3 rounded-2xl bg-red-600 px-2 py-2 text-sm text-red-50">
-                  {textErrorInputBirthDate}
-                </Text>
-              )}
-            </motion.div> */
-}
-
-{
-  /* Select Domisili */
-}
-{
-  /* <motion.div variants={cardVariants}>
-              <SelectLocation
-                value={selectLocation}
-                onChange={(selectedCity) => {
-                  setSelectLocation(selectedCity);
-                  if (selectedCity) setTextErrorSelectLocation("");
-                }}
-                onBlur={() => {
-                  if (!selectLocation)
-                    setTextErrorSelectLocation("Domisili tidak boleh kosong");
-                }}
-              />
-      
-              {textErrorSelectLocation && (
-                <Text className="my-3 rounded-2xl bg-red-600 px-3 py-2 text-sm text-red-50">
-                  {textErrorSelectLocation}
-                </Text>
-              )}
-            </motion.div> */
-}
-
-{
-  /* Select Specialization */
-}
-{
-  /* <motion.div variants={cardVariants}>
-              {" "}
-              <SelectSpecialization
-                value={selectSpecialization}
-                onChange={(selectedItem) => {
-                  setSelectSpecialization(selectedItem);
-                  if (selectedItem) setTextErrorSpecialization("");
-                }}
-              />
-              {textErrorSpecialization && (
-                <Text className="my-3 rounded-2xl bg-red-600 px-3 py-2 text-sm text-red-50">
-                  {textErrorSpecialization}
-                </Text>
-              )}
-            </motion.div> */
-}
-
-{
-  /* Input About Me */
-}

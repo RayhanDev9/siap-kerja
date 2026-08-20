@@ -1,4 +1,4 @@
-const categoryData = [
+const categoryDataUI = [
   {
     id: 1,
     title: "Teknologi",
@@ -6,7 +6,6 @@ const categoryData = [
     iconBgClass: "bg-indigo-100",
     iconTextClass: "text-indigo-800",
   },
-
   {
     id: 2,
     title: "Bisnis",
@@ -17,10 +16,10 @@ const categoryData = [
   {
     id: 3,
     title: "Kreatif",
-    icon: "fa-solid fa-wand-magic-sparkles", // atau "fa-solid fa-palette"
+    icon: "fa-solid fa-wand-magic-sparkles",
     iconBgClass: "bg-purple-100",
-    iconTextClass: "text-purple-600", // atau "text-purple-900"
+    iconTextClass: "text-purple-600",
   },
 ];
 
-export default categoryData;
+export default categoryDataUI;

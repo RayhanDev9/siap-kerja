@@ -20,7 +20,7 @@ export const fetchCareerExplorer = createAsyncThunk(
     const token = localStorage.getItem("token");
 
     try {
-      const res = await fetch(`http://127.0.0.1:8000/api/careers`, {
+      const res = await fetch(`http://127.0.0.1:8000/api/v1/careers`, {
         method: "GET",
         headers: {
           Accept: "application/json",

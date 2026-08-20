@@ -3,11 +3,20 @@ import { useNavigate } from "react-router-dom";
 import Section from "../../../ui/Section";
 import HeaderSection from "../components/HeaderSection";
 import TopBar from "../../../ui/TopBar";
+import H3 from "../../../ui/H3";
 import { motion } from "framer-motion";
 import { cardVariants } from "../../../util/animations";
+import { useSelector } from "react-redux";
 
-const LearningRoadmap = () => {
+function LearningRoadmap() {
   const navigate = useNavigate();
+
+  const { selectedCategoryData, selectedCourses } = useSelector(
+    (state) => state.learningRoadmap,
+  );
+
+  dis
+  console.info(selectedCourses);
 
   // Data statis untuk tahapan Roadmap
   const roadmapSteps = [
@@ -77,7 +86,7 @@ const LearningRoadmap = () => {
 
                 {/* Konten Tahapan */}
                 <div className="flex flex-col gap-1">
-                  <h3
+                  <H3
                     className={`text-lg font-bold md:text-xl ${
                       step.status === "locked"
                         ? "text-slate-400 dark:text-slate-500"
@@ -85,9 +94,9 @@ const LearningRoadmap = () => {
                     }`}
                   >
                     {step.title}
-                  </h3>
+                  </H3>
                   <p
-                    className={`text-sm md:text-base ${
+                    className={`text-sm md:text-base lg:text-lg ${
                       step.status === "locked"
                         ? "text-slate-400/80 dark:text-slate-600"
                         : "text-slate-600 dark:text-slate-400"
@@ -99,7 +108,7 @@ const LearningRoadmap = () => {
                   {/* Status Badge */}
                   <div className="mt-2 flex">
                     <span
-                      className={`inline-flex items-center rounded-md px-2.5 py-1 text-xs font-medium ${
+                      className={`inline-flex items-center rounded-md px-2.5 py-1 text-xs font-medium md:text-sm lg:text-base ${
                         step.status === "completed"
                           ? "bg-green-100 text-green-700 dark:bg-green-500/10 dark:text-green-400"
                           : step.status === "current"
@@ -122,6 +131,6 @@ const LearningRoadmap = () => {
       </div>
     </Section>
   );
-};
+}
 
 export default LearningRoadmap;

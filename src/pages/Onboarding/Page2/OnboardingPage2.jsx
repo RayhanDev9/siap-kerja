@@ -1,18 +1,26 @@
 import Section from "../../../ui/Section";
 import H2 from "../../../ui/H2";
-import categoryData from "./Components/dataOnboardingPage2";
+import categoryData from "./Components/DataOnboardingPage2";
 import CategoryItems from "./Components/CategoryItems";
 import Button from "../../../ui/Button";
 import ProgresOnboarding from "../components/ProgresOnboarding";
 import ButtonMdOnboarding from "../components/ButtonMdOnboarding";
 import Text from "../../../ui/Text";
 import { cardVariants } from "../../../util/animations";
-import { motion } from "framer-motion";
-import { useState } from "react";
+import { fillOffset, motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { explorasiCareer } from "../../../features/onBoarding/onBoardingSlice";
+import { useNavigate } from "react-router";
+import categoryDataUI from "./Components/DataOnboardingPage2";
+import { selectCategoryCareer } from "../../../features/dashboard/learningRoadmapSlice";
 
 function OnboardingPage2() {
   // State menampung 1 ID category yang terpilih (null jika belum ada)
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const { data } = useSelector((state) => state.onBoarding);
 
   // Handler toggle pilih 1 item
   function handleSelect(id) {
@@ -21,6 +29,25 @@ function OnboardingPage2() {
       : setSelectedCategory(id);
   }
   console.info(selectedCategory);
+  useEffect(() => {
+    if (data === null) {
+      navigate("/onboardingPage1", { replace: true });
+    }
+  }, [data, navigate]);
+
+  function handleNext() {
+    if (selectedCategory) {
+      dispatch(explorasiCareer(selectedCategory));
+      dispatch(selectCategoryCareer(selectedCategory));
+      navigate("/onboardingPage4"); // Navigasi ke halaman onboarding selanjutnya
+    }
+  }
+
+  const { data: dataLearningRoadmap } = useSelector(
+    (state) => state.learningRoadmap,
+  );
+  const dataLR = Object.keys(dataLearningRoadmap.data);
+  console.info()
 
   return (
     <>
@@ -29,7 +56,7 @@ function OnboardingPage2() {
           <div className="space-y-7">
             <ProgresOnboarding progresOnboarding={3} />
 
-            <div className="rounded-2xl bg-white p-7 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35 shadow-md">
+            <div className="rounded-2xl bg-white p-7 shadow-md dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35">
               <motion.div variants={cardVariants} className="pb-1">
                 <H2 type="secondaryBold">Apa yang menarik minat Anda?</H2>
               </motion.div>
@@ -42,7 +69,7 @@ function OnboardingPage2() {
             </div>
 
             <div className="grid grid-cols-2 justify-items-center gap-7">
-              {categoryData.map((category) => {
+              {categoryData.map((category, i) => {
                 const isSelected = selectedCategory === category.title;
                 // Di-disable jika sudah ada 1 item terpilih DAN item ini BUKAN yang terpilih
                 const isDisabled = selectedCategory !== null && !isSelected;
@@ -51,7 +78,7 @@ function OnboardingPage2() {
                   <CategoryItems
                     key={category.id}
                     id={category.title}
-                    title={category.title}
+                    title={dataLR[i]}
                     icon={category.icon}
                     iconBgClass={category.iconBgClass}
                     iconTextClass={category.iconTextClass}
@@ -65,12 +92,10 @@ function OnboardingPage2() {
           </div>
         </Section>
 
-   
-
         <ButtonMdOnboarding
+          onFinish={handleNext}
           button1="Sebelumnya"
           button2="Selanjutnya"
-          to="/onboardingPage4"
         />
       </div>
     </>

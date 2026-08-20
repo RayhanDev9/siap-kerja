@@ -14,7 +14,7 @@ export const registerUser = createAsyncThunk(
   "auth/registerUser",
   async function (userData, thunkAPI) {
     try {
-      const res = await fetch(`http://127.0.0.1:8000/api/register`, {
+      const res = await fetch(`http://127.0.0.1:8000/api/v1/auth/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -28,8 +28,13 @@ export const registerUser = createAsyncThunk(
         return thunkAPI.rejectWithValue(data);
       }
 
-      // 2. SIMPAN KE LOCAL STORAGE JIKA SUKSES
-      localStorage.setItem("token", data.access_token);
+      // 2. SIMPAN KE LOCAL STORAGE JIKA SUKSES (Ditambahkan pengecekan untuk mencegah undefined)
+      if (data.access_token) {
+        localStorage.setItem("token", data.access_token);
+      }
+      if (data.user) {
+        localStorage.setItem("user", JSON.stringify(data.user));
+      }
 
       return data;
     } catch (error) {
@@ -42,7 +47,7 @@ export const loginUser = createAsyncThunk(
   "auth/loginUser",
   async function (userData, thunkAPI) {
     try {
-      const res = await fetch(`http://127.0.0.1:8000/api/login`, {
+      const res = await fetch(`http://127.0.0.1:8000/api/v1/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -57,9 +62,13 @@ export const loginUser = createAsyncThunk(
         const errorMessage = data.message || "Email atau password salah.";
         return thunkAPI.rejectWithValue(errorMessage);
       }
-      // 2. SIMPAN KE LOCAL STORAGE JIKA SUKSES
-      localStorage.setItem("token", data.access_token);
-      localStorage.setItem("user", JSON.stringify(data.user));
+      // 2. SIMPAN KE LOCAL STORAGE JIKA SUKSES (Ditambahkan pengecekan untuk mencegah undefined)
+      if (data.data && data.data.access_token) {
+        localStorage.setItem("token", data.data.access_token);
+      }
+      if (data.data && data.data.user) {
+        localStorage.setItem("user", JSON.stringify(data.data.user));
+      }
       return data;
     } catch (err) {
       return thunkAPI.rejectWithValue(err.message);
@@ -73,7 +82,7 @@ export const logoutUserThunk = createAsyncThunk(
     const token = localStorage.getItem("token");
 
     try {
-      const res = await fetch(`http://127.0.0.1:8000/api/logout`, {
+      const res = await fetch(`http://127.0.0.1:8000/api/v1/auth/logout`, {
         method: "POST",
         headers: {
           Accept: "application/json",

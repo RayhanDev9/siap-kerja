@@ -13,6 +13,8 @@ function CategoryItems({
   isDisabled,
   onSelect,
 }) {
+
+  console.info(title)
   return (
     <motion.div variants={cardVariants}>
       <label

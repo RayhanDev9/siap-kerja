@@ -14,6 +14,9 @@ import profileReducer from "./features/dashboard/profileSlice";
 const store = configureStore({
   reducer: {
     auth: authReducer,
+
+    onBoarding: onBoardingReducer,
+
     marketTrends: marketTrendsReducer,
     careerExplorer: careerExplorerReducer,
     learningRoadmap: learningRoadmapReducer,
@@ -21,7 +24,6 @@ const store = configureStore({
     analytics: analyticsReducer,
     skillGap: skillGapReducer,
     dashboard: dashboardReducer,
-    onBoarding: onBoardingReducer,
     savedCareers: savedCareersReducer,
     profile: profileReducer,
   },

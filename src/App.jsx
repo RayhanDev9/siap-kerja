@@ -53,24 +53,24 @@ const router = createHashRouter(
       element: <AppLayout />,
       errorElement: <Error />,
       children: [
-        { path: "/", element: <Dashboard /> },
-        { path: "/skillGap", element: <SkillGap /> },
-        { path: "/analytics", element: <Analytics /> },
         { path: "/profile", element: <Profile /> },
-        { path: "/aiRecommendations", element: <AiRecommendations /> },
-        { path: "/marketTrends", element: <MarketTrends /> },
-        { path: "/careerExplorer", element: <CareerExplorer /> },
-        { path: "/savedCareers", element: <SavedCareers /> },
-        { path: "/setting", element: <Setting /> },
+        // { path: "/", element: <Dashboard /> },
+        // { path: "/skillGap", element: <SkillGap /> },
+        // { path: "/analytics", element: <Analytics /> },
+        // { path: "/aiRecommendations", element: <AiRecommendations /> },
+        // { path: "/marketTrends", element: <MarketTrends /> },
+        // { path: "/careerExplorer", element: <CareerExplorer /> },
+        // { path: "/savedCareers", element: <SavedCareers /> },
+        // { path: "/setting", element: <Setting /> },
         { path: "/learningRoadmap", element: <LearningRoadmap /> },
-        { path: "/courses", element: <Courses /> },
-        // Help Routes
-        { path: "/help/guide", element: <Guide /> },
-        { path: "/help/faq", element: <FAQ /> },
-        { path: "/help/support", element: <Support /> },
-        { path: "/help/bug-report", element: <BugReport /> },
-        { path: "/help/about", element: <About /> },
-        { path: "/help/version", element: <VersionInfo /> },
+        // { path: "/courses", element: <Courses /> },
+        // // Help Routes
+        // { path: "/help/guide", element: <Guide /> },
+        // { path: "/help/faq", element: <FAQ /> },
+        // { path: "/help/support", element: <Support /> },
+        // { path: "/help/bug-report", element: <BugReport /> },
+        // { path: "/help/about", element: <About /> },
+        // { path: "/help/version", element: <VersionInfo /> },
       ],
     },
     {
@@ -133,7 +133,6 @@ const router = createHashRouter(
 );
 
 function App() {
-  tes();
 
   return <RouterProvider router={router} />;
 }

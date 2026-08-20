@@ -9,15 +9,18 @@ export const fetchSavedCareers = createAsyncThunk(
     try {
       const token = localStorage.getItem("token");
 
-      const response = await fetch(`http://127.0.0.1:8000/api/saved-careers`, {
-        method: "GET", // Gunakan GET untuk mengambil data
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-          Authorization: `Bearer ${token}`,
-          "ngrok-skip-browser-warning": "true", // <-- Tambahkan baris ini
+      const response = await fetch(
+        `http://127.0.0.1:8000/api/v1/saved-careers`,
+        {
+          method: "GET", // Gunakan GET untuk mengambil data
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            Authorization: `Bearer ${token}`,
+            "ngrok-skip-browser-warning": "true", // <-- Tambahkan baris ini
+          },
         },
-      });
+      );
 
       const data = await response.json();
 
