@@ -8,7 +8,7 @@ function SkillCategoryDetailsList({ category, icon, skills }) {
     <motion.div variants={cardVariants} className="rounded-2xl bg-white px-7 py-7 md:block md:h-full dark:lg:border dark:lg:border-white/25 dark:lg:bg-neutral-900 hover:dark:lg:border-white/35">
       <div className="py-2">
         <H3>
-          <i className={`fa-solid text-xl ${icon} pr-2`}></i>
+          <i className={`fa-solid text-xl fa-${icon} pr-2`}></i>
           {category}
         </H3>
       </div>

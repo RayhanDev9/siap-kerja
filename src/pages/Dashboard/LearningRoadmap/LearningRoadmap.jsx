@@ -93,7 +93,7 @@ function LearningRoadmap() {
                 >
                   {/* Indikator Bulat (Timeline Dot) */}
                   <span
-                    className={`absolute -left-[41px] flex h-5 w-5 items-center justify-center rounded-full ring-4 ring-white dark:ring-neutral-900 ${
+                    className={`absolute -left-[42.6px] flex h-5 w-5 items-center justify-center rounded-full ring-4 ring-white dark:ring-neutral-900 ${
                       course.status === "completed"
                         ? "bg-green-500"
                         : course.status === "in_progress"

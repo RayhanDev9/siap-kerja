@@ -1,20 +1,16 @@
-import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
-import { data } from "react-router";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  // Bungkus utama data roadmap
   data: null,
-  // Status untuk mengatur animasi skeleton/loading
   isLoading: false,
   selectedCategoryData: null,
-  // Menyimpan array daftar kursus yang sedang aktif/dipilih
   selectedCourses: [],
   selectedPath: null,
-  courseStepComplated: null,
-  // Menyimpan pesan error jika API gagal
+  courseStepComplated: [],
   error: null,
 };
 
+// 1. FETCH ROADMAP
 export const fetchLearningRoadmap = createAsyncThunk(
   "learningRoadmap/fetchLearningRoadmap",
   async function (_, thunkAPI) {
@@ -30,10 +26,7 @@ export const fetchLearningRoadmap = createAsyncThunk(
       });
 
       const data = await res.json();
-
-      if (!res.ok) {
-        return thunkAPI.rejectWithValue(data);
-      }
+      if (!res.ok) return thunkAPI.rejectWithValue(data);
       return data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -41,6 +34,7 @@ export const fetchLearningRoadmap = createAsyncThunk(
   },
 );
 
+// 2. UPDATE STEP STATUS
 export const updateCourseStatus = createAsyncThunk(
   "learningRoadmap/updateCourseStatus",
   async function ({ stepId, status }, thunkAPI) {
@@ -61,12 +55,8 @@ export const updateCourseStatus = createAsyncThunk(
       );
 
       const data = await res.json();
+      if (!res.ok) return thunkAPI.rejectWithValue(data);
 
-      if (!res.ok) {
-        return thunkAPI.rejectWithValue(data);
-      }
-
-      // Kembalikan stepId dan status agar reducer Redux bisa langsung update state
       return { stepId, status, responseData: data };
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -74,25 +64,31 @@ export const updateCourseStatus = createAsyncThunk(
   },
 );
 
-export const updateCourseStepStatus = createAsyncThunk(
-  "learningRoadmap/updateCourseStepStatus",
-  async ({ courseId, stepNumber, newStatus }, { rejectWithValue }) => {
+export const updateCourseDirectStatus = createAsyncThunk(
+  "learningRoadmap/updateCourseDirectStatus",
+  async function ({ courseId, status }, thunkAPI) {
+    const token = localStorage.getItem("token");
     try {
-      const token = localStorage.getItem("token");
-      const response = await axios.patch(
-        `http://127.0.0.1:8000/api/v1/roadmaps/courses/${courseId}/steps/${stepNumber}/status`,
-        { status: newStatus },
+      const res = await fetch(
+        `http://127.0.0.1:8000/api/v1/user/roadmap/courses/${courseId}/status`,
         {
+          method: "PATCH",
           headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
             Authorization: `Bearer ${token}`,
+            "ngrok-skip-browser-warning": "true",
           },
+          body: JSON.stringify({ status }), // misal: { status: "in_progress" } atau { status: "completed" }
         },
       );
-      return { courseId, stepNumber, newStatus: response.data.data.status };
+
+      const data = await res.json();
+      if (!res.ok) return thunkAPI.rejectWithValue(data);
+
+      return { courseId, status, responseData: data };
     } catch (error) {
-      return rejectWithValue(
-        error.response?.data || "Gagal mengupdate status step",
-      );
+      return thunkAPI.rejectWithValue(error.message);
     }
   },
 );
@@ -101,67 +97,52 @@ const learningRoadmapSlice = createSlice({
   name: "learningRoadmap",
   initialState,
   reducers: {
-    // 1. REDUCER UNTUK PILIH KATEGORI (Teknologi, Bisnis, Kreatif)
     selectCategoryCareer(state, action) {
-      const selectedCategory = action.payload; // misal: "Teknologi"
-
-      if (state.data && state.data.data && selectedCategory) {
+      const selectedCategory = action.payload;
+      if (state.data?.data && selectedCategory) {
         const keyPilihan = selectedCategory.toLowerCase();
-        const dataKategori = state.data.data[keyPilihan] || [];
-
-        // Simpan data path (FE, BE, dll) ke state
-        state.selectedCategoryData = dataKategori;
+        state.selectedCategoryData = state.data.data[keyPilihan] || [];
       }
     },
 
     selectedPathName(state, action) {
-      const targetPath = action.payload; // Misal dikirim: "Frontend Developer" atau slug "frontend-developer"
-      // console.info(current(state.isLoading));
-
+      const targetPath = action.payload;
       if (state?.selectedCategoryData && targetPath) {
-        // 1. Ambil array yang berisi 3 path tersebut
-        // (Sesuaikan keyCategory dengan cara Anda mengambil data kategorinya)
-        const dataKategori = state.selectedCategoryData;
-
-        // 2. Cari objek path yang sesuai
-        const matchedPath = dataKategori.find((item) => {
-          // Normalisasi teks agar pencocokan tidak sensitif huruf besar/kecil atau tanda strip
+        const matchedPath = state.selectedCategoryData.find((item) => {
           const normalize = (str) =>
             str?.toLowerCase().replace(/[-_]/g, " ").trim();
           return normalize(item.path) === normalize(targetPath);
         });
 
         if (matchedPath) {
-          // Simpan objek utuh, nama path, atau langsung courses-nya
-          state.selectedPath = matchedPath.path; // "Frontend Developer"
+          state.selectedPath = matchedPath.path;
         }
       }
     },
-    // 2. REDUCER BARU: UNTUK GANTI COURSES BERDASARKAN PATH YANG DIKLIK (FE, BE, dll)
-    selectPathCourses(state, action) {
-      const selectedPathName = action.payload; // misal: "Frontend Developer"
 
-      // Cek apakah data kategori saat ini ada isinya
-      if (state.selectedCategoryData && state.selectedCategoryData.length > 0) {
-        // Cari path yang namanya sama persis dengan yang diklik user
+    selectPathCourses(state, action) {
+      const selectedPathName = action.payload;
+      if (state.selectedCategoryData?.length > 0) {
         const matchedPath = state.selectedCategoryData.find(
           (item) => item.path === selectedPathName,
         );
-
-        // Kalau ketemu, timpa state selectedCourses dengan courses milik path tersebut
         if (matchedPath) {
           state.selectedCourses = matchedPath.courses || [];
         }
       }
     },
+
     selectCourseStepComplated(state) {
-      state.selectedCourseComplated = state.selectedCourses.flatMap((item) =>
-        item.steps.filter((step) => step.status === "completed"),
+      state.courseStepComplated = state.selectedCourses.flatMap(
+        (item) =>
+          item.steps?.filter((step) => step.status === "completed") || [],
       );
     },
   },
-  extraReducers: (builder) =>
+
+  extraReducers: (builder) => {
     builder
+      // FETCH ROADMAP CASES
       .addCase(fetchLearningRoadmap.pending, (state) => {
         state.isLoading = true;
         state.error = null;
@@ -174,83 +155,68 @@ const learningRoadmapSlice = createSlice({
         state.isLoading = false;
         state.error = action.payload;
       })
+
+      // UPDATE STEP & COURSE STATUS CASE
       .addCase(updateCourseStatus.fulfilled, (state, action) => {
         const { stepId, status } = action.payload;
 
-        // Looping setiap course di dalam array selectedCourses
-        state.selectedCourses.forEach((course) => {
-          // 1. Cari apakah step yang di-update ada di dalam course ini
-          const targetStep = course.find(
-            (item) => String(item.course_id || item.status) === String(stepId),
+        // 1. Temukan HANYA course yang memuat step target
+        const targetCourse = state.selectedCourses.find((course) =>
+          course.steps?.some(
+            (step) => String(step.id || step.step) === String(stepId),
+          ),
+        );
+
+        if (targetCourse && targetCourse.steps) {
+          // 2. Temukan dan perbarui status step yang bersangkutan
+          const targetStep = targetCourse.steps.find(
+            (step) => String(step.id || step.step) === String(stepId),
           );
-          console.info(current(targetStep));
 
-          // 2. Hanya jalankan jika step ditemukan di course ini
           if (targetStep) {
-            // targetStep.status = status;
-
-            // Cek apakah semua step sudah completed
-            const allCompleted = course.every((s) => s.status === "completed");
-
-            // Cek apakah ada minimal satu step yang completed atau in_progress
-            const hasProgress = course.some(
-              (s) => s.status === "completed" || s.status === "in_progress",
-            );
-
-            // Tentukan status course
-            if (allCompleted) {
-              course.status = "completed";
-            } else if (hasProgress) {
-              course.status = "in_progress";
-            }
+            targetStep.status = status;
           }
 
-        });
-      })
-      .addCase(updateCourseStepStatus.fulfilled, (state, action) => {
-        const { courseId, stepNumber, newStatus } = action.payload;
+          // 3. Evaluasi kondisi bisnis menggunakan .every() dan .some()
+          const isAllCompleted = targetCourse.steps.every(
+            (step) => step.status === "completed",
+          );
 
-        // Cari course aktif
-        const course = state.selectedCourses.find(
+          const hasProgress = targetCourse.steps.some(
+            (step) =>
+              step.status === "completed" || step.status === "in_progress",
+          );
+
+          // 4. Update status course sesuai prioritas
+          if (isAllCompleted) {
+            targetCourse.status = "completed";
+          } else if (hasProgress) {
+            targetCourse.status = "in_progress";
+          }
+          // Jika tidak memenuhi keduanya (belum dimulai/masih locked), status course tidak diubah (tetap aslinya).
+        }
+      })
+      .addCase(updateCourseDirectStatus.fulfilled, (state, action) => {
+        const { courseId, status } = action.payload;
+
+        const targetCourse = state.selectedCourses.find(
           (c) => String(c.course_id) === String(courseId),
         );
 
-        if (course) {
-          // Jika course tadinya locked, ubah jadi in_progress
-          if (course.status === "locked") {
-            course.status = "in_progress";
-          }
-
-          // Update status step yang diselesaikan
-          const currentStepIndex = course.steps.findIndex(
-            (s) => s.step === stepNumber,
-          );
-          if (currentStepIndex !== -1) {
-            course.steps[currentStepIndex].status = newStatus;
-
-            // Otomatis buka step berikutnya jika masih locked
-            const nextStep = course.steps[currentStepIndex + 1];
-            if (nextStep && nextStep.status === "locked") {
-              nextStep.status = "in_progress";
-            }
-          }
-
-          // Jika seluruh step sudah completed, ubah status course jadi completed
-          const isAllDone = course.steps.every((s) => s.status === "completed");
-          if (isAllDone) {
-            course.status = "completed";
-          }
+        if (targetCourse) {
+          targetCourse.status = status;
         }
-      }),
+      });
+  },
 });
 
-// Jangan lupa export reducer yang baru dibikin!
 export const {
   selectCategoryCareer,
   selectPathCourses,
   selectedPathName,
   selectCourseStepComplated,
 } = learningRoadmapSlice.actions;
+
 export default learningRoadmapSlice.reducer;
 
 //  .addCase(updateCourseStatus.fulfilled, (state, action) => {

@@ -2,31 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   // Bungkus utama data dashboard
-  dashboardData: {
-    // Data user bisa kamu tambahkan jika dari API lain, atau gabung di sini
-    user: {
-      firstName: "",
-      currentDate: "",
-    },
-    careerReadiness: {
-      progressMessage: "",
-      scoreData: [], // Array kosong agar chart tidak error
-    },
-    metrics: {
-      aiReadiness: {
-        grade: "",
-        description: "",
-        icon: "",
-      },
-      learningStreak: {
-        days: 0,
-        label: "",
-        icon: "",
-      },
-    },
-    prioritySkills: [], // Array kosong agar aman saat di-map
-    careerRecommendations: [], // Array kosong agar aman saat di-map
-  },
+  dashboardData: null,
 
   // Status untuk menampilkan animasi loading/skeleton
   isLoading: false,
@@ -42,7 +18,7 @@ export const fetchDashboard = createAsyncThunk(
 
     try {
       // PERHATIAN: Pastikan endpoint URL ini sesuai dengan backend kamu
-      const res = await fetch(`http://127.0.0.1:8000/api/v1/ai/dashboard`, {
+      const res = await fetch(`http://127.0.0.1:8000/api/v1/user/dashboard`, {
         method: "GET",
         headers: {
           Accept: "application/json",

@@ -54,8 +54,8 @@ const router = createHashRouter(
       errorElement: <Error />,
       children: [
         { path: "/profile", element: <Profile /> },
-        // { path: "/", element: <Dashboard /> },
-        // { path: "/skillGap", element: <SkillGap /> },
+        { path: "/", element: <Dashboard /> },
+        { path: "/skillGap", element: <SkillGap /> },
         { path: "/analytics", element: <Analytics /> },
         // { path: "/aiRecommendations", element: <AiRecommendations /> },
         { path: "/marketTrends", element: <MarketTrends /> },

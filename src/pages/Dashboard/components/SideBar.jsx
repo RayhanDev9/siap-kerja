@@ -3,15 +3,24 @@ import SideBarItems from "./SideBarItems";
 import Button from "../../../ui/Button";
 import Logo from "../../../ui/Logo";
 import Text from "../../../ui/Text";
+import { useSelector } from "react-redux";
 
 const NavLinks = [
   { path: "/", icon: "fa-table-cells-large", description: "Dashboard" },
-  
+
   // Eksplorasi & Riset
-  { path: "/careerExplorer", icon: "fa-compass", description: "Career Explorer" },
+  {
+    path: "/careerExplorer",
+    icon: "fa-compass",
+    description: "Career Explorer",
+  },
   { path: "/savedCareers", icon: "fa-bookmark", description: "Saved Careers" },
-  { path: "/marketTrends", icon: "fa-chart-line", description: "Market Trends" },
-  
+  {
+    path: "/marketTrends",
+    icon: "fa-chart-line",
+    description: "Market Trends",
+  },
+
   // Analisis Data Diri
   { path: "/analytics", icon: "fa-chart-column", description: "Analytics" },
   // {
@@ -20,11 +29,11 @@ const NavLinks = [
   //   description: "AI Picks",
   // },
   { path: "/skillGap", icon: "fa-list-ul", description: "Skill Gap" },
-  
+
   // Aksi / Belajar
   { path: "/learningRoadmap", icon: "fa-map", description: "Roadmap" },
   { path: "/courses", icon: "fa-book-open", description: "Courses" },
-  
+
   // Utilitas
   // { path: "/profile", icon: "fa-user", description: "Profile" },
   { path: "/setting", icon: "fa-gear", description: "Settings" },
@@ -33,6 +42,10 @@ const NavLinks = [
 function SideBar() {
   const isTrue = true;
   const navgiate = useNavigate();
+
+  const { data } = useSelector(
+    (state) => state.profile,
+  );
   return (
     <div className="3xl:overflow-y-auto sticky top-0 hidden w-full self-start border-r border-gray-200 lg:block dark:border dark:border-white/25 hover:dark:border-white/35">
       {/* WADAH UTAMA BOTTOM NAV */}
@@ -87,10 +100,10 @@ function SideBar() {
               ></i>
               <div>
                 <p className="text-xl font-medium text-slate-800 dark:text-white">
-                  Budi Santoso
+                  {data.fullName}
                 </p>
                 <p className="text-base font-normal text-slate-500 dark:text-slate-400">
-                  Senior UI/UX
+                  {data.current_role}
                 </p>
               </div>
             </div>

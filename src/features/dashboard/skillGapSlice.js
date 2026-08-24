@@ -1,41 +1,30 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  // Bungkus utama data kesenjangan keahlian (Skill Gap)
-  skillGapData: {
-    overallReadiness: {
-      percentage: 0,
-      message: "",
-    },
-    competencyMatrix: {
-      labels: [], // Sangat penting: Array kosong agar Chart tidak error
-      datasets: [], // Sangat penting: Array kosong agar Chart tidak error
-    },
-    skillCategoryDetails: [], // Array kosong agar aman saat di-map
-    marketDemandMap: [], // Array kosong agar aman saat di-map
-  },
-
-  // Status untuk menampilkan animasi loading/skeleton
+  skillGapData: null,
+  marketDemandData: [],
+  roleSkillGroups: [],
+  dataChart: [],
+  overallReadiness: [],
   isLoading: false,
-
-  // Menyimpan pesan error jika API gagal dipanggil
   error: null,
 };
 
 export const fetchSkillGap = createAsyncThunk(
-  "fetchSkillGap/skillGap",
+  "skillGap/fetchSkillGap",
   async function (_, thunkAPI) {
     const token = localStorage.getItem("token");
 
     try {
-      const res = await fetch(`http://127.0.0.1:8000/api/v1/ai/skill-gap`, {
+      const res = await fetch(`http://127.0.0.1:8000/api/v1/user/skill-gap`, {
         method: "GET",
         headers: {
           Accept: "application/json",
           Authorization: `Bearer ${token}`,
-          "ngrok-skip-browser-warning": "true", // <-- Tambahkan baris ini
+          "ngrok-skip-browser-warning": "true",
         },
       });
+
       const data = await res.json();
       if (!res.ok) {
         return thunkAPI.rejectWithValue(data);
@@ -51,11 +40,24 @@ export const fetchSkillGap = createAsyncThunk(
 const skillGapSlice = createSlice({
   name: "skillGap",
   initialState,
-  reducers: {},
+  reducers: {
+    selectAllData(state, action) {
+      const key = action.payload;
+      const rawData = state.skillGapData?.data;
+
+      if (rawData && key) {
+        state.marketDemandData = rawData.marketDemandData?.[key] || [];
+        state.roleSkillGroups = rawData.roleSkillGroups?.[key] || [];
+        state.dataChart = rawData.dataChart?.[key] || [];
+        state.overallReadiness = rawData.overallReadiness?.[key] || [];
+      }
+    },
+  },
   extraReducers: (builder) =>
     builder
       .addCase(fetchSkillGap.pending, (state) => {
         state.isLoading = true;
+        state.error = null;
       })
       .addCase(fetchSkillGap.fulfilled, (state, action) => {
         state.isLoading = false;
@@ -67,4 +69,5 @@ const skillGapSlice = createSlice({
       }),
 });
 
+export const { selectAllData } = skillGapSlice.actions;
 export default skillGapSlice.reducer;
