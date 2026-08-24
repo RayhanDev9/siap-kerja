@@ -35,10 +35,11 @@ function OnboardingPage2() {
     }
   }, [data, navigate]);
 
+
   function handleNext() {
     if (selectedCategory) {
-      dispatch(explorasiCareer(selectedCategory));
       dispatch(selectCategoryCareer(selectedCategory));
+      dispatch(explorasiCareer(selectedCategory));
       navigate("/onboardingPage4"); // Navigasi ke halaman onboarding selanjutnya
     }
   }
@@ -47,7 +48,7 @@ function OnboardingPage2() {
     (state) => state.learningRoadmap,
   );
   const dataLR = Object.keys(dataLearningRoadmap.data);
-  console.info()
+  console.info();
 
   return (
     <>

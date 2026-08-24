@@ -9,21 +9,29 @@ import { cardVariants } from "../../../util/animations";
 import { motion } from "framer-motion";
 import H3 from "../../../ui/H3";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router";
+import { use, useState } from "react";
+import { button } from "framer-motion/m";
 
 function Profile() {
+  const navigate = useNavigate();
   const { profile, skills } = dataProfile;
   const { name, city, headline, bio, avatarUrl, careerCategory, targetRole } =
     profile;
+  const [anotherSkills, setAnotherSkills] = useState(false);
   const { data } = useSelector((state) => state.profile);
   console.info(data);
-  if (!data) {
-    return (
-      <div className="flex h-screen items-center justify-center">
-        <p>Loading profil...</p>
-      </div>
-    );
-  }
+  const { selectedCourses } = useSelector((state) => state.learningRoadmap);
 
+  const courseStepComplated = selectedCourses.flatMap((item) =>
+    item.steps.filter((step) => step.status === "completed"),
+  );
+
+  const coursesCompleted = selectedCourses.filter(
+    (item) => item.status === "completed",
+  );
+
+  console.info(coursesCompleted);
   const {
     category_slug,
     current_role,
@@ -35,6 +43,19 @@ function Profile() {
     user_id,
   } = data;
   console.info(initial_skills, foto_profile);
+  // 1. Ambil data asli dari localStorage
+  const rawData = localStorage.getItem("my_saved_skills");
+  const mySkills = rawData ? JSON.parse(rawData) : [];
+
+  // 2. Potong array: ambil dari index 0 sampai 3 (Maksimal 4 item)
+  const visibleSkills = coursesCompleted.slice(0, 3);
+  console.info(visibleSkills);
+  // 3. Potong sisanya: ambil dari index 4 sampai habis
+  const hiddenSkills = coursesCompleted.slice(3);
+
+  function handleAnotherSkills() {
+    setAnotherSkills(!anotherSkills);
+  }
 
   return (
     <Section>
@@ -87,16 +108,31 @@ function Profile() {
         </motion.div>
 
         {/* Skills */}
-        {skills && skills.primary && (
+        {visibleSkills.length > 0 && (
           <motion.div variants={cardVariants}>
             <H2 type="secondry">Keahlian Utama</H2>
             <div className="mt-7 flex flex-wrap gap-4">
-              {skills.primary.map((skill, index) => (
-                <SkillsItems key={index} skill={skill} />
-              ))}
-              <Text className="inline-block rounded-md bg-slate-50 p-2 text-blue-500 dark:border dark:border-white/25 dark:bg-neutral-900">
-                +{skills.additionalCount} Lainnya
-              </Text>
+              {!anotherSkills &&
+                visibleSkills.map((skill) => (
+                  <SkillsItems
+                    key={skill.course_id}
+                    skill={skill.titleCourse}
+                  />
+                ))}
+              {anotherSkills &&
+                coursesCompleted.map((skill) => (
+                  <SkillsItems
+                    key={skill.course_id}
+                    skill={skill.titleCourse}
+                  />
+                ))}
+              {hiddenSkills.length > 0 && (
+                <button onClick={handleAnotherSkills}>
+                  <Text className="inline-block rounded-md bg-slate-50 p-2 text-blue-500 dark:border dark:border-white/25 dark:bg-neutral-900">
+                    {!anotherSkills ? `+ ${hiddenSkills.length} More` : "Less"}
+                  </Text>
+                </button>
+              )}
             </div>
           </motion.div>
         )}
@@ -112,7 +148,7 @@ function Profile() {
           <div className="flex flex-col gap-6 rounded-2xl border border-gray-200 bg-white p-6 transition-colors dark:border-white/20 dark:bg-neutral-900 hover:dark:border-white/35">
             {/* Layout Data (Grid 2 Kolom di Desktop, 1 Kolom di HP) */}
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-              <div className="flex flex-col gap-2 rounded-xl border border-slate-100 p-4 transition-colors dark:border-white/10 hover:dark:border-white/20">
+              <div className="flex flex-col items-center gap-2 rounded-xl border border-slate-300 p-4 transition-colors hover:border-slate-400 dark:border-white/10 hover:dark:border-white/20">
                 <H3 className="text-lg font-semibold text-slate-900 dark:text-white">
                   Kategori Karir
                 </H3>
@@ -120,7 +156,7 @@ function Profile() {
                   {category_slug}
                 </Text>
               </div>
-              <div className="flex flex-col gap-2 rounded-xl border border-slate-100 p-4 transition-colors dark:border-white/10 hover:dark:border-white/20">
+              <div className="flex flex-col items-center gap-2 rounded-xl border border-slate-300 p-4 transition-colors hover:border-slate-400 dark:border-white/10 hover:dark:border-white/20">
                 <H3 className="text-lg font-semibold text-slate-900 dark:text-white">
                   Target Role
                 </H3>
@@ -136,11 +172,8 @@ function Profile() {
             {/* Layout Action (Tombol Kiri, Teks Kanan di Desktop) */}
             <div className="md:justify-cente flex flex-col items-start gap-5 md:flex-row md:items-center md:gap-6">
               <div className="inline-block">
-                <Button
-                  type="buttonCardLearning"
-                  onClick={() => console.log("Edit clicked")}
-                >
-                  EDIT DATA PROFIL
+                <Button type="generalPrimary" to={"/onboardingPage1"}>
+                  EDIT PROFIL
                 </Button>
               </div>
               <Text className="text-xs leading-relaxed text-slate-500 md:max-w-xl md:text-sm dark:text-slate-400">

@@ -1,6 +1,6 @@
 function Progres({
   progressPercentage,
-  thame = "bg-purple-500",
+  thame = "bg-blue-500",
   height = "h-2.5",
 }) {
   const result = thame.slice(0, thame.lastIndexOf("-"));

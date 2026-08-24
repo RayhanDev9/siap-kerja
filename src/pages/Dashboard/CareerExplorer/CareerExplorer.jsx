@@ -11,22 +11,37 @@ import { useSelector, useDispatch } from "react-redux";
 import Loader from "../../../ui/Loader";
 import {
   catagory,
+  fetchCareerExplorer,
+  toggleSaveJob,
 } from "./../../../features/dashboard/careerExplorerSlice";
+import { filter } from "framer-motion/client";
+import { useEffect } from "react";
 
+const filterCategories = [
+  { id: "all", label: "Semua", isActive: true },
+  { id: "tech", label: "Teknologi", isActive: false },
+  { id: "business", label: "Bisnis", isActive: false },
+  { id: "creative", label: "Kreatif", isActive: false },
+];
 function CareerExplorer() {
-  const { careersData, filteredJobs, isLoading, error } = useSelector(
-    (state) => state.careerExplorer,
-  );
-
-  const title = "Eksplorasi Karir";
-  const description =
-    "Temukan peluang karir yang sesuai dengan profil AI Anda.";
-  const { filterCategories } = careersData;
+  const { careersData, filteredJobs, isLoading, error, activeCategory } =
+    useSelector((state) => state.careerExplorer);
 
   // Gunakan filteredJobs jika ada isinya, fallback ke jobListings asli
-  const listingsToDisplay = filteredJobs;
+
+  // Menggunakan optional chaining dan pengecekan fallback array kosong
+  const filteredJobsToDisplay =
+    filteredJobs && filteredJobs.length > 0
+      ? filteredJobs
+      : careersData?.data || [];
+
+  console.info(filteredJobsToDisplay);
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchCareerExplorer());
+  }, [dispatch]);
 
   function handleCategory(category) {
     dispatch(catagory(category));
@@ -36,12 +51,18 @@ function CareerExplorer() {
     dispatch(catagory(e.target.value));
   }
 
+  function handleToggleSave(jobId) {
+    dispatch(toggleSaveJob(jobId)).then(() => {
+      // Ambil ulang data fresh dari server secara otomatis
+      dispatch(fetchCareerExplorer());
+    });
+  }
+
   if (isLoading) {
     return <Loader />;
   }
 
   if (error) return <Error />;
-
   return (
     <Section>
       <div className="mx-auto flex flex-col gap-5 md:w-2xl lg:w-full">
@@ -49,7 +70,10 @@ function CareerExplorer() {
           placeholder="cari peran, keahlian, atau industri"
           onChange={handleCategorySearch}
         />
-        <HeaderSection title={title} description={description} />
+        <HeaderSection
+          title="Eksplorasi Karir"
+          description="Temukan peluang karir yang sesuai dengan profil AI Anda."
+        />
 
         <motion.div variants={cardVariants} className="lg:hidden">
           <div className="relative w-[90vw] md:w-2xl lg:w-full">
@@ -59,7 +83,7 @@ function CareerExplorer() {
               id="filter"
               onChange={handleCategorySearch}
               placeholder="cari peran, keahlian, atau industri"
-              className="w-[100%] rounded-2xl bg-white py-2 pl-10 ring-2 ring-slate-300 outline-none "
+              className="w-[100%] rounded-2xl bg-white py-2 pl-10 ring-2 ring-slate-300 outline-none"
             />
             <i className="fa-solid fa-magnifying-glass absolute top-3 left-3"></i>
           </div>
@@ -72,7 +96,7 @@ function CareerExplorer() {
               key={item.id}
               id={item.id}
               label={item.label}
-              isActive={item.isActive}
+              isActive={item.label.toLowerCase() === activeCategory}
               onClick={handleCategory}
             />
           ))}
@@ -80,16 +104,19 @@ function CareerExplorer() {
 
         {/* jobListings (Menggunakan listingsToDisplay) */}
         <div className="grid grid-cols-1 justify-items-center gap-7 md:mx-auto md:w-2xl md:grid-cols-2 lg:mx-0.5 lg:w-full">
-          {listingsToDisplay.map((item) => (
+          {filteredJobsToDisplay.map((item) => (
             <JobListingsItems
               title={item.title}
               company={item.company}
-              badge={item.badge}
-              matchPercentage={item.matchPercentage}
+              // badge={item.badge}
+              id={item.id}
+              matchPercentage={item.match_percentage}
               skills={item.skills}
               salary={item.salary}
-              linkText={item.linkText}
-              key={item.id}
+              linkText={item.apply_url}
+              key={`${item.id}-${item.is_saved}`}
+              onHandleToggleSave={handleToggleSave}
+              isSaved={item.is_saved}
             />
           ))}
         </div>

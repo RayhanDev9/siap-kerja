@@ -9,51 +9,84 @@ import Text from "../../../ui/Text";
 import Button from "../../../ui/Button";
 import { cardVariants } from "../../../util/animations";
 import { motion } from "framer-motion"; // 1. Import Framer Motion
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Loader from "../../../ui/Loader";
-import { useNavigate } from "react-router";
+import { data, useNavigate } from "react-router";
+import dataAnalytis from "./components/dataAnalytis";
+import { use, useEffect } from "react";
+import { func } from "prop-types";
+import { selectCourseStepComplated } from "../../../features/dashboard/learningRoadmapSlice";
 
 function Analytics() {
+  const dispatch = useDispatch();
   const { analyticsData, isLoading, error } = useSelector(
     (state) => state.analytics,
   );
 
+  const { selectedCourses } = useSelector((state) => state.learningRoadmap);
+
+  const allSteps = selectedCourses.flatMap((item) => item.steps);
+  const courseStepComplated = selectedCourses.flatMap((item) =>
+    item.steps.filter((step) => step.status === "completed"),
+  );
+
+  // useEffect(
+  //   function () {
+  //     if (!isLoading) {
+  //       dispatch(selectCourseStepComplated());
+  //     }
+  //   },
+  //   [isLoading, dispatch, courseStepComplated],
+  // );
+
+  console.info(selectedCourses);
+  const progressPercentage =
+    allSteps.length > 0
+      ? Math.round((courseStepComplated.length / allSteps.length) * 100)
+      : 0;
+
   const navigate = useNavigate();
-  if (isLoading || !analyticsData?.summaryCards?.views) {
+  if (isLoading) {
     return <Loader />;
   }
 
   if (error) return <Error />;
 
-  const {
-    value: valueViews,
-    label: labelViews,
-    trend,
-  } = analyticsData.summaryCards.views;
-  const { value: valueTrend, isPositive, text } = trend;
+  // const { value: valueTrend, isPositive, text } = trend;
 
+  // const {
+  //   value: valueApplications,
+  //   label: labelApplications,
+  //   timeframe,
+  // } = analyticsData.summaryCards.applications;
   const {
-    value: valueApplications,
-    label: labelApplications,
-    timeframe,
-  } = analyticsData.summaryCards.applications;
-  const {
-    value: valueCourse,
-    label: labelCourse,
-    description,
-  } = analyticsData.summaryCards.courses;
+    completed_courses_count: valueCourse,
 
-  const {
-    title: titleProfileEngagement,
-    subtitle: subtitleProfileEngagement,
-    actionLabel,
-  } = analyticsData.profileEngagement;
+    period: description,
+  } = analyticsData.data.learning_progress;
 
   const {
     title: titleSkillDevelopment,
     skills,
     buttonLabel,
-  } = analyticsData.skillDevelopment;
+  } = dataAnalytis.skillDevelopment;
+
+  const skillProgressData = selectedCourses
+    .map((course) => ({
+      id: course.course_id,
+      name: course.titleCourse,
+      // Ini langsung dieksekusi 1 baris
+      progressPercentage: course.steps?.length
+        ? Math.round(
+            (course.steps.filter((s) => s.status === "completed").length /
+              course.steps.length) *
+              100,
+          )
+        : 0,
+    }))
+    .slice(0, 2);
+
+  console.info(skillProgressData);
 
   return (
     <Section>
@@ -109,7 +142,6 @@ function Analytics() {
               <i className="fa-solid fa-graduation-cap rounded-2xl bg-blue-100 px-3 py-3 text-3xl text-blue-400"></i>
               <div>
                 <h3 className="text-2xl font-bold">
-                  {valueCourse} {labelCourse}
                 </h3>
                 <Text className="font-semibold">{description}</Text>
               </div>
@@ -133,20 +165,52 @@ function Analytics() {
               {/* Card 1: AI Readiness Score */}
               <div className="flex items-center justify-between rounded-2xl bg-[#F4F4FB] p-5 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35">
                 <div className="flex items-center gap-5">
-                  <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-purple-500 text-white shadow-sm">
+                  <div
+                    className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-full text-white shadow-sm ${
+                      progressPercentage >= 80
+                        ? "bg-purple-500"
+                        : progressPercentage >= 50
+                          ? "bg-blue-500"
+                          : "bg-orange-500"
+                    }`}
+                  >
                     <i className="fa-solid fa-brain text-2xl"></i>
                   </div>
                   <div className="flex flex-col">
                     <span className="text-2xl font-bold text-gray-900 dark:text-white">
-                      85%
+                      {progressPercentage}%
                     </span>
                     <span className="text-sm font-semibold text-slate-600 dark:text-white/80">
                       Kesiapan Karir
                     </span>
                   </div>
                 </div>
-                <Text className="rounded-xl bg-purple-100 px-3 py-1  font-bold  dark:border dark:border-white/25 dark:bg-black hover:dark:border-white/35">
-                  <span className="dark:text-purple-300 text-purple-600"> Optimal</span>
+
+                {/* Logic Ternary Langsung di dalam ClassName & Text */}
+                <Text
+                  className={`rounded-xl px-3 py-1 font-bold dark:border dark:border-white/25 dark:bg-black hover:dark:border-white/35 ${
+                    progressPercentage >= 80
+                      ? "bg-purple-100"
+                      : progressPercentage >= 50
+                        ? "bg-blue-100"
+                        : "bg-orange-100"
+                  }`}
+                >
+                  <span
+                    className={
+                      progressPercentage >= 80
+                        ? "text-purple-600 dark:text-purple-300"
+                        : progressPercentage >= 50
+                          ? "text-blue-600 dark:text-blue-300"
+                          : "text-orange-600 dark:text-orange-300"
+                    }
+                  >
+                    {progressPercentage >= 80
+                      ? "Optimal"
+                      : progressPercentage >= 50
+                        ? "Menengah"
+                        : "Dasar"}
+                  </span>
                 </Text>
               </div>
 
@@ -166,8 +230,10 @@ function Analytics() {
                   </div>
                 </div>
                 <Text className="rounded-xl bg-orange-100 px-3 py-1 text-sm font-bold text-orange-600 dark:border dark:border-white/25 dark:bg-black hover:dark:border-white/35">
-                 <span className="dark:text-orange-300 text-orange-600"> Trend</span>
-                  
+                  <span className="text-orange-600 dark:text-orange-300">
+                    {" "}
+                    Trend
+                  </span>
                 </Text>
               </div>
             </motion.div>
@@ -178,9 +244,9 @@ function Analytics() {
             variants={cardVariants}
             className="col-span-1 rounded-2xl bg-white p-7 lg:order-first lg:col-span-2 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35"
           >
-            <H2 type="secondry">{titleProfileEngagement}</H2>
+            <H2 type="secondry">{"Keterlibatan Profil"}</H2>
             <div className="flex justify-between">
-              <Text>{subtitleProfileEngagement}</Text>
+              <Text>{"Interaksi 7 hari terakhir"}</Text>
             </div>
             <div className="mt-7 flex justify-center">
               <WeeklyChart />
@@ -215,11 +281,11 @@ function Analytics() {
               >
                 <div className="flex gap-2">
                   <h3 className="text-2xl font-semibold">
-                    {valueCourse} {labelCourse}
+                    {valueCourse} Step Courses
                   </h3>
                   <i className="fa-solid fa-chevron-right chevron-icon absolute right-7 translate-y-1/2 self-center text-lg"></i>
                 </div>
-                <Text className="font-normal">{description}</Text>
+                <Text className="font-normal">Diselesaikan bulan ini</Text>
               </div>
             </div>
           </motion.div>
@@ -231,7 +297,7 @@ function Analytics() {
           >
             <H2 type="secondry">{titleSkillDevelopment}</H2>
             <div className="flex flex-col gap-5">
-              {skills.map((skill) => (
+              {skillProgressData.map((skill) => (
                 <Skills
                   skill={skill.name}
                   progressPercentage={skill.progressPercentage}
@@ -240,7 +306,7 @@ function Analytics() {
               ))}
             </div>
             <Button
-              onClick={() => navigate("/learningRoadmap")}
+              onClick={() => navigate("/courses")}
               type="generalSecondary"
               className="w-full rounded-2xl border border-slate-300 py-2 text-sm md:text-base lg:text-lg"
             >

@@ -16,13 +16,13 @@ function useFetch() {
   useEffect(
     function () {
       dispatch(fetchMarketTrends());
-      dispatch(fetchCareerExplorer());
+      // dispatch(fetchCareerExplorer());
       dispatch(fetchLearningRoadmap());
-      dispatch(fetchSetting());
+      // dispatch(fetchSetting());
       dispatch(fetchAnalytics());
       dispatch(fetchSkillGap());
       dispatch(fetchDashboard());
-      dispatch(fetchSavedCareers());
+      // dispatch(fetchSavedCareers());
       dispatch(fetchProfile());
     },
     [dispatch],

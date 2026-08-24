@@ -6,6 +6,8 @@ import dataCourse from "./dataCourse";
 import SideBarMenuItems from "./SideBarMenuItems";
 import { motion, AnimatePresence } from "framer-motion";
 import { div } from "framer-motion/client";
+import { useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router";
 
 export default function SidebarMenu({
   humberger,
@@ -13,6 +15,31 @@ export default function SidebarMenu({
   steps,
   titleCourse,
 }) {
+  const navigate = useNavigate();
+  const { courseId } = useParams();
+
+  const { data, selectedCourses } = useSelector(
+    (state) => state.learningRoadmap,
+  );
+
+  
+
+  const currentCourse =
+    selectedCourses?.find(
+      (item) => String(item.course_id) === String(courseId),
+    ) || selectedCourses?.[0];
+
+  const { statusCourse = "", steps: stepsCourse = [] } = currentCourse || {};
+
+  const stepsComplated = stepsCourse.reduce((acc, item) => {
+    return item.status === "completed" ? acc + 1 : acc;
+  }, 0);
+
+  const progressPercentage =
+    stepsCourse.length > 0
+      ? Math.round((stepsComplated / stepsCourse.length) * 100)
+      : 0;
+
   return (
     <div className="lghidden">
       <AnimatePresence>
@@ -71,7 +98,12 @@ export default function SidebarMenu({
                 </H3>
                 <button className="mt-3 flex w-full items-center gap-3 rounded-xl bg-blue-600 px-4 py-3 text-white shadow-md transition-all hover:bg-blue-700">
                   <i className="fa-solid fa-graduation-cap text-xl"></i>
-                  <span className="text-base font-semibold">Roadmap</span>
+                  <span
+                    className="z-50 text-base font-semibold"
+                    onClick={() => navigate("/courses")}
+                  >
+                    Courses
+                  </span>
                 </button>
               </div>
 
@@ -86,8 +118,8 @@ export default function SidebarMenu({
                     <span className="uppercase">Course Content</span>
                   </H3>
                   <Text>
-                    <span className="inline-block w-24 truncate rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-600 dark:border dark:border-white/25 dark:bg-black hover:dark:border-white/35">
-                      {titleCourse}
+                    <span className="inline-block w-24 truncate rounded-full bg-blue-50 px-3 py-1 text-center text-xs font-semibold text-blue-600 dark:border dark:border-white/25 dark:bg-black hover:dark:border-white/35">
+                      {progressPercentage}%
                     </span>
                   </Text>
                 </div>

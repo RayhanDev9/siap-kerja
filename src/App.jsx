@@ -56,21 +56,21 @@ const router = createHashRouter(
         { path: "/profile", element: <Profile /> },
         // { path: "/", element: <Dashboard /> },
         // { path: "/skillGap", element: <SkillGap /> },
-        // { path: "/analytics", element: <Analytics /> },
+        { path: "/analytics", element: <Analytics /> },
         // { path: "/aiRecommendations", element: <AiRecommendations /> },
-        // { path: "/marketTrends", element: <MarketTrends /> },
-        // { path: "/careerExplorer", element: <CareerExplorer /> },
-        // { path: "/savedCareers", element: <SavedCareers /> },
-        // { path: "/setting", element: <Setting /> },
+        { path: "/marketTrends", element: <MarketTrends /> },
+        { path: "/careerExplorer", element: <CareerExplorer /> },
+        { path: "/savedCareers", element: <SavedCareers /> },
+        { path: "/setting", element: <Setting /> },
         { path: "/learningRoadmap", element: <LearningRoadmap /> },
-        // { path: "/courses", element: <Courses /> },
+        { path: "/courses", element: <Courses /> },
         // // Help Routes
-        // { path: "/help/guide", element: <Guide /> },
-        // { path: "/help/faq", element: <FAQ /> },
-        // { path: "/help/support", element: <Support /> },
-        // { path: "/help/bug-report", element: <BugReport /> },
-        // { path: "/help/about", element: <About /> },
-        // { path: "/help/version", element: <VersionInfo /> },
+        { path: "/help/guide", element: <Guide /> },
+        { path: "/help/faq", element: <FAQ /> },
+        { path: "/help/support", element: <Support /> },
+        { path: "/help/bug-report", element: <BugReport /> },
+        { path: "/help/about", element: <About /> },
+        { path: "/help/version", element: <VersionInfo /> },
       ],
     },
     {
@@ -121,7 +121,7 @@ const router = createHashRouter(
     {
       element: <CourseLayout />,
       errorElement: <Error />,
-      children: [{ path: "/course", element: <Course /> }],
+      children: [{ path: "course/:courseId", element: <Course /> }],
     },
   ],
   {
@@ -133,7 +133,6 @@ const router = createHashRouter(
 );
 
 function App() {
-
   return <RouterProvider router={router} />;
 }
 

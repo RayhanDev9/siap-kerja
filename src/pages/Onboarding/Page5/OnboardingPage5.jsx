@@ -9,77 +9,73 @@ import ProgresOnboarding from "../components/ProgresOnboarding";
 import SkillSelectionItems from "./components/SkillSelectionItems";
 import { cardVariants } from "../../../util/animations";
 import { motion } from "framer-motion";
-import skillsData from "./components/skillsData";
 import { useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchSendOnboarding,
   SkillsSelection,
+  updateCourseStatus, // <-- Pastikan import-nya dari onBoardingSlice ya kalau thunk-nya lu taruh di sana
 } from "../../../features/onBoarding/onBoardingSlice";
-import { updateCourseStatus } from "../../../features/dashboard/learningRoadmapSlice";
 
 function OnboardingPage5() {
-  const dipathch = useDispatch();
-  const { selectedCourses } = useSelector((state) => state.learningRoadmap);
-  const { data: dataOnBoarding } = useSelector((state) => state.onBoarding);
-  const { data } = useSelector((state) => state.onBoarding);
-  const [selectedSkills, setSelectedSkills] = useState([]);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  function handleSelectSkill(skillId) {
-    setSelectedSkills((prevSkills) =>
-      prevSkills.includes(skillId)
-        ? prevSkills.filter((id) => id !== skillId)
-        : [...prevSkills, skillId],
-    );
-  }
+
+  // Ambil data course dari learningRoadmap (karena list course-nya ada di sini kan?)
+  const { selectedCourses } = useSelector((state) => state.learningRoadmap);
+  const { data } = useSelector((state) => state.onBoarding);
+
+  const [selectedSkills, setSelectedSkills] = useState([]);
+
   useEffect(() => {
     if (data === null) {
       navigate("/profile", { replace: true });
     }
   }, [data, navigate]);
+
+  // 1. PERBAIKAN FUNGSI CHECKBOX BIAR BISA DICENTANG
+  function handleSelectSkill(skillId) {
+    setSelectedSkills((prevSkills) => {
+      // Kalau ID udah ada di dalam array, berarti di-uncheck (dihapus)
+      if (prevSkills.includes(skillId)) {
+        return prevSkills.filter((id) => id !== skillId);
+      }
+      // Kalau belum ada, tambahin ke array biar dicentang
+      else {
+        return [...prevSkills, skillId];
+      }
+    });
+  }
+
+  // 2. PERBAIKAN FUNGSI SUBMIT (NEXT)
   function handleNext() {
-    console.info("HandleNext dipanggil, selectedSkills (IDs):", selectedSkills);
+    if (data && data.data) {
+      const dataToSubmit = { ...data.data };
 
-    if (selectedSkills.length > 0 && data && data.data) {
-      // 1. Format skill jadi array of objects (butuh id & level sesuai Request Laravel)
-      const formattedSkills = selectedSkills.map((skillId) => ({
-        id: skillId,
-        level: 0, // Default level
-      }));
-
-      // 2. Gabungin data lama dengan skill baru di variabel lokal
-      const dataToSubmit = {
-        ...data.data,
-        skills: formattedSkills,
-      };
-
-      // 3. Update state di Redux (Opsional buat UI)
-      dispatch(SkillsSelection(formattedSkills));
-
-      // 4. Tandai course sebagai completed
-      selectedSkills.forEach((skillId) => {
-        dispatch(updateCourseStatus({ stepId: skillId, status: "completed" }));
+      const formattedSkillsWithValues = selectedSkills.map((skillId) => {
+        const courseDetail = selectedCourses.find(
+          (course) => course.course_id === skillId,
+        );
+        return {
+          skill_id: skillId,
+          status: "completed",
+          name: courseDetail ? courseDetail.titleCourse : "Unknown Skill",
+          img: courseDetail ? courseDetail.img : null,
+        };
       });
 
-      // 5. Kirim data yang UDAH LENGKAP ke backend dan TUNGGU sampai beres
+      dispatch(SkillsSelection(formattedSkillsWithValues));
+
+      selectedSkills.forEach((skillId) => {
+        dispatch(
+          updateCourseStatus({ courseId: skillId, status: "completed" }),
+        );
+      });
+
       dispatch(fetchSendOnboarding(dataToSubmit))
-        .unwrap() // Buka bungkus hasil dari thunk
-        .then((response) => {
-          // Kalau masuk sini, berarti Laravel bilang sukses!
-          console.log("Sukses simpan data onboarding!", response);
-          navigate("/profile");
-        })
-        .catch((error) => {
-          // Kalau masuk sini, berarti ada yang ditolak sama backend
-          console.error("Waduh, gagal simpan data bro:", error);
-          alert("Gagal menyimpan keahlian! Cek pesan error di console.");
-        });
-    } else {
-      console.warn(
-        "Pilih skill terlebih dahulu atau data onboarding belum siap",
-      );
-      alert("Tolong pilih minimal satu keahlian ya!");
+        .unwrap()
+        .then(() => navigate("/profile"))
+        .catch((error) => console.error("Gagal submit:", error));
     }
   }
 
@@ -107,15 +103,17 @@ function OnboardingPage5() {
             {/* Skill Selection Items */}
             <div className="space-y-4 rounded-2xl p-7 shadow-md">
               <div className="grid grid-cols-2 gap-4">
-                {selectedCourses.map((skill) => (
-                  <SkillSelectionItems
-                    key={skill.course_id}
-                    id={skill.course_id}
-                    title={skill.titleCourse}
-                    isSelected={selectedSkills.includes(skill.course_id)}
-                    onSelect={() => handleSelectSkill(skill.course_id)}
-                  />
-                ))}
+                {selectedCourses &&
+                  selectedCourses.map((skill) => (
+                    <SkillSelectionItems
+                      key={skill.course_id}
+                      id={skill.course_id}
+                      title={skill.titleCourse}
+                      // Ini yang bikin kotak jadi warna biru pas diklik
+                      isSelected={selectedSkills.includes(skill.course_id)}
+                      onSelect={() => handleSelectSkill(skill.course_id)}
+                    />
+                  ))}
               </div>
             </div>
           </div>

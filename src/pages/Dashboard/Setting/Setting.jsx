@@ -18,9 +18,9 @@ import { logoutUserThunk } from "../../../features/auth/authSlice";
 import { useNavigate } from "react-router";
 
 function Setting() {
-  const { settingData, isLoading, error } = useSelector(
-    (state) => state.setting,
-  );
+  // const { settingData, isLoading, error } = useSelector(
+  //   (state) => state.setting,
+  // );
   const { isLoading: isLoadingLogout, error: errorLogout } = useSelector(
     (state) => state.auth,
   );
@@ -28,7 +28,7 @@ function Setting() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { profilPengguna, keamanan, pengaturanLainnya } = settingData;
+  const { profilPengguna, keamanan, pengaturanLainnya } = dataSetting;
   const { namaLengkap, email, fotoProfil } = profilPengguna;
 
   const [inputPasswordOld, setInputPasswordOld] = useState("");
@@ -210,11 +210,11 @@ function Setting() {
 
   const activeModalConfig = activeModal ? openModalFields[activeModal] : null;
 
-  if (isLoading) {
-    return <Loader />;
-  }
+  // if (isLoading) {
+  //   return <Loader />;
+  // }
 
-  if (error) return <Error />;
+  // if (error) return <Error />;
 
   if (isLoadingLogout) {
     return <Loader />;
@@ -235,10 +235,8 @@ function Setting() {
           description="Kelola preferensi akun dan aplikasi anda"
         ></HeaderSection>
 
-      
-
         {/* Pengaturan lainnya */}
-        <div className="overflow-hidden rounded-2xl  bg-white px-3 pb-7 md:p-7 sm:px-7 dark:border dark:border-white/25 dark:bg-neutral-900  md:gap-3 hover:dark:border-white/35 grid md:grid-cols-2">
+        <div className="grid overflow-hidden rounded-2xl bg-white px-3 pb-7 sm:px-7 md:grid-cols-2 md:gap-3 md:p-7 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35">
           {dataSetting.pengaturanLainnya.map((item) => (
             <OtherSettingsItems
               key={item.id}

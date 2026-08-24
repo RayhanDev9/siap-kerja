@@ -19,6 +19,7 @@ import H3 from "../../../ui/H3";
 import { RoleSelection } from "../../../features/onBoarding/onBoardingSlice";
 import { Navigate, useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
+import { selectedPathName, selectPathCourses } from "../../../features/dashboard/learningRoadmapSlice";
 
 const currentRoles = [
   "Student",
@@ -38,11 +39,13 @@ function OnboardingPage3() {
     (state) => state.learningRoadmap,
   );
 
+  console.info(selectedCategoryData);
+
   const targetRoles = selectedCategoryData.map((item) => item.path);
   const dispatch = useDispatch();
   const { data } = useSelector((state) => state.onBoarding);
   const navigate = useNavigate();
-  const [selectedTargetRole, setSelectedTargetRole] = useState('');
+  const [selectedTargetRole, setSelectedTargetRole] = useState("");
   const [selectedCurrentRole, setSelectedCurrentRole] = useState("");
   const [queryTargetRole, setQueryTargetRole] = useState("");
   const [queryCurrentRole, setQueryCurrentRole] = useState("");
@@ -71,6 +74,7 @@ function OnboardingPage3() {
 
   function handleNext() {
     if (selectedTargetRole && selectedCurrentRole) {
+      dispatch(selectPathCourses(selectedTargetRole));
       dispatch(
         RoleSelection({
           target_role_slug: selectedTargetRole,

@@ -56,11 +56,11 @@ function SavedCareersItems({
       {/* Ai recomendation */}
       <div className="mt-7 flex flex-col gap-2 bg-blue-50 p-3 dark:border dark:border-white/25 dark:bg-black hover:dark:border-white/35 rounded-2xl">
         <p className="font-semibold md:text-lg lg:text-xl">
-          <i class="fa-regular fa-lightbulb icon-lightbulb pr-1.5 text-orange-500"></i>
+          <i className="fa-regular fa-lightbulb icon-lightbulb pr-1.5 text-orange-500"></i>
           {titleAiRecommendation}
         </p>
         <Text>
-          <i class="fa-regular fa-circle-check icon-check pr-1.5 text-blue-500"></i>
+          <i className="fa-regular fa-circle-check icon-check pr-1.5 text-blue-500"></i>
           {aiRecommendation.tasks[0].text}
         </Text>
       </div>

@@ -145,3 +145,156 @@ const dataCourse = {
 };
 
 export default dataCourse;
+import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
+import { data } from "react-router";
+
+const initialState = {
+  // Bungkus utama data roadmap
+  data: null,
+  // Status untuk mengatur animasi skeleton/loading
+  isLoading: false,
+  selectedCategoryData: null,
+  // Menyimpan array daftar kursus yang sedang aktif/dipilih
+  selectedCourses: [],
+  selectedPath: null,
+  // Menyimpan pesan error jika API gagal
+  error: null,
+};
+
+export const fetchLearningRoadmap = createAsyncThunk(
+  "learningRoadmap/fetchLearningRoadmap",
+  async function (_, thunkAPI) {
+    const token = localStorage.getItem("token");
+    try {
+      const res = await fetch(`http://127.0.0.1:8000/api/v1/user/roadmap`, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+          "ngrok-skip-browser-warning": "true",
+        },
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        return thunkAPI.rejectWithValue(data);
+      }
+      return data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  },
+);
+
+export const updateCourseStatus = createAsyncThunk(
+  "learningRoadmap/updateCourseStatus",
+  async function ({ stepId, status }, thunkAPI) {
+    const token = localStorage.getItem("token");
+    try {
+      const res = await fetch(
+        `http://127.0.0.1:8000/api/v1/user/roadmap/steps/${stepId}/status`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            Authorization: `Bearer ${token}`,
+            "ngrok-skip-browser-warning": "true",
+          },
+          body: JSON.stringify({ status }),
+        },
+      );
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        return thunkAPI.rejectWithValue(data);
+      }
+      return data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  },
+);
+
+const learningRoadmapSlice = createSlice({
+  name: "learningRoadmap",
+  initialState,
+  reducers: {
+    // 1. REDUCER UNTUK PILIH KATEGORI (Teknologi, Bisnis, Kreatif)
+    selectCategoryCareer(state, action) {
+      const selectedCategory = action.payload; // misal: "Teknologi"
+      console.info(action.payload);
+
+      if (state.data && state.data.data && selectedCategory) {
+        const keyPilihan = selectedCategory.toLowerCase();
+        const dataKategori = state.data.data[keyPilihan] || [];
+
+        // Simpan data path (FE, BE, dll) ke state
+        console.info(current(dataKategori));
+        state.selectedCategoryData = dataKategori;
+      }
+    },
+
+    selectedPathName(state, action) {
+      const targetPath = action.payload; // Misal dikirim: "Frontend Developer" atau slug "frontend-developer"
+      // console.info(current(state.isLoading));
+
+      if (state?.selectedCategoryData && targetPath) {
+        // 1. Ambil array yang berisi 3 path tersebut
+        // (Sesuaikan keyCategory dengan cara Anda mengambil data kategorinya)
+        const dataKategori = state.selectedCategoryData;
+
+        // 2. Cari objek path yang sesuai
+        const matchedPath = dataKategori.find((item) => {
+          // Normalisasi teks agar pencocokan tidak sensitif huruf besar/kecil atau tanda strip
+          const normalize = (str) =>
+            str?.toLowerCase().replace(/[-_]/g, " ").trim();
+          return normalize(item.path) === normalize(targetPath);
+        });
+
+        if (matchedPath) {
+          // Simpan objek utuh, nama path, atau langsung courses-nya
+          state.selectedPath = matchedPath.path; // "Frontend Developer"
+        }
+      }
+    },
+    // 2. REDUCER BARU: UNTUK GANTI COURSES BERDASARKAN PATH YANG DIKLIK (FE, BE, dll)
+    selectPathCourses(state, action) {
+      const selectedPathName = action.payload; // misal: "Frontend Developer"
+
+      // Cek apakah data kategori saat ini ada isinya
+      if (state.selectedCategoryData && state.selectedCategoryData.length > 0) {
+        // Cari path yang namanya sama persis dengan yang diklik user
+        const matchedPath = state.selectedCategoryData.find(
+          (item) => item.path === selectedPathName,
+        );
+
+        // Kalau ketemu, timpa state selectedCourses dengan courses milik path tersebut
+        if (matchedPath) {
+          state.selectedCourses = matchedPath.courses || [];
+        }
+      }
+    },
+  },
+  extraReducers: (builder) =>
+    builder
+      .addCase(fetchLearningRoadmap.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(fetchLearningRoadmap.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.data = action.payload;
+      })
+      .addCase(fetchLearningRoadmap.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      }),
+});
+
+// Jangan lupa export reducer yang baru dibikin!
+export const { selectCategoryCareer, selectPathCourses, selectedPathName } =
+  learningRoadmapSlice.actions;
+export default learningRoadmapSlice.reducer;

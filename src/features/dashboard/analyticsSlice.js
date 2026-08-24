@@ -2,21 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   // Bungkus utama data (bisa kamu beri nama bebas, misal: dashboardData atau overviewData)
-  analyticsData: {
-    summaryCards: {}, // Objek kosong untuk menampung data card
-    profileEngagement: {
-      title: "",
-      subtitle: "",
-      actionLabel: "",
-      chartData: [], // Sangat penting: Array kosong agar tidak error saat render grafik
-    },
-    skillDevelopment: {
-      title: "",
-      buttonLabel: "",
-      skills: [], // Sangat penting: Array kosong agar tidak error saat di-map
-    },
-  },
-
+  analyticsData: null,
   // Status untuk mengatur animasi skeleton/loading
   isLoading: false,
 
@@ -30,7 +16,7 @@ export const fetchAnalytics = createAsyncThunk(
     const token = localStorage.getItem("token");
 
     try {
-      const res = await fetch(`http://127.0.0.1:8000/api/v1/ai/analytics`, {
+      const res = await fetch(`http://127.0.0.1:8000/api/v1/user/analytics`, {
         method: "GET",
         headers: {
           Accept: "application/json",

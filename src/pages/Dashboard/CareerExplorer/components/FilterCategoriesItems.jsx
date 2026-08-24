@@ -1,4 +1,5 @@
 function FilterCategoriesItems({ isActive, id, label, onClick }) {
+  console.info(isActive)
   return (
     <button
       onClick={() => onClick(label)}

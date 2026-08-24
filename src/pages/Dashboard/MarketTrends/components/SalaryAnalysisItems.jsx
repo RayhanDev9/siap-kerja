@@ -14,7 +14,7 @@ function SalaryAnalysisItems({
     <motion.div variants={cardVariants} className="flex flex-col gap-3 rounded-2xl bg-white p-7 w-full h-full  dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35 ">
       <div className="flex justify-between">
         <H3>{role}</H3>
-        <p className="text-lg font-bold sm:text-xl lg:text-2xl text-blue-700 dark:text-blue-500">{salaryRange}</p>
+        <p className="text-sm font-bold sm:text-base lg:text-lg ">{salaryRange}</p>
       </div>
       <Progres progressPercentage={progressPercentage} />
       <Text className="text-end">{description}</Text>

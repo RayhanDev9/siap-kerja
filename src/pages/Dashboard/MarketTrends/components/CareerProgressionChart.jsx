@@ -12,15 +12,11 @@ const COLORS = ["#d1e0f7", "#aabcfa", "#85a4f2", "#5886e8", "#0052cc"];
 
 const CareerProgressionChart = () => {
   // const data = dataMarketTrends.jobGrowth.chartData;
-  const data = useSelector(
-    (state) => state.marketTrends.marketTrendsData.jobGrowth.chartData,
-  );
-  const { isLoading, error } = useSelector((state) => state.marketTrends);
-  if (isLoading) {
-    return <Loader />;
-  }
+  const { marketSelected } = useSelector((state) => state.marketTrends);
 
-  if (error) return <Error />;
+  const data = marketSelected?.jobGrowth?.chartData || [];
+  console.info(data);
+
   return (
     <div className="w-full max-w-lg rounded-xl border border-gray-100 bg-white p-6 shadow-sm dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35">
       <div className="mt-4 h-64 w-full">

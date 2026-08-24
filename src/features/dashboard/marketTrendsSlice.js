@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
 
 // 1. UBAH NAMA: Tambahkan kata "fetch" agar jelas bahwa ini fungsi untuk mengambil data
 export const fetchMarketTrends = createAsyncThunk(
@@ -9,15 +9,18 @@ export const fetchMarketTrends = createAsyncThunk(
       const token = localStorage.getItem("token");
 
       // 2. PERBAIKAN FETCH: Tambahkan await, benarkan method, dan bungkus headers
-      const res = await fetch(`http://127.0.0.1:8000/api/v1/market-trends`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-          Authorization: `Bearer ${token}`,
-          "ngrok-skip-browser-warning": "true", // <-- Tambahkan baris ini
+      const res = await fetch(
+        `http://127.0.0.1:8000/api/v1/user/market-trends`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            Authorization: `Bearer ${token}`,
+            "ngrok-skip-browser-warning": "true", // <-- Tambahkan baris ini
+          },
         },
-      });
+      );
 
       const data = await res.json();
 
@@ -33,23 +36,9 @@ export const fetchMarketTrends = createAsyncThunk(
 );
 
 const initialState = {
-  marketTrendsData: {
-    jobGrowth: {
-      chartData: [],
-      trend: {
-        text: "",
-        isPositive: true,
-      },
-    },
-    topSkills: {
-      title: "",
-      items: [],
-    },
-    salaryAnalysis: {
-      title: "",
-      items: [],
-    },
-  },
+  marketTrendsData: null,
+
+  marketSelected: null,
   isLoading: false,
   error: null,
 };
@@ -57,7 +46,16 @@ const initialState = {
 const marketTrendsSlice = createSlice({
   name: "marketTrends",
   initialState,
-  reducers: {},
+  reducers: {
+    selectedMarketTrend: (state, action) => {
+      const payload = action.payload || "";
+      const rawData =
+        state.marketTrendsData?.data || state.marketTrendsData || {};
+
+      state.marketSelected =
+        rawData.find((item) => item.category === "teknologi") || null;
+    },
+  },
   extraReducers: (builder) =>
     builder
       // Saat sedang loading (pending)
@@ -78,5 +76,7 @@ const marketTrendsSlice = createSlice({
         console.error("Gagal ambil market trends:", action.payload);
       }),
 });
+
+export const { selectedMarketTrend } = marketTrendsSlice.actions;
 
 export default marketTrendsSlice.reducer;

@@ -30,17 +30,17 @@ function Skills({ icon, name, description, rank, thame }) {
   return (
     <motion.div
       variants={cardVariants}
-      className="flex justify-between rounded-2xl bg-white p-7  dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35"
+      className="flex justify-between rounded-2xl bg-white p-7  dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35 "
     >
-      <div className="flex gap-5">
+      <div className="flex gap-5 items-center">
         <p>
           <i
-            className={`${icon} ${activeTheme.bg} ${activeTheme.text} rounded-2xl p-4 text-2xl  dark:border dark:border-white/25 dark:bg-black hover:dark:border-white/35`}
+            className={`fa-solid ${icon} ${activeTheme.bg} ${activeTheme.text} rounded-2xl  p-4 text-2xl  dark:border dark:border-white/25 dark:bg-black hover:dark:border-white/35`}
           ></i>
         </p>
         <div>
-          <H3>{name}</H3>
-          <Text>{description}</Text>
+          <H3><span className="line-clamp-2">{name}</span></H3>
+          <Text><span className="line-clamp-2">{description}</span></Text>
         </div>
       </div>
       <Text>{rank}</Text>

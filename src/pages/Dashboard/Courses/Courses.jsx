@@ -9,10 +9,16 @@ import Text from "../../../ui/Text";
 import H3 from "../../../ui/H3";
 import { cardVariants } from "../../../util/animations";
 import { motion } from "framer-motion"; // 1. Import Framer Motion
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Loader from "../../../ui/Loader";
 import Button from "../../../ui/Button";
 import CardCourse from "./components/CardCourse";
+import { useEffect } from "react";
+import {
+  selectCategoryCareer,
+  selectedPathName,
+  selectPathCourses,
+} from "../../../features/dashboard/learningRoadmapSlice";
 
 // function LearningRoadmap() {
 //   const { roadmapData, isLoading, error } = useSelector(
@@ -100,6 +106,11 @@ import CardCourse from "./components/CardCourse";
 const tes = ["tes", "tes", "tes"];
 
 function Courses() {
+  const dispatch = useDispatch();
+  const { data, selectedCourses } = useSelector(
+    (state) => state.learningRoadmap,
+  );
+
   return (
     <Section>
       <div>
@@ -117,9 +128,16 @@ function Courses() {
               icon="fa-solid fa-briefcase pr-2"
             />
           </div>
-          <div className="flex flex-wrap justify-center gap-5 md:justify-start">
-            {tes.map((tes) => (
-              <CardCourse />
+          <div className="flex flex-wrap justify-center gap-7  ">
+            {selectedCourses.map((course) => (
+              <CardCourse
+                key={course.course_id}
+                id={course.course_id}
+                img={course.img}
+                status={course.status}
+                titleCourse={course.titleCourse}
+                steps={course.steps}
+              />
             ))}
           </div>
         </div>

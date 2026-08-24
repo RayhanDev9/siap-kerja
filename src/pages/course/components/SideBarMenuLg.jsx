@@ -9,16 +9,47 @@ import { motion, AnimatePresence } from "framer-motion";
 import FooterCourse from "./FooterCourse";
 import { cardVariants } from "../../../util/animations";
 import Theme from "../../../ui/Theme";
+import { useParams } from "react-router";
+import { useSelector } from "react-redux";
 
-function SideBarMenuLg() {
+function SideBarMenuLg({
+  onNextStep,
+  onPrevStep,
+  disabledNext,
+  disabledPrev,
+  onFinishCourse,
+}) {
   const [dropDownCourse, setDropDownCourse] = useState(false);
-  const { titleCourse, statusCourse, steps } = dataCourse.courses[0];
+  const { courseId } = useParams();
+  const { countStep } = useSelector((state) => state.course);
+  const { data, selectedCourses } = useSelector(
+    (state) => state.learningRoadmap,
+  );
+  const { data: dataProfile } = useSelector((state) => state.profile);
+
+  const courseIndex = selectedCourses.findIndex(
+    (item) => String(item.course_id) === String(courseId),
+  );
+
+  const currentCourse =
+    selectedCourses?.find(
+      (item) => String(item.course_id) === String(courseId),
+    ) || selectedCourses?.[0];
+
   const {
-    title: titleStep,
-    status: statusStep,
-    description,
-    content,
-  } = steps[0];
+    titleCourse = "",
+    statusCourse = "",
+    steps = [],
+  } = currentCourse || {};
+
+  // Gunakan fallback object kosong agar tidak crash
+  const activeStep = steps[countStep] || steps[0] || {};
+  const {
+    title: titleStep = "",
+    status: statusStep = "",
+    description = "",
+    content = "",
+  } = activeStep;
 
   const stepsComplated = steps.reduce((acc, item) => {
     return item.status === "completed" ? acc + 1 : acc;
@@ -73,7 +104,7 @@ function SideBarMenuLg() {
                 </H3>
               </motion.div>
               <motion.div variants={cardVariants}>
-                <button className="mt-3 flex w-full items-center gap-3 rounded-xl bg-blue-600  px-4 py-3 text-white shadow-md transition-all hover:bg-blue-700">
+                <button className="mt-3 flex w-full items-center gap-3 rounded-xl bg-blue-600 px-4 py-3 text-white shadow-md transition-all hover:bg-blue-700">
                   <i className="fa-solid fa-graduation-cap text-2xl"></i>
                   <span className="text-base font-semibold md:text-2xl lg:text-xl">
                     Roadmap
@@ -88,13 +119,13 @@ function SideBarMenuLg() {
             {/* --- SECTION: COURSE CONTENT --- */}
             <motion.div variants={cardVariants}>
               {/* Header Section */}
-              <div className="mb-6 flex items-center justify-between px-7 ">
+              <div className="mb-6 flex items-center justify-between px-7">
                 <H3 className="mb-3 text-xs font-bold tracking-wider uppercase">
                   <span className="">Course Content</span>
                 </H3>
                 <div className="mt-[7.8px]">
                   <Text>
-                    <span className="bg-slate-30 inline-block w-36 truncate rounded-full px-3 py-1 text-base font-semibold text-blue-600 dark:text-blue-500 md:text-lg">
+                    <span className="inline-block w-36 truncate rounded-full bg-slate-300 px-3 py-1 text-base font-semibold text-blue-600 md:text-lg dark:bg-black dark:text-blue-500">
                       {progressPercentage}% completed
                     </span>
                   </Text>
@@ -109,8 +140,8 @@ function SideBarMenuLg() {
               >
                 <div className="flex items-center justify-between">
                   <h3 className="text-xl font-semibold dark:text-white">
-                    <span className="inline-block w-[300p] truncate dark:text-white">
-                      Modul 1 : {titleCourse}
+                    <span className="inline-block w-[300px] truncate dark:text-white">
+                      Course {courseIndex + 1} : {titleCourse}
                     </span>
                   </h3>
                   <i
@@ -118,7 +149,7 @@ function SideBarMenuLg() {
                   ></i>
                 </div>
                 <p className="dark:text-white">
-                  {stepsComplated}/{steps.length}
+                  {stepsComplated}/{steps.length} Steps
                 </p>
               </div>
               {/* Steps Modul */}
@@ -147,7 +178,13 @@ function SideBarMenuLg() {
         </div>
 
         <div className="mx-auto flex justify-center text-center">
-          <FooterCourse />
+          <FooterCourse
+            onNextStep={onNextStep}
+            onPrevStep={onPrevStep}
+            disabledNext={disabledNext}
+            disabledPrev={disabledPrev}
+            onFinishCourse={onFinishCourse}
+          />
         </div>
       </div>
     </>

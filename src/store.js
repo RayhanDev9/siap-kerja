@@ -10,7 +10,7 @@ import dashboardReducer from "./features/dashboard/dashboardSlice";
 import onBoardingReducer from "./features/onBoarding/onBoardingSlice";
 import savedCareersReducer from "./features/dashboard/savedCareersSlice";
 import profileReducer from "./features/dashboard/profileSlice";
-
+import courseReducer from "./features/course/courseSlice";
 const store = configureStore({
   reducer: {
     auth: authReducer,
@@ -20,6 +20,7 @@ const store = configureStore({
     marketTrends: marketTrendsReducer,
     careerExplorer: careerExplorerReducer,
     learningRoadmap: learningRoadmapReducer,
+    course: courseReducer,
     setting: settingReducer,
     analytics: analyticsReducer,
     skillGap: skillGapReducer,

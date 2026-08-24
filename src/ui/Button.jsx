@@ -1,8 +1,19 @@
 import { Link } from "react-router-dom";
 
-function Button({ children, disabled, to, type, onClick }) {
+function Button({ children, disabled, to, type = "primary", onClick }) {
+  // Base style untuk tombol primary/solid
   const base =
-    "inline-block  text-sm sm:text-base lg:text-lg bg-blue-600 dark:bg-blue-600 font-semibold uppercase tracking-wide  transition-colors duration-300 text-white hover:bg-blue-600 focus:bg-blue-600 focus:outline-none disabled:cursor-not-allowed active:bg-blue-800 active:scale-95  hover:bg-blue-700 ";
+    "inline-block text-sm sm:text-base lg:text-lg font-semibold uppercase tracking-wide transition-all duration-200 " +
+    "bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 active:scale-95 focus:outline-none " +
+    "disabled:bg-slate-300 disabled:text-slate-500 disabled:cursor-not-allowed disabled:active:scale-100 disabled:hover:bg-slate-300 " +
+    "dark:bg-blue-600 dark:disabled:bg-neutral-800 dark:disabled:text-neutral-500";
+
+  // Base style untuk tombol secondary/outline
+  const baseSecondary =
+    "inline-block font-semibold uppercase tracking-wide transition-all duration-200 border border-stone-300 text-stone-600 " +
+    "hover:bg-blue-600 hover:text-white hover:border-blue-600 active:scale-95 focus:outline-none " +
+    "disabled:border-slate-200 disabled:text-slate-300 disabled:bg-transparent disabled:cursor-not-allowed disabled:active:scale-100 disabled:hover:bg-transparent disabled:hover:text-slate-300 disabled:hover:border-slate-200 " +
+    "dark:border-neutral-700 dark:text-neutral-400 dark:disabled:border-neutral-800 dark:disabled:text-neutral-600";
 
   const styles = {
     primary: base + " px-4 py-3 md:px-6 md:py-4 my-8 rounded-md",
@@ -11,31 +22,32 @@ function Button({ children, disabled, to, type, onClick }) {
       " px-4 py-2 md:px-5 md:py-2.5 text-xs sm:text-sm lg:text-base my-8",
     round: base + " px-2.5 py-1 md:px-3.5 md:py-2 text-sm lg:text-base my-8",
     autentikasi:
-      base + " px-4 py-3 md:px-6 md:py-4 w-ful rounded-xl my-8 text-center",
-    generalPrimary: base + " px-4 py-3 md:px-6 md:py-4 w-full  rounded-2xl",
+      base + " px-4 py-3 md:px-6 md:py-4 w-full rounded-xl my-8 text-center",
+    generalPrimary: base + " px-4 py-3 md:px-6 md:py-4 w-full rounded-2xl",
     buttonCardLearning:
-      base + "  px-4 py-2.5  md:px-6 md:py-3 w-full  rounded-lg",
+      base + " px-4 py-2.5 md:px-6 md:py-3 w-full rounded-lg",
     generalSecondary:
-      " inline-block w-full text-sm sm:text-base lg:text-lg rounded-2xl border   font-semibold uppercase tracking-wide text-stone-400 transition-colors duration-300 hover:bg-blue-600  hover:text-white hover:border-none active:bg-blue-600 active:text-white active:border-none  disabled:cursor-not-allowed px-4 py-3 md:px-6 md:py-4 dark:bg-black",
+      baseSecondary +
+      " w-full text-sm sm:text-base lg:text-lg rounded-2xl px-4 py-3 md:px-6 md:py-4",
     secondary:
-      "inline-block text-sm sm:text-base lg:text-lg lg:text-base rounded-full border-2 border-stone-300 font-semibold uppercase tracking-wide text-stone-400 transition-colors duration-300 hover:bg-stone-300   dark:bg-blue-500 hover:text-stone-800 focus:bg-stone-300 focus:text-stone-800 focus:outline-none focus:ring focus:ring-stone-200 focus:ring-offset-2 disabled:cursor-not-allowed px-4 py-2.5 md:px-6 md:py-3.5 dark:bg-black",
+      baseSecondary +
+      " rounded-full px-4 py-2.5 md:px-6 md:py-3.5 text-sm sm:text-base",
   };
 
-  if (to)
+  if (to) {
     return (
       <Link to={to} className={styles[type]}>
         {children}
       </Link>
     );
-  if (onClick)
-    return (
-      <button onClick={onClick} disabled={disabled} className={styles[type]}>
-        {children}
-      </button>
-    );
+  }
 
   return (
-    <button disabled={disabled} className={styles[type]}>
+    <button
+      onClick={onClick}
+      disabled={disabled}
+      className={styles[type]}
+    >
       {children}
     </button>
   );

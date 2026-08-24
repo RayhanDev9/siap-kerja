@@ -7,17 +7,17 @@ async function tes() {
       // `${import.meta.env.VITE_API_BASE_URL}/auth/login`,
       // `${import.meta.env.VITE_API_BASE_URL}/auth/me`,
       // `${import.meta.env.VITE_API_BASE_URL}/user/profile`,
-      // `${import.meta.env.VITE_API_BASE_URL}/user/dashboard`
-      // `${import.meta.env.VITE_API_BASE_URL}/user/skill-gap`
-      // `${import.meta.env.VITE_API_BASE_URL}/user/analytics`
+      // `${import.meta.env.VITE_API_BASE_URL}/user/dashboard`,
+      // `${import.meta.env.VITE_API_BASE_URL}/user/skill-gap`,
+      // `${import.meta.env.VITE_API_BASE_URL}/user/analytics`,
       `${import.meta.env.VITE_API_BASE_URL}/user/roadmap`,
-      // `${import.meta.env.VITE_API_BASE_URL}/user/jobs`
-      // `${import.meta.env.VITE_API_BASE_URL}/user/market-trends`
+      // `${import.meta.env.VITE_API_BASE_URL}/user/jobs`,
+      // `${import.meta.env.VITE_API_BASE_URL}/user/market-trends`,
       // `${import.meta.env.VITE_API_BASE_URL}/user/profile`,
       // `${import.meta.env.VITE_API_BASE_URL}/user/onboarding`,
       {
-        // method: "GET",
-        method: "POST",
+        method: "GET",
+        // method: "POST",
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
