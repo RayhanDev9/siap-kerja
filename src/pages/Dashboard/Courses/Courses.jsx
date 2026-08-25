@@ -128,7 +128,7 @@ function Courses() {
               icon="fa-solid fa-briefcase pr-2"
             />
           </div>
-          <div className="flex flex-wrap justify-center gap-7  ">
+          <div className="flex flex-wrap justify-center gap-7">
             {selectedCourses.map((course) => (
               <CardCourse
                 key={course.course_id}
@@ -137,6 +137,7 @@ function Courses() {
                 status={course.status}
                 titleCourse={course.titleCourse}
                 steps={course.steps}
+                rating={course.rating}
               />
             ))}
           </div>

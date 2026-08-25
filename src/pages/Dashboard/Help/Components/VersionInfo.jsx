@@ -9,44 +9,34 @@ import { cardVariants } from "../../../../util/animations";
 const VersionInfo = () => {
   const versions = [
     {
-      version: "V1.0.0 (Stabil)",
-      date: "14 Agustus 2026",
-      theme: "stable", // Penanda untuk warna tema RACST
+      version: "V1.0.0 (Rilis Perdana)",
+      date: "25 Agustus 2026",
+      theme: "stable",
       changes: [
-        "Peluncuran perdana platform SiapKerja",
-        "Fitur Rekomendasi Karir berbasis AI",
-        "Dashboard analisis kesiapan kerja",
-        "Sistem manajemen profil dan keahlian",
-      ],
-    },
-    {
-      version: "V0.9.5 (Beta)",
-      date: "1 Juli 2026",
-      theme: "beta", // Penanda untuk warna tema RACST
-      changes: [
-        "Pengujian fitur Skill Gap Analysis",
-        "Integrasi dengan API tren pasar kerja",
-        "Pembaruan desain antarmuka (UI)",
+        "Peluncuran resmi platform persiapan karir SiapKerja",
+        "Learning Roadmap interaktif dengan navigasi modul langkah demi langkah (steps)",
+        "Pelacakan waktu belajar aktif harian dan grafik interaksi mingguan",
+        "Wawasan data tren industri dan tolok ukur rentang gaji",
+        "Sistem evaluasi, rating bintang, dan ulasan modul pembelajaran",
+        "Dukungan penuh antarmuka responsif dan tema gelap (Dark Mode)",
       ],
     },
   ];
 
   return (
     <Section>
-      <div className="flex flex-col gap-6 ">
-        {/* TopBar konsisten dengan BugReport */}
+      <div className="flex flex-col gap-6">
         <TopBar placeholder="Cari pembaruan..." isSerch={false} />
 
-          <HeaderSection
-            title="Informasi Versi & Pembaruan"
-            description="Pantau perkembangan fitur terbaru dan perbaikan sistem kami."
-          />
-          {/* Subtitle RACST System */}
-          <Text className="mt-2 text-sm font-medium tracking-wide text-blue-500 dark:text-blue-400">
-            Powered by RACST UI System
-          </Text>
+        <HeaderSection
+          title="Informasi Versi & Pembaruan"
+          description="Pantau perkembangan fitur terbaru dan status rilis sistem SiapKerja."
+        />
 
-        {/* Container Utama dengan Animasi Framer Motion & Responsive Max-Width */}
+        <Text className="mt-2 text-sm font-medium tracking-wide text-blue-500 dark:text-blue-400">
+          Powered by Kelompok 9 Dev Team
+        </Text>
+
         <motion.div
           variants={cardVariants}
           initial="hidden"
@@ -57,22 +47,11 @@ const VersionInfo = () => {
             <motion.div
               key={index}
               variants={cardVariants}
-              // Card Styling: Menggabungkan base BugReport dengan Glow Effect RACST
-              className={`flex flex-col gap-4 rounded-2xl bg-white p-6 shadow-md ring-1 transition-all duration-300 md:p-8 dark:bg-neutral-900 ${
-                item.theme === "stable"
-                  ? "ring-emerald-200 hover:shadow-emerald-100 dark:ring-emerald-500/50 dark:hover:shadow-[0_0_20px_rgba(16,185,129,0.3)]"
-                  : "ring-blue-200 hover:shadow-blue-100 dark:ring-blue-500/50 dark:hover:shadow-[0_0_20px_rgba(59,130,246,0.3)]"
-              }`}
+              className="flex flex-col gap-4 rounded-2xl bg-white p-6 shadow-md ring-1 ring-emerald-200 transition-all duration-300 hover:shadow-emerald-100 md:p-8 dark:bg-neutral-900 dark:ring-emerald-500/50 dark:hover:shadow-[0_0_20px_rgba(16,185,129,0.3)]"
             >
-              {/* Header Card (Judul Versi & Tanggal) */}
+              {/* Header Card */}
               <div className="flex flex-col border-b border-slate-100 pb-4 md:flex-row md:items-center md:justify-between dark:border-white/10">
-                <h3
-                  className={`text-xl font-bold md:text-2xl ${
-                    item.theme === "stable"
-                      ? "text-emerald-600 dark:text-emerald-400"
-                      : "text-blue-600 dark:text-blue-400"
-                  }`}
-                >
+                <h3 className="text-xl font-bold text-emerald-600 md:text-2xl dark:text-emerald-400">
                   {item.version}
                 </h3>
                 <Text className="mt-1 text-sm font-medium text-slate-500 md:mt-0 dark:text-slate-400">
@@ -84,14 +63,7 @@ const VersionInfo = () => {
               <ul className="mt-2 flex flex-col gap-3">
                 {item.changes.map((change, changeIndex) => (
                   <li key={changeIndex} className="flex items-start gap-3">
-                    {/* Menggunakan FontAwesome Icon asumsikan sama seperti BugReport */}
-                    <i
-                      className={`fa-solid fa-circle-check mt-1 text-sm md:text-base ${
-                        item.theme === "stable"
-                          ? "text-emerald-500"
-                          : "text-blue-500"
-                      }`}
-                    ></i>
+                    <i className="fa-solid fa-circle-check mt-1 text-sm text-emerald-500 md:text-base"></i>
                     <Text className="text-sm text-slate-700 md:text-base dark:text-slate-200">
                       {change}
                     </Text>

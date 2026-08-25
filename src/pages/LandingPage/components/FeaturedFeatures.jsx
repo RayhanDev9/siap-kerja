@@ -8,16 +8,16 @@ const dataFeaturedFeatures = [
   {
     heading: "Analisis Tren Pasar",
     paraghraf:
-      "     Dapatkan wawasan real-time tentang permintaan industri dan keahlian yang paling dicari saat ini.",
-    bgColor: " bg-blue-500",
+      "Dapatkan wawasan langsung mengenai permintaan industri, standar gaji, dan keahlian yang paling dibutuhkan saat ini.",
+    bgColor: "bg-blue-500",
     svg: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        fill="blue"
+        fill="none"
         viewBox="0 0 24 24"
         strokeWidth={1.5}
         stroke="currentColor"
-        className="size-6 text-white sm:size-7 md:size-8 lg:size-9 dark:text-black"
+        className="size-6 text-white sm:size-7 md:size-8 lg:size-9"
       >
         <path
           strokeLinecap="round"
@@ -28,10 +28,10 @@ const dataFeaturedFeatures = [
     ),
   },
   {
-    heading: "Deteksi Celah Keamanan",
+    heading: "Analisis Kesenjangan Skill",
     paraghraf:
-      "   Al kami memindai profil Anda untuk mengidentifikasi keterampilan yang perlu ditingkatkan untuk peran impian.",
-    bgColor: "bg-red-500",
+      "Identifikasi keahlian yang belum dikuasai secara tepat agar persiapan menuju peran impian menjadi lebih terarah.",
+    bgColor: "bg-emerald-500",
     svg: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -39,20 +39,20 @@ const dataFeaturedFeatures = [
         viewBox="0 0 24 24"
         strokeWidth={1.5}
         stroke="currentColor"
-        className="size-6 text-white sm:size-7 md:size-8 lg:size-9 dark:text-black"
+        className="size-6 text-white sm:size-7 md:size-8 lg:size-9"
       >
         <path
           strokeLinecap="round"
           strokeLinejoin="round"
-          d="M7.5 14.25v2.25m3-4.5v4.5m3-6.75v6.75m3-9v9M6 20.25h12A2.25 2.25 0 0 0 20.25 18V6A2.25 2.25 0 0 0 18 3.75H6A2.25 2.25 0 0 0 3.75 6v12A2.25 2.25 0 0 0 6 20.25Z"
+          d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z"
         />
       </svg>
     ),
   },
   {
-    heading: "Roadmap Personal",
+    heading: "Roadmap Terstruktur",
     paraghraf:
-      "  Rencana tindakan langkah demi langkah yang disesuaikan secara unik untuk mencapai tujuan karier Anda.",
+      "Rencana tahapan belajar langkah demi langkah yang terorganisir untuk memandu penguasaan materi dari awal.",
     bgColor: "bg-purple-500",
     svg: (
       <svg
@@ -61,12 +61,12 @@ const dataFeaturedFeatures = [
         viewBox="0 0 24 24"
         strokeWidth={1.5}
         stroke="currentColor"
-        className="size-6 text-white sm:size-7 md:size-8 lg:size-9 dark:text-black"
+        className="size-6 text-white sm:size-7 md:size-8 lg:size-9"
       >
         <path
           strokeLinecap="round"
           strokeLinejoin="round"
-          d="M7.5 14.25v2.25m3-4.5v4.5m3-6.75v6.75m3-9v9M6 20.25h12A2.25 2.25 0 0 0 20.25 18V6A2.25 2.25 0 0 0 18 3.75H6A2.25 2.25 0 0 0 3.75 6v12A2.25 2.25 0 0 0 6 20.25Z"
+          d="M9 6.75V15m6-6v8.25m.503 3.498 4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.284a2.25 2.25 0 0 0-2.006 0L2.622 5.72A1.125 1.125 0 0 0 2 6.726v11.93c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0Z"
         />
       </svg>
     ),
@@ -76,7 +76,7 @@ const dataFeaturedFeatures = [
 function FeaturedFeatures() {
   return (
     <section id="features" className="flex flex-col items-center">
-      <motion.div variants={cardVariants} className="self-start pb-7 ">
+      <motion.div variants={cardVariants} className="self-start pb-7">
         <H2 type="secondry">Feature Unggulan</H2>
         <Text>
           Platform komprehensif yang dirancang untuk mempercepat pertumbuhan
@@ -84,7 +84,7 @@ function FeaturedFeatures() {
         </Text>
       </motion.div>
       <div className="inline-block space-y-5">
-        <div className="grid-cols-1 gap-5 max-sm:space-y-5 sm:grid sm:grid-cols-2">
+        <div className="grid-cols-1 gap-5 max-sm:space-y-5 sm:grid sm:grid-cols-3">
           {dataFeaturedFeatures.map((item) => (
             <FeaturedFeaturesItems
               heading={item.heading}

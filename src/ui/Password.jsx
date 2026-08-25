@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function Password({ value, onChange, label = "Kata Sandi" }) {
+function Password({ value, onChange, label = "Kata Sandi", placeholder = "*****" }) {
   const [showPassword, setShowPassword] = useState(false);
 
   function handlePasswordVisibility() {
@@ -23,8 +23,9 @@ function Password({ value, onChange, label = "Kata Sandi" }) {
           id="password"
           value={value}
           onChange={onChange}
+          autoComplete="new-password"
           required
-          placeholder="*****"
+          placeholder={placeholder}
           className="w-full rounded-xl border border-gray-200 bg-white px-10 py-3 text-sm transition outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 sm:text-base lg:text-lg dark:border dark:border-white/25 dark:bg-black hover:dark:border-white/35"
         />
         <i

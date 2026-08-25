@@ -15,11 +15,13 @@ import {
   selectPathCourses,
 } from "../../features/dashboard/learningRoadmapSlice.js";
 import Loader from "../../ui/Loader.jsx";
+import { useActiveTimeTracker } from "../../hooks/useActiveTimeTracker.js";
 
 function AppLayout() {
   const location = useLocation();
   const { user } = useSelector((state) => state.auth);
   useFetch();
+  useActiveTimeTracker();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -55,7 +57,7 @@ function AppLayout() {
     return <Loader />;
   }
 
-  tes()
+  tes();
 
   return (
     <>

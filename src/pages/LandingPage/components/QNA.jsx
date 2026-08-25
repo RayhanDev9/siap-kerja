@@ -7,33 +7,33 @@ import H3 from "../../../ui/H3";
 const faqData = [
   {
     id: 1,
-    question: "Bagaimana cara kerja AI di SiapKerja?",
+    question: "Bagaimana cara kerja platform SiapKerja?",
     answer:
-      "AI kami menganalisis pengalaman, keterampilan, dan minat Anda, lalu mencocokkannya dengan database jutaan titik data tren industri untuk memberikan rekomendasi karir yang sangat dipersonalisasi dan akurat.",
+      "SiapKerja menyediakan alur roadmap pembelajaran langkah demi langkah yang terstruktur sesuai kategori karir, lengkap dengan pelacakan progres belajar harian dan wawasan standar gaji industri terkini.",
   },
   {
     id: 2,
-    question: "Apakah data saya aman?",
+    question: "Apakah materi kursus dan roadmap selalu diperbarui?",
     answer:
-      "Ya, data Anda dilindungi dengan enkripsi tingkat enterprise dan kami mematuhi semua standar keamanan internasional. Data Anda tidak akan pernah dibagikan kepada pihak ketiga tanpa persetujuan Anda.",
+      "Ya, kurikulum modul dan rekomendasi keahlian terus diselaraskan secara berkala mengikuti kebutuhan nyata dan standar teknologi yang sedang dicari oleh perusahaan di Indonesia.",
   },
   {
     id: 3,
-    question: "Bisakah saya membatalkan langganan kapan saja?",
+    question: "Bagaimana cara melacak perkembangan belajar saya?",
     answer:
-      "Tentu saja! Anda dapat membatalkan langganan kapan saja tanpa biaya tambahan atau pertanyaan. Akses akan tetap aktif hingga akhir periode penagihan Anda.",
+      "Setiap langkah kursus yang Anda selesaikan dapat ditandai langsung. Sistem juga otomatis mencatat durasi waktu aktif belajar Anda ke dalam grafik mingguan di dashboard Analitik Karir.",
   },
   {
     id: 4,
-    question: "Berapa lama hasil rekomendasi karir terbaru?",
+    question: "Apakah data profil dan progres saya aman?",
     answer:
-      "Rekomendasi kami diperbarui setiap bulan berdasarkan tren pasar terbaru. Namun, Anda dapat meminta pembaruan manual kapan saja dari dashboard.",
+      "Keamanan data Anda adalah prioritas kami. Semua informasi akun, progres modul, dan aktivitas belajar disimpan dengan aman dan tidak akan dibagikan kepada pihak luar tanpa izin Anda.",
   },
   {
     id: 5,
-    question: "Apakah ada garansi uang kembali?",
+    question: "Apakah saya bisa mengakses platform melalui ponsel?",
     answer:
-      "Ya, kami menawarkan garansi uang kembali 30 hari untuk paket berlangganan. Jika Anda tidak puas, hubungi tim support kami untuk pengembalian dana penuh.",
+      "Tentu saja! Antarmuka SiapKerja sepenuhnya responsif dan dioptimalkan agar nyaman diakses baik melalui browser smartphone, tablet, maupun layar desktop/laptop.",
   },
 ];
 
@@ -67,9 +67,9 @@ function QNA() {
   return (
     <section
       id="faq"
-      className="w-full rounded-2xl bg-white py-16 md:py-24 dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35"
+      className="w-full rounded-2xl bg-white py-16 md:py-24 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35"
     >
-      <div className="mx-auto max-w-4xl rounded-2xl px-4 md:px-8">
+      <div className="mx-auto max-w-4xl px-4 md:px-8">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -85,8 +85,8 @@ function QNA() {
             Pertanyaan Umum
           </H2>
           <Text className="mx-auto max-w-2xl text-slate-600 dark:text-slate-300">
-            Temukan jawaban atas pertanyaan yang paling sering diajukan tentang
-            SiapKerja
+            Temukan jawaban atas pertanyaan yang paling sering diajukan seputar
+            alur belajar dan fitur di SiapKerja.
           </Text>
         </motion.div>
 
@@ -104,24 +104,25 @@ function QNA() {
               variants={itemVariants}
               className={`rounded-2xl border-2 transition-all duration-300 ${
                 openIndex === index
-                  ? "border-blue-600 bg-blue-50 dark:border-blue-500 dark:bg-slate-800/50"
-                  : "border-slate-200 bg-white dark:border-slate-700 dark:bg-neutral-900"
+                  ? "border-blue-600 bg-blue-50/50 dark:border-blue-500 dark:bg-neutral-800/80"
+                  : "border-slate-200 bg-white dark:border-white/10 dark:bg-neutral-900 hover:dark:border-white/25"
               }`}
             >
               {/* Question Button */}
               <button
+                type="button"
                 onClick={() => toggleAccordion(index)}
-                className="flex w-full items-center justify-between rounded-2xl p-5 text-left transition-colors hover:bg-slate-50 md:p-6 dark:hover:bg-slate-800/30"
+                className="flex w-full items-center justify-between rounded-2xl p-5 text-left transition-colors hover:bg-slate-50/50 md:p-6 dark:hover:bg-neutral-800/40"
               >
-                <p
-                  className={`flex-1 text-base font-semibold transition-colors sm:text-lg lg:text-xl ${
+                <span
+                  className={`flex-1 text-sm font-semibold transition-colors sm:text-base md:text-lg ${
                     openIndex === index
                       ? "text-blue-600 dark:text-blue-400"
                       : "text-slate-900 dark:text-white"
-                  } text-sm md:text-base`}
+                  }`}
                 >
                   {faq.question}
-                </p>
+                </span>
 
                 {/* Chevron Icon */}
                 <motion.div
@@ -129,10 +130,10 @@ function QNA() {
                     rotate: openIndex === index ? 180 : 0,
                   }}
                   transition={{ duration: 0.3 }}
-                  className={`ml-4 shrink-0 text-xl transition-colors ${
+                  className={`ml-4 shrink-0 text-base transition-colors sm:text-lg ${
                     openIndex === index
                       ? "text-blue-600 dark:text-blue-400"
-                      : "text-slate-400 dark:text-slate-500"
+                      : "text-slate-400 dark:text-neutral-500"
                   }`}
                 >
                   <i className="fa-solid fa-chevron-down"></i>
@@ -149,10 +150,10 @@ function QNA() {
                     transition={{ duration: 0.3 }}
                     className="overflow-hidden"
                   >
-                    <div className="border-t-2 border-slate-200 px-5 py-4 md:px-6 md:py-5 dark:border-slate-700">
-                      <p className="text-xs leading-relaxed text-slate-600 md:text-base md:text-sm lg:text-lg dark:text-slate-300">
+                    <div className="border-t border-slate-200 px-5 py-4 md:px-6 md:py-5 dark:border-white/10">
+                      <Text className="text-xs leading-relaxed text-slate-600 sm:text-sm md:text-base lg:text-lg dark:text-neutral-300">
                         {faq.answer}
-                      </p>
+                      </Text>
                     </div>
                   </motion.div>
                 )}
@@ -161,23 +162,24 @@ function QNA() {
           ))}
         </motion.div>
 
-        {/* CTA Section */}
+        {/* CTA Support Card */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
           viewport={{ once: true }}
-          className="mt-12 rounded-2xl border-2 border-blue-200 bg-blue-50 p-6 text-center md:p-8 dark:border-blue-900/50 dark:bg-slate-800/50"
+          className="mt-12 rounded-2xl border border-blue-200 bg-blue-50/60 p-6 text-center md:p-8 dark:border-white/10 dark:bg-neutral-800/60"
         >
           <H3 className="mb-2 text-lg font-semibold text-slate-900 md:text-xl dark:text-white">
-            Masih ada pertanyaan?
+            Masih ada pertanyaan seputar platform?
           </H3>
-          <Text className="mb-4 text-slate-600 dark:text-slate-300">
-            Hubungi tim support kami, kami siap membantu Anda 24/7
+          <Text className="mb-5 text-sm text-slate-600 sm:text-base dark:text-neutral-300">
+            Hubungi tim support kami, kami siap membantu kelancaran persiapan
+            karir Anda.
           </Text>
           <a
             href="mailto:rayhan@gmail.com"
-            className="inline-block rounded-lg bg-blue-600 px-6 py-2 font-semibold text-white transition-all hover:bg-blue-700 md:px-8 md:py-3 dark:bg-blue-500 dark:hover:bg-blue-600"
+            className="inline-block rounded-xl bg-blue-600 px-6 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:bg-blue-700 md:px-8 md:py-3 dark:bg-blue-500 dark:hover:bg-blue-600"
           >
             Hubungi Support
           </a>

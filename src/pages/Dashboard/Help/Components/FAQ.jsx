@@ -23,37 +23,37 @@ const FAQ = () => {
       id: 1,
       question: "Apa itu SiapKerja?",
       answer:
-        "SiapKerja adalah platform bimbingan karir berbasis AI yang membantu Anda menemukan jalur karir terbaik, mengidentifikasi celah keahlian, dan memberikan rekomendasi pembelajaran yang dipersonalisasi sesuai kebutuhan pasar industri saat ini.",
+        "SiapKerja adalah platform persiapan dan akselerasi karir digital yang membantu Anda mempelajari keterampilan baru lewat alur roadmap langkah demi langkah, melacak progres belajar harian, serta mengakses data gaji dan kebutuhan industri kerja secara transparan.",
     },
     {
       id: 2,
-      question: "Bagaimana cara kerja Rekomendasi Karir AI?",
+      question: "Bagaimana cara kerja Roadmap Belajar di platform ini?",
       answer:
-        "AI kami menganalisis profil, keahlian, dan minat Anda untuk mencocokkannya dengan tren pasar kerja secara real-time. Kami membandingkan kualifikasi Anda dengan ribuan lowongan kerja untuk memberikan skor kesiapan karir yang akurat.",
+        "Setiap kategori karir memiliki alur kurikulum berjenjang yang terbagi menjadi beberapa tahapan (steps). Anda dapat mempelajari materi, menandai status penyelesaian setiap step, serta memberikan rating dan ulasan pada modul kursus terkait.",
     },
     {
       id: 3,
-      question: "Bagaimana cara meningkatkan Skor Kesiapan Karir?",
+      question: "Bagaimana cara sistem menghitung waktu belajar aktif saya?",
       answer:
-        "Anda dapat meningkatkan skor dengan menyelesaikan kursus yang direkomendasikan dalam Learning Roadmap, memperbarui sertifikasi di profil, dan melengkapi detail pengalaman proyek atau kerja Anda.",
+        "Sistem secara otomatis mencatat durasi waktu saat Anda aktif mengakses modul pembelajaran dan merangkumnya ke dalam grafik interaksi mingguan pada halaman Analitik Karir.",
     },
     {
       id: 4,
-      question: "Apakah platform ini sepenuhnya gratis?",
+      question: "Dari mana data tren pasar dan estimasi gaji diperoleh?",
       answer:
-        "SiapKerja menawarkan akses gratis untuk fitur dasar seperti Dashboard, Skill Gap sederhana, dan profil. Kami juga menyediakan fitur Premium untuk analisis mendalam AI dan akses ke mentor eksklusif.",
+        "Data tren industri dan rentang gaji dikurasi berdasarkan agregasi kebutuhan peran kerja serta standar kompensasi talenta digital terkini di Indonesia yang disajikan secara berkala.",
     },
     {
       id: 5,
-      question: "Di mana saya bisa melihat Roadmap Pembelajaran saya?",
+      question: "Bagaimana cara meningkatkan Skor Kesiapan Karir saya?",
       answer:
-        "Anda dapat mengaksesnya melalui menu 'Learning Roadmap' di sidebar. Roadmap ini disusun secara otomatis berdasarkan celah keahlian (Skill Gap) yang teridentifikasi oleh sistem AI kami.",
+        "Skor kesiapan karir Anda akan meningkat seiring banyaknya tahapan kursus (steps) yang Anda selesaikan dan konsistensi waktu belajar Anda di dalam Learning Roadmap.",
     },
     {
       id: 6,
-      question: "Apakah data pribadi saya aman di SiapKerja?",
+      question: "Apakah data profil dan progres belajar saya aman?",
       answer:
-        "Keamanan data Anda adalah prioritas kami. Semua data profil dan aktivitas belajar Anda dilindungi dengan enkripsi standar industri dan tidak akan dibagikan kepada pihak ketiga tanpa izin Anda.",
+        "Ya, semua informasi akun, riwayat kursus, dan data analitik pribadi Anda disimpan secara aman dan tidak akan dibagikan kepada pihak ketiga tanpa izin Anda.",
     },
   ];
 

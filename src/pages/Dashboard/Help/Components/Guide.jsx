@@ -10,30 +10,30 @@ import Text from "../../../../ui/Text";
 const Guide = () => {
   const steps = [
     {
-      title: "Lengkapi Profil Anda",
+      title: "Lengkapi Profil & Target",
       description:
-        "Lengkapi profil Anda dengan mencantumkan tujuan karir dan keahlian saat ini, agar sistem kami dapat menganalisis dan memetakan jalur karir yang paling tepat untuk Anda.",
+        "Isi data profil dan tentukan target karir impian Anda agar sistem dapat memetakan materi yang sesuai.",
       icon: "fa-user-pen",
       path: "/profile",
     },
     {
-      title: "Cek Skor Kesiapan Karir",
+      title: "Pantau Analitik & Progres",
       description:
-        "Lihat seberapa siap Anda untuk peran impian Anda melalui Dashboard utama kami.",
+        "Cek perkembangan waktu aktif belajar mingguan dan status kesiapan Anda di dashboard Analitik Karir.",
       icon: "fa-chart-line",
-      path: "/",
+      path: "/analytics",
     },
     {
-      title: "Identifikasi Skill Gap",
+      title: "Eksplorasi Tren & Gaji",
       description:
-        "Gunakan fitur Skill Gap untuk mengetahui keahlian apa saja yang masih perlu Anda pelajari.",
+        "Lihat data standar kompensasi dan kebutuhan keahlian kerja terkini melalui fitur Tren Pasar.",
       icon: "fa-magnifying-glass-chart",
-      path: "/skillGap",
+      path: "/marketTrends",
     },
     {
       title: "Ikuti Roadmap Belajar",
       description:
-        "Dapatkan rekomendasi kursus dan materi pembelajaran yang disusun khusus untuk Anda.",
+        "Akses kurikulum modul langkah demi langkah dan tandai setiap progres pembelajaran yang telah diselesaikan.",
       icon: "fa-graduation-cap",
       path: "/learningRoadmap",
     },
@@ -45,7 +45,7 @@ const Guide = () => {
         <TopBar placeholder="Cari panduan..." isSerch={false} />
         <HeaderSection
           title="Panduan Penggunaan"
-          description="Ikuti langkah-langkah berikut untuk memaksimalkan potensi karir Anda dengan SiapKerja."
+          description="Ikuti langkah-langkah berikut untuk memaksimalkan persiapan karir digital Anda bersama SiapKerja."
         />
 
         {/* Grid Container */}

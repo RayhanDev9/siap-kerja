@@ -9,6 +9,12 @@ import {
 } from "recharts";
 import { useSelector } from "react-redux";
 
+// 1. Dapatkan singkatan hari ini secara dinamis sesuai locale Indonesia
+const getTodayName = () => {
+  const days = ["Min", "Sen", "Sel", "Rab", "Kam", "Jum", "Sab"];
+  return days[new Date().getDay()]; // Otomatis 'Sel' jika hari Selasa
+};
+
 const CustomTooltip = ({ active, payload }) => {
   if (active && payload && payload.length) {
     return (
@@ -20,8 +26,11 @@ const CustomTooltip = ({ active, payload }) => {
   return null;
 };
 
+// 2. CustomTick membaca hari ini secara dinamis
 const CustomTick = ({ x, y, payload }) => {
-  const isHighlighted = payload.value === "Kam";
+  const today = getTodayName();
+  const isHighlighted = payload.value === today;
+
   return (
     <text
       x={x}
@@ -43,6 +52,8 @@ const WeeklyChart = () => {
         daily_chart: [],
       },
   );
+
+  const today = getTodayName();
 
   return (
     <div className="w-full rounded-xl border border-gray-100 bg-slate-100 p-6 shadow-sm dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35">
@@ -66,7 +77,8 @@ const WeeklyChart = () => {
               {data.map((entry, index) => (
                 <Cell
                   key={`cell-${index}`}
-                  fill={entry.name === "Kam" ? "#3b82f6" : "#dbeafe"}
+                  // 3. Warna bar aktif mengikuti hari ini
+                  fill={entry.name === today ? "#3b82f6" : "#dbeafe"}
                 />
               ))}
             </Bar>

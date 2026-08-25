@@ -1,13 +1,13 @@
 import Button from "../../../ui/Button";
-import AIInsightCardRecharts from "../../../ui/AIInsightCardRecharts";
 import FeaturedFeatures from "./FeaturedFeatures";
 import Section from "../../../ui/Section";
 import Progres from "../../../ui/Progres";
 import Text from "../../../ui/Text";
 import { cardVariants, containerVariants } from "../../../util/animations";
-import { motion } from "framer-motion"; // 1. Import Framer Motio
-import QNA from "./QNA"; // Di landing page
+import { motion } from "framer-motion";
+import QNA from "./QNA";
 import Testimonial from "./Testimonial";
+import About from "./About";
 import H3 from "../../../ui/H3";
 
 const skillsData = [
@@ -36,28 +36,30 @@ function Main() {
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className="mt-24 space-y-7 overflow-x-hidden overflow-y-hidden rounded-2xl"
+        className="mt-24 space-y-16 overflow-x-hidden overflow-y-hidden rounded-2xl"
       >
-        <section className="mx-auto grid w-full gap-7 sm:w-4/5 md:w-[70%] lg:w-full lg:grid-cols-2 lg:gap-5">
-          {/* Heading 1 */}
-          <motion.div variants={cardVariants} className="col-span-1">
-            <h1 className="text-center text-3xl leading-10 font-bold capitalize md:text-4xl lg:text-5xl lg:leading-20">
+        {/* Hero Section */}
+        <section className="mx-auto grid w-full items-center gap-7 sm:w-4/5 md:w-[70%] lg:w-full lg:grid-cols-2 lg:gap-8">
+          {/* Heading & Deskripsi */}
+          <motion.div variants={cardVariants} className="col-span-1 space-y-4">
+            <h1 className="text-center text-3xl leading-tight font-bold capitalize md:text-4xl lg:text-start lg:text-5xl lg:leading-tight">
               Temukan Karir masa depan anda dengan
-              <span className="text-primary block capitalize"> ai</span>
+              <span className="text-primary block"> Data & Arah Pasti</span>
             </h1>
             <div>
-              <Text className="text-center text-lg">
-                Platform cerdas yang menganalisis keahlian Anda, memetakan
-                potensi, dan membimbing langkah karier selanjutnya.
+              <Text className="text-center text-lg text-slate-600 lg:text-start dark:text-neutral-400">
+                Platform terpadu untuk mengevaluasi keahlian, memantau alur
+                roadmap belajar terstruktur, dan mengakses tolok ukur gaji
+                industri terkini.
               </Text>
-              <div className="max-xs:flex-col xs:gap-5 flex justify-center">
-                <div className="text-center">
+              <div className="mt-6 flex flex-wrap justify-center gap-4 lg:justify-evenly">
+                <div>
                   <Button to="/login" type="primary">
                     Mulai Sekarang
                   </Button>
                 </div>
-                <div className="self-center text-center lg:block">
-                  <Button to="/" type="generalSecondary">
+                <div className="inline-block self-center">
+                  <Button to="/career-explorer" type="generalSecondary">
                     Eksplorasi Karir
                   </Button>
                 </div>
@@ -65,29 +67,27 @@ function Main() {
             </div>
           </motion.div>
 
-          {/* Analisis Keterampilan */}
-
+          {/* Kartu Analisis Keterampilan */}
           <motion.div
             variants={cardVariants}
-            className="col-span-1 mt-7 rotate-2 rounded-2xl bg-white p-7 transition-all duration-300 hover:rotate-0 active:rotate-0 lg:mt-0 lg:block dark:border dark:border-white/25 dark:bg-neutral-900 dark:hover:border-white/35"
+            className="col-span-1 rotate-1 rounded-2xl border border-slate-200 bg-white p-7 shadow-sm transition-all duration-300 hover:rotate-0 dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35"
           >
-            {/* Header Bagian Kartu */}
-            <div className="flex items-center gap-4 border-b border-slate-300 pb-6 dark:border-white/10">
-              <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-purple-100 dark:bg-purple-500/20">
-                <i className="fa-solid fa-user-cog text-2xl text-purple-600 dark:text-purple-400"></i>
+            <div className="flex items-center gap-4 border-b border-slate-200 pb-5 dark:border-white/10">
+              <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-purple-100 dark:bg-purple-500/20">
+                <i className="fa-solid fa-user-gear text-xl text-purple-600 dark:text-purple-400"></i>
               </span>
               <div className="flex flex-col">
-                <H3 className="text-base font-semibold md:text-lg">
-                  Analisis Keterampilan Selesai
+                <H3 className="text-base font-bold text-slate-900 md:text-lg dark:text-white">
+                  Evaluasi Keterampilan Siap Kerja
                 </H3>
-                <Text className="text-sm text-slate-500 dark:text-slate-400">
-                  Cocok dengan 450+ peran
+                <Text className="text-xs text-slate-500 sm:text-sm dark:text-slate-400">
+                  Tersinkronisasi dengan 450+ standar kompetensi
                 </Text>
               </div>
             </div>
 
-            {/* Daftar Keterampilan (Looping) */}
-            <div className="mt-6 flex flex-col gap-5">
+            {/* List Skills */}
+            <div className="mt-6 flex flex-col gap-4">
               {skillsData.map((skill) => (
                 <div key={skill.id} className="flex flex-col gap-1.5">
                   <div className="flex items-center justify-between text-sm font-medium text-slate-700 dark:text-slate-300">
@@ -104,22 +104,18 @@ function Main() {
           </motion.div>
         </section>
 
-        {/* Chart and feature */}
-        <div className="grid grid-cols-1 gap-5 lg:grid-cols-3">
-          <motion.div
-            variants={cardVariants}
-            className="xs:justify-center col-span-1 flex min-w-lg pt-7 text-center lg:mt-16 lg:inline-block"
-          >
-            <AIInsightCardRecharts />
-          </motion.div>
-
-          <div variants={cardVariants} className="col-span-2">
-            <FeaturedFeatures />
-          </div>
+        {/* Section Fitur Unggulan */}
+        <div className="w-full">
+          <FeaturedFeatures />
         </div>
 
+        {/* Section About */}
+        <About />
+
+        {/* Section Testimonial */}
         <Testimonial />
 
+        {/* Section FAQ / QNA */}
         <QNA />
       </motion.div>
     </Section>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Button from "../../../../ui/Button";
 import H3 from "../../../../ui/H3";
 import Progres from "../../../../ui/Progres";
@@ -6,13 +6,16 @@ import StartRating from "../../../../ui/StartRating";
 import { useNavigate } from "react-router";
 import { cardVariants } from "../../../../util/animations";
 import { motion } from "framer-motion";
+import { useDispatch } from "react-redux";
+import { submitCourseRating } from "../../../../features/dashboard/learningRoadmapSlice";
 
 const DEFAULT_IMAGE =
   "https://placehold.co/600x400/e2e8f0/64748b?text=No+Image+Available";
 
-function CardCourse({ id, img, status, titleCourse, steps }) {
+function CardCourse({ id, img, status, titleCourse, steps, rating }) {
   const [userRating, setUserRating] = useState("");
   const navigate = useNavigate();
+  const dispatch = useDispatch(); 
 
   const totalSteps = steps?.length || 0;
   const completedSteps =
@@ -21,12 +24,17 @@ function CardCourse({ id, img, status, titleCourse, steps }) {
   const progressPercentage =
     totalSteps > 0 ? Math.round((completedSteps / totalSteps) * 100) : 0;
 
+  useEffect(() => {
+    if (userRating) {
+      dispatch(submitCourseRating({ courseId: id, rating: userRating }));
+    }
+  }, [userRating, id, dispatch]);
+
   return (
     <motion.div
       variants={cardVariants}
       className="flex max-w-2xs min-w-3xs flex-col overflow-hidden rounded-2xl bg-white shadow-sm dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35"
     >
-      {/* 1. Kunci Tinggi Gambar agar Semua Card Presisi */}
       <div className="h-44 w-full overflow-hidden bg-slate-100 dark:bg-neutral-800">
         <img
           src={img || DEFAULT_IMAGE}
@@ -39,14 +47,17 @@ function CardCourse({ id, img, status, titleCourse, steps }) {
         />
       </div>
 
-      {/* 2. Gunakan flex-1 & justify-between agar Posisi Tombol Selalu Sejajar di Bawah */}
       <div className="flex flex-1 flex-col justify-between p-5">
         <div className="flex flex-col gap-3">
+          
+          {/* 🚀 INI YANG DIBENERIN */}
           <StartRating
             maxRating={5}
             size={25}
+            defaultRating={rating ? Math.round(rating) : 0}
             onSetMovieRating={setUserRating}
           />
+
           <H3 type="netural" className="line-clamp-2 min-h-[3rem] font-bold">
             {titleCourse}
           </H3>

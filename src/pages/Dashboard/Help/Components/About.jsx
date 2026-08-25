@@ -10,38 +10,38 @@ import Logo from "../../../../ui/Logo";
 
 const advantages = [
   {
-    title: "Rekomendasi Karir AI",
+    title: "Roadmap Terstruktur",
     description:
-      "Rekomendasi karir yang dipersonalisasi berdasarkan analisis cerdas minat dan keahlian Anda.",
-    icon: "fa-solid fa-robot",
+      "Kurikulum belajar langkah demi langkah per tahapan yang disusun sistematis dari level dasar hingga mahir.",
+    icon: "fa-solid fa-graduation-cap",
     color: "text-blue-600",
   },
   {
-    title: "Analisis Skill Gap",
+    title: "Analisis Kesenjangan Skill",
     description:
-      "Identifikasi instan keterampilan yang harus ditingkatkan untuk mencapai target karir spesifik.",
-    icon: "fa-solid fa-chart-line",
+      "Identifikasi kompetensi yang perlu ditingkatkan untuk memenuhi kualifikasi peran kerja yang ditargetkan.",
+    icon: "fa-solid fa-chart-pie",
     color: "text-purple-600",
   },
   {
-    title: "Roadmap Belajar Dinamis",
+    title: "Pelacakan Jam Belajar",
     description:
-      "Panduan belajar terstruktur per tahapan untuk navigasi pengembangan diri yang efektif.",
-    icon: "fa-solid fa-map-signs",
+      "Pencatatan waktu aktif belajar harian secara otomatis yang dirangkum dalam grafik interaksi mingguan.",
+    icon: "fa-solid fa-clock-rotate-left",
     color: "text-orange-600",
   },
   {
-    title: "Tren Pasar Real-Time",
+    title: "Wawasan Tren & Gaji",
     description:
-      "Visualisasi data gaji dan tren industri terkini untuk pengambilan keputusan yang tepat.",
-    icon: "fa-solid fa-bolt",
+      "Akses perbandingan standar kompensasi dan permintaan industri terkini untuk perencanaan karir yang tepat.",
+    icon: "fa-solid fa-arrow-trend-up",
     color: "text-yellow-600",
   },
   {
     title: "Dashboard Terintegrasi",
     description:
-      "Pusat kendali komprehensif untuk memantau skor kesiapan, progres belajar, dan karir impian.",
-    icon: "fa-solid fa-dashboard",
+      "Pusat kendali komprehensif untuk memantau status modul kursus, skor kesiapan, dan rating pembelajaran.",
+    icon: "fa-solid fa-table-columns",
     color: "text-emerald-600",
   },
 ];
@@ -56,14 +56,8 @@ const About = () => {
         <motion.div variants={cardVariants} className="mb-4"></motion.div>
         <HeaderSection
           title="Tentang SiapKerja"
-          description="Ekosistem Karir Cerdas: Jembatan Pintar Menuju Karir Impian."
+          description="Ekosistem Persiapan Karir Terarah: Langkah Nyata Menuju Profesi Impian."
         />
-
-        {/* <Text className="mt-4 max-w-2xl">
-          SiapKerja adalah platform berbasis AI yang dirancang untuk membantu
-          Anda menjembatani kesenjangan antara keterampilan Anda saat ini dan
-          tuntutan industri modern.
-        </Text> */}
 
         {/* Core Advantages */}
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -88,10 +82,10 @@ const About = () => {
         >
           <H3 className="mb-4">Misi Kami</H3>
           <Text>
-            Kami berkomitmen untuk memberdayakan setiap individu dengan
-            bimbingan karir berbasis data. Dengan teknologi mutakhir, kami
-            mengubah cara Anda merencanakan, belajar, dan tumbuh di dunia
-            profesional.
+            Kami berkomitmen memberdayakan talenta digital Indonesia melalui
+            pembelajaran terstruktur dan data pasar kerja yang transparan. Dengan
+            panduan roadmap yang teruji, kami membantu Anda belajar secara
+            efisien dan berkembang dengan arah yang jelas di dunia profesional.
           </Text>
         </motion.div>
 
@@ -104,8 +98,8 @@ const About = () => {
             Siap melangkah ke jenjang berikutnya?
           </H3>
           <p className="opacity-90">
-            Bergabunglah dengan ribuan profesional lainnya yang telah menemukan
-            jalur karir mereka bersama SiapKerja.
+            Bergabunglah dengan ribuan talenta lainnya yang telah memulai langkah
+            persiapan karir mereka bersama SiapKerja.
           </p>
         </motion.div>
       </div>

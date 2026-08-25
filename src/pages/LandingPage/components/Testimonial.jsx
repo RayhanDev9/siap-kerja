@@ -9,7 +9,7 @@ const testimonialData = [
   {
     id: 1,
     quote:
-      "SiapKerja AI membantu saya beralih karir ke Data Science dalam 6 bulan dengan rekomendasi kursus yang sangat presisi.",
+      "Roadmap terstruktur di SiapKerja membantu saya beralih karir ke Data Science dalam 6 bulan dengan urutan modul belajar yang sangat jelas.",
     name: "Budi Santoso",
     position: "Data Scientist @ TechIndo",
     image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Budi",
@@ -17,7 +17,7 @@ const testimonialData = [
   {
     id: 2,
     quote:
-      "Analisis keterlampilan sangat akurat. Saya tahu persis apa yang harus dipelajari untuk mendapatkan promosi tahun ini.",
+      "Pelacakan jam belajar dan evaluasi progress step-by-step membuat saya tetap konsisten hingga berhasil mendapatkan promosi tahun ini.",
     name: "Siti Aminah",
     position: "Senior UX Designer",
     image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Siti",
@@ -25,7 +25,7 @@ const testimonialData = [
   {
     id: 3,
     quote:
-      "Platform yang luar biasa untuk melacak tren pasar. Sangat direkomendasikan untuk profesional IT yang ingin terlus relevan.",
+      "Data tren pasar dan rentang gaji industrinya sangat akurat. Platform yang tepat bagi talenta digital yang ingin karirnya tetap relevan.",
     name: "Andi Wijaya",
     position: "Software Engineer Lead",
     image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Andi",
@@ -56,8 +56,11 @@ function Testimonial() {
   const [activeIndex, setActiveIndex] = useState(0);
 
   return (
-    <Section className="">
-      <div id="testimonial" className="w-full rounded-2xl bg-white  py-16 md:py-24 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35">
+    <Section>
+      <div
+        id="testimonial"
+        className="w-full rounded-2xl bg-white py-16 md:py-24 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35"
+      >
         <div className="mx-auto max-w-6xl px-4 md:px-8">
           {/* Header */}
           <motion.div
@@ -74,8 +77,8 @@ function Testimonial() {
               Kisah Sukses
             </H2>
             <Text className="mx-auto max-w-2xl text-slate-600 dark:text-slate-300">
-              Bagaimana SiapKerja membantu profesional mencapai potensi maksimal
-              mereka.
+              Bagaimana SiapKerja membantu talenta digital menguasai keahlian baru
+              dan mencapai potensi karir maksimal mereka.
             </Text>
           </motion.div>
 
@@ -94,8 +97,8 @@ function Testimonial() {
                 onMouseEnter={() => setActiveIndex(index)}
                 className={`group relative flex cursor-pointer flex-col rounded-2xl border-2 p-6 transition-all duration-300 md:p-7 ${
                   activeIndex === index
-                    ? "border-blue-600 bg-blue-50 dark:border-blue-500 dark:bg-slate-800/50"
-                    : "hover:dark:border-white-500 border-slate-200 bg-white hover:border-blue-400 dark:border-slate-700 dark:bg-neutral-900"
+                    ? "border-blue-600 bg-blue-50/50 dark:border-blue-500 dark:bg-neutral-800/80"
+                    : "border-slate-200 bg-white hover:border-blue-400 dark:border-white/10 dark:bg-neutral-900 hover:dark:border-white/25"
                 }`}
               >
                 {/* Quote Mark Icon */}
@@ -125,7 +128,7 @@ function Testimonial() {
                     <H3 className="truncate text-sm font-semibold text-slate-900 md:text-base dark:text-white">
                       {testimonial.name}
                     </H3>
-                    <p className="truncate text-xs md:text-sm lg:text-base text-slate-500 dark:text-slate-400">
+                    <p className="truncate text-xs md:text-sm text-slate-500 dark:text-slate-400">
                       {testimonial.position}
                     </p>
                   </div>
@@ -134,18 +137,19 @@ function Testimonial() {
             ))}
           </motion.div>
 
-          {/* Indicator Dots (Mobile) */}
-          <div className="mt-8 flex justify-center gap-2 ">
+          {/* Indicator Dots */}
+          <div className="mt-8 flex justify-center gap-2">
             {testimonialData.map((_, index) => (
               <button
                 key={index}
+                type="button"
                 onClick={() => setActiveIndex(index)}
                 className={`h-2 rounded-full transition-all ${
                   activeIndex === index
                     ? "w-6 bg-blue-600 dark:bg-blue-400"
-                    : "w-2 bg-slate-300 dark:bg-slate-600"
+                    : "w-2 bg-slate-300 dark:bg-neutral-700"
                 }`}
-                aria-label={`Go to testimonial ${index + 1}`}
+                aria-label={`Pilih testimoni ${index + 1}`}
               />
             ))}
           </div>

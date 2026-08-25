@@ -64,6 +64,7 @@ export const updateCourseStatus = createAsyncThunk(
   },
 );
 
+// 3. UPDATE COURSE DIRECT STATUS
 export const updateCourseDirectStatus = createAsyncThunk(
   "learningRoadmap/updateCourseDirectStatus",
   async function ({ courseId, status }, thunkAPI) {
@@ -79,7 +80,7 @@ export const updateCourseDirectStatus = createAsyncThunk(
             Authorization: `Bearer ${token}`,
             "ngrok-skip-browser-warning": "true",
           },
-          body: JSON.stringify({ status }), // misal: { status: "in_progress" } atau { status: "completed" }
+          body: JSON.stringify({ status }),
         },
       );
 
@@ -87,6 +88,44 @@ export const updateCourseDirectStatus = createAsyncThunk(
       if (!res.ok) return thunkAPI.rejectWithValue(data);
 
       return { courseId, status, responseData: data };
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  },
+);
+
+// 4. SUBMIT COURSE RATING
+export const submitCourseRating = createAsyncThunk(
+  "learningRoadmap/submitCourseRating",
+  async function ({ courseId, rating, review = "" }, thunkAPI) {
+    const token = localStorage.getItem("token");
+    try {
+      // 🚀 PERBAIKAN: Tambahin /v1/ biar route-nya ketemu di Laravel
+      const res = await fetch(
+        `http://127.0.0.1:8000/api/v1/courses/${courseId}/rating`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            Authorization: `Bearer ${token}`,
+            "ngrok-skip-browser-warning": "true",
+          },
+          body: JSON.stringify({ rating, review }),
+        },
+      );
+
+      const data = await res.json();
+      if (!res.ok) return thunkAPI.rejectWithValue(data);
+
+      // 🚀 PERBAIKAN: Ambil data nilai rating terbaru dari response Laravel
+      return {
+        courseId,
+        rating,
+        // Laravel biasanya ngembaliin obj course di dalam `data.data`
+        newRatingFromBackend: data.data?.rating || rating,
+        responseData: data,
+      };
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
@@ -108,11 +147,12 @@ const learningRoadmapSlice = createSlice({
     selectedPathName(state, action) {
       const targetPath = action.payload;
       if (state?.selectedCategoryData && targetPath) {
-        const matchedPath = state.selectedCategoryData.find((item) => {
-          const normalize = (str) =>
-            str?.toLowerCase().replace(/[-_]/g, " ").trim();
-          return normalize(item.path) === normalize(targetPath);
-        });
+        const normalize = (str) =>
+          str?.toLowerCase().replace(/[-_]/g, " ").trim();
+
+        const matchedPath = state.selectedCategoryData.find(
+          (item) => normalize(item.path) === normalize(targetPath),
+        );
 
         if (matchedPath) {
           state.selectedPath = matchedPath.path;
@@ -160,7 +200,6 @@ const learningRoadmapSlice = createSlice({
       .addCase(updateCourseStatus.fulfilled, (state, action) => {
         const { stepId, status } = action.payload;
 
-        // 1. Temukan HANYA course yang memuat step target
         const targetCourse = state.selectedCourses.find((course) =>
           course.steps?.some(
             (step) => String(step.id || step.step) === String(stepId),
@@ -168,7 +207,6 @@ const learningRoadmapSlice = createSlice({
         );
 
         if (targetCourse && targetCourse.steps) {
-          // 2. Temukan dan perbarui status step yang bersangkutan
           const targetStep = targetCourse.steps.find(
             (step) => String(step.id || step.step) === String(stepId),
           );
@@ -177,7 +215,6 @@ const learningRoadmapSlice = createSlice({
             targetStep.status = status;
           }
 
-          // 3. Evaluasi kondisi bisnis menggunakan .every() dan .some()
           const isAllCompleted = targetCourse.steps.every(
             (step) => step.status === "completed",
           );
@@ -187,24 +224,38 @@ const learningRoadmapSlice = createSlice({
               step.status === "completed" || step.status === "in_progress",
           );
 
-          // 4. Update status course sesuai prioritas
           if (isAllCompleted) {
             targetCourse.status = "completed";
           } else if (hasProgress) {
             targetCourse.status = "in_progress";
           }
-          // Jika tidak memenuhi keduanya (belum dimulai/masih locked), status course tidak diubah (tetap aslinya).
         }
       })
+
+      // UPDATE COURSE DIRECT STATUS
       .addCase(updateCourseDirectStatus.fulfilled, (state, action) => {
         const { courseId, status } = action.payload;
 
         const targetCourse = state.selectedCourses.find(
-          (c) => String(c.course_id) === String(courseId),
+          (c) => String(c.course_id || c.id) === String(courseId),
         );
 
         if (targetCourse) {
           targetCourse.status = status;
+        }
+      })
+
+      // SUBMIT RATING CASE
+      .addCase(submitCourseRating.fulfilled, (state, action) => {
+        const { courseId, rating, newRatingFromBackend } = action.payload;
+
+        const targetCourse = state.selectedCourses.find(
+          (c) => String(c.course_id || c.id) === String(courseId),
+        );
+
+        if (targetCourse) {
+          targetCourse.user_rating = rating; // Nilai asli yang dikasih user ini
+          targetCourse.rating = newRatingFromBackend; // Nilai rating yang nampil di UI
         }
       });
   },
@@ -218,29 +269,3 @@ export const {
 } = learningRoadmapSlice.actions;
 
 export default learningRoadmapSlice.reducer;
-
-//  .addCase(updateCourseStatus.fulfilled, (state, action) => {
-//         const { stepId, status } = action.payload;
-
-//         // Cari dan ubah status step di selectedCourses
-//         state.selectedCourses.forEach((course) => {
-//           course.steps?.forEach((step) => {
-//             if (String(step.id || step.step) === String(stepId)) {
-//               step.status = status;
-//             }
-//           });
-
-//           // Jika course tadinya locked dan ada step yang jalan, aktifkan course-nya
-//           if (course.status === "locked") {
-//             course.status = "in_progress";
-//           }
-
-//           // Jika semua step selesai, set course menjadi completed
-//           const allCompleted = course.steps?.every(
-//             (s) => s.status === "completed",
-//           );
-//           if (allCompleted) {
-//             course.status = "completed";
-//           }
-//         });
-//       })

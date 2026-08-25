@@ -10,12 +10,12 @@ const dataSetting = {
     kataSandiBaru: "", // Placeholder untuk input "Masukkan kata sandi baru"
   },
   pengaturanLainnya: [
-    {
-      id: 3,
-      kategori: "Nama Pengguna",
-      status: "Ubah nama", // Khusus untuk nama dan foto
-      icon: "fa-user",
-    },
+    // {
+    //   id: 3,
+    //   kategori: "Nama Pengguna",
+    //   status: "Ubah nama", // Khusus untuk nama dan foto
+    //   icon: "fa-user",
+    // },
     {
       id: 4,
       kategori: "Alamat Email", // Menjadi menu tersendiri

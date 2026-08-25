@@ -1,85 +1,44 @@
 import Section from "../../../ui/Section";
-import H2 from "../../../ui/H2";
 import TopBar from "../../../ui/TopBar";
-import Button from "../../../ui/Button";
 import HeaderSection from "./../components/HeaderSection";
 import dataSetting from "./components/dataSetting";
 import OtherSettingsItems from "./components/OtherSettingsItems";
 import SettingModal from "./components/SettingModal";
-import Text from "../../../ui/Text";
-import Password from "../../../ui/Password";
-import { useEffect, useState } from "react";
-import { validatePassword } from "../../../util/helpers";
-import { cardVariants } from "../../../util/animations";
-import { motion } from "framer-motion"; // 1. Import Framer Motion
-import { useDispatch, useSelector } from "react-redux";
 import Loader from "../../../ui/Loader";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { logoutUserThunk } from "../../../features/auth/authSlice";
+import {
+  updateProfile,
+  updatePassword,
+} from "../../../features/dashboard/profileSlice";
 import { useNavigate } from "react-router";
 
 function Setting() {
-  // const { settingData, isLoading, error } = useSelector(
-  //   (state) => state.setting,
-  // );
-  const { isLoading: isLoadingLogout, error: errorLogout } = useSelector(
-    (state) => state.auth,
+  const { isLoading: isLoadingLogout } = useSelector((state) => state.auth);
+  const { data: profileData, isLoading: isLoadingProfile } = useSelector(
+    (state) => state.profile,
   );
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { profilPengguna, keamanan, pengaturanLainnya } = dataSetting;
-  const { namaLengkap, email, fotoProfil } = profilPengguna;
+  const email = profileData?.email ?? "";
 
-  const [inputPasswordOld, setInputPasswordOld] = useState("");
-  const [textErrorInputPasswordOld, setTextErrorInputPasswordOld] =
-    useState("");
-  const [inputPasswordNew, setInputPasswordNew] = useState("");
-  const [textErrorInputPasswordNew, setTextErrorInputPasswordNew] =
-    useState("");
-
-  const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1024);
   const [activeModal, setActiveModal] = useState(null);
-  const [nameDraft, setNameDraft] = useState("");
   const [emailDraft, setEmailDraft] = useState("");
+
+  // 3 State untuk ubah password sesuai validasi backend Laravel
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
+  const [newPasswordConfirmation, setNewPasswordConfirmation] = useState("");
   const [modalError, setModalError] = useState("");
 
-  function handleSubmit() {
-    const passworErrordOld = validatePassword(inputPasswordOld);
-    const passwordErrorNew = validatePassword(inputPasswordNew);
-
-    setTextErrorInputPasswordOld(passworErrordOld);
-    setTextErrorInputPasswordNew(passwordErrorNew);
-  }
-
-  function handleLogout() {
-    dispatch(logoutUserThunk())
-      .unwrap()
-      .then(() => {
-        navigate("/login");
-      })
-      .catch((err) => {
-        console.error("Logout gagal:", err);
-        navigate("/login");
-      });
-  }
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsDesktop(window.innerWidth >= 1024);
-    };
-
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
   const resetModalForm = () => {
-    setNameDraft("");
     setEmailDraft("");
     setCurrentPassword("");
     setNewPassword("");
+    setNewPasswordConfirmation("");
     setModalError("");
   };
 
@@ -93,48 +52,25 @@ function Setting() {
     resetModalForm();
   };
 
+  function handleLogout() {
+    dispatch(logoutUserThunk())
+      .unwrap()
+      .then(() => navigate("/login"))
+      .catch((err) => {
+        console.error("Logout gagal:", err);
+        navigate("/login");
+      });
+  }
+
   const openModalFields = {
-    "Nama Pengguna": {
-      title: "Nama Pengguna",
-      submitLabel: "Simpan Perubahan",
-      fields: [
-        {
-          type: "text",
-          label: "Nama Saat Ini",
-          value: profilPengguna?.namaLengkap ?? "",
-          disabled: true,
-        },
-        {
-          type: "text",
-          label: "Nama Baru",
-          value: nameDraft,
-          placeholder: "Masukkan nama lengkap baru",
-          onChange: (e) => {
-            setNameDraft(e.target.value);
-            if (modalError) setModalError("");
-          },
-        },
-      ],
-      onSubmit: () => {
-        const trimmed = nameDraft.trim();
-        const validationError = trimmed ? "" : "Nama tidak boleh kosong.";
-
-        if (validationError) {
-          setModalError(validationError);
-          return;
-        }
-
-        handleCloseModal();
-      },
-    },
     "Alamat Email": {
       title: "Alamat Email",
-      submitLabel: "Simpan Perubahan",
+      submitLabel: isLoadingProfile ? "Menyimpan..." : "Simpan Perubahan",
       fields: [
         {
           type: "email",
           label: "Email Saat Ini",
-          value: profilPengguna?.email ?? "",
+          value: email || "Belum ada email",
           disabled: true,
         },
         {
@@ -161,12 +97,19 @@ function Setting() {
           return;
         }
 
-        handleCloseModal();
+        dispatch(updateProfile({ email: trimmed }))
+          .unwrap()
+          .then(() => {
+            handleCloseModal();
+          })
+          .catch((err) => {
+            setModalError(err || "Gagal memperbarui alamat email.");
+          });
       },
     },
     "Keamanan Pengguna": {
       title: "Keamanan Pengguna",
-      submitLabel: "Simpan Perubahan",
+      submitLabel: isLoadingProfile ? "Menyimpan..." : "Simpan Kata Sandi",
       fields: [
         {
           type: "password",
@@ -182,60 +125,73 @@ function Setting() {
           type: "password",
           label: "Kata Sandi Baru",
           value: newPassword,
-          placeholder: "Masukkan kata sandi baru",
+          placeholder: "Minimal 8 karakter",
           onChange: (e) => {
             setNewPassword(e.target.value);
             if (modalError) setModalError("");
           },
         },
+        {
+          type: "password",
+          label: "Konfirmasi Kata Sandi Baru",
+          value: newPasswordConfirmation,
+          placeholder: "Ulangi kata sandi baru",
+          onChange: (e) => {
+            setNewPasswordConfirmation(e.target.value);
+            if (modalError) setModalError("");
+          },
+        },
       ],
       onSubmit: () => {
-        const currentError =
-          currentPassword.length >= 8
-            ? ""
-            : "Kata sandi tidak boleh kosong atau kurang dari 8 karakter.";
-        const newError =
-          newPassword.length >= 8 ? "" : "Kata sandi baru minimal 8 karakter.";
-        const validationError = currentError || newError;
-
-        if (validationError) {
-          setModalError(validationError);
+        if (!currentPassword) {
+          setModalError("Kata sandi saat ini harus diisi.");
+          return;
+        }
+        if (newPassword.length < 8) {
+          setModalError("Kata sandi baru minimal 8 karakter.");
+          return;
+        }
+        if (newPassword !== newPasswordConfirmation) {
+          setModalError("Konfirmasi kata sandi baru tidak cocok.");
           return;
         }
 
-        handleCloseModal();
+        const payload = {
+          current_password: currentPassword,
+          new_password: newPassword,
+          new_password_confirmation: newPasswordConfirmation,
+        };
+
+        dispatch(updatePassword(payload))
+          .unwrap()
+          .then(() => {
+            handleCloseModal();
+          })
+          .catch((err) => {
+            setModalError(err || "Gagal memperbarui kata sandi.");
+          });
       },
     },
   };
 
   const activeModalConfig = activeModal ? openModalFields[activeModal] : null;
 
-  // if (isLoading) {
-  //   return <Loader />;
-  // }
-
-  // if (error) return <Error />;
-
   if (isLoadingLogout) {
     return <Loader />;
   }
 
-  if (errorLogout) return <Error />;
   return (
     <Section>
       <div className="flex flex-col gap-7 pb-7">
-        {/* Top bar Lg */}
         <TopBar
-          placeholder="cari peran, keahlian, atau industri"
+          placeholder="Cari preferensi atau pengaturan..."
           isSerch={false}
         />
-        {/* Header Section */}
         <HeaderSection
           title="Pengaturan"
-          description="Kelola preferensi akun dan aplikasi anda"
-        ></HeaderSection>
+          description="Kelola preferensi akun dan keamanan Anda"
+        />
 
-        {/* Pengaturan lainnya */}
         <div className="grid overflow-hidden rounded-2xl bg-white px-3 pb-7 sm:px-7 md:grid-cols-2 md:gap-3 md:p-7 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35">
           {dataSetting.pengaturanLainnya.map((item) => (
             <OtherSettingsItems
@@ -260,23 +216,17 @@ function Setting() {
           />
         )}
 
-        <div
-          onClick={handleLogout}
-          className="flex cursor-pointer items-center justify-end gap-40"
-        >
-          <div className="inline-block">
-            <div className="jus flex items-center justify-center justify-items-center gap-1 rounded-2xl bg-red-500 px-5 py-2 transition-all duration-300 hover:bg-red-600">
-              <div className="flex items-center gap-3">
-                <h3 className="inline-block pb-1 text-sm font-semibold text-white sm:text-lg lg:text-xl">
-                  Logout
-                </h3>
-                <i className="fa-solid fa-arrow-right-from-bracket text-xl text-white sm:text-xl lg:text-2xl"></i>
-                {/* <Text className="text-sm text-white">
-                  Akhiri sesi dan keluar dari akun
-                </Text> */}
-              </div>
-            </div>
-          </div>
+        <div className="flex items-center justify-end">
+          <button
+            type="button"
+            onClick={handleLogout}
+            className="flex items-center gap-3 rounded-2xl bg-red-500 px-5 py-2.5 transition-all duration-300 hover:bg-red-600 active:scale-95"
+          >
+            <span className="text-sm font-semibold text-white sm:text-base lg:text-lg">
+              Logout
+            </span>
+            <i className="fa-solid fa-arrow-right-from-bracket text-lg text-white sm:text-xl"></i>
+          </button>
         </div>
       </div>
     </Section>
