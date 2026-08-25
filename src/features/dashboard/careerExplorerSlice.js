@@ -75,40 +75,32 @@ const careerExplorerSlice = createSlice({
   reducers: {
     catagory(state, action) {
       const keyword = action.payload
-        ? action.payload.trim().toLowerCase()
+        ? String(action.payload).trim().toLowerCase()
         : "semua";
       const allJobs = state.careersData?.data || [];
 
-      // 1. Simpan kategori aktif terpisah (tanpa merusak is_saved pada data job)
       state.activeCategory = keyword;
-      console.info(state.activeCategory);
 
-      // 2. Jika "semua" atau string kosong, tampilkan seluruh data
+      // 1. Jika memilih "semua" atau kosong, tampilkan seluruh data
       if (keyword === "semua" || keyword === "") {
         state.filteredJobs = allJobs;
         return;
       }
 
-      // 3. Filter data lowongan
+      // 2. Filter data
       state.filteredJobs = allJobs.filter((item) => {
         const categoryId = item?.category?.id?.toLowerCase() || "";
+        const categoryName = item?.category?.name?.toLowerCase() || "";
         const titleLower = item?.title?.toLowerCase() || "";
-        const companyLower = item?.company?.toLowerCase() || "";
-
-        // Cegah error jika skills bernilai null
         const skillsString = Array.isArray(item?.skills)
           ? item.skills.join(" ").toLowerCase()
           : "";
 
-        // A. Cocokkan langsung jika tombol kategori yang ditekan (misal: 'teknologi', 'bisnis', 'kreatif')
-        if (categoryId === keyword) {
-          return true;
-        }
-
-        // B. Pencarian bebas berdasarkan judul, perusahaan, atau skill
+        // Cocokkan id/nama kategori, judul, atau skill
         return (
+          categoryId === keyword ||
+          categoryName === keyword ||
           titleLower.includes(keyword) ||
-          companyLower.includes(keyword) ||
           skillsString.includes(keyword)
         );
       });

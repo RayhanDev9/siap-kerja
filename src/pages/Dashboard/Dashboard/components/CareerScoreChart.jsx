@@ -1,9 +1,34 @@
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 import dashboardData from "./dashboardData";
+import { useSelector } from "react-redux";
 
 const CareerScoreChart = () => {
   // Data skor: 78 didapatkan, sisa 22 kosong (untuk mencapai 100)
-  const { scoreData } = dashboardData.careerReadiness;
+  const { selectedCourses } = useSelector((state) => state.learningRoadmap);
+
+  const allSteps = selectedCourses.flatMap((item) => item.steps);
+  const courseStepComplated = selectedCourses.flatMap((item) =>
+    item.steps.filter((step) => step.status === "completed"),
+  );
+
+  // useEffect(
+  //   function () {
+  //     if (!isLoading) {
+  //       dispatch(selectCourseStepComplated());
+  //     }
+  //   },
+  //   [isLoading, dispatch, courseStepComplated],
+  // );
+
+  const progressPercentage =
+    allSteps.length > 0
+      ? Math.round((courseStepComplated.length / allSteps.length) * 100)
+      : 0;
+
+  const data = [
+    { name: "Skor", value: progressPercentage },
+    { name: "Sisa", value: 100 - progressPercentage },
+  ];
 
   return (
     // Wrapper div dengan class relative agar teks angka bisa diletakkan tepat di tengah
@@ -22,12 +47,12 @@ const CareerScoreChart = () => {
             fill="none"
             // Warna ungu muda (setara Tailwind purple-100)
             isAnimationActive={false}
-            className="stroke-white "
+            className="stroke-white"
           />
 
           {/* 2. Lapisan Lingkaran Skor Utama (Ungu Tua Terpotong) */}
           <Pie
-            data={scoreData}
+            data={data}
             dataKey="value"
             cx="50%"
             cy="50%"
@@ -40,7 +65,7 @@ const CareerScoreChart = () => {
             {/* Bagian Skor (78) */}
             <Cell
               fill="none"
-             // Warna ungu tua (setara Tailwind violet-600)
+              // Warna ungu tua (setara Tailwind violet-600)
               strokeDasharray="35 15" // Efek putus-putus: 35px garis, 15px celah/spasi
               strokeLinecap="round" // Membuat ujung potongan menjadi melengkung
               className="stroke-purple-700 dark:stroke-purple-500"
@@ -53,7 +78,7 @@ const CareerScoreChart = () => {
 
       {/* Teks Skor di Tengah Lingkaran */}
       <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <span className="text-4xl font-bold text-blue-600">78</span>
+        <span className="text-4xl font-bold text-blue-600">{progressPercentage}</span>
         <span className="text-sm font-semibold text-gray-500">/ 100</span>
       </div>
     </div>

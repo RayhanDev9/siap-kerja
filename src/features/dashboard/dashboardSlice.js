@@ -6,6 +6,9 @@ const initialState = {
 
   // Status untuk menampilkan animasi loading/skeleton
   isLoading: false,
+  aiReadiness: {},    // Ubah jadi object
+  prioritySkills: [],
+  dataChart: [],
 
   // Menyimpan pesan error jika API gagal dipanggil
   error: null,
@@ -17,13 +20,12 @@ export const fetchDashboard = createAsyncThunk(
     const token = localStorage.getItem("token");
 
     try {
-      // PERHATIAN: Pastikan endpoint URL ini sesuai dengan backend kamu
       const res = await fetch(`http://127.0.0.1:8000/api/v1/user/dashboard`, {
         method: "GET",
         headers: {
           Accept: "application/json",
           Authorization: `Bearer ${token}`,
-          "ngrok-skip-browser-warning": "true", // <-- Tambahkan baris ini
+          "ngrok-skip-browser-warning": "true", 
         },
       });
 
@@ -43,18 +45,28 @@ export const fetchDashboard = createAsyncThunk(
 const dashboardSlice = createSlice({
   name: "dashboard",
   initialState,
-  reducers: {},
+  reducers: {
+    selectAllDataDashbord(state, action) {
+      const key = action.payload;
+      // PERBAIKAN: Tadi pakai skillGapData (undefined), harusnya dashboardData
+      const rawData = state.dashboardData?.data; 
+
+      if (rawData && key) {
+        // Otomatis ngambil data sesuai dengan PATH yang terpilih
+        state.aiReadiness = rawData.aiReadiness?.[key] || {};
+        state.prioritySkills = rawData.prioritySkills?.[key] || [];
+        state.dataChart = rawData.dataChart?.[key] || [];
+      }
+    },
+  },
   extraReducers: (builder) =>
     builder
       .addCase(fetchDashboard.pending, (state) => {
         state.isLoading = true;
-        state.error = null; // Bersihkan error sebelumnya saat mencoba fetch ulang
+        state.error = null;
       })
       .addCase(fetchDashboard.fulfilled, (state, action) => {
         state.isLoading = false;
-
-        // Kita gunakan spread operator (...) agar properti bawaan seperti 'user'
-        // tidak terhapus jika dari API kebetulan tidak mengirimkannya.
         state.dashboardData = action.payload;
       })
       .addCase(fetchDashboard.rejected, (state, action) => {
@@ -63,4 +75,5 @@ const dashboardSlice = createSlice({
       }),
 });
 
+export const { selectAllDataDashbord } = dashboardSlice.actions;
 export default dashboardSlice.reducer;

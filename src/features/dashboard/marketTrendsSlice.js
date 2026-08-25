@@ -1,14 +1,11 @@
-import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-// 1. UBAH NAMA: Tambahkan kata "fetch" agar jelas bahwa ini fungsi untuk mengambil data
 export const fetchMarketTrends = createAsyncThunk(
   "marketTrends/fetchMarketTrendsData",
-  // Gunakan '_' jika tidak ada data body yang dikirim (karena ini GET)
   async function (_, thunkAPI) {
     try {
       const token = localStorage.getItem("token");
 
-      // 2. PERBAIKAN FETCH: Tambahkan await, benarkan method, dan bungkus headers
       const res = await fetch(
         `http://127.0.0.1:8000/api/v1/user/market-trends`,
         {
@@ -17,7 +14,7 @@ export const fetchMarketTrends = createAsyncThunk(
             "Content-Type": "application/json",
             Accept: "application/json",
             Authorization: `Bearer ${token}`,
-            "ngrok-skip-browser-warning": "true", // <-- Tambahkan baris ini
+            "ngrok-skip-browser-warning": "true",
           },
         },
       );
@@ -37,8 +34,10 @@ export const fetchMarketTrends = createAsyncThunk(
 
 const initialState = {
   marketTrendsData: null,
-
-  marketSelected: null,
+  // Tambahan state untuk fitur filter Tab
+  filteredMarketTrends: [], 
+  activeCategory: "semua", 
+  
   isLoading: false,
   error: null,
 };
@@ -47,36 +46,46 @@ const marketTrendsSlice = createSlice({
   name: "marketTrends",
   initialState,
   reducers: {
-    selectedMarketTrend: (state, action) => {
-      const payload = action.payload || "";
-      const rawData =
-        state.marketTrendsData?.data || state.marketTrendsData || {};
+    // Fungsi ini persis kayak di careerExplorerSlice
+    filterCategory(state, action) {
+      const keyword = action.payload
+        ? String(action.payload).trim().toLowerCase()
+        : "semua";
+      
+      const allTrends = state.marketTrendsData?.data || [];
+      state.activeCategory = keyword;
 
-      state.marketSelected =
-        rawData.find((item) => item.category === "teknologi") || null;
+      // Jika "semua", kembalikan seluruh data array utuh
+      if (keyword === "semua" || keyword === "") {
+        state.filteredMarketTrends = allTrends;
+        return;
+      }
+
+      // Jika milih salah satu (Teknologi/Bisnis/Kreatif), filter berdasarkan nama kategori
+      state.filteredMarketTrends = allTrends.filter((item) => {
+        const cat = item.category?.toLowerCase() || "";
+        const label = item.category_label?.toLowerCase() || "";
+        return cat === keyword || label === keyword;
+      });
     },
   },
   extraReducers: (builder) =>
     builder
-      // Saat sedang loading (pending)
       .addCase(fetchMarketTrends.pending, (state) => {
         state.isLoading = true;
         state.error = null;
       })
-      // 3. CARA MENGISI RESPONSE SUKSES (fulfilled)
       .addCase(fetchMarketTrends.fulfilled, (state, action) => {
         state.isLoading = false;
-        // Langsung timpa seluruh marketTrendsData dengan data asli dari action.payload
         state.marketTrendsData = action.payload;
+        // Jadikan data utuh sebagai nilai awal filteredMarketTrends
+        state.filteredMarketTrends = action.payload.data; 
       })
-      // 4. PERBAIKAN REJECTED: Gunakan .rejected, bukan .rejectWithValue
       .addCase(fetchMarketTrends.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.payload; // Simpan errornya ke dalam state.error
-        console.error("Gagal ambil market trends:", action.payload);
+        state.error = action.payload;
       }),
 });
 
-export const { selectedMarketTrend } = marketTrendsSlice.actions;
-
+export const { filterCategory } = marketTrendsSlice.actions;
 export default marketTrendsSlice.reducer;

@@ -2,11 +2,12 @@ import { cardVariants } from "../../../../util/animations";
 import { motion } from "framer-motion"; // 1. Import Framer Motion
 
 export const MarketDemandCardItems = ({ title, level, icon, bgClass, textClass }) => {
+  console.info(icon)
   return (
     <motion.div variants={cardVariants}
       className={`flex flex-col items-center justify-center gap-3 rounded-2xl border p-5 text-center ${bgClass} dark:border dark:border-white/25 dark:bg-black hover:dark:border-white/35`}
     >
-      <i className={`fa-solid ${icon} text--base sm:text-lg lg:text-xl ${textClass}`}></i>
+      <i className={`fa-solid fa-${icon} text--base sm:text-lg lg:text-xl ${textClass}`}></i>
       <div className="flex flex-col gap-0.5">
         <span className="font-medium text-base md:text-lg lg:text-xl text-gray-900 dark:text-white/80">
           {title}

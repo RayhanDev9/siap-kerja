@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { motion } from "framer-motion";
 
 import HeaderSection from "./../components/HeaderSection";
-import CareerProgressionChart from "./components/CareerProgressionChart";
-import Skills from "./components/MostWantedSkillsItems";
+import JobGrowthChart from "./components/JobGrowthChart";
+import Skills from "./components/Skills";
 import SalaryAnalysisItems from "./components/SalaryAnalysisItems";
 import Section from "./../../../ui/Section";
 import H2 from "./../../../ui/H2";
@@ -13,77 +13,107 @@ import Error from "../../../ui/Error";
 import TopBar from "../../../ui/TopBar";
 import Text from "../../../ui/Text";
 import { cardVariants } from "../../../util/animations";
+// Jangan lupa import action filter-nya
 import {
   fetchMarketTrends,
-  selectedMarketTrend,
+  filterCategory,
 } from "../../../features/dashboard/marketTrendsSlice";
+import FilterCategoriesItems from "../CareerExplorer/components/FilterCategoriesItems";
+
+const filterCategories = [
+  { id: "all", label: "Semua", detail: "Kategori" },
+  { id: "tech", label: "Teknologi" },
+  { id: "business", label: "Bisnis" },
+  { id: "creative", label: "Kreatif" },
+];
 
 function MarketTrends() {
   const dispatch = useDispatch();
-  const { isLoading, error, marketTrendsData, marketSelected } = useSelector(
-    (state) => state.marketTrends,
-  );
-  const { data } = useSelector((state) => state.profile);
 
-  // 1. Fetch data API jika belum ada
-  // useEffect(() => {
-  //   dispatch(fetchMarketTrends());
-  // }, []);
+  // Ambil state filter dari Redux
+  const { isLoading, error, filteredMarketTrends, activeCategory } =
+    useSelector((state) => state.marketTrends);
 
-  // 2. Set marketSelected jika data & category_slug sudah tersedia
   useEffect(() => {
-    console.info(data?.category_slug);
-    if (marketTrendsData && data?.category_slug) {
-      dispatch(selectedMarketTrend(data.category_slug));
-    }
-  }, [marketTrendsData, data?.category_slug, dispatch]);
+    // 1. Fetch data pertama kali render
+    dispatch(fetchMarketTrends());
+  }, [dispatch]);
 
-  // 3. Tahan render sampai marketSelected benar-benar terisi
-  if (isLoading || !marketTrendsData || !marketSelected) {
+  // Handle klik tombol tab
+  function handleCategoryClick(categoryLabel) {
+    dispatch(filterCategory(categoryLabel));
+  }
+
+  // Handle input pencarian (kalau perlu)
+  function handleCategorySearch(e) {
+    if (e.target.value.length < 5 && e.target.value !== "") return;
+    dispatch(filterCategory(e.target.value));
+  }
+
+  if (isLoading) return <Loader />;
+  if (error) return <Error />;
+
+  // Mencegah error jika data belum siap
+  if (!filteredMarketTrends || filteredMarketTrends.length === 0) {
     return <Loader />;
   }
 
-  if (error) return <Error />;
+  // Karena user bisa milih "Semua" (array ada 3 object), atau milih "Teknologi" (array 1 object),
+  // Kita ambil index ke-0 (paling atas) dari hasil filter sebagai data utama yang ditampilkan di UI.
+  const currentTrendData = filteredMarketTrends[0] || {};
 
-  // 4. Ambil data langsung dari marketSelected (Dinamis)
-  const { title, period, trend_text: text } = marketSelected.jobGrowth || {};
-  const { topSkills } = marketSelected || {};
-  const { title: titleSalaryAnalysis, salaryAnalysis = [] } = marketSelected;
+  const { jobGrowth, topSkills = [], salaryAnalysis = [] } = currentTrendData;
+  const { trend_text = "+0%" } = jobGrowth || {};
 
   return (
     <Section>
       <div className="flex flex-col gap-5 pb-7">
-        {/* Top bar Lg */}
-
         <TopBar
-          placeholder="cari peran, keahlian, atau industri"
-          isSerch={false}
+          placeholder="Cari peran, keahlian, atau industri"
+          onChange={handleCategorySearch}
         />
-        {/* Header section */}
+
         <HeaderSection
-          title={"Tren Pasar"}
-          description={"Wawasan industri teknologi terkini di Indonesia."}
+          title="Tren Pasar"
+          description="Wawasan industri teknologi terkini di Indonesia."
         />
-        <div className="grid grid-cols-1 gap-7 lg:grid-cols-3 ">
-          {/* jobGrowth */}
+
+        {/* Tab Filter Categories */}
+        <div className="no-scrollbar flex gap-3 overflow-x-auto py-2 whitespace-nowrap">
+          {filterCategories.map((item) => (
+            <FilterCategoriesItems
+              key={item.id}
+              id={item.id}
+              label={item.label}
+              allDetail={item.detail ? item.detail : ""}
+              // Bandingkan label tab dengan activeCategory di Redux
+              isActive={item.label.toLowerCase() === activeCategory}
+              onClick={handleCategoryClick}
+            />
+          ))}
+        </div>
+
+        <div className="grid grid-cols-1 gap-7 lg:grid-cols-3">
+          {/* Job Growth Chart */}
           <motion.div
             variants={cardVariants}
-            className="xs:min-w-lg flex flex-col gap-3.5  rounded-2xl bg-white p-7 max-lg:mx-auto sm:min-w-xl lg:col-span-2 lg:min-w-0 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35 "
+            className="xs:min-w-lg flex flex-col gap-3.5 rounded-2xl bg-white p-7 max-lg:mx-auto sm:min-w-xl lg:col-span-2 lg:min-w-0 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35"
           >
             <div className="flex justify-between">
-              <H2 type="secondry">{'Pertumbuhan Pekerjaan'}</H2>
+              <H2 type="secondry">Pertumbuhan Pekerjaan</H2>
               <Text className="flex gap-1.5">
                 <i className="fa-solid fa-arrow-trend-up trend-icon self-center text-xs"></i>
-                <span className="inline-block self-center">{text}</span>
+                <span className="inline-block self-center">{trend_text}</span>
               </Text>
             </div>
             <div className="">
-              <Text className="slef-end">{'Q3 2025 vs Q3 2026'}</Text>
-              <CareerProgressionChart />
+              <Text className="slef-end">Q3 2025 vs Q3 2026</Text>
+              {/* Kirim datanya ke dalam chart jika komponen chart lu butuh props */}
+              <JobGrowthChart chartData={jobGrowth?.chartData} />
             </div>
           </motion.div>
 
-          {/* topSkills */}
+          {/* Top Skills List */}
           <div className="flex flex-col gap-5 lg:col-span-1">
             <motion.div variants={cardVariants}>
               <H2 type="secondry">Keahlian Paling Dicari</H2>
@@ -96,24 +126,24 @@ function MarketTrends() {
                 description={item.description}
                 icon={item.icon}
                 thame={item.variant}
-                key={item.rank}
+                key={item.id}
               />
             ))}
           </div>
         </div>
 
-        {/* Salary analysis */}
+        {/* Salary Analysis */}
         <div className="">
           <motion.div variants={cardVariants}>
-            {" "}
             <H2 type="secondry">Analisis Gaji</H2>
           </motion.div>
           <div className="grid grid-cols-1 justify-items-center gap-5 py-7 md:grid-cols-2">
-            {salaryAnalysis.map((item) => (
+            {salaryAnalysis.map((item, index) => (
               <SalaryAnalysisItems
+                key={index}
                 role={item.role}
                 salaryRange={item.salaryRange}
-                description={item.description}
+                description={item.description} // Jika ada deskripsinya
                 progressPercentage={item.progressPercentage}
               />
             ))}

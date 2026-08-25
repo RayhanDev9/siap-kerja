@@ -1,6 +1,5 @@
 import TopBar from "../../../ui/TopBar";
 import Section from "../../../ui/Section";
-// import dashboardData from "./components/dashboardData";
 import CareerScoreChart from "./components/CareerScoreChart";
 import CareerRecommendationsItems from "./components/CareerRecommendationsItems";
 import PrioritySkillsGapItems from "./components/PrioritySkillsGapItems";
@@ -8,48 +7,79 @@ import HeaderSection from "../components/HeaderSection";
 import Text from "../../../ui/Text";
 import H3 from "../../../ui/H3";
 import H2 from "../../../ui/H2";
-import { motion } from "framer-motion"; // 1. Import Framer Motion
+import { motion } from "framer-motion";
 import { cardVariants } from "../../../util/animations";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Loader from "../../../ui/Loader";
 import { getDate } from "../../../util/helpers";
 import Button from "../../../ui/Button";
+import { useNavigate } from "react-router";
+import { useEffect } from "react";
+import { selectAllDataDashbord } from "../../../features/dashboard/dashboardSlice";
 
 function Dashboard() {
-  const { dashboardData, isLoading, error } = useSelector(
-    (state) => state.dashboard,
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  // Ambil state dari Redux Dashboard
+  const {
+    dashboardData,
+    isLoading,
+    error,
+    aiReadiness,
+    prioritySkills,
+    dataChart,
+  } = useSelector((state) => state.dashboard);
+
+  // Ambil Profile & Analytics untuk Fallback
+  const { data: profileData } = useSelector((state) => state.profile);
+  const learningProgress = useSelector(
+    (state) =>
+      state.analytics?.analyticsData?.data?.learning_progress
+        ?.completed_courses_count || 0,
   );
+  const name = useSelector((state) => state.auth?.user?.name || "User");
 
-  const { name } = useSelector((state) => state.auth.user);
+  // Effect untuk me-map data dinamis ketika path / dashboardData tersedia
+  useEffect(() => {
+    if (profileData?.target_role_slug && dashboardData?.data) {
+      const formattedSlug = profileData.target_role_slug
+        .toLowerCase()
+        .replace(/[-\s]+/g, "_");
 
-  if (isLoading) {
+      dispatch(selectAllDataDashbord(formattedSlug));
+    }
+  }, [dispatch, profileData, dashboardData]);
+
+  // Loading Screen (Penting: pastiin data API udah masuk sebelum render)
+  if (isLoading || !dashboardData?.data) {
     return <Loader />;
   }
 
-  if (error) return <Error />;
+  if (error) return <div>Error memuat data dashboard.</div>;
 
-  const { progressMessage } = dashboardData.careerReadiness;
-  const { grade, description } = dashboardData.metrics.aiReadiness;
-  const { days, label } = dashboardData.metrics.learningStreak;
-
-  const { prioritySkills } = dashboardData;
-
-  const { careerRecommendations } = dashboardData;
+  // === AMBIL DATA DENGAN AMAN ===
+  // Nilai default dikasih biar gak error "Cannot read properties of undefined"
+  const { grade = "C", description = "Mulai Belajar" } = aiReadiness || {};
+  const { days = 0, label = "Hari" } =
+    dashboardData.data.metrics?.learningStreak || {};
+  const careerRecommendations = dashboardData.data.careerRecommendations || [];
 
   return (
     <Section>
       <div className="flex flex-col gap-5">
-        {/* Top bar Lg */}
+        {/* Top bar */}
         <TopBar
           placeholder="cari peran, keahlian, atau industri"
           isSerch={false}
         />
-        {/* username */}
+
+        {/* Username & Tanggal */}
         <HeaderSection title={name} description={getDate()} />
 
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
           <div className="flex flex-col gap-5 lg:col-span-1">
-            {/* Career readiness*/}
+            {/* Career readiness */}
             <motion.div
               variants={cardVariants}
               className="flex flex-col justify-center rounded-2xl bg-white p-7 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35"
@@ -58,12 +88,14 @@ function Dashboard() {
                 Skor kesiapan karir
               </H2>
               <div className="flex flex-col items-center">
-                <CareerScoreChart />
-                <Text className="p-3">{progressMessage}</Text>
+                <CareerScoreChart dataChart={dataChart} />
+                <Text className="p-3">
+                  Kesiapan kamu meningkat {learningProgress} poin bulan ini
+                </Text>
               </div>
             </motion.div>
 
-            {/* interesting card */}
+            {/* AI Readiness & Streak Card */}
             <motion.div
               variants={cardVariants}
               className="grid grid-cols-2 gap-3"
@@ -86,7 +118,6 @@ function Dashboard() {
               <div className="space-y-8 rounded-2xl border-white/25 bg-white p-7 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35">
                 <div className="flex gap-2">
                   <i className="fa-solid fa-fire-flame-curved self-center text-xl text-orange-600 dark:text-orange-500"></i>
-
                   <p className="truncate text-lg font-medium sm:text-xl lg:text-2xl">
                     Streak Belajar
                   </p>
@@ -101,7 +132,7 @@ function Dashboard() {
           </div>
 
           <div className="flex flex-col gap-5 lg:col-span-2">
-            {/* priority skills gap */}
+            {/* Priority Skills Gap */}
             <motion.div
               variants={cardVariants}
               className="flex flex-col justify-center gap-5 rounded-2xl bg-white p-7 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35"
@@ -115,15 +146,17 @@ function Dashboard() {
                     </span>
                   </H2>
                 </div>
-                <Button to="/skillGap">
-                  <p className="self-center text-lg text-blue-700 dark:text-blue-500">
-                    Lihat <i className="fa fa-solid fa-arrow-right"></i>
+                {/* PERBAIKAN: Button Navigate pakai Arrow Function biar gak crash */}
+                <button onClick={() => navigate("/skillGap")} className="z-50">
+                  <p className="z-50 self-center text-lg text-blue-700 dark:text-blue-500">
+                    Lihat <i className="fa fa-solid fa-arrow-right z-50"></i>
                   </p>
-                </Button>
+                </button>
               </div>
 
               <div className="flex flex-col items-center gap-3">
-                {prioritySkills.map((item) => (
+                {/* Looping data Priority Skills dari Redux secara Dinamis */}
+                {prioritySkills?.map((item) => (
                   <PrioritySkillsGapItems
                     title={item.title}
                     subtitle={item.subtitle}
@@ -134,8 +167,7 @@ function Dashboard() {
               </div>
             </motion.div>
 
-            {/* Carear rekomendasi */}
-
+            {/* Career Rekomendasi */}
             <motion.div
               variants={cardVariants}
               className="flex flex-col gap-10 p-7"

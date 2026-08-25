@@ -18,7 +18,7 @@ import { filter } from "framer-motion/client";
 import { useEffect } from "react";
 
 const filterCategories = [
-  { id: "all", label: "Semua", isActive: true },
+  { id: "all", label: "Semua", isActive: true, detail: "Career" },
   { id: "tech", label: "Teknologi", isActive: false },
   { id: "business", label: "Bisnis", isActive: false },
   { id: "creative", label: "Kreatif", isActive: false },
@@ -96,6 +96,7 @@ function CareerExplorer() {
               key={item.id}
               id={item.id}
               label={item.label}
+              allDetail={item.detail ? item.detail : ""}
               isActive={item.label.toLowerCase() === activeCategory}
               onClick={handleCategory}
             />
