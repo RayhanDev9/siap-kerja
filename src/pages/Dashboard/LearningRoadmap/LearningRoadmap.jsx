@@ -63,7 +63,10 @@ function LearningRoadmap() {
 
         {/* --- TABS UNTUK PILIH PATH (FE, BE, dll) --- */}
         {selectedPath && selectedPath.length > 0 && (
-          <motion.div variants={cardVariants} className="scrollbar-hide mx-auto flex gap-2 overflow-x-auto pb-2">
+          <motion.div
+            variants={cardVariants}
+            className="scrollbar-hide mx-auto flex gap-2 overflow-x-auto pb-2"
+          >
             {/* {selectedPth.map((item, index) => ( */}
             <button
               onClick={() => handlePathChange(selectedPath)}
@@ -82,10 +85,10 @@ function LearningRoadmap() {
           variants={cardVariants}
           initial="hidden"
           animate="visible"
-          className="mt-2 flex flex-col rounded-2xl border border-slate-200 bg-white p-6 shadow-sm md:p-8 dark:border-white/10 dark:bg-neutral-900"
+          className="mt-2 flex flex-col rounded-2xl border border-slate-200 bg-white p-6  shadow-sm md:p-8 dark:border-white/10 dark:bg-neutral-900"
         >
           {selectedCourses && selectedCourses.length > 0 ? (
-            <div className="relative ml-3 border-l-2 border-slate-200 dark:border-white/10">
+            <div className="relative  md:ml-20  ml-3 border-l-2 border-slate-200 dark:border-white/10">
               {selectedCourses.map((course) => (
                 <div
                   key={course.course_id}

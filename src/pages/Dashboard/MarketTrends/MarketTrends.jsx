@@ -97,8 +97,9 @@ function MarketTrends() {
           {/* Job Growth Chart */}
           <motion.div
             variants={cardVariants}
-            className="xs:min-w-lg flex flex-col gap-3.5 rounded-2xl bg-white p-7 max-lg:mx-auto sm:min-w-xl lg:col-span-2 lg:min-w-0 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35"
+            className="xs:min-w-lg flex flex-col justify-between gap-3.5 rounded-2xl bg-white p-7 max-lg:mx-auto sm:min-w-xl lg:col-span-2 lg:min-w-0 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35"
           >
+            {/* Header */}
             <div className="flex justify-between">
               <H2 type="secondry">Pertumbuhan Pekerjaan</H2>
               <Text className="flex gap-1.5">
@@ -106,9 +107,10 @@ function MarketTrends() {
                 <span className="inline-block self-center">{trend_text}</span>
               </Text>
             </div>
-            <div className="">
-              <Text className="slef-end">Q3 2025 vs Q3 2026</Text>
-              {/* Kirim datanya ke dalam chart jika komponen chart lu butuh props */}
+
+            {/* Body: Tambahkan flex flex-1 flex-col agar chart meregang penuh */}
+            <div className="flex flex-1 flex-col">
+              <Text className="self-start">Q3 2025 vs Q3 2026</Text>
               <JobGrowthChart chartData={jobGrowth?.chartData} />
             </div>
           </motion.div>
@@ -137,7 +139,7 @@ function MarketTrends() {
           <motion.div variants={cardVariants}>
             <H2 type="secondry">Analisis Gaji</H2>
           </motion.div>
-          <div className="grid grid-cols-1 justify-items-center gap-5 py-7 md:grid-cols-2">
+          <div className="grid grid-cols-1 justify-items-center gap-5 py-7 lg:grid-cols-2">
             {salaryAnalysis.map((item, index) => (
               <SalaryAnalysisItems
                 key={index}

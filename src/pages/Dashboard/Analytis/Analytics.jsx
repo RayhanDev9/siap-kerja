@@ -242,13 +242,15 @@ function Analytics() {
           {/* profileEngagement */}
           <motion.div
             variants={cardVariants}
-            className="col-span-1 rounded-2xl bg-white p-7 lg:order-first lg:col-span-2 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35"
+            className="col-span-1 flex flex-col justify-between rounded-2xl bg-white p-7 lg:order-first lg:col-span-2 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35"
           >
-            <H2 type="secondry">{"Keterlibatan Profil"}</H2>
-            <div className="flex justify-between">
-              <Text>{"Interaksi 7 hari terakhir"}</Text>
+            <div>
+              <H2 type="secondry">Keterlibatan Profil</H2>
+              <Text>Interaksi 7 hari terakhir</Text>
             </div>
-            <div className="mt-7 flex justify-center">
+
+            {/* Chart Container: Dibuat full width dan flex-1 */}
+            <div className="mt-4 w-full flex-1">
               <WeeklyChart />
             </div>
           </motion.div>
