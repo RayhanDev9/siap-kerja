@@ -57,7 +57,6 @@ function CourseLayout() {
     }
   }, [dispatch, dataProfile, data]);
 
-  // Dapatkan Course yang sedang aktif
   const currentCourse =
     selectedCourses?.find(
       (item) => String(item.course_id) === String(courseId),
@@ -66,17 +65,16 @@ function CourseLayout() {
   const stepsList = currentCourse?.steps || [];
   const currentStep = stepsList[countStep] || stepsList[0];
 
-  // Hitung status disable navigasi step secara dinamis
   const disabledPrev = countStep <= 0;
   const disabledNext = countStep >= stepsList.length - 1;
 
+  // Set step aktif menjadi in_progress jika masih locked
   useEffect(() => {
     const step = currentCourse?.steps?.[countStep];
-
-    if (step?.id && step.status !== "completed") {
+    if (step?.id && step.status === "locked") {
       dispatch(updateCourseStatus({ stepId: step.id, status: "in_progress" }));
     }
-  }, []);
+  }, [countStep, currentCourse, dispatch]);
 
   function handleHumberger() {
     setHumberger((prev) => !prev);
@@ -88,39 +86,36 @@ function CourseLayout() {
 
     if (!currentCourse || !stepNow) return;
 
-    if (currentCourse.status !== "completed") {
-      {
-        // 1. Eksekusi API Patch untuk step saat ini -> ubah jadi 'completed'
-        await dispatch(
-          updateCourseStatus({
-            stepId: stepNow.id || stepNow.step,
-            status: "completed",
-          }),
-        );
+    // 1. Step saat ini diselesaikan
+    await dispatch(
+      updateCourseStatus({
+        stepId: stepNow.id || stepNow.step,
+        status: "completed",
+      }),
+    );
 
-        // 2. Buka step berikutnya jika ada dan masih locked
-        const nextStep = steps[countStep + 1];
-        if (nextStep && nextStep.status === "locked") {
-          await dispatch(
-            updateCourseStatus({
-              stepId: nextStep.id || nextStep.step,
-              status: "in_progress",
-            }),
-          );
-        }
-
-        // 3. Jika course masih locked, ubah jadi 'in_progress'
-        if (currentCourse.status === "locked") {
-          await dispatch(
-            updateCourseDirectStatus({
-              courseId: currentCourse.course_id,
-              status: "in_progress",
-            }),
-          );
-        }
-      }
+    // 2. Step berikutnya dibuka jika masih locked
+    const nextStep = steps[countStep + 1];
+    if (nextStep && nextStep.status === "locked") {
+      await dispatch(
+        updateCourseStatus({
+          stepId: nextStep.id || nextStep.step,
+          status: "in_progress",
+        }),
+      );
     }
-    // 4. Pindah index step ke nomor berikutnya
+
+    // 3. Update status course jika locked
+    if (currentCourse.status === "locked") {
+      await dispatch(
+        updateCourseDirectStatus({
+          courseId: currentCourse.course_id,
+          status: "in_progress",
+        }),
+      );
+    }
+
+    // 4. Geser index langkah ke depan
     if (countStep + value < steps.length && countStep + value >= 0) {
       dispatch(incrementStep(value));
     }
@@ -132,25 +127,20 @@ function CourseLayout() {
     }
   }
 
-  // Handle Toggle Centang Complete Step
-  const handleToggleComplete = () => {
+  const handleToggleComplete = async () => {
     if (!currentCourse || !currentStep) return;
-
-    // const nextStatus =
-    //   currentStep.status === "completed" ? "completed" : "completed";
-
-    // dispatch(
-    //   updateCourseStatus({
-    //     stepId: currentStep.id || currentStep.step,
-    //     status: nextStatus,
-    //   }),
-    // );
+    await dispatch(
+      updateCourseStatus({
+        stepId: currentStep.id || currentStep.step,
+        status: "completed",
+      }),
+    );
   };
 
   async function handleFinishCourse() {
     if (!currentCourse || !currentStep) return;
 
-    // 1. Tandai step terakhir selesai
+    // Selesaikan step terakhir
     await dispatch(
       updateCourseStatus({
         stepId: currentStep.id || currentStep.step,
@@ -158,14 +148,18 @@ function CourseLayout() {
       }),
     );
 
-    // 2. Reset step index ke awal
-    dispatch(resetStep());
+    // Set status course menjadi completed
+    await dispatch(
+      updateCourseDirectStatus({
+        courseId: currentCourse.course_id,
+        status: "completed",
+      }),
+    );
 
-    // 3. Kembali ke katalog/roadmap kursus
+    dispatch(resetStep());
     navigate("/courses");
   }
 
-  // Context yang dikirimkan ke halaman detail di dalam Outlet
   const contextValue = {
     humberger,
     handleHumberger,
@@ -174,7 +168,6 @@ function CourseLayout() {
     handleToggleComplete,
   };
 
-  // 3. GUARD LOADING
   if (
     !dataProfile ||
     !data ||

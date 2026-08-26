@@ -35,9 +35,9 @@ function LearningRoadmap() {
     dispatch(selectPathCourses(pathName));
   };
 
-  useEffect(function () {
-    if (!isLoading) dispatch(fetchLearningRoadmap());
-  }, []);
+  // useEffect(function () {
+  //   if (!isLoading) dispatch(fetchLearningRoadmap());
+  // }, []);
 
   if (isLoading) return <Loader />;
   if (error) return <Error />;

@@ -1,5 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 const initialState = {
   data: null,
   isLoading: false,
@@ -16,7 +18,7 @@ export const fetchLearningRoadmap = createAsyncThunk(
   async function (_, thunkAPI) {
     const token = localStorage.getItem("token");
     try {
-      const res = await fetch(`http://127.0.0.1:8000/api/v1/user/roadmap`, {
+      const res = await fetch(`${BASE_URL}/user/roadmap`, {
         method: "GET",
         headers: {
           Accept: "application/json",
@@ -41,7 +43,7 @@ export const updateCourseStatus = createAsyncThunk(
     const token = localStorage.getItem("token");
     try {
       const res = await fetch(
-        `http://127.0.0.1:8000/api/v1/user/roadmap/steps/${stepId}/status`,
+        `${BASE_URL}/user/roadmap/steps/${stepId}/status`,
         {
           method: "PATCH",
           headers: {
@@ -71,7 +73,7 @@ export const updateCourseDirectStatus = createAsyncThunk(
     const token = localStorage.getItem("token");
     try {
       const res = await fetch(
-        `http://127.0.0.1:8000/api/v1/user/roadmap/courses/${courseId}/status`,
+        `${BASE_URL}/user/roadmap/courses/${courseId}/status`,
         {
           method: "PATCH",
           headers: {
@@ -100,29 +102,23 @@ export const submitCourseRating = createAsyncThunk(
   async function ({ courseId, rating, review = "" }, thunkAPI) {
     const token = localStorage.getItem("token");
     try {
-      // 🚀 PERBAIKAN: Tambahin /v1/ biar route-nya ketemu di Laravel
-      const res = await fetch(
-        `http://127.0.0.1:8000/api/v1/courses/${courseId}/rating`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-            Authorization: `Bearer ${token}`,
-            "ngrok-skip-browser-warning": "true",
-          },
-          body: JSON.stringify({ rating, review }),
+      const res = await fetch(`${BASE_URL}/courses/${courseId}/rating`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+          "ngrok-skip-browser-warning": "true",
         },
-      );
+        body: JSON.stringify({ rating, review }),
+      });
 
       const data = await res.json();
       if (!res.ok) return thunkAPI.rejectWithValue(data);
 
-      // 🚀 PERBAIKAN: Ambil data nilai rating terbaru dari response Laravel
       return {
         courseId,
         rating,
-        // Laravel biasanya ngembaliin obj course di dalam `data.data`
         newRatingFromBackend: data.data?.rating || rating,
         responseData: data,
       };
@@ -254,8 +250,8 @@ const learningRoadmapSlice = createSlice({
         );
 
         if (targetCourse) {
-          targetCourse.user_rating = rating; // Nilai asli yang dikasih user ini
-          targetCourse.rating = newRatingFromBackend; // Nilai rating yang nampil di UI
+          targetCourse.user_rating = rating;
+          targetCourse.rating = newRatingFromBackend;
         }
       });
   },

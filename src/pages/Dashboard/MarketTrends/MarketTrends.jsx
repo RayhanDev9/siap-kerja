@@ -34,10 +34,10 @@ function MarketTrends() {
   const { isLoading, error, filteredMarketTrends, activeCategory } =
     useSelector((state) => state.marketTrends);
 
-  useEffect(() => {
-    // 1. Fetch data pertama kali render
-    dispatch(fetchMarketTrends());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   // 1. Fetch data pertama kali render
+  //   dispatch(fetchMarketTrends());
+  // }, [dispatch]);
 
   // Handle klik tombol tab
   function handleCategoryClick(categoryLabel) {

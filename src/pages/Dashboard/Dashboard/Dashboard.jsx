@@ -64,7 +64,7 @@ function Dashboard() {
   const { days = 0, label = "Hari" } =
     dashboardData.data.metrics?.learningStreak || {};
   const careerRecommendations = dashboardData.data.careerRecommendations || [];
-
+  console.info(dashboardData.data);
   return (
     <Section>
       <div className="flex flex-col gap-5">
