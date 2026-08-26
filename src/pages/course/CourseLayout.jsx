@@ -136,15 +136,15 @@ function CourseLayout() {
   const handleToggleComplete = () => {
     if (!currentCourse || !currentStep) return;
 
-    const nextStatus =
-      currentStep.status === "completed" ? "in_progress" : "completed";
+    // const nextStatus =
+    //   currentStep.status === "completed" ? "completed" : "completed";
 
-    dispatch(
-      updateCourseStatus({
-        stepId: currentStep.id || currentStep.step,
-        status: nextStatus,
-      }),
-    );
+    // dispatch(
+    //   updateCourseStatus({
+    //     stepId: currentStep.id || currentStep.step,
+    //     status: nextStatus,
+    //   }),
+    // );
   };
 
   async function handleFinishCourse() {

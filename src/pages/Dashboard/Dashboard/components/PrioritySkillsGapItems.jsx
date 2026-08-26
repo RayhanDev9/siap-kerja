@@ -11,7 +11,7 @@ function PrioritySkillsGapItems({ title, subtitle }) {
         <Text>{subtitle}</Text>
       </div>{" "}
       <div className="flex flex-col items-center self-center ">
-        <button onClick={() => navigate("/skillGap")}>
+        <button onClick={() => navigate("/courses")}>
           <i className="fa-solid fa-circle-arrow-right block  text-3xl text-blue-700 dark:text-blue-500   lg:text-4xl"></i>
         </button>
       </div>

@@ -149,7 +149,7 @@ function SideBarMenuLg({
                   ></i>
                 </div>
                 <p className="dark:text-white">
-                  {stepsComplated}/{steps.length} Steps
+                  {countStep + 1} of {steps.length} Steps
                 </p>
               </div>
               {/* Steps Modul */}

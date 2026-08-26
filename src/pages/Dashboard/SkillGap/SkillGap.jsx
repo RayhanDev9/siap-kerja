@@ -37,6 +37,8 @@ function SkillGap() {
 
   const { data: profileData } = useSelector((state) => state.profile);
 
+  const { selectedCourses } = useSelector((state) => state.learningRoadmap);
+
   // 1. Fetch data awal jika belum tersedia di store
   useEffect(() => {
     if (!profileData) {
@@ -72,13 +74,28 @@ function SkillGap() {
     );
   }
 
-  console.info(roleSkillGroups);
+  console.info(skillGapData);
 
-  // const {
-  //   overallReadiness = { percentage: 0, message: "" },
-  //   competencyMatrix = [],
-  //   skillCategoryDetails = [],
-  // } = dataSkillGap;
+  const allSteps = selectedCourses.flatMap((item) => item.steps);
+  const courseStepComplated = selectedCourses.flatMap((item) =>
+    item.steps.filter((step) => step.status === "completed"),
+  );
+
+  // useEffect(
+  //   function () {
+  //     if (!isLoading) {
+  //       dispatch(selectCourseStepComplated());
+  //     }
+  //   },
+  //   [isLoading, dispatch, courseStepComplated],
+  // );
+
+  const progressPercentage =
+    allSteps.length > 0
+      ? Math.round((courseStepComplated.length / allSteps.length) * 100)
+      : 0;
+
+  console.info(roleSkillGroups);
 
   const { message, percentage } = overallReadiness;
 
@@ -102,10 +119,13 @@ function SkillGap() {
               <div className="flex justify-between">
                 <H2 type="secondry">Kesiapan Ke Seluruhan</H2>
                 <Text className="self-center text-2xl font-bold text-blue-800 dark:text-blue-500">
-                  {overallReadiness.percentage}%
+                  {progressPercentage}%
                 </Text>
               </div>
-              <Progres thame="bg-blue-700" progressPercentage={overallReadiness.percentage} />
+              <Progres
+                thame="bg-blue-700"
+                progressPercentage={progressPercentage}
+              />
               <Text>{overallReadiness.message}</Text>
             </div>
           </motion.div>
