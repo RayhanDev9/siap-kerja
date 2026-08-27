@@ -1,25 +1,17 @@
-// import Header from "./components/Header";
 import AuthBanner from "./components/AuthBanner";
-import Login from "./Login";
-import { Navigate, Outlet, useLocation, useNavigation } from "react-router-dom";
-import { cardVariants, containerVariants } from "../../util/animations";
-import { motion } from "framer-motion"; // 1. Import Framer Motion
+import { Navigate, Outlet, useLocation } from "react-router-dom";
+import { containerVariants } from "../../util/animations";
+import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import Loader from "../../ui/Loader";
 
 function Autentikasi() {
-  const location = useLocation();
+  const { pathname } = useLocation(); // Digabung agar tidak deklarasi 2 kali
   const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1024);
-  const { isLoading, error } = useSelector((state) => state.auth);
-  const { pathname } = useLocation();
   const { user } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    const handleResize = () => {
-      setIsDesktop(window.innerWidth >= 1024);
-    };
-
+    const handleResize = () => setIsDesktop(window.innerWidth >= 1024);
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
@@ -29,29 +21,35 @@ function Autentikasi() {
     window.scrollTo(0, 0);
   }, [pathname]);
 
+  // Jika user SUDAH login dan PUNYA token valid, lempar ke dashboard
   if (user) {
     return <Navigate to="/" replace />;
   }
 
-  if (isLoading) {
-    return <Loader />;
-  }
-  console.info(pathname);
-
+  // CATATAN: if (isLoading) { return <Loader /> } DIHAPUS
+  // Biarkan tombol di masing-masing page yang meng-handle efek loading-nya.
 
   return (
     <>
-      {/* <Header /> */}
-      <motion.div
-        variants={containerVariants}
-        key={pathname}
-        initial="hidden"
-        animate="visible"
-        className="relative grid grid-cols-1 lg:grid-cols-2"
-      >
-        {isDesktop && <AuthBanner />}
-        <Outlet key={pathname} />
-      </motion.div>
+      {/* 
+        Tambahkan AnimatePresence dengan mode="wait" agar Framer Motion 
+        menunggu animasi halaman lama selesai sebelum merender halaman baru 
+      */}
+      <AnimatePresence mode="wait">
+        <motion.div
+          variants={containerVariants}
+          key={pathname} // Key di sini sekarang aman karena ada AnimatePresence
+          initial="hidden"
+          animate="visible"
+          exit="hidden" // Tambahkan efek saat keluar
+          className="relative grid min-h-screen grid-cols-1 lg:grid-cols-2"
+        >
+          {isDesktop && <AuthBanner />}
+
+          {/* HAPUS key={pathname} pada Outlet agar tidak bentrok dengan induknya */}
+          <Outlet />
+        </motion.div>
+      </AnimatePresence>
     </>
   );
 }

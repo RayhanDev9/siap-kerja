@@ -11,7 +11,7 @@ import { useNavigate } from "react-router";
 import InputName from "../../ui/InputName";
 import Text from "../../ui/Text";
 import { cardVariants } from "../../util/animations";
-import { motion } from "framer-motion"; // 1. Import Framer Motion
+import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { registerUser } from "../../features/auth/authSlice";
 import Loader from "../../ui/Loader";
@@ -31,11 +31,12 @@ function Register() {
   // Mengambil state dari Redux
   const { isLoading, error } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+
   if (isLoading) {
     return <Loader />;
   }
 
-  if (error) return <Error />;
+  // HAPUS: if (error) return <Error />; --> Ini yang bikin halaman putih/Oops!
 
   function handleSubmit() {
     // 1. Validasi Lokal
@@ -56,14 +57,13 @@ function Register() {
           password: inputPassword,
         }),
       )
-        .unwrap() // <--- PERBAIKAN PENTING: Tunggu hasil API
+        .unwrap() // Tunggu hasil API
         .then(() => {
           // Jika sukses, baru pindah halaman
           navigate("/login", { replace: true });
         })
         .catch((err) => {
           // Jika gagal (email sudah ada, dll), tidak usah pindah halaman.
-          // State 'error' dari Redux otomatis akan terisi dan muncul di layar.
           console.error("Gagal mendaftar:", err);
         });
     }
@@ -81,12 +81,18 @@ function Register() {
           />
 
           <div className="flex flex-col gap-5">
-            {/* TAMBAHAN: Kotak Error dari Backend (API Laravel) */}
+            {/* TAMBAHAN: Kotak Error dari Backend yang Rapi dan Aman */}
             {error && (
-              <div className="rounded-xl bg-red-100 p-3 text-sm text-red-700">
-                {typeof error === "string"
-                  ? error
-                  : "Terjadi kesalahan pada server. Atau Email sudah digunakan"}
+              <div className="rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-600 shadow-sm">
+                <div className="flex items-center gap-2 font-semibold">
+                  <i className="fa-solid fa-circle-exclamation"></i>
+                  Pendaftaran Gagal
+                </div>
+                <p className="mt-1">
+                  {typeof error === "string"
+                    ? error
+                    : "Email sudah digunakan atau terjadi kesalahan sistem."}
+                </p>
               </div>
             )}
 
@@ -123,14 +129,13 @@ function Register() {
               </Text>
             )}
 
-            {/* Tombol Submit Diperbaiki */}
+            {/* Tombol Submit */}
             <motion.div variants={cardVariants}>
               <button
                 className="my-8 inline-block w-full rounded-xl bg-blue-600 px-4 py-3 text-center text-sm font-semibold tracking-wide text-white uppercase transition-colors duration-300 hover:bg-blue-700 focus:bg-blue-700 focus:outline-none disabled:cursor-not-allowed disabled:bg-gray-400 md:px-6 md:py-4"
                 onClick={handleSubmit}
-                disabled={isLoading} // Tombol mati saat loading
+                disabled={isLoading}
               >
-                {/* Teks berubah saat loading */}
                 {isLoading ? "Memproses..." : "Mulai Sekarang"}
               </button>
             </motion.div>
