@@ -37,9 +37,9 @@ function AppLayout() {
       tes(); // <-- Memanggil fungsi tes saat komponen dimuat
     }, []);
   }
-  const { selectedPath, selectedCourses, data } = useSelector(
-    (state) => state.learningRoadmap,
-  );
+  // const { selectedPath, selectedCourses, data } = useSelector(
+  //   (state) => state.learningRoadmap,
+  // );
 
   const { data: dataProfile } = useSelector((state) => state.profile);
 

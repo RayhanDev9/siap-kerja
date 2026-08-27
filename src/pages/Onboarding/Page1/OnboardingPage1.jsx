@@ -81,7 +81,7 @@ function OnboardingPage1() {
 
         <motion.div
           variants={cardVariants}
-          className="flex justify-between bg-white p-7 text-center dark:bg-neutral-900"
+          className="flex justify-between bg-white p-7 rounded-2xl shadow-2xl text-center dark:bg-neutral-900"
         >
           {/* <div className="inline-block">
             <Button type="secondry" to="/onboardingPage2">

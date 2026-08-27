@@ -111,7 +111,7 @@ const initialNavLinks = [
         {/* TOMBOL MORE */}
         <button
           onClick={() => setIsMoreOpen(!isMoreOpen)}
-          className={`flex flex-1 justify-center rounded-lg transition-all duration-200 text-white ${
+          className={`flex flex-1 justify-center rounded-lg transition-all duration-200 dark:text-white ${
             isMoreOpen
               ? "font-bold text-blue-600"
               : "text-gray-500 hover:bg-gray-100"

@@ -13,20 +13,25 @@ import { fetchProfile } from "../features/dashboard/profileSlice";
 function useFetch() {
   const dispatch = useDispatch();
 
-  useEffect(
-    function () {
-      dispatch(fetchMarketTrends());
-      // dispatch(fetchCareerExplorer());
-      dispatch(fetchLearningRoadmap());
-      // dispatch(fetchSetting());
-      dispatch(fetchAnalytics());
-      dispatch(fetchSkillGap());
-      dispatch(fetchDashboard());
-      // dispatch(fetchSavedCareers());
-      dispatch(fetchProfile());
-    },
-    [dispatch],
-  );
+  useEffect(() => {
+    const fetchInitialData = async () => {
+      try {
+        // 1. Tunggu sampai profile selesai di-fetch dan masuk ke Redux
+        await dispatch(fetchProfile()).unwrap();
+
+        // 2. Setelah profile aman, eksekusi API lainnya secara paralel
+        dispatch(fetchMarketTrends());
+        dispatch(fetchLearningRoadmap());
+        dispatch(fetchAnalytics());
+        dispatch(fetchSkillGap());
+        dispatch(fetchDashboard());
+      } catch (error) {
+        console.error("Gagal mengambil data profil:", error);
+      }
+    };
+
+    fetchInitialData();
+  }, [dispatch]);
 }
 
 export default useFetch;

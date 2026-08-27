@@ -156,10 +156,7 @@ function OnboardingPage4() {
           </div>
         </Section>
 
-        <motion.div
-          variants={cardVariants}
-          className="bg-white p-7 text-center md:hidden dark:bg-neutral-900"
-        ></motion.div>
+     
         <ButtonMdOnboarding
           onFinish={handleSubmit}
           button1="sebelumnya"

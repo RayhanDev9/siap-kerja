@@ -35,9 +35,21 @@ function LearningRoadmap() {
     dispatch(selectPathCourses(pathName));
   };
 
-  // useEffect(function () {
-  //   if (!isLoading) dispatch(fetchLearningRoadmap());
-  // }, []);
+  useEffect(() => {
+    // 2. KUNCI PERBAIKAN: Pastikan dataProfile ADA dan data roadmap juga ADA / tidak kosong
+    if (dataProfile && data) {
+      const { category_slug, target_role_slug } = dataProfile;
+      console.info("Target Role:", target_role_slug);
+
+      dispatch(selectCategoryCareer(category_slug));
+      dispatch(selectedPathName(target_role_slug));
+
+      // Filter ini sekarang aman karena array 'data' sudah pasti terisi
+      dispatch(selectPathCourses(target_role_slug));
+    }
+  }, [dataProfile, data, dispatch]);
+
+  // Tampilkan loader saat data masih proses ditarik
 
   if (isLoading) return <Loader />;
   if (error) return <Error />;
@@ -85,10 +97,10 @@ function LearningRoadmap() {
           variants={cardVariants}
           initial="hidden"
           animate="visible"
-          className="mt-2 flex flex-col rounded-2xl border border-slate-200 bg-white p-6  shadow-sm md:p-8 dark:border-white/10 dark:bg-neutral-900"
+          className="mt-2 flex flex-col rounded-2xl border border-slate-200 bg-white p-6 shadow-sm md:p-8 dark:border-white/10 dark:bg-neutral-900"
         >
           {selectedCourses && selectedCourses.length > 0 ? (
-            <div className="relative  md:ml-20  ml-3 border-l-2 border-slate-200 dark:border-white/10">
+            <div className="relative ml-3 border-l-2 border-slate-200 md:ml-20 dark:border-white/10">
               {selectedCourses.map((course) => (
                 <div
                   key={course.course_id}
