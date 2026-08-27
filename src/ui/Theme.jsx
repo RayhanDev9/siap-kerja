@@ -71,7 +71,7 @@ function Theme() {
                     className={`fa-solid ${currentTheme?.icon} max-xs:pr-3 text-sm text-blue-500 sm:text-base lg:text-lg`}
                   ></i>
                   {/* Teks disembunyikan di layar sangat kecil (mobile), muncul di sm: */}
-                  <span className="hidden text-xs font-semibold sm:inline md:text-sm lg:text-base">
+                  <span className="hidden text-xs font-semibold xs:inline md:text-sm lg:text-base">
                     {currentTheme?.name}
                   </span>
                 </div>

@@ -90,7 +90,7 @@ function CareerExplorer() {
         </motion.div>
 
         {/* category filter */}
-        <div className="no-scrollbar flex gap-3 overflow-x-auto py-2 whitespace-nowrap">
+        <motion.div variants={cardVariants} className="no-scrollbar flex gap-3 overflow-x-auto py-2 whitespace-nowrap">
           {filterCategories.map((item) => (
             <FilterCategoriesItems
               key={item.id}
@@ -101,7 +101,7 @@ function CareerExplorer() {
               onClick={handleCategory}
             />
           ))}
-        </div>
+        </motion.div>
 
         {/* jobListings (Menggunakan listingsToDisplay) */}
         <div className="grid grid-cols-1 justify-items-center gap-7 md:mx-auto md:w-2xl md:grid-cols-2 lg:mx-0.5 lg:w-full">

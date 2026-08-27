@@ -192,7 +192,7 @@ function Setting() {
           description="Kelola preferensi akun dan keamanan Anda"
         />
 
-        <div className="grid overflow-hidden rounded-2xl bg-white px-3 pb-7 sm:px-7 md:grid-cols-2 md:gap-3 md:p-7 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35">
+        <div className="grid overflow-hidden rounded-2xl bg-white px-3 py-7 sm:px-7 md:grid-cols-2 md:gap-3 md:p-7 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35 space-y-3">
           {dataSetting.pengaturanLainnya.map((item) => (
             <OtherSettingsItems
               key={item.id}

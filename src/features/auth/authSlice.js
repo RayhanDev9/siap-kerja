@@ -52,7 +52,7 @@ export const registerUser = createAsyncThunk(
       const user = data.user || (data.data && data.data.user);
 
       if (token) localStorage.setItem("token", token);
-      if (user) localStorage.setItem("user", JSON.stringify(user));
+      // if (user) localStorage.setItem("user", JSON.stringify(user));
 
       return { user, access_token: token };
     } catch (error) {

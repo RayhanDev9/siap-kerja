@@ -62,7 +62,7 @@ function AppLayout() {
   return (
     <>
       <Header />
-      <main className="max-lg:mt-20 lg:grid lg:grid-cols-[240px_1fr]">
+      <main className="max-lg:-mt-4 lg:grid lg:grid-cols-[240px_1fr]">
         <SideBar />
         <motion.div
           key={location.pathname} // INI SANGAT PENTING! Agar animasi jalan saat pindah menu

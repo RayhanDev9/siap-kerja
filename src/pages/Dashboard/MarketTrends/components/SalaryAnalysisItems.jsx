@@ -30,7 +30,7 @@ function SalaryAnalysisItems({
           <H3>{role}</H3>
         </div>
         <div>
-          <p className="text-sm font-bold text-blue-500 sm:text-base lg:text-lg dark:text-blue-400">
+          <p className="text-sm font-bold text-blue-500 sm:text-base lg:text-lg dark:text-blue-400  line-clamp-1">
             {salaryRange}
           </p>
           <p className="text-end text-xs font-semibold sm:text-sm lg:text-base">
@@ -40,7 +40,7 @@ function SalaryAnalysisItems({
       </div>
 
       {/* Tampilkan nilai min, median, dan max dengan benar */}
-      <div className="flex justify-between text-xs font-semibold sm:text-sm lg:text-base">
+      <div className="flex justify-between text-xs font-normal sm:text-sm lg:text-base">
         <span>Min: Rp {min}M</span>
         <span>Median : {displayMedian}</span>
         <span>Max: Rp {max}M</span>

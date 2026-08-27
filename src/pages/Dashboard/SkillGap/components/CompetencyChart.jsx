@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import {
   Radar,
   RadarChart,
@@ -9,15 +9,52 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
+// Komponen kustom untuk memotong teks SVG maksimal 2 baris
+const CustomTick = ({ payload, x, y, textAnchor }) => {
+  const words = payload.value.split(" ");
+  let line1 = payload.value;
+  let line2 = "";
+
+  if (words.length > 2) {
+    const mid = Math.ceil(words.length / 2);
+    line1 = words.slice(0, mid).join(" ");
+    line2 = words.slice(mid).join(" ");
+
+    if (line2.length > 18) {
+      line2 = line2.substring(0, 18) + "...";
+    }
+  } else if (words.length === 2 && payload.value.length > 15) {
+    line1 = words[0];
+    line2 = words[1];
+  }
+
+  return (
+    <text
+      x={x}
+      y={y}
+      textAnchor={textAnchor}
+      // Ukuran font diperbesar sedikit di layar lg
+      className="fill-gray-600 text-[10px] font-medium sm:text-xs lg:text-sm dark:fill-gray-300"
+    >
+      <tspan x={x} dy={line2 ? -8 : 4}>
+        {line1}
+      </tspan>
+      {line2 && (
+        // Jarak vertikal (dy) diperbesar menjadi 18 agar tidak terlalu mepet
+        <tspan x={x} dy={18}>
+          {line2}
+        </tspan>
+      )}
+    </text>
+  );
+};
+
 const CompetencyChart = ({ competencyMatrix }) => {
-  if (!competencyMatrix) return null;
+  const scrollRef = useRef(null);
 
   let formattedData = [];
 
-  // 1. JIKA DATA BERBENTUK ARRAY LANGSUNG DARI API (dataChart)
-  // Format: [{ name: "Node.js", valueKeahlian: 0, valueTarget: 85 }, ...]
   if (Array.isArray(competencyMatrix)) {
-    // Ambil top 6-8 item agar chart radar tidak terlalu penuh/kusut
     const chartItems =
       competencyMatrix.length > 8
         ? competencyMatrix.slice(0, 8)
@@ -28,15 +65,20 @@ const CompetencyChart = ({ competencyMatrix }) => {
       keahlianAnda: Number(item.valueKeahlian) || 0,
       targetPeran: Number(item.valueTarget) || 0,
     }));
-  }
-  // 2. JIKA DATA MASIH BERBENTUK FORMAT LAMA (labels & datasets)
-  else if (competencyMatrix.labels && competencyMatrix.datasets) {
+  } else if (competencyMatrix?.labels && competencyMatrix?.datasets) {
     formattedData = competencyMatrix.labels.map((label, index) => ({
       subject: label,
       keahlianAnda: Number(competencyMatrix.datasets[0]?.data?.[index]) || 0,
       targetPeran: Number(competencyMatrix.datasets[1]?.data?.[index]) || 0,
     }));
   }
+
+  useEffect(() => {
+    if (scrollRef.current && formattedData.length > 0) {
+      const { scrollWidth, clientWidth } = scrollRef.current;
+      scrollRef.current.scrollLeft = (scrollWidth - clientWidth) / 2;
+    }
+  }, [formattedData]);
 
   if (formattedData.length === 0) {
     return (
@@ -47,56 +89,68 @@ const CompetencyChart = ({ competencyMatrix }) => {
   }
 
   return (
-    <div style={{ width: "100%", height: 380, fontFamily: "sans-serif" }}>
-      <ResponsiveContainer width="100%" height="100%">
-        <RadarChart cx="50%" cy="50%" outerRadius="70%" data={formattedData}>
-          {/* Garis Jaring (Grid) */}
-          <PolarGrid />
+    <div
+      ref={scrollRef}
+      className="w-full scroll-smooth overflow-x-auto overflow-y-hidden"
+    >
+      {/* 
+        Tinggi grafik dibuat responsif: 
+        380px di mobile/tablet, membesar jadi 480px di layar lg 
+      */}
+      <div
+        className="min-w-[500px] h-[380px] w-full sm:min-w-full lg:h-[480px]"
+        style={{ fontFamily: "sans-serif" }}
+      >
+        <ResponsiveContainer
+          width="99%"
+          height="100%"
+          className="focus:outline-none"
+        >
+          <RadarChart
+            cx="50%"
+            cy="50%"
+            outerRadius="65%" // Diperbesar proporsinya
+            data={formattedData}
+            style={{ outline: "none" }}
+          >
+            <PolarGrid />
 
-          {/* Label Sudut (Node.js, PHP, Python, dll) */}
-          <PolarAngleAxis
-            dataKey="subject"
-            className="text-gray-600 dark:text-white"
-            tick={{ fontSize: 12, fontWeight: 500 }}
-          />
+            <PolarAngleAxis dataKey="subject" tick={<CustomTick />} />
 
-          {/* Sumbu Skala (0 - 100) */}
-          <PolarRadiusAxis
-            angle={30}
-            domain={[0, 100]}
-            tick={false}
-            axisLine={false}
-          />
+            <PolarRadiusAxis
+              angle={30}
+              domain={[0, 100]}
+              tick={false}
+              axisLine={false}
+            />
 
-          {/* Radar 1: Target Peran (Garis Ungu Putus-putus) */}
-          <Radar
-            name="Target Peran"
-            className="dark:fill-purple-500 dark:stroke-purple-500"
-            dataKey="targetPeran"
-            stroke="#6f42c1"
-            strokeWidth={2}
-            strokeDasharray="5 5"
-            fill="#6f42c1"
-            fillOpacity={0.15}
-            dot={{ r: 3, fill: "#6f42c1" }}
-          />
+            <Radar
+              name="Target Peran"
+              className="dark:fill-purple-500 dark:stroke-purple-500"
+              dataKey="targetPeran"
+              stroke="#6f42c1"
+              strokeWidth={2}
+              strokeDasharray="5 5"
+              fill="#6f42c1"
+              fillOpacity={0.15}
+              dot={{ r: 3, fill: "#6f42c1" }}
+            />
 
-          {/* Radar 2: Keahlian Anda (Garis Biru Solid) */}
-          <Radar
-            name="Keahlian Anda"
-            dataKey="keahlianAnda"
-            stroke="#0d6efd"
-            className="dark:fill-blue-500 dark:stroke-blue-500"
-            strokeWidth={2}
-            fill="#0d6efd"
-            fillOpacity={0.3}
-            dot={{ r: 4, fill: "#0d6efd" }}
-          />
+            <Radar
+              name="Keahlian Anda"
+              dataKey="keahlianAnda"
+              stroke="#0d6efd"
+              className="dark:fill-blue-500 dark:stroke-blue-500"
+              strokeWidth={2}
+              fill="#0d6efd"
+              fillOpacity={0.3}
+              dot={{ r: 4, fill: "#0d6efd" }}
+            />
 
-          {/* Legenda di bagian bawah */}
-          <Legend iconType="circle" wrapperStyle={{ paddingTop: "15px" }} />
-        </RadarChart>
-      </ResponsiveContainer>
+            <Legend iconType="circle" wrapperStyle={{ paddingTop: "15px" }} />
+          </RadarChart>
+        </ResponsiveContainer>
+      </div>
     </div>
   );
 };

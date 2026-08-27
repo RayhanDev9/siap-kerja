@@ -102,7 +102,7 @@ function SavedCareers() {
         </motion.div>
 
         {/* Category Filter */}
-        <div className="no-scrollbar flex gap-3 overflow-x-auto py-2 whitespace-nowrap">
+        <motion.div variants={cardVariants} className="no-scrollbar flex gap-3 overflow-x-auto py-2 whitespace-nowrap">
           {filterCategories.map((item) => (
             <FilterCategoriesItems
               key={item.id}
@@ -114,7 +114,7 @@ function SavedCareers() {
               onClick={handleCategory}
             />
           ))}
-        </div>
+        </motion.div>
 
         {/* Job Listings */}
         {displayList.length === 0 ? (

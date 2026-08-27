@@ -87,7 +87,7 @@ function Profile() {
               </H2>
 
               <div className="flex items-center gap-1.5 rounded-full bg-slate-100 px-3 py-1 text-sm font-medium text-slate-700 md:text-base lg:text-lg dark:border dark:border-white/25 dark:bg-neutral-900">
-                <i className="fa-solid fa-location-dot text-slate-500 dark:text-white"></i>
+                <i className="fa-solid fa-pen-to-square text-slate-500 dark:text-white"></i>
                 <span className="dark:text-white/80">{city}</span>
               </div>
             </div>

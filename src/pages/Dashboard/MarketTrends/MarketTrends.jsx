@@ -79,7 +79,7 @@ function MarketTrends() {
         />
 
         {/* Tab Filter Categories */}
-        <div className="no-scrollbar flex gap-3 overflow-x-auto py-2 whitespace-nowrap">
+        <motion.div variants={cardVariants} className="no-scrollbar flex gap-3 overflow-x-auto py-2 whitespace-nowrap">
           {filterCategories.map((item) => (
             <FilterCategoriesItems
               key={item.id}
@@ -91,7 +91,7 @@ function MarketTrends() {
               onClick={handleCategoryClick}
             />
           ))}
-        </div>
+        </motion.div>
 
         <div className="grid grid-cols-1 gap-7 lg:grid-cols-3">
           {/* Job Growth Chart */}
