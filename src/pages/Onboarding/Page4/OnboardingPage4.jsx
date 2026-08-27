@@ -1,15 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Button from "../../../ui/Button";
 import H2 from "../../../ui/H2";
 import Section from "../../../ui/Section";
 import ProgresOnboarding from "../components/ProgresOnboarding";
-import { validateEmail, validateName } from "../../../util/helpers";
-import Email from "../../../ui/Email";
+import { validateName } from "../../../util/helpers";
 import InputName from "../../../ui/InputName";
-import InputDateOfBirth from "../../../ui/InputDateOfBirth";
-import SelectLocation from "../../../ui/SelectLocation";
-import SelectSpecialization from "../../../ui/SelectSpecialization";
 import InputAboutMe from "../../../ui/InputAboutMe";
 import ButtonMdOnboarding from "../components/ButtonMdOnboarding";
 import Text from "../../../ui/Text";
@@ -17,10 +12,11 @@ import { cardVariants } from "../../../util/animations";
 import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { completeYourProfile } from "../../../features/onBoarding/onBoardingSlice";
+import Theme from "../../../ui/Theme";
 
 function OnboardingPage4() {
   const navigate = useNavigate();
-  const { isLoading, isError, data } = useSelector((state) => state.onBoarding);
+  const { data } = useSelector((state) => state.onBoarding);
   console.info(data);
 
   const dispatch = useDispatch();
@@ -29,18 +25,6 @@ function OnboardingPage4() {
 
   const [inputName, setInputName] = useState("");
   const [textErrorInputName, setTextErrorInputName] = useState("");
-
-  const [inputEmail, setInputEmail] = useState("");
-  const [textErrorInputEmail, setTextErrorInputEmail] = useState("");
-
-  const [InputBirthDate, setInputBirthDate] = useState(null);
-  const [textErrorInputBirthDate, setTextErrorInputBirthDate] = useState("");
-
-  const [selectLocation, setSelectLocation] = useState(null);
-  const [textErrorSelectLocation, setTextErrorSelectLocation] = useState("");
-
-  const [selectSpecialization, setSelectSpecialization] = useState(null);
-  const [textErrorSpecialization, setTextErrorSpecialization] = useState("");
 
   const [aboutMe, setAboutMe] = useState("");
   const [textErrorAboutMe, setTextErrorAboutMe] = useState("");
@@ -67,7 +51,7 @@ function OnboardingPage4() {
         completeYourProfile({
           fullName: inputName,
           description: aboutMe,
-          foto_profile: selectedFile, // <-- LANGSUNG KIRIM FILE ASLI KE SINI
+          foto_profile: selectedFile,
         }),
       );
 
@@ -79,7 +63,10 @@ function OnboardingPage4() {
 
   return (
     <>
-      <div className="md:rounded-2xl md:bg-white md:pb-7 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35">
+      <div className="max-xs:pt-4 rounded-2xl md:pb-7 md:bg-white dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35 relative">
+        <div className="right-0 xs:right-0 absolute top-0 z-50  lg:hidden">
+          <Theme />
+        </div>
         <Section>
           <div className="space-y-7">
             <ProgresOnboarding progresOnboarding={2} />
@@ -132,7 +119,7 @@ function OnboardingPage4() {
               )}
             </motion.div>
 
-            <div className="">
+            <div className="space-y-3">
               <motion.div variants={cardVariants}>
                 <InputName
                   value={inputName}

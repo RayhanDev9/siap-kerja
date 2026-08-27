@@ -16,6 +16,7 @@ import {
   SkillsSelection,
 } from "../../../features/onBoarding/onBoardingSlice";
 import { updateCourseDirectStatus } from "../../../features/dashboard/learningRoadmapSlice";
+import Theme from "../../../ui/Theme";
 
 function OnboardingPage5() {
   const navigate = useNavigate();
@@ -93,9 +94,12 @@ function OnboardingPage5() {
 
   return (
     <>
-      <div className="md:rounded-2xl md:bg-white md:pb-3 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35">
+      <div className=" relative  rounded-2xl md:bg-white md:pb-3 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35">
+        <div className="xs:right-0 absolute top-0 right-0 z-50 lg:hidden">
+          <Theme />
+        </div>
         <Section>
-          <div className="space-y-7">
+          <div className="space-y-7 max-xs:mt-4">
             {/* Progres */}
             <ProgresOnboarding progresOnboarding={5} />
 
@@ -114,7 +118,7 @@ function OnboardingPage5() {
 
             {/* Skill Selection Items */}
             <div className="space-y-4 rounded-2xl p-7 shadow-md">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="xs:grid-cols-2 grid gap-4">
                 {selectedCourses &&
                   selectedCourses.map((skill) => (
                     <SkillSelectionItems

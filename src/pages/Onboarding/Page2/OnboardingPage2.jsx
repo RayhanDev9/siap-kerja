@@ -14,6 +14,7 @@ import { explorasiCareer } from "../../../features/onBoarding/onBoardingSlice";
 import { useNavigate } from "react-router";
 import categoryDataUI from "./Components/DataOnboardingPage2";
 import { selectCategoryCareer } from "../../../features/dashboard/learningRoadmapSlice";
+import Theme from "../../../ui/Theme";
 
 function OnboardingPage2() {
   // State menampung 1 ID category yang terpilih (null jika belum ada)
@@ -35,7 +36,6 @@ function OnboardingPage2() {
     }
   }, [data, navigate]);
 
-
   function handleNext() {
     if (selectedCategory) {
       dispatch(selectCategoryCareer(selectedCategory));
@@ -52,7 +52,10 @@ function OnboardingPage2() {
 
   return (
     <>
-      <div className="md:rounded-2xl md:bg-white md:pb-3 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35">
+      <div className="max-xs:mt-4 rounded-2xl md:bg-white md:pb-3 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35 relative">
+        <div className="xs:right-0 absolute top-0 right-0 z-50 lg:hidden">
+          <Theme />
+        </div>
         <Section>
           <div className="space-y-7">
             <ProgresOnboarding progresOnboarding={3} />
@@ -69,7 +72,7 @@ function OnboardingPage2() {
               </motion.div>
             </div>
 
-            <div className="grid grid-cols-2 justify-items-center gap-7">
+            <div className="grid grid-cols-2 justify-items-center gap-7 sm:grid-cols-2">
               {categoryData.map((category, i) => {
                 const isSelected = selectedCategory === category.title;
                 // Di-disable jika sudah ada 1 item terpilih DAN item ini BUKAN yang terpilih

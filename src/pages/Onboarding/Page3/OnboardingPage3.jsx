@@ -19,7 +19,11 @@ import H3 from "../../../ui/H3";
 import { RoleSelection } from "../../../features/onBoarding/onBoardingSlice";
 import { Navigate, useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
-import { selectedPathName, selectPathCourses } from "../../../features/dashboard/learningRoadmapSlice";
+import {
+  selectedPathName,
+  selectPathCourses,
+} from "../../../features/dashboard/learningRoadmapSlice";
+import Theme from "../../../ui/Theme";
 
 const currentRoles = [
   "Student",
@@ -87,7 +91,10 @@ function OnboardingPage3() {
   }
   return (
     <>
-      <div className="md:rounded-2xl md:bg-white md:pb-3 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35">
+      <div className="rounded-2xl relative max-xs:pt-4 md:bg-white md:pb-3 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35">
+        <div className="xs:right-0 absolute top-0 right-0 z-50 lg:hidden">
+          <Theme />
+        </div>
         <Section>
           <div className="space-y-7">
             {/* Progres */}

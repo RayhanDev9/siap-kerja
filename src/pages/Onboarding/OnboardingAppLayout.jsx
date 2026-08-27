@@ -41,7 +41,7 @@ function OnboardingAppLayout() {
         <Logo type="large" />
       </header>
       <main className="mx-auto flex min-h-screen max-w-3xl flex-col items-center justify-center p-4 lg:pb-12">
-        <div className="absolute top-5 right-10 z-50">
+        <div className="max-xs:right-7 min-xs:right-9 absolute top-5 z-50 hidden lg:right-8 lg:block">
           <Theme />
         </div>
         <motion.div
@@ -50,6 +50,7 @@ function OnboardingAppLayout() {
           initial="hidden"
           animate="visible"
         >
+        
           <Outlet />
         </motion.div>
       </main>
