@@ -166,7 +166,7 @@ export const fetchLearningRoadmap = createAsyncThunk(
   async function (_, thunkAPI) {
     const token = localStorage.getItem("token");
     try {
-      const res = await fetch(`http://127.0.0.1:8000/api/v1/user/roadmap`, {
+      const res = await fetch(`https://spotted-stoke-flattered.ngrok-free.dev/api/v1/user/roadmap`, {
         method: "GET",
         headers: {
           Accept: "application/json",
@@ -193,7 +193,7 @@ export const updateCourseStatus = createAsyncThunk(
     const token = localStorage.getItem("token");
     try {
       const res = await fetch(
-        `http://127.0.0.1:8000/api/v1/user/roadmap/steps/${stepId}/status`,
+        `https://spotted-stoke-flattered.ngrok-free.dev/api/v1/user/roadmap/steps/${stepId}/status`,
         {
           method: "PATCH",
           headers: {

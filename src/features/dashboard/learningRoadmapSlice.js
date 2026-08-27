@@ -18,11 +18,12 @@ export const fetchLearningRoadmap = createAsyncThunk(
   async function (_, thunkAPI) {
     const token = localStorage.getItem("token");
     try {
-      const res = await fetch(`${BASE_URL}/user/roadmap`, {
+      const res = await fetch(`https://spotted-stoke-flattered.ngrok-free.dev/api/v1/user/roadmap`, {
         method: "GET",
         headers: {
           Accept: "application/json",
           Authorization: `Bearer ${token}`,
+          "X-Requested-With": "XMLHttpRequest", //
           "ngrok-skip-browser-warning": "true",
         },
       });
@@ -43,13 +44,14 @@ export const updateCourseStatus = createAsyncThunk(
     const token = localStorage.getItem("token");
     try {
       const res = await fetch(
-        `${BASE_URL}/user/roadmap/steps/${stepId}/status`,
+        `https://spotted-stoke-flattered.ngrok-free.dev/api/v1/user/roadmap/steps/${stepId}/status`,
         {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
             Accept: "application/json",
             Authorization: `Bearer ${token}`,
+            "X-Requested-With": "XMLHttpRequest", //
             "ngrok-skip-browser-warning": "true",
           },
           body: JSON.stringify({ status }),
@@ -73,13 +75,14 @@ export const updateCourseDirectStatus = createAsyncThunk(
     const token = localStorage.getItem("token");
     try {
       const res = await fetch(
-        `${BASE_URL}/user/roadmap/courses/${courseId}/status`,
+        `https://spotted-stoke-flattered.ngrok-free.dev/api/v1/user/roadmap/courses/${courseId}/status`,
         {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
             Accept: "application/json",
             Authorization: `Bearer ${token}`,
+            "X-Requested-With": "XMLHttpRequest", //
             "ngrok-skip-browser-warning": "true",
           },
           body: JSON.stringify({ status }),
@@ -108,6 +111,7 @@ export const submitCourseRating = createAsyncThunk(
           "Content-Type": "application/json",
           Accept: "application/json",
           Authorization: `Bearer ${token}`,
+          "X-Requested-With": "XMLHttpRequest", //
           "ngrok-skip-browser-warning": "true",
         },
         body: JSON.stringify({ rating, review }),

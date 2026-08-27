@@ -27,14 +27,18 @@ export const fetchSetting = createAsyncThunk(
   async function (_, thunkAPI) {
     const token = localStorage.getItem("token");
     try {
-      const res = await fetch(`http://127.0.0.1:8000/api/v1/settings`, {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          Authorization: `Bearer ${token}`,
-          "ngrok-skip-browser-warning": "true", // <-- Tambahkan baris ini
+      const res = await fetch(
+        `https://spotted-stoke-flattered.ngrok-free.dev/api/v1/settings`,
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${token}`,
+            "X-Requested-With": "XMLHttpRequest", //
+            "ngrok-skip-browser-warning": "true", // <-- Tambahkan baris ini
+          },
         },
-      });
+      );
 
       const data = await res.json();
       if (!res.ok) return thunkAPI.rejectWithValue(data);

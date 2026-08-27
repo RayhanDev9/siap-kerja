@@ -6,7 +6,7 @@ const initialState = {
 
   // Status untuk menampilkan animasi loading/skeleton
   isLoading: false,
-  aiReadiness: {},    // Ubah jadi object
+  aiReadiness: {}, // Ubah jadi object
   prioritySkills: [],
   dataChart: [],
 
@@ -20,14 +20,18 @@ export const fetchDashboard = createAsyncThunk(
     const token = localStorage.getItem("token");
 
     try {
-      const res = await fetch(`http://127.0.0.1:8000/api/v1/user/dashboard`, {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          Authorization: `Bearer ${token}`,
-          "ngrok-skip-browser-warning": "true", 
+      const res = await fetch(
+        `https://spotted-stoke-flattered.ngrok-free.dev/api/v1/user/dashboard`,
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${token}`,
+            "X-Requested-With": "XMLHttpRequest", //
+            "ngrok-skip-browser-warning": "true",
+          },
         },
-      });
+      );
 
       const data = await res.json();
 
@@ -49,7 +53,7 @@ const dashboardSlice = createSlice({
     selectAllDataDashbord(state, action) {
       const key = action.payload;
       // PERBAIKAN: Tadi pakai skillGapData (undefined), harusnya dashboardData
-      const rawData = state.dashboardData?.data; 
+      const rawData = state.dashboardData?.data;
 
       if (rawData && key) {
         // Otomatis ngambil data sesuai dengan PATH yang terpilih

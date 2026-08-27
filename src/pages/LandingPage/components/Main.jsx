@@ -104,13 +104,13 @@ function Main() {
           </motion.div>
         </section>
 
+        {/* Section About */}
+        <About />
+
         {/* Section Fitur Unggulan */}
         <div className="w-full">
           <FeaturedFeatures />
         </div>
-
-        {/* Section About */}
-        <About />
 
         {/* Section Testimonial */}
         <Testimonial />

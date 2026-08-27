@@ -67,7 +67,7 @@ function QNA() {
   return (
     <section
       id="faq"
-      className="w-full rounded-2xl bg-white py-16 md:py-24 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35"
+      className="w-full rounded-2xl bg-white py-6 my-12 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35"
     >
       <div className="mx-auto max-w-4xl px-4 md:px-8">
         {/* Header */}
@@ -104,7 +104,7 @@ function QNA() {
               variants={itemVariants}
               className={`rounded-2xl border-2 transition-all duration-300 ${
                 openIndex === index
-                  ? "border-blue-600 bg-blue-50/50 dark:border-blue-500 dark:bg-neutral-800/80"
+                  ? "border-white/35 bg-blue-50/50 dark:border-white/35 dark:bg-neutral-800/80"
                   : "border-slate-200 bg-white dark:border-white/10 dark:bg-neutral-900 hover:dark:border-white/25"
               }`}
             >

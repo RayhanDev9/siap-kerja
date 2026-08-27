@@ -59,7 +59,7 @@ function Testimonial() {
     <Section>
       <div
         id="testimonial"
-        className="w-full rounded-2xl bg-white py-16 md:py-24 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35"
+        className="w-full rounded-2xl bg-white py-6  dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35"
       >
         <div className="mx-auto max-w-6xl px-4 md:px-8">
           {/* Header */}
@@ -97,7 +97,7 @@ function Testimonial() {
                 onMouseEnter={() => setActiveIndex(index)}
                 className={`group relative flex cursor-pointer flex-col rounded-2xl border-2 p-6 transition-all duration-300 md:p-7 ${
                   activeIndex === index
-                    ? "border-blue-600 bg-blue-50/50 dark:border-blue-500 dark:bg-neutral-800/80"
+                    ? "border-white/35 bg-blue-50/50 dark:border-white/35 dark:bg-neutral-800/80"
                     : "border-slate-200 bg-white hover:border-blue-400 dark:border-white/10 dark:bg-neutral-900 hover:dark:border-white/25"
                 }`}
               >

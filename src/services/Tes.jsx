@@ -3,7 +3,7 @@
 //     console.log("🚀 Sedang menembak API Laravel...");
 
 //     // Menembak rute POST /login
-//     fetch('http://127.0.0.1:8000/api/v1/login', {
+//     fetch(' https://spotted-stoke-flattered.ngrok-free.dev/api/v1/login', {
 //       method: 'POST',
 //       headers: {
 //         'Content-Type': 'application/json',
@@ -46,7 +46,7 @@
 //   const tombolTesRegister = () => {
 //     console.log("🚀 Sedang mendaftarkan user baru...");
 
-//     fetch('http://127.0.0.1:8000/api/v1/register', {
+//     fetch(' https://spotted-stoke-flattered.ngrok-free.dev/api/v1/register', {
 //       method: 'POST',
 //       headers: {
 //         'Content-Type': 'application/json',
@@ -86,7 +86,7 @@ function Tes() {
   const tombolTesLogin = () => {
     console.log("🚀 Sedang mencoba Login...");
 
-    fetch("http://127.0.0.1:8000/api/v1/login", {
+    fetch(" https://spotted-stoke-flattered.ngrok-free.dev/api/v1/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

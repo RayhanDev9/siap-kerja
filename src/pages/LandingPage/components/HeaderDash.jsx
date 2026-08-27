@@ -10,6 +10,8 @@ function HeaderDash({ onHamburger, hamburger }) {
 
   const navLinks = [
     { label: "Beranda", path: "#home" },
+    { label: "About", icon: "fa-circle-info", path: "#about" },
+
     { label: "Fitur", path: "#features" },
     { label: "Testimonial", path: "#testimonial" },
     { label: "FAQ", path: "#faq" },
@@ -25,7 +27,7 @@ function HeaderDash({ onHamburger, hamburger }) {
   };
 
   return (
-    <header className="fixed top-0 right-0 left-0 z-50 border-b border-slate-200 bg-white dark:border-slate-700 dark:bg-neutral-900 ">
+    <header className="fixed top-0 right-0 left-0 z-50 border-b border-slate-200 bg-white dark:border-slate-700 dark:bg-neutral-900">
       <div className="px-3 py-2 sm:px-4 sm:py-3 md:px-6 md:py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
@@ -53,7 +55,7 @@ function HeaderDash({ onHamburger, hamburger }) {
           </div>
 
           {/* Right Section - Theme & Hamburger */}
-          <div className=" flex items-center gap-3 sm:gap-4">
+          <div className="flex items-center gap-3 sm:gap-4">
             {/* Desktop Navigation - Hidden on Mobile */}
             <nav className="hidden items-center gap-1 md:flex">
               {navLinks.map((link) => (
@@ -84,30 +86,33 @@ function HeaderDash({ onHamburger, hamburger }) {
               ))}
             </nav>
 
-            <Theme />
-
             {/* Hamburger Button - Only Mobile */}
-            <button
-              onClick={onHamburger}
-              className="flex flex-col gap-1.5 p-1 focus:outline-none md:hidden"
-              aria-label="Toggle menu"
-            >
-              <span
-                className={`inline-block h-1 w-6 bg-slate-900 transition-all duration-300 dark:bg-white ${
-                  hamburger ? "translate-y-2.5 rotate-45" : ""
-                }`}
-              ></span>
-              <span
-                className={`inline-block h-1 w-6 bg-slate-900 transition-all duration-300 dark:bg-white ${
-                  hamburger ? "opacity-0" : ""
-                }`}
-              ></span>
-              <span
-                className={`inline-block h-1 w-6 bg-slate-900 transition-all duration-300 dark:bg-white ${
-                  hamburger ? "-translate-y-2.5 -rotate-45" : ""
-                }`}
-              ></span>
-            </button>
+            {!hamburger && (
+              <>
+                <Theme />
+                <button
+                  onClick={onHamburger}
+                  className="flex flex-col gap-1.5 p-1 focus:outline-none md:hidden"
+                  aria-label="Toggle menu"
+                >
+                  <span
+                    className={`inline-block h-1 w-6 bg-slate-900 transition-all duration-300 dark:bg-white ${
+                      hamburger ? "translate-y-2.5 rotate-45" : ""
+                    }`}
+                  ></span>
+                  <span
+                    className={`inline-block h-1 w-6 bg-slate-900 transition-all duration-300 dark:bg-white ${
+                      hamburger ? "opacity-0" : ""
+                    }`}
+                  ></span>
+                  <span
+                    className={`inline-block h-1 w-6 bg-slate-900 transition-all duration-300 dark:bg-white ${
+                      hamburger ? "-translate-y-2.5 -rotate-45" : ""
+                    }`}
+                  ></span>
+                </button>
+              </>
+            )}
           </div>
         </div>
       </div>

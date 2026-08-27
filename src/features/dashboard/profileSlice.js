@@ -14,14 +14,18 @@ export const fetchProfile = createAsyncThunk(
     const token = localStorage.getItem("token");
 
     try {
-      const res = await fetch(`http://127.0.0.1:8000/api/v1/user/profile`, {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          Authorization: `Bearer ${token}`,
-          "ngrok-skip-browser-warning": "true",
+      const res = await fetch(
+        `https://spotted-stoke-flattered.ngrok-free.dev/api/v1/user/profile`,
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${token}`,
+            "X-Requested-With": "XMLHttpRequest", //
+            "ngrok-skip-browser-warning": "true",
+          },
         },
-      });
+      );
 
       const data = await res.json();
 
@@ -45,16 +49,20 @@ export const updateProfile = createAsyncThunk(
     const token = localStorage.getItem("token");
 
     try {
-      const res = await fetch(`http://127.0.0.1:8000/api/v1/user/profile`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-          Authorization: `Bearer ${token}`,
-          "ngrok-skip-browser-warning": "true",
+      const res = await fetch(
+        `https://spotted-stoke-flattered.ngrok-free.dev/api/v1/user/profile`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            Authorization: `Bearer ${token}`,
+            "X-Requested-With": "XMLHttpRequest", //
+            "ngrok-skip-browser-warning": "true",
+          },
+          body: JSON.stringify(updatedData),
         },
-        body: JSON.stringify(updatedData),
-      });
+      );
 
       const data = await res.json();
 
@@ -78,16 +86,20 @@ export const updatePassword = createAsyncThunk(
     const token = localStorage.getItem("token");
 
     try {
-      const res = await fetch(`http://127.0.0.1:8000/api/v1/user/password`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-          Authorization: `Bearer ${token}`,
-          "ngrok-skip-browser-warning": "true",
+      const res = await fetch(
+        `https://spotted-stoke-flattered.ngrok-free.dev/api/v1/user/password`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            Authorization: `Bearer ${token}`,
+            "X-Requested-With": "XMLHttpRequest", //
+            "ngrok-skip-browser-warning": "true",
+          },
+          body: JSON.stringify(payload),
         },
-        body: JSON.stringify(payload),
-      });
+      );
 
       const data = await res.json();
 

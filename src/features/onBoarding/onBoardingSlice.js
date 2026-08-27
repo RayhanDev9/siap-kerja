@@ -28,7 +28,7 @@ export const fetchOnboarding = createAsyncThunk(
       const token = localStorage.getItem("token");
 
       const response = await fetch(
-        `http://127.0.0.1:8000/api/v1/user/profile`,
+        `https://spotted-stoke-flattered.ngrok-free.dev/api/v1/user/profile`,
 
         {
           method: "GET",
@@ -70,13 +70,14 @@ export const updateCourseStatus = createAsyncThunk(
     const token = localStorage.getItem("token");
     try {
       const res = await fetch(
-        `http://127.0.0.1:8000/api/v1/user/roadmap/courses/${courseId}/status`,
+        `https://spotted-stoke-flattered.ngrok-free.dev/api/v1/user/roadmap/courses/${courseId}/status`,
         {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
             Accept: "application/json",
             Authorization: `Bearer ${token}`,
+            "X-Requested-With": "XMLHttpRequest", //
             "ngrok-skip-browser-warning": "true",
           },
           // Mengirim status baru (misal: "completed") ke backend
@@ -145,7 +146,7 @@ export const fetchSendOnboarding = createAsyncThunk(
       }
 
       const response = await fetch(
-        `http://127.0.0.1:8000/api/v1/user/profile`,
+        `https://spotted-stoke-flattered.ngrok-free.dev/api/v1/user/profile`,
 
         {
           method: "POST",
@@ -154,7 +155,7 @@ export const fetchSendOnboarding = createAsyncThunk(
             Accept: "application/json",
 
             Authorization: `Bearer ${token}`,
-
+            "X-Requested-With": "XMLHttpRequest", //
             "ngrok-skip-browser-warning": "true",
           },
 

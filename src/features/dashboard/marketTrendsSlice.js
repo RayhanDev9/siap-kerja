@@ -7,13 +7,14 @@ export const fetchMarketTrends = createAsyncThunk(
       const token = localStorage.getItem("token");
 
       const res = await fetch(
-        `http://127.0.0.1:8000/api/v1/user/market-trends`,
+        `https://spotted-stoke-flattered.ngrok-free.dev/api/v1/user/market-trends`,
         {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
             Accept: "application/json",
             Authorization: `Bearer ${token}`,
+            "X-Requested-With": "XMLHttpRequest", //
             "ngrok-skip-browser-warning": "true",
           },
         },
@@ -35,9 +36,9 @@ export const fetchMarketTrends = createAsyncThunk(
 const initialState = {
   marketTrendsData: null,
   // Tambahan state untuk fitur filter Tab
-  filteredMarketTrends: [], 
-  activeCategory: "semua", 
-  
+  filteredMarketTrends: [],
+  activeCategory: "semua",
+
   isLoading: false,
   error: null,
 };
@@ -51,7 +52,7 @@ const marketTrendsSlice = createSlice({
       const keyword = action.payload
         ? String(action.payload).trim().toLowerCase()
         : "semua";
-      
+
       const allTrends = state.marketTrendsData?.data || [];
       state.activeCategory = keyword;
 
@@ -79,7 +80,7 @@ const marketTrendsSlice = createSlice({
         state.isLoading = false;
         state.marketTrendsData = action.payload;
         // Jadikan data utuh sebagai nilai awal filteredMarketTrends
-        state.filteredMarketTrends = action.payload.data; 
+        state.filteredMarketTrends = action.payload.data;
       })
       .addCase(fetchMarketTrends.rejected, (state, action) => {
         state.isLoading = false;

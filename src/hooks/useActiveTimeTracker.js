@@ -12,15 +12,18 @@ export function useActiveTimeTracker() {
       if (!token) return;
 
       try {
-        await fetch("http://127.0.0.1:8000/api/v1/analytics/time", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-            Authorization: `Bearer ${token}`,
+        await fetch(
+          " https://spotted-stoke-flattered.ngrok-free.dev/api/v1/analytics/time",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({ minutes: 1 }), // Tambah 1 menit
           },
-          body: JSON.stringify({ minutes: 1 }), // Tambah 1 menit
-        });
+        );
       } catch (error) {
         console.error("Gagal memperbarui waktu aktif:", error);
       }

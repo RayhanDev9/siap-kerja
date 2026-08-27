@@ -16,7 +16,7 @@ const AuthHeader = ({ title, description, isActive, dividerText }) => {
 
   // Di komponen tombol Login React
   const handleLoginWithGoogle = () => {
-    window.location.href = `http://127.0.0.1:8000/api/v1/auth/google/redirect`;
+    window.location.href = `https://spotted-stoke-flattered.ngrok-free.dev/api/v1/auth/google/redirect`;
   };
 
   return (

@@ -11,6 +11,9 @@ import onBoardingReducer from "./features/onBoarding/onBoardingSlice";
 import savedCareersReducer from "./features/dashboard/savedCareersSlice";
 import profileReducer from "./features/dashboard/profileSlice";
 import courseReducer from "./features/course/courseSlice";
+
+import { errorMiddleware } from "./features/errorSlice/errorMiddleware";
+
 const store = configureStore({
   reducer: {
     auth: authReducer,
@@ -28,6 +31,8 @@ const store = configureStore({
     savedCareers: savedCareersReducer,
     profile: profileReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(errorMiddleware),
 });
 
 export default store;

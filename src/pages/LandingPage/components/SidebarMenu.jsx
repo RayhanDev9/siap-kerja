@@ -11,9 +11,10 @@ export default function SidebarMenu({ hamburger, onHamburger }) {
 
   const menuItems = [
     { id: 1, label: "Beranda", icon: "fa-home", path: "#home" },
-    { id: 2, label: "Fitur", icon: "fa-star", path: "#features" },
-    { id: 3, label: "Testimonial", icon: "fa-comment", path: "#testimonial" },
-    { id: 4, label: "FAQ", icon: "fa-question", path: "#faq" },
+    { id: 2, label: "About", icon: "fa-circle-info", path: "#about" },
+    { id: 3, label: "Fitur", icon: "fa-star", path: "#features" },
+    { id: 4, label: "Testimonial", icon: "fa-comment", path: "#testimonial" },
+    { id: 5, label: "FAQ", icon: "fa-question", path: "#faq" },
   ];
 
   const handleNavClick = (path) => {

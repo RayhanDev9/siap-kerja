@@ -30,7 +30,7 @@ const valuesData = [
 
 function About() {
   return (
-    <section id="about" className="space-y-12 py-10">
+    <section id="about" className="space-y-12 py-7">
       {/* Header About Section */}
       <motion.div
         variants={cardVariants}
@@ -41,7 +41,7 @@ function About() {
         </span>
         <h2 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl md:text-5xl dark:text-white">
           Membangun Karir Digital dengan{" "}
-          <span className="text-primary block sm:inline">
+          <span className="text-primary block sm:inline-block md:mt-2.5">
             Data & Arah Pasti
           </span>
         </h2>

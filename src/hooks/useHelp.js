@@ -8,15 +8,18 @@ export const useHelp = () => {
     const token = localStorage.getItem("token");
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/v1/bug-report", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          // Catatan penting: JANGAN set Content-Type secara manual kalau pakai FormData.
-          // Browser bakal otomatis ngeset jadi multipart/form-data beserta boundary-nya.
+      const response = await fetch(
+        " https://spotted-stoke-flattered.ngrok-free.dev/api/v1/bug-report",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            // Catatan penting: JANGAN set Content-Type secara manual kalau pakai FormData.
+            // Browser bakal otomatis ngeset jadi multipart/form-data beserta boundary-nya.
+          },
+          body: formDataPayload,
         },
-        body: formDataPayload,
-      });
+      );
 
       const result = await response.json();
 
