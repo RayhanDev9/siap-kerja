@@ -35,7 +35,7 @@ function Main() {
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className="mt-3 space-y-6 overflow-x-hidden overflow-y-hidden rounded-2xl"
+        className="mt-3 space-y-7 overflow-x-hidden overflow-y-hidden rounded-2xl"
       >
         {/* Hero Section */}
         <section

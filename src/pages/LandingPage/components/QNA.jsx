@@ -65,10 +65,7 @@ function QNA() {
   };
 
   return (
-    <section
-      id="faq"
-      className="w-full rounded-2xl bg-white py-6 my-12 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35"
-    >
+    <section id="faq" className="my-12 w-full rounded-2xl py-6">
       <div className="mx-auto max-w-4xl px-4 md:px-8">
         {/* Header */}
         <motion.div
@@ -96,15 +93,15 @@ function QNA() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="space-y-3"
+          className="space-y-3 rounded-2xl"
         >
           {faqData.map((faq, index) => (
             <motion.div
               key={faq.id}
               variants={itemVariants}
-              className={`rounded-2xl border-2 transition-all duration-300 ${
+              className={`rounded-2xl border-2 bg-white transition-all duration-300 dark:bg-neutral-900 ${
                 openIndex === index
-                  ? "border-blue-500 bg-blue-50/50 dark:border-border-blue-500 dark:bg-neutral-800/80"
+                  ? "dark:border-border-blue-500 border-blue-500 bg-blue-50/50 dark:bg-neutral-800/80"
                   : "border-slate-200 bg-white dark:border-white/10 dark:bg-neutral-900 hover:dark:border-white/25"
               }`}
             >

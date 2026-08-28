@@ -127,7 +127,7 @@ function LearningRoadmap() {
                       }`}
                     >
                     
-                      <span className="truncate w-full">  {course.titleCourse}</span>
+                      <span className=" inline-block">  {course.titleCourse}</span>
                     </H3>
 
                     {/* Karena JSON Course tidak punya deskripsi, kita tampilkan jumlah steps */}

@@ -34,7 +34,7 @@ const Support = () => {
       icon: "fa-discord",
       action: "Gabung Discord",
       color: "text-indigo-600 dark:text-indigo-400",
-      link: "https://discord.gg/siapkerja",
+      link: "https://discord.com/channels/1519643420111405218/1519643420837150793",
     },
     // --- TAMBAHAN SOSIAL MEDIA ---
     {
@@ -44,27 +44,27 @@ const Support = () => {
       icon: "fa-instagram",
       action: "Kunjungi Profil",
       color: "text-pink-600 dark:text-pink-500",
-      link: "https://instagram.com/siapkerja",
+      link: "https://www.instagram.com/m.rayhanoi26?igsi=MWZlbHhmb2Rodmo4ag==",
     },
-    {
-      title: "Facebook",
-      detail: "SiapKerja Official",
-      iconType: "fa-brands",
-      icon: "fa-facebook",
-      action: "Kunjungi Halaman",
-      color: "text-blue-700 dark:text-blue-500",
-      link: "https://facebook.com/siapkerja",
-    },
-    {
-      title: "Twitter / X",
-      detail: "@siapkerja",
-      iconType: "fa-brands",
-      // Catatan: Jika fa-x-twitter tidak muncul, ganti dengan fa-twitter (tergantung versi FontAwesome kamu)
-      icon: "fa-x-twitter",
-      action: "Follow Kami",
-      color: "text-slate-900 dark:text-white",
-      link: "https://twitter.com/siapkerja",
-    },
+    // {
+    //   title: "Facebook",
+    //   detail: "SiapKerja Official",
+    //   iconType: "fa-brands",
+    //   icon: "fa-facebook",
+    //   action: "Kunjungi Halaman",
+    //   color: "text-blue-700 dark:text-blue-500",
+    //   link: "https://facebook.com/siapkerja",
+    // },
+    // {
+    //   title: "Twitter / X",
+    //   detail: "@siapkerja",
+    //   iconType: "fa-brands",
+    //   // Catatan: Jika fa-x-twitter tidak muncul, ganti dengan fa-twitter (tergantung versi FontAwesome kamu)
+    //   icon: "fa-x-twitter",
+    //   action: "Follow Kami",
+    //   color: "text-slate-900 dark:text-white",
+    //   link: "https://twitter.com/siapkerja",
+    // },
   ];
 
   return (

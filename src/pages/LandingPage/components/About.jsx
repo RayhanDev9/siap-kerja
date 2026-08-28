@@ -53,7 +53,7 @@ function About() {
       </motion.div>
 
       {/* Vision & Mission Cards */}
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 mt-6">
         {/* Visi */}
         <motion.div
           variants={cardVariants}

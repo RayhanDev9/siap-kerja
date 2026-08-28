@@ -56,104 +56,101 @@ function Testimonial() {
   const [activeIndex, setActiveIndex] = useState(0);
 
   return (
-      <div
-        id="testimonial"
-        className="w-full rounded-2xl bg-white py-6  dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35"
-      >
-        <div className="mx-auto max-w-6xl px-4 md:px-8">
-          {/* Header */}
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            viewport={{ once: true }}
-            className="mb-12 text-center"
+    <div id="testimonial" className="w-full rounded-2xl py-6">
+      <div className="mx-auto max-w-6xl px-4 md:px-8">
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          viewport={{ once: true }}
+          className="mb-12 text-center"
+        >
+          <H2
+            type="secondaryBold"
+            className="mb-3 text-slate-900 dark:text-white"
           >
-            <H2
-              type="secondaryBold"
-              className="mb-3 text-slate-900 dark:text-white"
+            Kisah Sukses
+          </H2>
+          <Text className="mx-auto max-w-2xl text-slate-600 dark:text-slate-300">
+            Bagaimana SiapKerja membantu talenta digital menguasai keahlian baru
+            dan mencapai potensi karir maksimal mereka.
+          </Text>
+        </motion.div>
+
+        {/* Testimonials Grid */}
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
+        >
+          {testimonialData.map((testimonial, index) => (
+            <motion.div
+              key={testimonial.id}
+              variants={itemVariants}
+              onMouseEnter={() => setActiveIndex(index)}
+              className={`group relative flex cursor-pointer flex-col rounded-2xl border-2 bg-white p-6 transition-all duration-300 md:p-7  dark:bg-neutral-900 ${
+                activeIndex === index
+                  ? "border-white/35 bg-blue-50/50 dark:border-blue-500 dark:bg-neutral-800/80"
+                  : "border-slate-200 border-white/35 bg-white hover:border-blue-500 dark:bg-neutral-900 hover:dark:border-blue-400"
+              }`}
             >
-              Kisah Sukses
-            </H2>
-            <Text className="mx-auto max-w-2xl text-slate-600 dark:text-slate-300">
-              Bagaimana SiapKerja membantu talenta digital menguasai keahlian baru
-              dan mencapai potensi karir maksimal mereka.
-            </Text>
-          </motion.div>
+              {/* Quote Mark Icon */}
+              <div className="mb-4 text-3xl text-blue-600/20 dark:text-blue-400/20">
+                <i className="fa-solid fa-quote-left"></i>
+              </div>
 
-          {/* Testimonials Grid */}
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
-          >
-            {testimonialData.map((testimonial, index) => (
-              <motion.div
-                key={testimonial.id}
-                variants={itemVariants}
-                onMouseEnter={() => setActiveIndex(index)}
-                className={`group relative flex cursor-pointer flex-col rounded-2xl border-2 p-6 transition-all duration-300 md:p-7 ${
-                  activeIndex === index
-                    ? "border-white/35 bg-blue-50/50 dark:border-blue-500 dark:bg-neutral-800/80"
-                    : "border-slate-200 border-white/35  bg-white hover:border-blue-500 dark:bg-neutral-900 hover:dark:border-blue-400"
-                }`}
-              >
-                {/* Quote Mark Icon */}
-                <div className="mb-4 text-3xl text-blue-600/20 dark:text-blue-400/20">
-                  <i className="fa-solid fa-quote-left"></i>
+              {/* Quote Text */}
+              <Text className="mb-6 flex-1 text-sm leading-relaxed text-slate-600 italic md:text-base dark:text-slate-300">
+                "{testimonial.quote}"
+              </Text>
+
+              {/* Divider */}
+              <div className="mb-5 h-1 w-12 rounded-full bg-gradient-to-r from-blue-600 to-blue-400"></div>
+
+              {/* Author Info */}
+              <div className="flex items-center gap-3">
+                {/* Avatar */}
+                <img
+                  src={testimonial.image}
+                  alt={testimonial.name}
+                  className="h-12 w-12 rounded-full border-2 border-blue-600 object-cover dark:border-blue-400"
+                />
+
+                {/* Name & Position */}
+                <div className="min-w-0 flex-1">
+                  <H3 className="truncate text-sm font-semibold text-slate-900 md:text-base dark:text-white">
+                    {testimonial.name}
+                  </H3>
+                  <p className="truncate text-xs text-slate-500 md:text-sm dark:text-slate-400">
+                    {testimonial.position}
+                  </p>
                 </div>
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
 
-                {/* Quote Text */}
-                <Text className="mb-6 flex-1 text-sm leading-relaxed text-slate-600 italic md:text-base dark:text-slate-300">
-                  "{testimonial.quote}"
-                </Text>
-
-                {/* Divider */}
-                <div className="mb-5 h-1 w-12 rounded-full bg-gradient-to-r from-blue-600 to-blue-400"></div>
-
-                {/* Author Info */}
-                <div className="flex items-center gap-3">
-                  {/* Avatar */}
-                  <img
-                    src={testimonial.image}
-                    alt={testimonial.name}
-                    className="h-12 w-12 rounded-full border-2 border-blue-600 object-cover dark:border-blue-400"
-                  />
-
-                  {/* Name & Position */}
-                  <div className="min-w-0 flex-1">
-                    <H3 className="truncate text-sm font-semibold text-slate-900 md:text-base dark:text-white">
-                      {testimonial.name}
-                    </H3>
-                    <p className="truncate text-xs md:text-sm text-slate-500 dark:text-slate-400">
-                      {testimonial.position}
-                    </p>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-
-          {/* Indicator Dots */}
-          <div className="mt-8 flex justify-center gap-2">
-            {testimonialData.map((_, index) => (
-              <button
-                key={index}
-                type="button"
-                onClick={() => setActiveIndex(index)}
-                className={`h-2 rounded-full transition-all ${
-                  activeIndex === index
-                    ? "w-6 bg-blue-600 dark:bg-blue-400"
-                    : "w-2 bg-slate-300 dark:bg-neutral-700"
-                }`}
-                aria-label={`Pilih testimoni ${index + 1}`}
-              />
-            ))}
-          </div>
+        {/* Indicator Dots */}
+        <div className="mt-8 flex justify-center gap-2">
+          {testimonialData.map((_, index) => (
+            <button
+              key={index}
+              type="button"
+              onClick={() => setActiveIndex(index)}
+              className={`h-2 rounded-full transition-all ${
+                activeIndex === index
+                  ? "w-6 bg-blue-600 dark:bg-blue-400"
+                  : "w-2 bg-slate-300 dark:bg-neutral-700"
+              }`}
+              aria-label={`Pilih testimoni ${index + 1}`}
+            />
+          ))}
         </div>
       </div>
+    </div>
   );
 }
 
