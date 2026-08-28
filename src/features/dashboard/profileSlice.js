@@ -45,47 +45,64 @@ export const fetchProfile = createAsyncThunk(
 // 2. UPDATE PROFILE
 export const updateProfile = createAsyncThunk(
   "profile/updateProfile",
-  async function (formData, thunkAPI) {
+  async function (payload, thunkAPI) {
+    // Ubah param jadi 'payload' agar lebih umum
     const token = localStorage.getItem("token");
 
     // Jika token tidak ada, langsung tolak dari frontend
     if (!token) {
-      return thunkAPI.rejectWithValue("Sesi telah habis, silakan login kembali.");
+      return thunkAPI.rejectWithValue(
+        "Sesi telah habis, silakan login kembali.",
+      );
+    }
+
+    // 🚀 CEK TIPE DATA: Apakah ini FormData atau Object JSON biasa?
+    const isFormData = payload instanceof FormData;
+
+    // Susun header bawaan
+    const headers = {
+      Accept: "application/json",
+      Authorization: `Bearer ${token}`,
+      "X-Requested-With": "XMLHttpRequest",
+      "ngrok-skip-browser-warning": "true",
+    };
+
+    // 🚀 JIKA BUKAN FORMDATA, WAJIB TAMBAHKAN CONTENT-TYPE JSON
+    if (!isFormData) {
+      headers["Content-Type"] = "application/json";
     }
 
     try {
       const res = await fetch(
         `https://spotted-stoke-flattered.ngrok-free.dev/api/v1/user/profile`,
         {
-          method: "POST", // Tetap POST karena pakai FormData
-          headers: {
-            Accept: "application/json",
-            Authorization: `Bearer ${token}`, // Pastikan spasi setelah Bearer
-            "X-Requested-With": "XMLHttpRequest",
-            "ngrok-skip-browser-warning": "true",
-          },
-          body: formData,
-        }
+          method: "PUT", // PUT cocok untuk update email
+          headers: headers,
+          // 🚀 UBAH KE STRING JIKA BUKAN FORMDATA
+          body: isFormData ? payload : JSON.stringify(payload),
+        },
       );
 
       // Tangani error 401 Unauthorized secara manual
       if (res.status === 401) {
-        return thunkAPI.rejectWithValue("Sesi kedaluwarsa. Silakan login ulang.");
+        return thunkAPI.rejectWithValue(
+          "Sesi kedaluwarsa. Silakan login ulang.",
+        );
       }
 
       const data = await res.json();
 
       if (!res.ok) {
         return thunkAPI.rejectWithValue(
-          data.message || "Gagal memperbarui profil"
+          data.message || "Gagal memperbarui profil",
         );
       }
 
-      return data.data; 
+      return data.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 // 3. UPDATE PASSWORD
