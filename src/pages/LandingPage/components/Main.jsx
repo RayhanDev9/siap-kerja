@@ -36,7 +36,7 @@ function Main() {
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className="mt-24 space-y-16 overflow-x-hidden overflow-y-hidden rounded-2xl"
+        className="mt-10 space-y-16 overflow-x-hidden overflow-y-hidden rounded-2xl"
       >
         {/* Hero Section */}
         <section className="mx-auto grid w-full items-center gap-7 sm:w-4/5 md:w-[70%] lg:w-full lg:grid-cols-2 lg:gap-8">
