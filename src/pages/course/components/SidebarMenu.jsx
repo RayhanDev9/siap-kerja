@@ -22,8 +22,6 @@ export default function SidebarMenu({
     (state) => state.learningRoadmap,
   );
 
-  
-
   const currentCourse =
     selectedCourses?.find(
       (item) => String(item.course_id) === String(courseId),
@@ -72,43 +70,46 @@ export default function SidebarMenu({
                   className="flex flex-col gap-1.5 p-1 focus:outline-none"
                 >
                   <span
-                    className={`inline-block h-1 w-6 bg-black transition-all duration-300 ${
+                    className={`inline-block h-1 w-6 bg-black transition-all duration-300 dark:bg-white ${
                       humberger ? "translate-y-2.5 rotate-45" : ""
                     }`}
                   ></span>
                   <span
-                    className={`inline-block h-1 w-6 bg-black transition-all duration-300 ${
+                    className={`inline-block h-1 w-6 bg-black transition-all duration-300 dark:bg-white ${
                       humberger ? "opacity-0" : ""
                     }`}
                   ></span>
                   <span
-                    className={`inline-block h-1 w-6 bg-black transition-all duration-300 ${
+                    className={`inline-block h-1 w-6 bg-black transition-all duration-300 dark:bg-white ${
                       humberger ? "-translate-y-2.5 -rotate-45" : ""
                     }`}
                   ></span>
                 </button>
               </div>
 
-              <hr className="my-6 border-slate-200" />
+              <hr className="my-6 border-slate-200 dark:border-white/10" />
 
               {/* --- SECTION: MAIN MENU --- */}
               <div className="my-6">
                 <H3 className="mb-3 text-xs font-bold tracking-wider text-slate-400 uppercase">
                   <span className="uppercase">Main Menu</span>
                 </H3>
-                <button className="mt-3 flex w-full items-center gap-3 rounded-xl bg-blue-600 px-4 py-3 text-white shadow-md transition-all hover:bg-blue-700">
-                  <i className="fa-solid fa-graduation-cap text-xl"></i>
-                  <span
-                    className="z-50 text-base font-semibold"
-                    onClick={() => navigate("/courses")}
-                  >
-                    Courses
+                <button 
+                  onClick={() => {
+                    navigate("/courses");
+                    onHumberger(); // Menutup sidebar setelah diklik
+                  }}
+                  className="mt-3 flex w-full items-center gap-3 rounded-xl border-2 border-blue-600 bg-transparent px-4 py-2.5 text-blue-600 transition-all hover:bg-blue-50 dark:border-blue-500 dark:text-blue-400 hover:dark:bg-blue-900/20"
+                >
+                  <i className="fa-solid fa-arrow-left text-lg"></i>
+                  <span className="text-base font-semibold">
+                    Daftar Courses
                   </span>
                 </button>
               </div>
 
               {/* Divider / Garis Pemisah */}
-              <hr className="my-6 border-slate-200" />
+              <hr className="my-6 border-slate-200 dark:border-white/10" />
 
               {/* --- SECTION: COURSE CONTENT --- */}
               <div>
@@ -124,6 +125,7 @@ export default function SidebarMenu({
                   </Text>
                 </div>
 
+                {/* List Materi */}
                 {steps.map((step) => (
                   <SideBarMenuItems
                     key={step.id || step.title}

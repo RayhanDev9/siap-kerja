@@ -26,6 +26,9 @@ function OnboardingPage5() {
   const { data } = useSelector((state) => state.onBoarding);
 
   const [selectedSkills, setSelectedSkills] = useState([]);
+  
+  // State baru untuk mendeteksi proses loading
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     if (data === null) {
@@ -33,7 +36,6 @@ function OnboardingPage5() {
     }
   }, [data, navigate]);
 
-  // 1. Pilih / Batal Pilih Skill Checkbox
   function handleSelectSkill(skillId) {
     setSelectedSkills((prevSkills) => {
       if (prevSkills.includes(skillId)) {
@@ -44,10 +46,11 @@ function OnboardingPage5() {
     });
   }
 
-  // 2. Submit Data Onboarding ke Backend
   async function handleNext() {
     if (data && data.data) {
-      // Susun data skill yang dipilih
+      // Ubah status tombol menjadi loading
+      setIsSubmitting(true);
+
       const formattedSkillsWithValues = selectedSkills.map((skillId) => {
         const courseDetail = selectedCourses?.find(
           (course) => String(course.course_id) === String(skillId),
@@ -60,16 +63,13 @@ function OnboardingPage5() {
         };
       });
 
-      // Simpan list skill ke state Redux onboarding
       dispatch(SkillsSelection(formattedSkillsWithValues));
 
-      // Gabungkan data form onboarding dengan array skill yang dipilih
       const dataToSubmit = {
         ...data.data,
         completed_skills: formattedSkillsWithValues,
       };
 
-      // Update status course secara direct ke backend untuk setiap skill yang dicentang
       selectedSkills.forEach((skillId) => {
         const courseDetail = selectedCourses?.find(
           (course) => String(course.course_id) === String(skillId),
@@ -84,26 +84,27 @@ function OnboardingPage5() {
         }
       });
 
-      // Kirim seluruh payload onboarding ke endpoint backend
       dispatch(fetchSendOnboarding(dataToSubmit))
         .unwrap()
         .then(() => navigate("/profile"))
-        .catch((error) => console.error("Gagal submit onboarding:", error));
+        .catch((error) => {
+          console.error("Gagal submit onboarding:", error);
+          // Kembalikan tombol ke keadaan semula jika gagal
+          setIsSubmitting(false);
+        });
     }
   }
 
   return (
     <>
-      <div className=" relative  rounded-2xl md:bg-white md:pb-3 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35">
+      <div className="relative rounded-2xl md:bg-white md:pb-3 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35">
         <div className="xs:right-0 absolute top-0 right-0 z-50 lg:hidden">
           <Theme />
         </div>
         <Section>
           <div className="space-y-7 max-xs:mt-4">
-            {/* Progres */}
             <ProgresOnboarding progresOnboarding={5} />
 
-            {/* Header */}
             <div className="rounded-2xl bg-white p-7 shadow-md dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35">
               <motion.div variants={cardVariants} className="pb-1">
                 <H2 type="secondaryBold">Apa keahlian Anda saat ini?</H2>
@@ -116,7 +117,6 @@ function OnboardingPage5() {
               </motion.div>
             </div>
 
-            {/* Skill Selection Items */}
             <div className="space-y-4 rounded-2xl p-7 shadow-md">
               <div className="xs:grid-cols-2 grid gap-4">
                 {selectedCourses &&
@@ -136,8 +136,11 @@ function OnboardingPage5() {
 
         <ButtonMdOnboarding
           button1="Sebelumnya"
-          button2="Selesai"
+          // Teks tombol berubah dinamis berdasarkan state isSubmitting
+          button2={isSubmitting ? "Mengirim..." : "Selesai"}
           onFinish={handleNext}
+          // Opsional: kirim props disabled agar user tidak klik 2 kali
+          disabled={isSubmitting} 
         />
       </div>
     </>

@@ -17,8 +17,8 @@ export const errorMiddleware = (api) => (next) => (action) => {
       localStorage.removeItem("user");
 
       // Paksa pindah halaman
-      // window.location.href = "/siap-kerja/#/login";
-      window.location.href = "/login";
+      window.location.href = "/siap-kerja/#/login";
+      // window.location.href = "/login";
     }
   }
 

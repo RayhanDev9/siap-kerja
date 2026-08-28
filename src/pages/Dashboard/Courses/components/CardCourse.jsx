@@ -33,7 +33,7 @@ function CardCourse({ id, img, status, titleCourse, steps, rating }) {
   return (
     <motion.div
       variants={cardVariants}
-      className="flex max-w-2xs min-w-3xs flex-col overflow-hidden rounded-2xl bg-white shadow-sm dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35"
+      className="flex w-3xs flex-col overflow-hidden rounded-2xl bg-white shadow-sm dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35"
     >
       <div className="h-44 w-full overflow-hidden bg-slate-100 dark:bg-neutral-800">
         <img

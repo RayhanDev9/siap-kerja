@@ -128,7 +128,7 @@ function Profile() {
                 ))}
               {hiddenSkills.length > 0 && (
                 <button onClick={handleAnotherSkills}>
-                  <Text className="inline-block bg-blue-400 rounded-md text-white p-2 text-blue-500 dark:border dark:border-white/25 dark:bg-neutral-900">
+                  <Text className="inline-block bg-blue-500 rounded-md text-white p-2 text-blue-500 dark:border dark:border-white/25 ">
                     {!anotherSkills ? `+ ${hiddenSkills.length} More` : "Less..."}
                   </Text>
                 </button>

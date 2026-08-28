@@ -9,7 +9,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import FooterCourse from "./FooterCourse";
 import { cardVariants } from "../../../util/animations";
 import Theme from "../../../ui/Theme";
-import { useParams } from "react-router";
+import { useParams, useNavigate } from "react-router"; // 👈 Tambahkan useNavigate
 import { useSelector } from "react-redux";
 
 function SideBarMenuLg({
@@ -21,6 +21,8 @@ function SideBarMenuLg({
 }) {
   const [dropDownCourse, setDropDownCourse] = useState(false);
   const { courseId } = useParams();
+  const navigate = useNavigate(); // 👈 Inisialisasi navigate
+
   const { countStep } = useSelector((state) => state.course);
   const { data, selectedCourses } = useSelector(
     (state) => state.learningRoadmap,
@@ -67,35 +69,7 @@ function SideBarMenuLg({
       <div className="relative hidden w-[420px] lg:block">
         <div className="col-span-1 min-h-screen bg-blue-50 py-3 pb-20 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35">
           <div className="z-50 h-full overflow-y-auto py-4 font-sans text-slate-800">
-            {/* Header Sidebar & Close Button */}
-            {/* <div className="flex justify-between gap-2.5 px-7">
-              <Logo type={"small"} />
-              <div className="flex items-center">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="border-none outline-0"
-                  fill="blue"
-
-                  viewBox="0 0 24 24"
-                  strokeWidth={0}
-                  stroke="currentColor"
-                  className="size-12"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M15.362 5.214A8.252 8.252 0 0 1 12 21 8.25 8.25 0 0 1 6.038 7.047 8.287 8.287 0 0 0 9 9.601a8.983 8.983 0 0 1 3.361-6.867 8.21 8.21 0 0 0 3 2.48Z"
-                  />
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M12 18a3.75 3.75 0 0 0 .495-7.468 5.99 5.99 0 0 0-1.925 3.547 5.975 5.975 0 0 1-2.133-1.001A3.75 3.75 0 0 0 12 18Z"
-                  />
-                </svg>
-              </div>
-            </div>
-            <hr className="my-6 border-slate-200" /> */}
-
+            
             {/* --- SECTION: MAIN MENU --- */}
             <div className="my-0 px-7">
               <motion.div variants={cardVariants}>
@@ -104,10 +78,14 @@ function SideBarMenuLg({
                 </H3>
               </motion.div>
               <motion.div variants={cardVariants}>
-                <button className="mt-3 flex w-full items-center gap-3 rounded-xl bg-blue-600 px-4 py-3 text-white shadow-md transition-all hover:bg-blue-700">
-                  <i className="fa-solid fa-graduation-cap text-2xl"></i>
+                {/* 👈 Tombol diubah ke gaya Outline dan ditambah fungsi onClick */}
+                <button 
+                  onClick={() => navigate("/courses")}
+                  className="mt-3 flex w-full items-center gap-3 rounded-xl border-2 border-blue-600 bg-transparent px-4 py-2.5 text-blue-600 transition-all hover:bg-blue-50 dark:border-blue-500 dark:text-blue-400 hover:dark:bg-blue-900/20"
+                >
+                  <i className="fa-solid fa-arrow-left text-lg"></i>
                   <span className="text-base font-semibold md:text-2xl lg:text-xl">
-                    Roadmap
+                    Daftar Course
                   </span>
                 </button>
               </motion.div>
@@ -121,11 +99,11 @@ function SideBarMenuLg({
               {/* Header Section */}
               <div className="mb-6 flex items-center justify-between px-7">
                 <H3 className="mb-3 text-xs font-bold tracking-wider uppercase">
-                  <span className="">Course Content</span>
+                  <span className="truncate">Course Content</span>
                 </H3>
                 <div className="mt-[7.8px]">
                   <Text>
-                    <span className="inline-block w-36 truncate rounded-full bg-slate-300 px-3 py-1 text-base font-semibold text-blue-600 md:text-lg dark:bg-black dark:text-blue-500">
+                    <span className="inline-block w-28 truncate rounded-full bg-slate-300 px-3 py-1 text-base font-semibold text-blue-600 md:text-lg dark:bg-black dark:text-blue-500">
                       {progressPercentage}% completed
                     </span>
                   </Text>
@@ -135,7 +113,7 @@ function SideBarMenuLg({
             <motion.div variants={cardVariants}>
               {/* Moudul header */}
               <div
-                className="border-y border-slate-200 px-7 py-3 dark:border dark:border-white/25 hover:dark:border-white/35"
+                className="border-y border-slate-200 px-7 py-3 dark:border dark:border-white/25 hover:dark:border-white/35 cursor-pointer"
                 onClick={handleDropDownCourse}
               >
                 <div className="flex items-center justify-between">

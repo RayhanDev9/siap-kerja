@@ -17,6 +17,18 @@ import { useNavigate } from "react-router";
 import { useEffect } from "react";
 import { selectAllDataDashbord } from "../../../features/dashboard/dashboardSlice";
 
+const getColorClass = (grade) => {
+  const colors = {
+    "A+": "text-emerald-600 dark:text-emerald-400",
+    "A-": "text-blue-600 dark:text-blue-400",
+    "B+": "text-violet-600 dark:text-violet-400",
+    "B-": "text-amber-600 dark:text-amber-400",
+    C: "text-red-600 dark:text-red-400",
+  };
+
+  // Jika grade tidak ditemukan di daftar atas, default ke warna merah
+  return colors[grade] || "text-red-600 dark:text-red-400";
+};
 function Dashboard() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -65,6 +77,9 @@ function Dashboard() {
     dashboardData.data.metrics?.learningStreak || {};
   const careerRecommendations = dashboardData.data.careerRecommendations || [];
   console.info(dashboardData.data);
+
+  // Asumsi lu punya variabel readinessPercentage atau bisa diganti berdasarkan grade
+  const dynamicColor = getColorClass(grade);
   return (
     <Section>
       <div className="flex flex-col gap-5">
@@ -110,7 +125,9 @@ function Dashboard() {
                 <p className="text-2xl font-bold sm:text-3xl lg:text-4xl">
                   {grade}
                   {"   "}
-                  <span className="truncate text-sm text-red-600 md:text-base lg:text-lg dark:text-red-400">
+                  <span
+                    className={`truncate text-sm ${dynamicColor} md:text-base lg:text-lg `}
+                  >
                     {description}
                   </span>
                 </p>
