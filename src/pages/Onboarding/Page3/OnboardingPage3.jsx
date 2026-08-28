@@ -49,12 +49,16 @@ function OnboardingPage3() {
   const dispatch = useDispatch();
   const { data } = useSelector((state) => state.onBoarding);
   const navigate = useNavigate();
-  const [selectedTargetRole, setSelectedTargetRole] = useState("");
-  const [selectedCurrentRole, setSelectedCurrentRole] = useState("");
+  const { target_role_slug = "", current_role = "" } = data.data || {};
+
+  const [selectedTargetRole, setSelectedTargetRole] =
+    useState(target_role_slug);
+  const [selectedCurrentRole, setSelectedCurrentRole] = useState(current_role);
   const [queryTargetRole, setQueryTargetRole] = useState("");
   const [queryCurrentRole, setQueryCurrentRole] = useState("");
   const [openTargetRole, setOpenTargetRole] = useState(false);
   const [openCurrentRole, setOpenCurrentRole] = useState(false);
+const isDisabled = !selectedCurrentRole || !selectedTargetRole;
 
   useEffect(() => {
     if (data === null) {
@@ -91,7 +95,7 @@ function OnboardingPage3() {
   }
   return (
     <>
-      <div className="rounded-2xl relative max-xs:pt-4 md:bg-white md:pb-3 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35">
+      <div className="max-xs:pt-4 relative rounded-2xl md:bg-white md:pb-3 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35">
         <div className="xs:right-0 absolute top-0 right-0 z-50 lg:hidden">
           <Theme />
         </div>
@@ -151,7 +155,7 @@ function OnboardingPage3() {
                             <ComboboxOption
                               key={role}
                               value={role}
-                              className="group cursor-pointer px-4 py-3 transition-colors hover:bg-blue-50 dark:hover:bg-blue-500 data-[selected]:bg-blue-100"
+                              className="group cursor-pointer px-4 py-3 transition-colors hover:bg-blue-50 data-[selected]:bg-blue-100 dark:hover:bg-blue-500"
                             >
                               {role}
                             </ComboboxOption>
@@ -200,7 +204,7 @@ function OnboardingPage3() {
                             <ComboboxOption
                               key={role}
                               value={role}
-                              className="group cursor-pointer px-4 py-3 transition-colors hover:bg-blue-50 dark:hover:bg-blue-500 data-[selected]:bg-blue-100"
+                              className="group cursor-pointer px-4 py-3 transition-colors hover:bg-blue-50 data-[selected]:bg-blue-100 dark:hover:bg-blue-500"
                             >
                               {role}
                             </ComboboxOption>
@@ -222,6 +226,7 @@ function OnboardingPage3() {
           onFinish={handleNext}
           button1="Sebelumnya"
           button2="Selanjutnya"
+          isDisabled={isDisabled}
         />
       </div>
     </>

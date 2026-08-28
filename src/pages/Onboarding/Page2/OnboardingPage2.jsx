@@ -20,8 +20,10 @@ function OnboardingPage2() {
   // State menampung 1 ID category yang terpilih (null jika belum ada)
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [selectedCategory, setSelectedCategory] = useState(null);
   const { data } = useSelector((state) => state.onBoarding);
+  const { category_slug = null } = data.data || {};
+  const [selectedCategory, setSelectedCategory] = useState(category_slug);
+  const isDisabled = !selectedCategory;
 
   // Handler toggle pilih 1 item
   function handleSelect(id) {
@@ -52,7 +54,7 @@ function OnboardingPage2() {
 
   return (
     <>
-      <div className=" max-xs:pt-4 rounded-2xl md:bg-white md:pb-3 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35 relative">
+      <div className="max-xs:pt-4 relative rounded-2xl md:bg-white md:pb-3 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35">
         <div className="xs:right-0 absolute top-0 right-0 z-50 lg:hidden">
           <Theme />
         </div>
@@ -100,6 +102,7 @@ function OnboardingPage2() {
           onFinish={handleNext}
           button1="Sebelumnya"
           button2="Selanjutnya"
+          isDisabled={isDisabled}
         />
       </div>
     </>

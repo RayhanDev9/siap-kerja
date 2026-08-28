@@ -19,15 +19,34 @@ function OnboardingPage4() {
   const { data } = useSelector((state) => state.onBoarding);
 
   const dispatch = useDispatch();
+  // 1. Berikan default fallback '|| {}' agar tidak crash saat data kosong
+  const {
+    fullName = "",
+    foto_profile = null,
+    description = "",
+  } = data.data || {};
 
   const [selectedFile, setSelectedFile] = useState(null);
-  const [photoPreview, setPhotoPreview] = useState(null);
 
-  const [inputName, setInputName] = useState("");
+  // 2. Langsung set photoPreview ke foto_profile dari Redux
+  const [photoPreview, setPhotoPreview] = useState(foto_profile);
+
+  // 3. Gunakan operator '||' alih-alih string literal `${...}`
+  const [inputName, setInputName] = useState(fullName);
+  const [aboutMe, setAboutMe] = useState(description);
+
+  // 4. Pastikan state error diinisiasi dengan string kosong
   const [textErrorInputName, setTextErrorInputName] = useState("");
-
-  const [aboutMe, setAboutMe] = useState("");
   const [textErrorAboutMe, setTextErrorAboutMe] = useState("");
+
+  // 5. Sinkronisasi state lokal jika data Redux berubah (misal: setelah loading selesai)
+  useEffect(() => {
+    if (data) {
+      setInputName(fullName);
+      setAboutMe(description);
+      setPhotoPreview(foto_profile);
+    }
+  }, [data, fullName, description, foto_profile]);
 
   useEffect(() => {
     if (data === null) {
@@ -58,10 +77,15 @@ function OnboardingPage4() {
     }
   }
 
+  const isDisabled =
+    validateName(inputName) !== "" ||
+    !aboutMe.trim() ||
+    (!selectedFile && !photoPreview);
+
   return (
     <>
-      <div className="max-xs:pt-4 rounded-2xl md:pb-7 md:bg-white dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35 relative">
-        <div className="right-0 xs:right-0 absolute top-0 z-50 lg:hidden">
+      <div className="max-xs:pt-4 relative rounded-2xl md:bg-white md:pb-7 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35">
+        <div className="xs:right-0 absolute top-0 right-0 z-50 lg:hidden">
           <Theme />
         </div>
         <Section>
@@ -170,6 +194,7 @@ function OnboardingPage4() {
           onFinish={handleSubmit}
           button1="sebelumnya"
           button2="Selanjutnya"
+          isDisabled={isDisabled}
         />
       </div>
     </>
