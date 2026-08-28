@@ -1,15 +1,11 @@
 import { useState } from "react";
 import H3 from "../../../ui/H3";
-import Logo from "../../../ui/Logo";
 import Text from "../../../ui/Text";
-import dataCourse from "./dataCourse";
 import SideBarLgItems from "./SideBarLgItems";
-import { func } from "prop-types";
 import { motion, AnimatePresence } from "framer-motion";
 import FooterCourse from "./FooterCourse";
 import { cardVariants } from "../../../util/animations";
-import Theme from "../../../ui/Theme";
-import { useParams, useNavigate } from "react-router"; // 👈 Tambahkan useNavigate
+import { useParams, useNavigate } from "react-router"; 
 import { useSelector } from "react-redux";
 
 function SideBarMenuLg({
@@ -18,17 +14,17 @@ function SideBarMenuLg({
   disabledNext,
   disabledPrev,
   onFinishCourse,
+  isUpdating,
 }) {
   const [dropDownCourse, setDropDownCourse] = useState(false);
   const { courseId } = useParams();
-  const navigate = useNavigate(); // 👈 Inisialisasi navigate
+  const navigate = useNavigate(); 
 
   const { countStep } = useSelector((state) => state.course);
   const { data, selectedCourses } = useSelector(
     (state) => state.learningRoadmap,
   );
-  const { data: dataProfile } = useSelector((state) => state.profile);
-
+  
   const courseIndex = selectedCourses.findIndex(
     (item) => String(item.course_id) === String(courseId),
   );
@@ -40,18 +36,8 @@ function SideBarMenuLg({
 
   const {
     titleCourse = "",
-    statusCourse = "",
     steps = [],
   } = currentCourse || {};
-
-  // Gunakan fallback object kosong agar tidak crash
-  const activeStep = steps[countStep] || steps[0] || {};
-  const {
-    title: titleStep = "",
-    status: statusStep = "",
-    description = "",
-    content = "",
-  } = activeStep;
 
   const stepsComplated = steps.reduce((acc, item) => {
     return item.status === "completed" ? acc + 1 : acc;
@@ -78,7 +64,6 @@ function SideBarMenuLg({
                 </H3>
               </motion.div>
               <motion.div variants={cardVariants}>
-                {/* 👈 Tombol diubah ke gaya Outline dan ditambah fungsi onClick */}
                 <button 
                   onClick={() => navigate("/courses")}
                   className="mt-3 flex w-full items-center gap-3 rounded-xl border-2 border-blue-600 bg-transparent px-4 py-2.5 text-blue-600 transition-all hover:bg-blue-50 dark:border-blue-500 dark:text-blue-400 hover:dark:bg-blue-900/20"
@@ -110,6 +95,7 @@ function SideBarMenuLg({
                 </div>
               </div>
             </motion.div>
+            
             <motion.div variants={cardVariants}>
               {/* Moudul header */}
               <div
@@ -130,8 +116,8 @@ function SideBarMenuLg({
                   {countStep + 1} of {steps.length} Steps
                 </p>
               </div>
+              
               {/* Steps Modul */}
-
               <AnimatePresence>
                 {dropDownCourse && (
                   <motion.div
@@ -162,6 +148,7 @@ function SideBarMenuLg({
             disabledNext={disabledNext}
             disabledPrev={disabledPrev}
             onFinishCourse={onFinishCourse}
+            isUpdating={isUpdating}
           />
         </div>
       </div>

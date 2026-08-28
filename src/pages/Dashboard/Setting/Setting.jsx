@@ -188,7 +188,7 @@ function Setting() {
         />
 
         {/* KARTU PENGATURAN TEMA TAMPILAN */}
-        <div className="flex flex-col gap-4 rounded-2xl bg-white px-4 py-5 shadow-sm sm:flex-row sm:items-center sm:justify-between sm:px-7 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35">
+        <div className="flex flex-row gap-4 rounded-2xl bg-white px-4 py-5 shadow-sm sm:flex-row sm:items-center sm:justify-between sm:px-7 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35">
           <div>
             <h3 className="text-base font-bold text-slate-900 md:text-lg dark:text-white">
               Tema Tampilan
@@ -197,7 +197,7 @@ function Setting() {
               Sesuaikan mode terang atau gelap sesuai kenyamanan mata Anda.
             </p>
           </div>
-          <div className="w-full shrink-0 sm:w-auto">
+          <div className=" sm:w-auto">
             <Theme />
           </div>
         </div>

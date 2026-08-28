@@ -1,9 +1,7 @@
 import { useDispatch } from "react-redux";
 import Button from "../../../ui/Button";
 import { cardVariants } from "../../../util/animations";
-import { motion } from "framer-motion"; // 1. Import Framer Motion
-import { useEffect } from "react";
-import { countStep } from "../../../features/course/courseSlice";
+import { motion } from "framer-motion";
 
 function FooterCourse({
   onNextStep,
@@ -11,6 +9,7 @@ function FooterCourse({
   disabledNext,
   disabledPrev,
   onFinishCourse,
+  isUpdating,
 }) {
   return (
     <motion.div
@@ -21,20 +20,27 @@ function FooterCourse({
         <Button
           type="generalSecondary"
           onClick={() => onPrevStep(-1)}
-          disabled={disabledPrev}
+          disabled={disabledPrev || isUpdating}
         >
           Sebelumnya
         </Button>
       </div>
+      
       {!disabledNext && (
         <div className="mt-[3px] inline-block self-end">
           <Button
             type="generalPrimary"
             dark="dark:bg-blue-600"
             onClick={() => onNextStep(1)}
-            disabled={disabledNext}
+            disabled={disabledNext || isUpdating}
           >
-            Selanjutnya
+            {isUpdating ? (
+              <span className="flex items-center gap-2">
+                <i className="fa-solid fa-circle-notch animate-spin"></i> Menyimpan...
+              </span>
+            ) : (
+              "Selanjutnya"
+            )}
           </Button>
         </div>
       )}
@@ -45,8 +51,15 @@ function FooterCourse({
             type="generalPrimary"
             dark="dark:bg-blue-600"
             onClick={onFinishCourse}
+            disabled={isUpdating}
           >
-            Selesai
+            {isUpdating ? (
+              <span className="flex items-center gap-2">
+                <i className="fa-solid fa-circle-notch animate-spin"></i> Memproses...
+              </span>
+            ) : (
+              "Selesai"
+            )}
           </Button>
         </div>
       )}

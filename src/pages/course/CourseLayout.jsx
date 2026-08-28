@@ -24,6 +24,8 @@ import Loader from "../../ui/Loader.jsx";
 
 function CourseLayout() {
   const [humberger, setHumberger] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(false);
+  
   const { courseId } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
@@ -86,38 +88,45 @@ function CourseLayout() {
 
     if (!currentCourse || !stepNow) return;
 
-    // 1. Step saat ini diselesaikan
-    await dispatch(
-      updateCourseStatus({
-        stepId: stepNow.id || stepNow.step,
-        status: "completed",
-      }),
-    );
-
-    // 2. Step berikutnya dibuka jika masih locked
-    const nextStep = steps[countStep + 1];
-    if (nextStep && nextStep.status === "locked") {
+    setIsUpdating(true);
+    try {
+      // 1. Step saat ini diselesaikan
       await dispatch(
         updateCourseStatus({
-          stepId: nextStep.id || nextStep.step,
-          status: "in_progress",
+          stepId: stepNow.id || stepNow.step,
+          status: "completed",
         }),
-      );
-    }
+      ).unwrap();
 
-    // 3. Update status course jika locked
-    if (currentCourse.status === "locked") {
-      await dispatch(
-        updateCourseDirectStatus({
-          courseId: currentCourse.course_id,
-          status: "in_progress",
-        }),
-      );
-    }
+      // 2. Step berikutnya dibuka jika masih locked
+      const nextStep = steps[countStep + 1];
+      if (nextStep && nextStep.status === "locked") {
+        await dispatch(
+          updateCourseStatus({
+            stepId: nextStep.id || nextStep.step,
+            status: "in_progress",
+          }),
+        ).unwrap();
+      }
 
-    // 4. Geser index langkah ke depan
-    if (countStep + value < steps.length && countStep + value >= 0) {
-      dispatch(incrementStep(value));
+      // 3. Update status course jika locked
+      if (currentCourse.status === "locked") {
+        await dispatch(
+          updateCourseDirectStatus({
+            courseId: currentCourse.course_id,
+            status: "in_progress",
+          }),
+        ).unwrap();
+      }
+
+      // 4. Geser index langkah ke depan
+      if (countStep + value < steps.length && countStep + value >= 0) {
+        dispatch(incrementStep(value));
+      }
+    } catch (error) {
+      console.error("Gagal update status:", error);
+    } finally {
+      setIsUpdating(false);
     }
   }
 
@@ -129,35 +138,49 @@ function CourseLayout() {
 
   const handleToggleComplete = async () => {
     if (!currentCourse || !currentStep) return;
-    await dispatch(
-      updateCourseStatus({
-        stepId: currentStep.id || currentStep.step,
-        status: "completed",
-      }),
-    );
+    setIsUpdating(true);
+    try {
+      await dispatch(
+        updateCourseStatus({
+          stepId: currentStep.id || currentStep.step,
+          status: "completed",
+        }),
+      ).unwrap();
+    } catch (error) {
+       console.error(error);
+    } finally {
+       setIsUpdating(false);
+    }
   };
 
   async function handleFinishCourse() {
     if (!currentCourse || !currentStep) return;
 
-    // Selesaikan step terakhir
-    await dispatch(
-      updateCourseStatus({
-        stepId: currentStep.id || currentStep.step,
-        status: "completed",
-      }),
-    );
+    setIsUpdating(true);
+    try {
+      // Selesaikan step terakhir
+      await dispatch(
+        updateCourseStatus({
+          stepId: currentStep.id || currentStep.step,
+          status: "completed",
+        }),
+      ).unwrap();
 
-    // Set status course menjadi completed
-    await dispatch(
-      updateCourseDirectStatus({
-        courseId: currentCourse.course_id,
-        status: "completed",
-      }),
-    );
+      // Set status course menjadi completed
+      await dispatch(
+        updateCourseDirectStatus({
+          courseId: currentCourse.course_id,
+          status: "completed",
+        }),
+      ).unwrap();
 
-    dispatch(resetStep());
-    navigate("/courses");
+      dispatch(resetStep());
+      navigate("/courses");
+    } catch (error) {
+      console.error("Gagal menyelesaikan course:", error);
+    } finally {
+      setIsUpdating(false);
+    }
   }
 
   const contextValue = {
@@ -199,6 +222,7 @@ function CourseLayout() {
             disabledNext={disabledNext}
             disabledPrev={disabledPrev}
             onFinishCourse={handleFinishCourse}
+            isUpdating={isUpdating}
           />
         </motion.div>
       </main>
@@ -212,6 +236,7 @@ function CourseLayout() {
           disabledNext={disabledNext}
           onFinishCourse={handleFinishCourse}
           disabledPrev={disabledPrev}
+          isUpdating={isUpdating}
         />
       </footer>
     </>
