@@ -32,7 +32,7 @@ function JobListingsItems({
     primary: "bg-purple-800 text-purple-800",
     warning: "bg-orange-300 text-orange-800",
     success: "bg-green-800 text-green-800",
-    default: "bg-blue-100 text-blue-800 dark:bg-blue-600 dark:text-blue-500",
+    default: "bg-blue-600 text-blue-600 dark:bg-blue-600 dark:text-blue-500",
   };
   const currentStyle = badgeStyles[badge?.type] || badgeStyles.default;
 
