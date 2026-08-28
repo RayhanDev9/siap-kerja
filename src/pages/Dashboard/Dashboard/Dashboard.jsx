@@ -191,6 +191,7 @@ function Dashboard() {
                     subtitle={item.subtitle}
                     icon={item.icon}
                     key={item.id}
+                    id={item.id}
                   />
                 ))}
               </div>

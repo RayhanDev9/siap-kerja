@@ -39,7 +39,7 @@ function Main() {
         className="mt-10 space-y-16 overflow-x-hidden overflow-y-hidden rounded-2xl"
       >
         {/* Hero Section */}
-        <section className="mx-auto mt-20 grid w-full items-center gap-7 sm:w-4/5 md:w-[70%] lg:w-full lg:grid-cols-2 lg:gap-8">
+        <section className="mx-auto mt-10 grid w-full items-center gap-7 sm:w-4/5 md:w-[70%] lg:w-full lg:grid-cols-2 lg:gap-8">
           {/* Heading & Deskripsi */}
           <motion.div variants={cardVariants} className="col-span-1 space-y-4">
             <h1 className="text-center text-3xl leading-tight font-bold capitalize md:text-4xl lg:text-start lg:text-5xl lg:leading-tight">
