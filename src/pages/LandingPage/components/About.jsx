@@ -30,7 +30,7 @@ const valuesData = [
 
 function About() {
   return (
-    <section id="about" className="space-y-12 py-7">
+    <section id="about" className="space-y-3 ">
       {/* Header About Section */}
       <motion.div
         variants={cardVariants}

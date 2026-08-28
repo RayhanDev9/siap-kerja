@@ -32,14 +32,16 @@ function Main() {
   return (
     <Section>
       <motion.div
-        id="home"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className="mt-10 space-y-16 overflow-x-hidden overflow-y-hidden rounded-2xl"
+        className="mt-3 space-y-6 overflow-x-hidden overflow-y-hidden rounded-2xl"
       >
         {/* Hero Section */}
-        <section className="mx-auto mt-10 grid w-full items-center gap-7 sm:w-4/5 md:w-[70%] lg:w-full lg:grid-cols-2 lg:gap-8">
+        <section
+          id="home"
+          className="mx-auto mt-10 grid w-full items-center gap-7 sm:w-4/5 md:w-[70%] lg:w-full lg:grid-cols-2 lg:gap-8 space-y-3"
+        >
           {/* Heading & Deskripsi */}
           <motion.div variants={cardVariants} className="col-span-1 space-y-4">
             <h1 className="text-center text-3xl leading-tight font-bold capitalize md:text-4xl lg:text-start lg:text-5xl lg:leading-tight">

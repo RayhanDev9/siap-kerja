@@ -181,7 +181,7 @@ function Setting() {
 
   return (
     <Section>
-      <div className="flex flex-col gap-7 pb-7 pt-4 lg:pt-0">
+      <div className="flex flex-col gap-7 pb-7  lg:pt-0">
         <HeaderSection
           title="Pengaturan"
           description="Kelola preferensi akun dan keamanan Anda"

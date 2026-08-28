@@ -56,7 +56,6 @@ function Testimonial() {
   const [activeIndex, setActiveIndex] = useState(0);
 
   return (
-    <Section>
       <div
         id="testimonial"
         className="w-full rounded-2xl bg-white py-6  dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35"
@@ -155,7 +154,6 @@ function Testimonial() {
           </div>
         </div>
       </div>
-    </Section>
   );
 }
 

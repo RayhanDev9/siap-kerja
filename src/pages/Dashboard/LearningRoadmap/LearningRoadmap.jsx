@@ -84,7 +84,7 @@ function LearningRoadmap() {
               onClick={() => handlePathChange(selectedPath)}
               className={`rounded-lg px-4 py-2 text-sm font-medium whitespace-nowrap transition-all`}
             >
-              <p className="mx-auto inline-block text-center text-2xl font-medium md:text-3xl lg:text-4xl">
+              <p className="mx-auto inline-block text-center text-xl font-medium md:text-2xl lg:text-3xl truncate w-full">
                 {selectedPath}
               </p>
             </button>
@@ -126,7 +126,8 @@ function LearningRoadmap() {
                           : "text-slate-800 dark:text-white"
                       }`}
                     >
-                      {course.titleCourse}
+                    
+                      <span className="truncate w-full">  {course.titleCourse}</span>
                     </H3>
 
                     {/* Karena JSON Course tidak punya deskripsi, kita tampilkan jumlah steps */}

@@ -53,7 +53,6 @@ const About = () => {
         <TopBar placeholder="Tentang kami..." isSerch={false} />
 
         {/* Hero Section */}
-        <motion.div variants={cardVariants} className="mb-4"></motion.div>
         <HeaderSection
           title="Tentang SiapKerja"
           description="Ekosistem Persiapan Karir Terarah: Langkah Nyata Menuju Profesi Impian."
