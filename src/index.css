@@ -34,6 +34,9 @@ html {
   -ms-overflow-style: auto;
   scrollbar-width: auto;
 }
+.dark-scrollbar::-webkit-scrollbar-track {
+  background: transparent; /* Hilangkan background putih */
+}
 
 @layer components {
   .input {

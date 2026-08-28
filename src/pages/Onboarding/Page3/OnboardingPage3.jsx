@@ -151,7 +151,7 @@ function OnboardingPage3() {
                             <ComboboxOption
                               key={role}
                               value={role}
-                              className="group cursor-pointer px-4 py-3 transition-colors hover:bg-blue-50 data-[selected]:bg-blue-100"
+                              className="group cursor-pointer px-4 py-3 transition-colors hover:bg-blue-50 dark:hover:bg-blue-500 data-[selected]:bg-blue-100"
                             >
                               {role}
                             </ComboboxOption>
@@ -200,7 +200,7 @@ function OnboardingPage3() {
                             <ComboboxOption
                               key={role}
                               value={role}
-                              className="group cursor-pointer px-4 py-3 transition-colors hover:bg-blue-50 data-[selected]:bg-blue-100"
+                              className="group cursor-pointer px-4 py-3 transition-colors hover:bg-blue-50 dark:hover:bg-blue-500 data-[selected]:bg-blue-100"
                             >
                               {role}
                             </ComboboxOption>

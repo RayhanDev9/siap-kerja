@@ -34,7 +34,7 @@ const VersionInfo = () => {
         />
 
         <Text className="mt-2 text-sm font-medium tracking-wide text-blue-500 dark:text-blue-400">
-          Powered by Kelompok 9 Dev Team
+          Powered by Kelompok 10 Dev Team
         </Text>
 
         <motion.div

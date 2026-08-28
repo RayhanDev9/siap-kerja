@@ -9,6 +9,7 @@ const initialState = {
   aiReadiness: {}, // Ubah jadi object
   prioritySkills: [],
   dataChart: [],
+  careerRecommendations: [],
 
   // Menyimpan pesan error jika API gagal dipanggil
   error: null,
@@ -60,6 +61,7 @@ const dashboardSlice = createSlice({
         state.aiReadiness = rawData.aiReadiness?.[key] || {};
         state.prioritySkills = rawData.prioritySkills?.[key] || [];
         state.dataChart = rawData.dataChart?.[key] || [];
+        state.careerRecommendations = rawData.careerRecommendations;
       }
     },
   },

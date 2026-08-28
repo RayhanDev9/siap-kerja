@@ -16,6 +16,10 @@ import Button from "../../../ui/Button";
 import { useNavigate } from "react-router";
 import { useEffect } from "react";
 import { selectAllDataDashbord } from "../../../features/dashboard/dashboardSlice";
+import {
+  catagory,
+  fetchCareerExplorer,
+} from "../../../features/dashboard/careerExplorerSlice";
 
 const getColorClass = (grade) => {
   const colors = {
@@ -41,6 +45,7 @@ function Dashboard() {
     aiReadiness,
     prioritySkills,
     dataChart,
+    careerRecommendations,
   } = useSelector((state) => state.dashboard);
 
   // Ambil Profile & Analytics untuk Fallback
@@ -50,8 +55,14 @@ function Dashboard() {
       state.analytics?.analyticsData?.data?.learning_progress
         ?.completed_courses_count || 0,
   );
+
   const name = useSelector((state) => state.auth?.user?.name || "User");
 
+  const { careersData } = useSelector((state) => state.careerExplorer);
+
+  useEffect(() => {
+    dispatch(fetchCareerExplorer());
+  }, [dispatch]);
   // Effect untuk me-map data dinamis ketika path / dashboardData tersedia
   useEffect(() => {
     if (profileData?.target_role_slug && dashboardData?.data) {
@@ -61,7 +72,7 @@ function Dashboard() {
 
       dispatch(selectAllDataDashbord(formattedSlug));
     }
-  }, [dispatch, profileData, dashboardData]);
+  }, [dispatch, profileData, dashboardData, careersData]);
 
   // Loading Screen (Penting: pastiin data API udah masuk sebelum render)
   if (isLoading || !dashboardData?.data) {
@@ -75,11 +86,12 @@ function Dashboard() {
   const { grade = "C", description = "Mulai Belajar" } = aiReadiness || {};
   const { days = 0, label = "Hari" } =
     dashboardData.data.metrics?.learningStreak || {};
-  const careerRecommendations = dashboardData.data.careerRecommendations || [];
+  // const careerRecommendations = dashboardData.data.careerRecommendations || [];
   console.info(dashboardData.data);
 
   // Asumsi lu punya variabel readinessPercentage atau bisa diganti berdasarkan grade
   const dynamicColor = getColorClass(grade);
+  console.info(careerRecommendations);
   return (
     <Section>
       <div className="flex flex-col gap-5">
@@ -126,7 +138,7 @@ function Dashboard() {
                   {grade}
                   {"   "}
                   <span
-                    className={`truncate text-sm ${dynamicColor} md:text-base lg:text-lg `}
+                    className={`truncate text-sm ${dynamicColor} md:text-base lg:text-lg`}
                   >
                     {description}
                   </span>
@@ -189,25 +201,30 @@ function Dashboard() {
               variants={cardVariants}
               className="flex flex-col gap-10 p-7"
             >
-              <div className="flex gap-3">
-                <i className="fa-solid fa-wand-magic-sparkles text-2xl text-purple-700 dark:text-purple-500"></i>
+              <div className="flex flex-col gap-3">
                 <H2 type="secondry" className="text-xl capitalize">
-                  Rekomendasi karier ai
+                  ✨ Rekomendasi Cerdas
                 </H2>
+                <Text>
+                  Peluang karier dan modul belajar yang dipersonalisasi
+                  berdasarkan progres keahlian Anda.
+                </Text>
               </div>
 
-              <div className="max-w lg:no-scrollbar flex w-full max-w-full flex-row gap-10 overflow-x-scroll pb-7">
-                {careerRecommendations.map((item) => (
-                  <CareerRecommendationsItems
-                    role={item.role}
-                    matchPercentage={item.matchPercentage}
-                    description={item.description}
-                    themeColor={item.themeColor}
-                    icon={item.icon}
-                    key={item.id}
-                  />
-                ))}
-              </div>
+              <a href="https://www.jobstreet.co.id" className="inline-block" target="_blank">
+                <div className="max-w lg:no-scrollbar dark-scrollbar flex w-full max-w-full flex-row gap-10 overflow-x-scroll pb-7">
+                  {careerRecommendations.map((item) => (
+                    <CareerRecommendationsItems
+                      role={item.role}
+                      matchPercentage={item.match_percentage}
+                      description={item.description}
+                      themeColor={item.themeColor}
+                      icon={item.icon}
+                      key={item.id}
+                    />
+                  ))}
+                </div>
+              </a>
             </motion.div>
           </div>
         </div>

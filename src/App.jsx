@@ -45,6 +45,8 @@ import About from "./pages/Dashboard/Help/Components/About.jsx";
 import VersionInfo from "./pages/Dashboard/Help/Components/VersionInfo.jsx";
 import Guide from "./pages/Dashboard/Help/Components/Guide.jsx";
 import Courses from "./pages/Dashboard/Courses/Courses.jsx";
+import PrivacyPolicy from "./pages/Dashboard/Help/Components/PrivacyPolicy.jsx";
+import TermsOfService from "./pages/Dashboard/Help/Components/TermsOfService.jsx";
 
 // 2. GANTI MENJADI createHashRouter
 const router = createHashRouter(
@@ -71,6 +73,8 @@ const router = createHashRouter(
         { path: "/help/bug-report", element: <BugReport /> },
         { path: "/help/about", element: <About /> },
         { path: "/help/version", element: <VersionInfo /> },
+        { path: "/help/privacy-policy", element: <PrivacyPolicy /> },
+        { path: "/help/terms-of-service", element: <TermsOfService /> },
       ],
     },
     {

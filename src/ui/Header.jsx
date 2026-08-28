@@ -3,12 +3,14 @@ import { useNavigate } from "react-router-dom";
 import Logo from "./Logo";
 import Theme from "./Theme";
 import HelpDropdown from "./HelpDropdown";
+import { useSelector } from "react-redux";
 
 function Header() {
   const navigate = useNavigate();
+  const { foto_profile } = useSelector((state) => state.profile.data);
 
   return (
-    <header className="fixed top-0 z-[9999] w-full overflow-visible border-b  border-slate-200 bg-white/90 backdrop-blur-md lg:hidden dark:border-white/10 dark:bg-neutral-900/90">
+    <header className="fixed top-0 z-[9999] w-full overflow-visible border-b border-slate-200 bg-white/90 backdrop-blur-md lg:hidden dark:border-white/10 dark:bg-neutral-900/90">
       <div className="flex h-16 w-full items-center justify-between overflow-visible px-4">
         <div className="flex items-center gap-2">
           <div className="flex items-center text-blue-600">
@@ -34,15 +36,19 @@ function Header() {
         </div>
 
         <div className="flex items-center gap-3 overflow-visible">
-          <div className="relative z-[9999] flex items-center gap-3 overflow-visible rounded-2xl border border-slate-300 bg-white px-3 py-1.5 dark:border-white/25 dark:bg-black hover:dark:border-white/35">
+          <div className="relative z-[9999] flex items-center justify-center gap-3 overflow-visible rounded-2xl border border-slate-300 bg-white px-3 py-1.5 dark:border-white/25 dark:bg-black hover:dark:border-white/35">
             <Theme />
-            <button
-              type="button"
-              className="text-slate-600 hover:text-blue-600 dark:text-neutral-300 dark:hover:text-white"
-            >
-              <i className="far fa-bell text-base"></i>
-            </button>
-            <HelpDropdown />
+
+            {/* Komentari KESELURUHAN tag button jika tidak dipakai agar tidak menyisakan ruang kosong */}
+            {/* 
+    <button
+      type="button"
+      className="text-slate-600 hover:text-blue-600 dark:text-neutral-300 dark:hover:text-white"
+    >
+      <i className="far fa-bell text-base"></i>
+    </button>
+    <HelpDropdown /> 
+    */}
           </div>
 
           <button
@@ -51,12 +57,13 @@ function Header() {
             className="group relative flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-full bg-slate-200 focus:outline-none dark:bg-slate-800"
           >
             <img
-              src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=150"
+              src={foto_profile}
               alt="Foto Profil"
               className="h-full w-full object-cover transition-all group-hover:opacity-80"
             />
           </button>
 
+          {/* Indikator Online */}
           <div className="absolute top-10 right-4 h-2.5 w-2.5 rounded-full border-2 border-white bg-emerald-500 dark:border-neutral-900" />
         </div>
       </div>

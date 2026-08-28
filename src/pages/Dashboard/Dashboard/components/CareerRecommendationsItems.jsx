@@ -2,31 +2,45 @@ import H3 from "../../../../ui/H3";
 import Text from "../../../../ui/Text";
 
 const themeVariants = {
-  blue: {
-    text: "text-blue-600",
-    bg: "bg-blue-50", // Jika Anda butuh background pudar untuk icon
-    iconText: "text-blue-500",
+  purple: {
+    text: "text-purple-600",
+    bg: "bg-purple-100",
+    iconText: "text-purple-600",
   },
-  indigo: {
-    text: "text-indigo-600",
-    bg: "bg-indigo-50",
-    iconText: "text-indigo-500",
+  cyan: {
+    text: "text-cyan-600",
+    bg: "bg-cyan-100",
+    iconText: "text-cyan-600",
   },
   emerald: {
     text: "text-emerald-600",
-    bg: "bg-emerald-50",
-    iconText: "text-emerald-500",
+    bg: "bg-emerald-100",
+    iconText: "text-emerald-600",
   },
-  purple: {
-    text: "text-purple-600",
-    bg: "bg-purple-50",
-    iconText: "text-purple-500",
+  pink: {
+    text: "text-pink-600",
+    bg: "bg-pink-100",
+    iconText: "text-pink-600",
   },
-  // Anda bisa tambahkan warna lain di sini untuk berjaga-jaga
+  amber: {
+    text: "text-amber-600",
+    bg: "bg-amber-100",
+    iconText: "text-amber-600",
+  },
+  blue: {
+    text: "text-blue-600",
+    bg: "bg-blue-100",
+    iconText: "text-blue-600",
+  },
+  indigo: {
+    text: "text-indigo-600",
+    bg: "bg-indigo-100",
+    iconText: "text-indigo-600",
+  },
   default: {
-    text: "text-gray-600",
-    bg: "bg-gray-50",
-    iconText: "text-gray-500",
+    text: "text-purple-600",
+    bg: "bg-purple-100",
+    iconText: "text-purple-600",
   },
 };
 

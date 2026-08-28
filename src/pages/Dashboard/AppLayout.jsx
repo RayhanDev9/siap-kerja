@@ -69,7 +69,7 @@ function AppLayout() {
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="mt-[64px]"
+          className="mt-[64px] lg:mt-0"
         >
           <Outlet />
         </motion.div>
