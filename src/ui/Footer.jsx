@@ -4,7 +4,7 @@ import Text from "./Text";
 
 function Footer() {
   return (
-    <footer className="flex flex-col justify-between gap-8 bg-white px-6 py-8 md:flex-row md:items-start md:px-8 md:py-10 dark:border-t dark:border-neutral-800 dark:bg-neutral-900">
+    <footer className="flex flex-col justify-between gap-8 bg-white px-6 py-8 md:flex-row md:items-start md:px-8 md:py-10 dark:border-t dark:border-neutral-800 dark:bg-neutral-900 max-lg:mb-20">
       {/* Bagian Kiri: Logo, Deskripsi & Versi */}
       <div className="flex max-w-sm flex-col gap-2.5 sm:gap-3">
         <h4 className="text-xl font-extrabold text-blue-800 sm:text-2xl dark:text-blue-500">

@@ -36,20 +36,7 @@ function Header() {
         </div>
 
         <div className="flex items-center gap-3 overflow-visible">
-          <div className="relative z-[9999] flex items-center justify-center gap-3 overflow-visible rounded-2xl border border-slate-300 bg-white px-3 py-1.5 dark:border-white/25 dark:bg-black hover:dark:border-white/35">
-            <Theme />
-
-            {/* Komentari KESELURUHAN tag button jika tidak dipakai agar tidak menyisakan ruang kosong */}
-            {/* 
-    <button
-      type="button"
-      className="text-slate-600 hover:text-blue-600 dark:text-neutral-300 dark:hover:text-white"
-    >
-      <i className="far fa-bell text-base"></i>
-    </button>
-    <HelpDropdown /> 
-    */}
-          </div>
+         
 
           <button
             type="button"

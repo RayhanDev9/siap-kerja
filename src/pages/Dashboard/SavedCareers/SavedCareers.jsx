@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 
 import Section from "./../../../ui/Section";
 import HeaderSection from "./../components/HeaderSection";
-import TopBar from "../../../ui/TopBar";
 import Loader from "../../../ui/Loader";
 import Error from "../../../ui/Error";
 import { cardVariants } from "../../../util/animations";
@@ -49,6 +48,7 @@ function SavedCareers() {
   useEffect(() => {
     dispatch(filterSavedCareers());
   }, [dispatch]);
+
   if (isLoading || !careersData) {
     return <Loader />;
   }
@@ -75,45 +75,48 @@ function SavedCareers() {
       });
     });
   }
+
   return (
     <Section>
-      <div className="flex flex-col gap-7">
-        {/* Top bar */}
-        <TopBar placeholder="cari peran, keahlian, atau industri" />
-
+      <div className="flex flex-col gap-6 md:w-2xl lg:w-full mx-auto">
+        
         <HeaderSection
           title="Karier Tersimpan"
           description="Lanjutkan perjalanan menuju peran impian Anda."
         />
 
-        {/* Search Mobile */}
-        <motion.div variants={cardVariants} className="lg:hidden">
-          <div className="relative w-[90vw] md:w-2xl lg:w-full">
+        {/* Baris Filter & Pencarian Terpadu */}
+        <motion.div 
+          variants={cardVariants} 
+          className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between"
+        >
+          {/* Kategori Filter (Kiri di Desktop, Atas di Mobile) */}
+          <div className="no-scrollbar flex gap-3 overflow-x-auto whitespace-nowrap pb-2 lg:pb-0">
+            {filterCategories.map((item) => (
+              <FilterCategoriesItems
+                key={item.id}
+                id={item.id}
+                label={item.label}
+                isActive={
+                  item.label.toLowerCase() === (activeCategory || "semua")
+                }
+                onClick={handleCategory}
+              />
+            ))}
+          </div>
+
+          {/* Search Bar (Kanan di Desktop, Bawah di Mobile) */}
+          <div className="relative w-full shrink-0 lg:w-80 xs:w-64 ">
             <input
               type="text"
               name="filter"
               id="filter"
               onChange={handleCategorySearch}
-              placeholder="cari peran, keahlian, atau industri"
-              className="w-full rounded-2xl bg-white py-2 pr-4 pl-10 ring-2 ring-slate-300 outline-none"
+              placeholder="Cari karier tersimpan..."
+              className="w-full rounded-2xl border border-slate-200 bg-white py-2.5 pl-11 pr-4 text-sm text-slate-900 outline-none transition-all focus:border-blue-500 focus:ring-1 focus:ring-blue-500 dark:border-white/25 dark:bg-neutral-900 dark:text-white hover:dark:border-white/35"
             />
-            <i className="fa-solid fa-magnifying-glass absolute top-3 left-3 text-slate-400"></i>
+            <i className="fa-solid fa-magnifying-glass absolute left-4 top-3.5 text-sm text-slate-400"></i>
           </div>
-        </motion.div>
-
-        {/* Category Filter */}
-        <motion.div variants={cardVariants} className="no-scrollbar flex gap-3 overflow-x-auto py-2 whitespace-nowrap">
-          {filterCategories.map((item) => (
-            <FilterCategoriesItems
-              key={item.id}
-              id={item.id}
-              label={item.label}
-              isActive={
-                item.label.toLowerCase() === (activeCategory || "semua")
-              }
-              onClick={handleCategory}
-            />
-          ))}
         </motion.div>
 
         {/* Job Listings */}
@@ -146,7 +149,7 @@ function SavedCareers() {
             </button>
           </motion.div>
         ) : (
-          <div className="grid grid-cols-1 justify-items-center gap-7 md:mx-auto md:w-2xl md:grid-cols-2 lg:mx-0.5 lg:w-full">
+          <div className="grid grid-cols-1 justify-items-center gap-7 md:mx-auto md:w-2xl md:grid-cols-2 lg:mx-0.5 lg:w-full lg:grid-cols-2 xl:grid-cols-3">
             {displayList.map((item) => (
               <JobListingsItems
                 key={item.id}

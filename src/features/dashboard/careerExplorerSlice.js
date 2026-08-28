@@ -79,21 +79,23 @@ const careerExplorerSlice = createSlice({
   name: "careerExplorer",
   initialState,
   reducers: {
-    catagory(state, action) {
+   catagory: (state, action) => {
       const keyword = action.payload
         ? String(action.payload).trim().toLowerCase()
         : "semua";
+        
       const allJobs = state.careersData?.data || [];
-
+      
+      // Simpan keyword ke activeCategory agar UI tahu sedang mode filter atau tidak
       state.activeCategory = keyword;
 
-      // 1. Jika memilih "semua" atau kosong, tampilkan seluruh data
+      // 1. Jika memilih "semua" atau input pencarian kosong, kembalikan seluruh data
       if (keyword === "semua" || keyword === "") {
         state.filteredJobs = allJobs;
         return;
       }
 
-      // 2. Filter data
+      // 2. Filter data berdasarkan keyword
       state.filteredJobs = allJobs.filter((item) => {
         const categoryId = item?.category?.id?.toLowerCase() || "";
         const categoryName = item?.category?.name?.toLowerCase() || "";
@@ -102,7 +104,7 @@ const careerExplorerSlice = createSlice({
           ? item.skills.join(" ").toLowerCase()
           : "";
 
-        // Cocokkan id/nama kategori, judul, atau skill
+        // Cocokkan secara eksak untuk kategori, atau pencarian parsial (includes) untuk judul/skill
         return (
           categoryId === keyword ||
           categoryName === keyword ||
@@ -113,7 +115,7 @@ const careerExplorerSlice = createSlice({
     },
     filterSavedCareers(state, action) {
       const keyword = action.payload
-        ? action.payload.trim().toLowerCase()
+        ? String(action.payload).trim().toLowerCase()
         : "semua";
       state.activeCategory = keyword;
 
@@ -128,16 +130,22 @@ const careerExplorerSlice = createSlice({
         return;
       }
 
-      // Filter hanya di dalam daftar yang tersimpan
+      // Filter hanya di dalam daftar yang tersimpan dengan logika yang selaras
       state.filteredSavedCareers = allSaved.filter((item) => {
         const categoryId = item?.category?.id?.toLowerCase() || "";
-        const title = item?.title?.toLowerCase() || "";
+        const categoryName = item?.category?.name?.toLowerCase() || "";
+        const titleLower = item?.title?.toLowerCase() || "";
         const company = item?.company?.toLowerCase() || "";
+        const skillsString = Array.isArray(item?.skills)
+          ? item.skills.join(" ").toLowerCase()
+          : "";
 
         return (
-          categoryId.includes(keyword) ||
-          title.includes(keyword) ||
-          company.includes(keyword)
+          categoryId === keyword ||
+          categoryName === keyword ||
+          titleLower.includes(keyword) ||
+          company.includes(keyword) ||
+          skillsString.includes(keyword)
         );
       });
     },
