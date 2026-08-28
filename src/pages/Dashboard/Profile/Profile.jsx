@@ -12,8 +12,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import { useState } from "react";
 import ModalProfile from "./components/ModalProfile";
-import { updateProfile } from "../../../features/dashboard/profileSlice";
-import { form } from "framer-motion/client";
+
+// 🚀 1. Import fetchProfile dari profileSlice dan fetchSendOnboarding dari onBoardingSlice
+import { fetchProfile } from "../../../features/dashboard/profileSlice"; 
+import { fetchSendOnboarding } from "../../../features/onBoarding/onBoardingSlice";
 
 function Profile() {
   const navigate = useNavigate();
@@ -27,9 +29,9 @@ function Profile() {
   const { data } = useSelector((state) => state.profile);
   const { selectedCourses } = useSelector((state) => state.learningRoadmap);
 
-  const coursesCompleted = selectedCourses.filter(
+  const coursesCompleted = selectedCourses?.filter(
     (item) => item.status === "completed",
-  );
+  ) || [];
 
   const {
     category_slug,
@@ -37,7 +39,7 @@ function Profile() {
     foto_profile,
     fullName,
     target_role_slug,
-  } = data;
+  } = data || {}; 
 
   const rawData = localStorage.getItem("my_saved_skills");
   const mySkills = rawData ? JSON.parse(rawData) : [];
@@ -49,27 +51,31 @@ function Profile() {
     setAnotherSkills(!anotherSkills);
   }
 
+  // 🚀 2. LOGIKA BARU SESUAI SARAN LU: Pakai fetchSendOnboarding
   const handleUpdateProfile = async (updatedData) => {
-    const formData = new FormData();
-    formData.append("fullName", updatedData.name);
-    formData.append("description", updatedData.bio);
-
-    if (updatedData.photo) {
-      formData.append("foto_profile", updatedData.photo);
-    }
-
-    // Akali Laravel agar bisa terima file di route PATCH
-    formData.append("_method", "PATCH");
-
     try {
-      // Tunggu proses dispatch Redux selesai
-      await dispatch(updateProfile(formData)).unwrap();
+      // Destructuring data lama, lalu timpa dengan data baru dari Modal
+      const dataToSubmit = {
+        ...data, // Semua data lama (termasuk category_slug, dll)
+        fullName: updatedData.name,
+        description: updatedData.bio,
+      };
+
+      // Jika user memilih foto baru di modal, masukkan ke objek
+      if (updatedData.photo) {
+        dataToSubmit.foto_profile = updatedData.photo;
+      }
+
+      // 1. Kirim data pakai logic Onboarding yang sudah terbukti bisa handle foto
+      await dispatch(fetchSendOnboarding(dataToSubmit)).unwrap();
       
-      // Jika sukses, tutup modalnya
+      // 2. Re-fetch data profile agar UI langsung ter-update otomatis
+      await dispatch(fetchProfile()).unwrap();
+      
+      // 3. Jika sukses, tutup modalnya
       setIsModalOpen(false); 
     } catch (error) {
       console.error("Gagal update profil:", error);
-      // Lempar error ke ModalProfile agar loadingnya berhenti
       throw error; 
     }
   };
@@ -89,14 +95,15 @@ function Profile() {
           <div className="flex h-28 w-28 shrink-0 items-center justify-center overflow-hidden rounded-full ring-4 ring-slate-100 dark:ring-white/25">
             <img
               className="h-full w-full object-cover"
-              src={foto_profile}
-              alt={fullName}
+              // Tambahkan query string waktu agar browser tidak memakai cache foto lama
+              src={foto_profile ? `${foto_profile}?t=${new Date().getTime()}` : ""} 
+              alt={fullName || "Profile Picture"}
             />
           </div>
 
           <div className="flex flex-1 flex-col">
             <div className="flex flex-wrap items-center justify-between gap-4">
-              <H2 type="netural" className="text-3xl font-bold text-gray-900">
+              <H2 type="netural" className="text-3xl font-bold text-gray-900 dark:text-white">
                 {fullName}
               </H2>
 
@@ -115,11 +122,11 @@ function Profile() {
               <span>{current_role}</span>
             </div>
 
-            <Text className="mt-6 text-sm font-semibold tracking-wide text-slate-500 uppercase md:text-base lg:text-lg">
+            <Text className="mt-6 text-sm font-semibold tracking-wide text-slate-500 uppercase md:text-base lg:text-lg dark:text-slate-400">
               Professional Bio
             </Text>
 
-            <Text className="mt-3 text-base leading-relaxed text-slate-700">
+            <Text className="mt-3 text-base leading-relaxed text-slate-700 dark:text-slate-300">
               {description}
             </Text>
           </div>
