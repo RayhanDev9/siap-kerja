@@ -27,7 +27,7 @@ function HeaderDash({ onHamburger, hamburger }) {
   };
 
   return (
-    <header className="fixed top-0 right-0 left-0 z-50 border-b border-slate-200 bg-white dark:border-slate-700 dark:bg-neutral-900">
+    <header className="fixed top-0 right-0 left-0 z-50 border-b py-1.5 mb-1 border-slate-200 bg-white dark:border-slate-700 dark:bg-neutral-900">
       <div className="px-3 py-2 sm:px-4 sm:py-3 md:px-6 md:py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}

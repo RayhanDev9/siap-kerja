@@ -22,7 +22,7 @@ function OnboardingPage2() {
   const navigate = useNavigate();
   const { data } = useSelector((state) => state.onBoarding);
   const { category_slug = null } = data.data || {};
-  const [selectedCategory, setSelectedCategory] = useState(category_slug);
+  const [selectedCategory, setSelectedCategory] = useState(category_slug || null);
   const isDisabled = !selectedCategory;
 
   // Handler toggle pilih 1 item
