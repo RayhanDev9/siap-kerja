@@ -76,7 +76,7 @@ const dataFeaturedFeatures = [
 function FeaturedFeatures() {
   return (
     <section id="features" className="flex flex-col items-center">
-      <motion.div variants={cardVariants} className="self-start ">
+      <motion.div variants={cardVariants} className="self-start mb-3 ">
         <H2 type="secondry">Feature Unggulan</H2>
         <Text>
           Platform komprehensif yang dirancang untuk mempercepat pertumbuhan

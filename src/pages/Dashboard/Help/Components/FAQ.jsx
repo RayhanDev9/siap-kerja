@@ -6,17 +6,15 @@ import { motion, AnimatePresence } from "framer-motion";
 import { cardVariants } from "../../../../util/animations";
 import H3 from "../../../../ui/H3";
 import Text from "../../../../ui/Text";
-import {
-  Disclosure,
-  DisclosureButton,
-  DisclosurePanel,
-} from "@headlessui/react";
 import { useNavigate } from "react-router-dom";
-import Button from "../../../../ui/Button";
+// Hapus import Disclosure dari @headlessui/react karena kita akan membuat custom accordion
 
 const FAQ = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
+
+  // State untuk melacak ID FAQ yang sedang terbuka
+  const [openFaqId, setOpenFaqId] = useState(null);
 
   const faqs = [
     {
@@ -63,6 +61,12 @@ const FAQ = () => {
       faq.answer.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
+  // Fungsi untuk toggle (buka/tutup) FAQ
+  const toggleFaq = (id) => {
+    // Jika ID yang diklik sudah terbuka, tutup (set jadi null). Jika tidak, buka ID tersebut.
+    setOpenFaqId(openFaqId === id ? null : id);
+  };
+
   return (
     <Section>
       <div className="flex flex-col gap-6">
@@ -81,52 +85,60 @@ const FAQ = () => {
         {/* FAQ List with Search Feedback */}
         <div className="flex flex-col gap-4">
           {filteredFaqs.length > 0 ? (
-            filteredFaqs.map((faq) => (
-              <Disclosure key={faq.id}>
-                {({ open }) => (
-                  <motion.div
-                    variants={cardVariants}
-                    className={`group overflow-hidden rounded-2xl bg-white transition-all duration-200 hover:shadow-md dark:bg-neutral-900 ${
-                      open
-                        ? "border-l-4 border-blue-500 shadow-md ring-1 ring-slate-200 dark:ring-white/10"
-                        : "border-l-4 border-transparent hover:border-blue-400 dark:border dark:border-white/20"
-                    }`}
-                  >
-                    <DisclosureButton className="flex w-full items-center justify-between px-6 py-5 text-left outline-none">
-                      <H3
-                        className={`text-sm transition-colors md:text-base ${open ? "text-blue-600 dark:text-blue-400" : "text-slate-700 dark:text-slate-200"}`}
-                      >
-                        {faq.question}
-                      </H3>
-                      <i
-                        className={`fa-solid fa-chevron-up text-slate-400 transition-transform duration-300 ${open ? "rotate-0 text-blue-500" : "rotate-180"}`}
-                      ></i>
-                    </DisclosureButton>
+            filteredFaqs.map((faq) => {
+              const isOpen = openFaqId === faq.id;
 
-                    <AnimatePresence>
-                      {open && (
-                        <DisclosurePanel
-                          static
-                          as={motion.div}
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: "auto", opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.3, ease: "easeInOut" }}
-                          className="overflow-hidden"
-                        >
-                          <div className="px-6 pt-0 pb-6">
-                            <hr className="mb-4 border-slate-100 dark:border-white/5" />
-                            <Text className="text-sm leading-relaxed md:text-base">
-                              {faq.answer}
-                            </Text>
-                          </div>
-                        </DisclosurePanel>
-                      )}
-                    </AnimatePresence>
-                  </motion.div>
-                )}
-              </Disclosure>
-            ))
+              return (
+                <motion.div
+                  key={faq.id}
+                  variants={cardVariants}
+                  className={`group overflow-hidden rounded-2xl bg-white transition-all duration-200 hover:shadow-md dark:bg-neutral-900 ${
+                    isOpen
+                      ? "border-l-4 border-blue-500 shadow-md ring-1 ring-slate-200 dark:ring-white/10"
+                      : "border-l-4 border-transparent hover:border-blue-400 dark:border dark:border-white/20"
+                  }`}
+                >
+                  <button
+                    onClick={() => toggleFaq(faq.id)}
+                    className="flex w-full cursor-pointer items-center justify-between px-6 py-5 text-left outline-none"
+                  >
+                    <H3
+                      className={`text-sm transition-colors md:text-base ${
+                        isOpen
+                          ? "text-blue-600 dark:text-blue-400"
+                          : "text-slate-700 dark:text-slate-200"
+                      }`}
+                    >
+                      {faq.question}
+                    </H3>
+                    <i
+                      className={`fa-solid fa-chevron-up text-slate-400 transition-transform duration-300 ${
+                        isOpen ? "rotate-0 text-blue-500" : "rotate-180"
+                      }`}
+                    ></i>
+                  </button>
+
+                  <AnimatePresence>
+                    {isOpen && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.3, ease: "easeInOut" }}
+                        className="overflow-hidden"
+                      >
+                        <div className="px-6 pb-6 pt-0">
+                          <hr className="mb-4 border-slate-100 dark:border-white/5" />
+                          <Text className="text-sm leading-relaxed md:text-base">
+                            {faq.answer}
+                          </Text>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </motion.div>
+              );
+            })
           ) : (
             <motion.div
               variants={cardVariants}
@@ -168,7 +180,7 @@ const FAQ = () => {
               </button>
               <button
                 onClick={() => navigate("/help/bug-report")}
-                className="rounded-xl border border-slate-200 bg-white px-6 py-3 text-sm md:text-base lg:text-lg font-semibold text-slate-700 transition-all hover:bg-slate-50 dark:border-white/25 hover:dark:border-white/35 dark:bg-black dark:text-white dark:hover:bg-black"
+                className="rounded-xl border border-slate-200 bg-white px-6 py-3 text-sm font-semibold text-slate-700 transition-all hover:bg-slate-50 md:text-base lg:text-lg dark:border-white/25 dark:bg-black dark:text-white dark:hover:bg-black hover:dark:border-white/35"
               >
                 Laporkan Masalah
               </button>

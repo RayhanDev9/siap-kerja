@@ -1,10 +1,21 @@
 import React from "react";
-import { Link } from "react-router-dom";
+// 🚀 1. Tambahkan useLocation
+import { Link, useLocation } from "react-router-dom"; 
 import Text from "./Text";
 
 function Footer() {
+  const location = useLocation();
+  
+  // 🚀 2. Cek apakah ini di Landing Page (sesuaikan path "/landingPage" jika rute utamanya "/")
+ const isLandingPage = location.pathname === "/landingPage";
+
   return (
-    <footer className="flex flex-col justify-between gap-8 bg-white px-6 py-8 md:flex-row md:items-start md:px-8 md:py-10 dark:border-t dark:border-neutral-800 dark:bg-neutral-900 max-lg:mb-20">
+    <footer 
+      // 🚀 3. Gunakan template literal (backtick) untuk memasang class max-lg:mb-20 secara kondisional
+      className={`flex flex-col justify-between gap-8 bg-white px-6 py-8 md:flex-row md:items-start md:px-8 md:py-10 dark:border-t dark:border-neutral-800 dark:bg-neutral-900 ${
+        !isLandingPage ? "max-lg:mb-20" : ""
+      }`}
+    >
       {/* Bagian Kiri: Logo, Deskripsi & Versi */}
       <div className="flex max-w-sm flex-col gap-2.5 sm:gap-3">
         <h4 className="text-xl font-extrabold text-blue-800 sm:text-2xl dark:text-blue-500">

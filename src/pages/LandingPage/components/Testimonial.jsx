@@ -97,8 +97,8 @@ function Testimonial() {
                 onMouseEnter={() => setActiveIndex(index)}
                 className={`group relative flex cursor-pointer flex-col rounded-2xl border-2 p-6 transition-all duration-300 md:p-7 ${
                   activeIndex === index
-                    ? "border-white/35 bg-blue-50/50 dark:border-white/35 dark:bg-neutral-800/80"
-                    : "border-slate-200 bg-white hover:border-blue-400 dark:border-white/10 dark:bg-neutral-900 hover:dark:border-white/25"
+                    ? "border-white/35 bg-blue-50/50 dark:border-blue-500 dark:bg-neutral-800/80"
+                    : "border-slate-200 border-white/35  bg-white hover:border-blue-500 dark:bg-neutral-900 hover:dark:border-blue-400"
                 }`}
               >
                 {/* Quote Mark Icon */}

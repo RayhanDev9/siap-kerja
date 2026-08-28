@@ -104,7 +104,7 @@ function QNA() {
               variants={itemVariants}
               className={`rounded-2xl border-2 transition-all duration-300 ${
                 openIndex === index
-                  ? "border-white/35 bg-blue-50/50 dark:border-white/35 dark:bg-neutral-800/80"
+                  ? "border-blue-500 bg-blue-50/50 dark:border-border-blue-500 dark:bg-neutral-800/80"
                   : "border-slate-200 bg-white dark:border-white/10 dark:bg-neutral-900 hover:dark:border-white/25"
               }`}
             >
