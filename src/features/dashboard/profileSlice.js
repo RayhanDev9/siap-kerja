@@ -45,38 +45,47 @@ export const fetchProfile = createAsyncThunk(
 // 2. UPDATE PROFILE
 export const updateProfile = createAsyncThunk(
   "profile/updateProfile",
-  async function (updatedData, thunkAPI) {
+  async function (formData, thunkAPI) {
     const token = localStorage.getItem("token");
+
+    // Jika token tidak ada, langsung tolak dari frontend
+    if (!token) {
+      return thunkAPI.rejectWithValue("Sesi telah habis, silakan login kembali.");
+    }
 
     try {
       const res = await fetch(
         `https://spotted-stoke-flattered.ngrok-free.dev/api/v1/user/profile`,
         {
-          method: "PATCH",
+          method: "POST", // Tetap POST karena pakai FormData
           headers: {
-            "Content-Type": "application/json",
             Accept: "application/json",
-            Authorization: `Bearer ${token}`,
-            "X-Requested-With": "XMLHttpRequest", //
+            Authorization: `Bearer ${token}`, // Pastikan spasi setelah Bearer
+            "X-Requested-With": "XMLHttpRequest",
             "ngrok-skip-browser-warning": "true",
           },
-          body: JSON.stringify(updatedData),
-        },
+          body: formData,
+        }
       );
+
+      // Tangani error 401 Unauthorized secara manual
+      if (res.status === 401) {
+        return thunkAPI.rejectWithValue("Sesi kedaluwarsa. Silakan login ulang.");
+      }
 
       const data = await res.json();
 
       if (!res.ok) {
         return thunkAPI.rejectWithValue(
-          data.message || "Gagal memperbarui profil",
+          data.message || "Gagal memperbarui profil"
         );
       }
 
-      return data.data || updatedData;
+      return data.data; 
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
-  },
+  }
 );
 
 // 3. UPDATE PASSWORD

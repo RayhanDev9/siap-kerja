@@ -17,11 +17,11 @@ import Theme from "../../../ui/Theme";
 function OnboardingPage4() {
   const navigate = useNavigate();
   const { data } = useSelector((state) => state.onBoarding);
-  console.info(data);
 
   const dispatch = useDispatch();
 
   const [selectedFile, setSelectedFile] = useState(null);
+  const [photoPreview, setPhotoPreview] = useState(null);
 
   const [inputName, setInputName] = useState("");
   const [textErrorInputName, setTextErrorInputName] = useState("");
@@ -39,14 +39,11 @@ function OnboardingPage4() {
     const nameError = validateName(inputName);
     const aboutMeError =
       aboutMe.trim() === "" ? "Deskripsi tentang saya tidak boleh kosong" : "";
-    console.log(aboutMeError);
 
     setTextErrorInputName(nameError);
     setTextErrorAboutMe(aboutMeError);
 
     if (nameError === "" && aboutMeError === "" && selectedFile !== null) {
-      console.log("Data valid! Navigasi ke halaman selanjutnya.");
-
       dispatch(
         completeYourProfile({
           fullName: inputName,
@@ -64,7 +61,7 @@ function OnboardingPage4() {
   return (
     <>
       <div className="max-xs:pt-4 rounded-2xl md:pb-7 md:bg-white dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35 relative">
-        <div className="right-0 xs:right-0 absolute top-0 z-50  lg:hidden">
+        <div className="right-0 xs:right-0 absolute top-0 z-50 lg:hidden">
           <Theme />
         </div>
         <Section>
@@ -90,8 +87,21 @@ function OnboardingPage4() {
                 htmlFor="upload-photo"
                 className="group flex cursor-pointer flex-col items-center"
               >
-                <div className="flex h-28 w-28 items-center justify-center rounded-full border border-slate-200 bg-slate-200 text-slate-600 transition-all dark:border dark:border-white/25 dark:bg-black group-hover:dark:border-white/35">
-                  <i className="fa-solid fa-camera-rotate text-3xl dark:text-white"></i>
+                <div className="relative flex h-28 w-28 items-center justify-center overflow-hidden rounded-full border border-slate-200 bg-slate-200 text-slate-600 transition-all dark:border dark:border-white/25 dark:bg-black group-hover:dark:border-white/35">
+                  {photoPreview ? (
+                    <>
+                      <img
+                        src={photoPreview}
+                        alt="Preview"
+                        className="h-full w-full object-cover"
+                      />
+                      <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 transition-opacity group-hover:opacity-100">
+                        <i className="fa-solid fa-camera-rotate text-2xl text-white"></i>
+                      </div>
+                    </>
+                  ) : (
+                    <i className="fa-solid fa-camera-rotate text-3xl dark:text-white"></i>
+                  )}
                 </div>
                 <Text className="mt-3 font-semibold text-blue-800">
                   Unggah Foto
@@ -106,13 +116,13 @@ function OnboardingPage4() {
                     const file = e.target.files[0];
                     if (file) {
                       setSelectedFile(file);
-                      console.log("File terpilih:", file);
+                      setPhotoPreview(URL.createObjectURL(file));
                     }
                   }}
                 />
               </label>
 
-              {selectedFile && (
+              {selectedFile && !photoPreview && (
                 <Text className="text-sm text-green-600">
                   File dipilih: {selectedFile.name}
                 </Text>
@@ -156,7 +166,6 @@ function OnboardingPage4() {
           </div>
         </Section>
 
-     
         <ButtonMdOnboarding
           onFinish={handleSubmit}
           button1="sebelumnya"
