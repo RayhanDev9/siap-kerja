@@ -1,10 +1,10 @@
 import Section from "../../../ui/Section";
-import TopBar from "../../../ui/TopBar";
 import HeaderSection from "./../components/HeaderSection";
 import dataSetting from "./components/dataSetting";
 import OtherSettingsItems from "./components/OtherSettingsItems";
 import SettingModal from "./components/SettingModal";
 import Loader from "../../../ui/Loader";
+import Theme from "../../../ui/Theme"; // Sesuaikan path jika berbeda
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUserThunk } from "../../../features/auth/authSlice";
@@ -28,7 +28,6 @@ function Setting() {
   const [activeModal, setActiveModal] = useState(null);
   const [emailDraft, setEmailDraft] = useState("");
 
-  // 3 State untuk ubah password sesuai validasi backend Laravel
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [newPasswordConfirmation, setNewPasswordConfirmation] = useState("");
@@ -182,17 +181,29 @@ function Setting() {
 
   return (
     <Section>
-      <div className="flex flex-col gap-7 pb-7">
-        <TopBar
-          placeholder="Cari preferensi atau pengaturan..."
-          isSerch={false}
-        />
+      <div className="flex flex-col gap-7 pb-7 pt-4 lg:pt-0">
         <HeaderSection
           title="Pengaturan"
           description="Kelola preferensi akun dan keamanan Anda"
         />
 
-        <div className="grid overflow-hidden rounded-2xl bg-white px-3 py-7 sm:px-7 md:grid-cols-2 md:gap-3 md:p-7 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35 space-y-3">
+        {/* KARTU PENGATURAN TEMA TAMPILAN */}
+        <div className="flex flex-col gap-4 rounded-2xl bg-white px-4 py-5 shadow-sm sm:flex-row sm:items-center sm:justify-between sm:px-7 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35">
+          <div>
+            <h3 className="text-base font-bold text-slate-900 md:text-lg dark:text-white">
+              Tema Tampilan
+            </h3>
+            <p className="mt-1 text-xs text-slate-500 md:text-sm dark:text-slate-400">
+              Sesuaikan mode terang atau gelap sesuai kenyamanan mata Anda.
+            </p>
+          </div>
+          <div className="w-full shrink-0 sm:w-auto">
+            <Theme />
+          </div>
+        </div>
+
+        {/* GRID PENGATURAN LAINNYA */}
+        <div className="grid overflow-hidden rounded-2xl bg-white px-3 py-7 shadow-sm sm:px-7 md:grid-cols-2 md:gap-3 md:p-7 dark:border dark:border-white/25 dark:bg-neutral-900 hover:dark:border-white/35 space-y-3 md:space-y-0">
           {dataSetting.pengaturanLainnya.map((item) => (
             <OtherSettingsItems
               key={item.id}
