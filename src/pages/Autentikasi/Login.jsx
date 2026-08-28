@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { validateEmail, validatePassword } from "../../util/helpers";
 import AuthHeader from "./components/AuthHeader";
 import Email from "./../../ui/Email";
@@ -10,8 +10,11 @@ import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../../features/auth/authSlice";
 import Loader from "../../ui/Loader";
+import { p } from "framer-motion/m";
 
 function Login() {
+  const { pathname } = useLocation(); // Digabung agar tidak deklarasi 2 kali
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { isLoading, error } = useSelector((state) => state.auth);
@@ -41,7 +44,7 @@ function Login() {
 
     setTextErrorInputEmail(emailError);
     setTextErrorInputPassword(passwordError);
-    
+
     if (emailError === "" && passwordError === "") {
       dispatch(
         loginUser({
@@ -60,9 +63,9 @@ function Login() {
   }
 
   return (
-    <div className="flex min-h-screen w-full flex-col bg-white lg:flex-row">
+    <div key={pathname} className="flex min-h-screen w-full flex-col bg-white lg:flex-row dark:bg-neutral-900">
       <div className="flex flex-1 items-center justify-center p-6 sm:p-12">
-        <div className="flex w-full max-w-md flex-col rounded-2xl bg-white p-7">
+        <div className="flex w-full max-w-md flex-col rounded-2xl bg-white p-9 dark:border dark:border-white/25 dark:bg-neutral-900 dark:py-12 hover:dark:border-white/35">
           <AuthHeader
             title="Selamat Datang Kembali"
             description="Masuk untuk melanjutkan perjalanan karier Anda."
@@ -83,7 +86,7 @@ function Login() {
             )}
 
             {/* Input Email */}
-            <div>
+            <motion.div variants={cardVariants}>
               <Email
                 value={inputEmail}
                 onChange={(e) => setInputEmail(e.target.value)}
@@ -93,10 +96,10 @@ function Login() {
                   {textErrorInputEmail}
                 </Text>
               )}
-            </div>
+            </motion.div>
 
             {/* Input Password */}
-            <div>
+            <motion.div variants={cardVariants}>
               <Password
                 value={inputPassword}
                 onChange={(e) => setInputPassword(e.target.value)}
@@ -106,7 +109,7 @@ function Login() {
                   {textErrorInputPassword}
                 </Text>
               )}
-            </div>
+            </motion.div>
 
             <motion.div variants={cardVariants}>
               {/* Tombol Submit */}

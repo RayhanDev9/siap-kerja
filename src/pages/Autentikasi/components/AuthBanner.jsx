@@ -4,7 +4,7 @@ import { motion } from "framer-motion"; // 1. Import Framer Motion
 
 function AuthBanner() {
   return (
-    <div className="mx-auto flex-col items-center bg-[#F4F6FF] lg:flex">
+    <div className="mx-auto flex-col items-center bg-[#F4F6FF] lg:flex dark:bg-neutral-900">
       <div className="flex h-screen w-full flex-col justify-between p-8 pl-12 lg:p-12">
         {/* Bagian Atas: Logo */}
         <motion.div variants={cardVariants} className="self-start">
@@ -14,7 +14,10 @@ function AuthBanner() {
         </motion.div>
 
         {/* Bagian Tengah: Gambar Ilustrasi */}
-        <motion.div variants={cardVariants} className="flex flex-1 items-center">
+        <motion.div
+          variants={cardVariants}
+          className="flex flex-1 items-center "
+        >
           {/* 
           Catatan: Gambar 3D glass arrow tidak bisa dibuat murni dengan CSS.
           Kamu harus mengekspor gambar ilustrasi tersebut dari Figma (tanpa background), 
@@ -28,13 +31,16 @@ function AuthBanner() {
         </motion.div>
 
         {/* Bagian Bawah: Card Teks */}
-        <motion.div variants={cardVariants} className="w-full max-w-lg rounded-[24px] bg-white p-7 shadow-sm">
-          <h3 className="text-2xl leading-snug font-bold text-slate-900">
+        <motion.div
+          variants={cardVariants}
+          className="w-full max-w-lg rounded-[24px] bg-white p-7 shadow-sm dark:bg-black dark:border dark:border-white/25 hover:dark:border-white/35"
+        >
+          <h3 className="text-2xl leading-snug font-bold text-slate-900 dark:text-white">
             Navigasi masa depan Anda dengan kecerdasan.
           </h3>
-          <Text className="mt-3 text-lg leading-relaxed text-slate-500">
-            Wawasan karier berbasis AI untuk mendorong perjalanan profesional
-            Anda ke depan.
+          <Text className="mt-3 text-lg leading-relaxed text-black ">
+            Strategi pengembangan karier komprehensif untuk masa depan
+            profesional yang lebih cerah
           </Text>
         </motion.div>
       </div>

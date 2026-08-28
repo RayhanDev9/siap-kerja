@@ -7,7 +7,7 @@ import {
   validateName,
   validatePassword,
 } from "../../util/helpers";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import InputName from "../../ui/InputName";
 import Text from "../../ui/Text";
 import { cardVariants } from "../../util/animations";
@@ -18,6 +18,8 @@ import Loader from "../../ui/Loader";
 
 function Register() {
   const navigate = useNavigate();
+  const { pathname } = useLocation(); // Digabung agar tidak deklarasi 2 kali
+
 
   const [inputName, setInputName] = useState("");
   const [textErrorInputName, setTextErrorInputName] = useState("");
@@ -31,6 +33,9 @@ function Register() {
   // Mengambil state dari Redux
   const { isLoading, error } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+
+
+  
 
   if (isLoading) {
     return <Loader />;
@@ -60,7 +65,7 @@ function Register() {
         .unwrap() // Tunggu hasil API
         .then(() => {
           // Jika sukses, baru pindah halaman
-          navigate("/login", { replace: true });
+          navigate("/onboardingPage1", { replace: true });
         })
         .catch((err) => {
           // Jika gagal (email sudah ada, dll), tidak usah pindah halaman.
@@ -70,9 +75,12 @@ function Register() {
   }
 
   return (
-    <div className="flex min-h-screen w-full flex-col bg-white lg:flex-row">
+    <div
+      key={pathname}
+      className="flex min-h-screen w-full flex-col bg-white lg:flex-row dark:bg-neutral-900"
+    >
       <div className="flex flex-1 items-center justify-center p-6 sm:p-12">
-        <div className="flex w-full max-w-md flex-col rounded-2xl bg-white p-7">
+        <div className="flex w-full max-w-md flex-col rounded-2xl p-9 dark:border dark:border-white/25 dark:bg-neutral-900 dark:py-12 hover:dark:border-white/35">
           <AuthHeader
             title="Buat Akun Baru"
             description="Daftar untuk memulai perjalanan karier Anda."
@@ -96,38 +104,43 @@ function Register() {
               </div>
             )}
 
-            {/* Input Name */}
-            <InputName
-              value={inputName}
-              onChange={(e) => setInputName(e.target.value)}
-            />
-            {textErrorInputName && (
-              <Text className="my-3 rounded-2xl bg-red-600 px-2 py-2 text-red-50">
-                {textErrorInputName}
-              </Text>
-            )}
+            <motion.div variants={cardVariants}>
+              {/* Input Name */}
+              <InputName
+                value={inputName}
+                onChange={(e) => setInputName(e.target.value)}
+              />
+              {textErrorInputName && (
+                <Text className="my-3 rounded-2xl bg-red-600 px-2 py-2 text-red-50">
+                  {textErrorInputName}
+                </Text>
+              )}
+            </motion.div>
 
-            {/* Input Email */}
-            <Email
-              value={inputEmail}
-              onChange={(e) => setInputEmail(e.target.value)}
-            />
-            {textErrorInputEmail && (
-              <Text className="my-3 rounded-2xl bg-red-600 px-2 py-2 text-red-50">
-                {textErrorInputEmail}
-              </Text>
-            )}
-
-            {/* Input Password */}
-            <Password
-              value={inputPassword}
-              onChange={(e) => setInputPassword(e.target.value)}
-            />
-            {textErrorInputPassword && (
-              <Text className="my-3 rounded-2xl bg-red-600 px-2 py-2 text-red-50">
-                {textErrorInputPassword}
-              </Text>
-            )}
+            <motion.div variants={cardVariants}>
+              {/* Input Email */}
+              <Email
+                value={inputEmail}
+                onChange={(e) => setInputEmail(e.target.value)}
+              />
+              {textErrorInputEmail && (
+                <Text className="my-3 rounded-2xl bg-red-600 px-2 py-2 text-red-50">
+                  {textErrorInputEmail}
+                </Text>
+              )}
+            </motion.div>
+            <motion.div variants={cardVariants}>
+              {/* Input Password */}
+              <Password
+                value={inputPassword}
+                onChange={(e) => setInputPassword(e.target.value)}
+              />
+              {textErrorInputPassword && (
+                <Text className="my-3 rounded-2xl bg-red-600 px-2 py-2 text-red-50">
+                  {textErrorInputPassword}
+                </Text>
+              )}
+            </motion.div>
 
             {/* Tombol Submit */}
             <motion.div variants={cardVariants}>

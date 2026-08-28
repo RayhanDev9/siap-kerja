@@ -42,7 +42,7 @@ function Autentikasi() {
           initial="hidden"
           animate="visible"
           exit="hidden" // Tambahkan efek saat keluar
-          className="relative grid min-h-screen grid-cols-1 lg:grid-cols-2"
+          className="relative grid min-h-screen grid-cols-1 lg:grid-cols-2 dark:bg-black"
         >
           {isDesktop && <AuthBanner />}
 
