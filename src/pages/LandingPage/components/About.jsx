@@ -30,7 +30,7 @@ const valuesData = [
 
 function About() {
   return (
-    <section id="about" className="space-y-3 ">
+    <section id="about" className="space-y-3">
       {/* Header About Section */}
       <motion.div
         variants={cardVariants}
@@ -53,7 +53,7 @@ function About() {
       </motion.div>
 
       {/* Vision & Mission Cards */}
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 mt-6">
+      <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2">
         {/* Visi */}
         <motion.div
           variants={cardVariants}

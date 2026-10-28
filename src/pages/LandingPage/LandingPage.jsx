@@ -13,13 +13,16 @@ function LandingPage() {
   }
   return (
     <>
-      <HeaderDash condition={false} onHamburger={handleHumberger} hamburger={humberger} />
-      <SidebarMenu
-        hamburger={humberger}
-        onHamburger={handleHumberger}
-      />
-      <Main />
-      <Footer />
+      <div className="md:my-12">
+        <HeaderDash
+          condition={false}
+          onHamburger={handleHumberger}
+          hamburger={humberger}
+        />
+        <SidebarMenu hamburger={humberger} onHamburger={handleHumberger} />
+        <Main />
+        <Footer />
+      </div>
     </>
   );
 }
