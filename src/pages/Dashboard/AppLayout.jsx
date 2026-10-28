@@ -88,23 +88,25 @@ function AppLayout() {
   tes();
 
   return (
-    <>
-      <Header />
-      <main className="max-lg:-mt-4 lg:grid lg:grid-cols-[240px_1fr] ">
-        <SideBar />
-        <motion.div
-          key={location.pathname} // INI SANGAT PENTING! Agar animasi jalan saat pindah menu
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-          className="mt-[64px] lg:mt-0"
-        >
-          <Outlet />
-        </motion.div>
-      </main>
+    <div className="flex min-h-screen flex-col justify-between">
+      <div className="flex-1">
+        <Header />
+        <main className="max-lg:-mt-4 lg:grid lg:grid-cols-[240px_1fr]">
+          <SideBar />
+          <motion.div
+            key={location.pathname} // INI SANGAT PENTING! Agar animasi jalan saat pindah menu
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            className="mt-[64px] lg:mt-0"
+          >
+            <Outlet />
+          </motion.div>
+        </main>
+      </div>
       <NavMenu />
       <Footer />
-    </>
+    </div>
   );
 }
 

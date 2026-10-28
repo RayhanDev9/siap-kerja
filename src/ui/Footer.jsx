@@ -12,7 +12,7 @@ function Footer() {
   return (
     <footer 
       // 🚀 3. Gunakan template literal (backtick) untuk memasang class max-lg:mb-20 secara kondisional
-      className={`flex flex-col justify-between gap-8 bg-white px-6 py-8 md:flex-row md:items-start md:px-8 md:py-10 dark:border-t dark:border-neutral-800 dark:bg-neutral-900 ${
+      className={`mt-auto w-full flex flex-col justify-between gap-8 bg-white px-6 py-8 md:flex-row md:items-start md:px-8 md:py-10 dark:border-t dark:border-neutral-800 dark:bg-neutral-900 ${
         !isLandingPage ? "max-lg:mb-20" : ""
       }`}
     >

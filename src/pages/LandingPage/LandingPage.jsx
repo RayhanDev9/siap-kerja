@@ -10,18 +10,18 @@ function LandingPage() {
     setHumberger(!humberger);
   }
   return (
-    <>
-      <div className="md:my-12">
-        <HeaderDash
-          condition={false}
-          onHamburger={handleHumberger}
-          hamburger={humberger}
-        />
-        <SidebarMenu hamburger={humberger} onHamburger={handleHumberger} />
+    <div className="flex min-h-screen flex-col pt-16 md:pt-20 bg-white dark:bg-neutral-900">
+      <HeaderDash
+        condition={false}
+        onHamburger={handleHumberger}
+        hamburger={humberger}
+      />
+      <SidebarMenu hamburger={humberger} onHamburger={handleHumberger} />
+      <div className="flex-1">
         <Main />
-        <Footer />
       </div>
-    </>
+      <Footer />
+    </div>
   );
 }
 
