@@ -13,7 +13,7 @@ const apiClient = axios.create({
 apiClient.interceptors.request.use(
   (config) => {
     // Ambil token dari localStorage yang disimpan saat login
-    const token = localStorage.getItem("access_token");
+    const token = localStorage.getItem("token") || localStorage.getItem("access_token");
 
     if (token) {
       // Sesuai instruksi README: Authorization: Bearer <TOKEN_ANDA>
@@ -22,6 +22,24 @@ apiClient.interceptors.request.use(
     return config;
   },
   (error) => {
+    return Promise.reject(error);
+  },
+);
+
+// 3. Response Interceptor (Menangani token expired / 401 Unauthorized secara global)
+apiClient.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response && error.response.status === 401) {
+      console.warn("Axios 401 Unauthorized. Membersihkan sesi & mengalihkan ke login...");
+      localStorage.removeItem("token");
+      localStorage.removeItem("access_token");
+      localStorage.removeItem("user");
+
+      if (window.location.hash !== "#/login") {
+        window.location.hash = "#/login";
+      }
+    }
     return Promise.reject(error);
   },
 );

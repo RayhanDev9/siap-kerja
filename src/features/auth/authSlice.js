@@ -144,7 +144,18 @@ const authSlice = createSlice({
       state.user = null;
       state.token = null;
       state.error = null;
+      state.isLoading = false;
       localStorage.removeItem("token");
+      localStorage.removeItem("access_token");
+      localStorage.removeItem("user");
+    },
+    forceLogout: (state) => {
+      state.user = null;
+      state.token = null;
+      state.isLoading = false;
+      state.error = "Sesi telah berakhir. Silakan login kembali.";
+      localStorage.removeItem("token");
+      localStorage.removeItem("access_token");
       localStorage.removeItem("user");
     },
   },
@@ -202,5 +213,5 @@ const authSlice = createSlice({
       }),
 });
 
-export const { clearAuthError, logoutUser } = authSlice.actions;
+export const { clearAuthError, logoutUser, forceLogout } = authSlice.actions;
 export default authSlice.reducer;

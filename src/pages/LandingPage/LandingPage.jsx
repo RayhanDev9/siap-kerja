@@ -1,9 +1,7 @@
 // import Header from "./components/Header";
 import { useState } from "react";
-import Footer from "../../ui/Footer";
-import Header from "../../ui/Header";
+import Footer from "./components/Footer";
 import Main from "./components/Main";
-import Theme from "./../../ui/Theme";
 import HeaderDash from "./components/HeaderDash";
 import SidebarMenu from "./components/SidebarMenu";
 function LandingPage() {

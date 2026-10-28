@@ -1,91 +1,167 @@
-# React + Vite
-![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-Currently, two official plugins are available:
+# 🛠️ Rencana Perbaikan & Peningkatan UX (Sprint Fix)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Berikut adalah rencana perbaikan untuk 3 isu utama yang mempengaruhi pengalaman pengguna (UX):
 
 ---
 
-# 🚀 Siap Kerja
+## Fix 1: Token Kadaluarsa → Hapus Token & Redirect ke Login
 
-Aplikasi web modern yang dibangun menggunakan **React** dan **Vite**. Proyek ini dilengkapi dengan manajemen *state* global, visualisasi data, sistem *routing* yang dinamis, serta antarmuka yang interaktif dan responsif.
+### 🐛 Masalah
+Ketika token akses sudah kadaluarsa (API mengembalikan status `401 Unauthorized`), aplikasi tidak membersihkan data sesi dan tidak mengarahkan pengguna ke halaman login secara otomatis. Hal ini menyebabkan pengguna "terjebak" di halaman yang blank atau error.
 
----
+### 🎯 Target Perilaku
+- Jika API mengembalikan `401`, hapus `token` dan `user` dari `localStorage`.
+- Redirect otomatis ke halaman `/login`.
+- Tampilkan notifikasi/pesan kepada pengguna bahwa sesi telah berakhir.
 
-## 🔗 Live Demo
+### 📂 File yang Diubah
 
-Aplikasi ini sudah berhasil di-deploy menggunakan **GitHub Pages** dan dapat diakses secara langsung melalui tautan berikut:  
-👉 **[Siap Kerja - Live Preview](https://rayhandev9.github.io/siap-kerja-testing)**
+| File | Perubahan |
+|---|---|
+| `src/features/errorSlice/errorMiddleware.js` | Perbaiki deteksi 401, pastikan redirect ke `/#/login` (HashRouter), tambah penghapusan semua key localStorage terkait sesi |
+| `src/features/dashboard/profileSlice.js` | Tangkap error 401 di `fetchProfile`, dispatch action `logoutUser` |
+| `src/features/auth/authSlice.js` | Tambahkan action `forceLogout` untuk membersihkan state auth dari middleware |
+| `src/services/axiosConfig.js` | Tambahkan **response interceptor** untuk menangkap 401 secara global di semua request axios |
 
----
+### 📋 Detail Implementasi
 
-## 🛠️ Teknologi & Library Utama (Tech Stack)
+```
+errorMiddleware.js
+  └── Deteksi 401 dari semua action yang rejected
+  └── Dispatch logoutUser() (Redux action)
+  └── localStorage.clear() untuk semua data sesi
+  └── Redirect ke /#/login
 
-Proyek ini menggunakan ekosistem library JavaScript/React modern yang tercantum pada berkas `package.json`:
+axiosConfig.js
+  └── Tambah response interceptor
+  └── Jika res.status === 401 → clear token → redirect login
 
-* **Core & Build Tool:** React (v19) & Vite (v8)
-* **State Management:** Redux Toolkit (`@reduxjs/toolkit`) & React-Redux
-* **Routing:** React Router (`react-router` & `react-router-dom` v7)
-* **Styling & UI:** Tailwind CSS (v4), `@tailwindcss/vite`, & Headless UI (`@headlessui/react`)
-* **Visualisasi Data:** Recharts
-* **Animasi & Interaksi:** Framer Motion
-* **Komponen Pendukung:** React Datepicker & React Loading Skeleton
-* **Development & Deployment:** ESLint, Prettier, & GitHub Pages (`gh-pages`)
-
----
-
-## 💻 Panduan Instalasi & Menjalankan Project Lokal
-
-Saat mengklon proyek ini dari GitHub, folder `node_modules` **tidak ikut diunduh**. Oleh karena itu, Anda **wajib menginstal seluruh library** terlebih dahulu sebelum menjalankan aplikasi.
-
-### Langkah 1: Clone Repository
-Buka terminal/command prompt, lalu jalankan perintah berikut untuk mengunduh proyek ke komputer Anda:
-
-```bash
-git clone [https://github.com/RayhanDev9/siap-kerja-testing.git](https://github.com/RayhanDev9/siap-kerja-testing.git)
-cd siap-kerja
+profileSlice.js
+  └── fetchProfile: jika res.status === 401 → thunkAPI.rejectWithValue({ status: 401 })
 ```
 
 ---
 
-# 🛠️ Rencana Pengembangan Halaman Help (Pusat Bantuan)
+## Fix 2: Server Mati → Tampilkan Halaman "Server Sedang Down"
 
-Berikut adalah rencana langkah-langkah untuk mengimplementasikan halaman bantuan yang responsif, teranimasi, dan terintegrasi dengan layout utama:
+### 🐛 Masalah
+Ketika backend/server sedang tidak aktif (network error, timeout, atau server down), aplikasi menampilkan loading spinner yang tidak berhenti (`<Loader />`). Ini adalah UX yang buruk karena pengguna tidak tahu apakah ada masalah atau harus menunggu.
 
-### 1. Konfigurasi Routing
-Menambahkan rute anak (child routes) di bawah `AppLayout` pada `src/App.jsx` untuk setiap menu bantuan:
-- `/help/guide` -> Panduan Penggunaan
-- `/help/faq` -> FAQ (Tanya Jawab)
-- `/help/support` -> Hubungi Dukungan
-- `/help/bug-report` -> Laporkan Bug
-- `/help/about` -> Tentang SiapKerja
+### 🎯 Target Perilaku
+- Jika terjadi **network error** (server tidak bisa diakses) atau **timeout**, tampilkan halaman khusus "Server Sedang Tidak Tersedia".
+- Halaman ini berisi:
+  - Ilustrasi/ikon server down
+  - Pesan informatif (server sedang maintenance / tidak dapat dijangkau)
+  - Tombol **"Coba Lagi"** untuk me-refresh/retry fetch
+- Bedakan antara `loading`, `server error`, dan `unauthenticated`.
 
-### 2. Integrasi Navigasi (HelpDropdown)
-- Memperbarui `src/ui/HelpDropdown.jsx` agar menggunakan `useNavigate` dari `react-router-dom`.
-- Menghubungkan setiap item menu dengan rute yang telah dibuat.
+### 📂 File yang Diubah
 
-### 3. Implementasi Komponen Halaman
-Setiap halaman di `src/pages/Dashboard/Help/` akan mengikuti standar berikut:
-- **Layout:** Menggunakan komponen `Section` dan `TopBar` untuk konsistensi.
-- **Animasi:** Menerapkan `framer-motion` dengan `cardVariants` dari `src/util/animations.js`.
-- **Responsivitas:** Menggunakan utility Tailwind CSS (`lg:grid-cols-2`, `sm:p-5`, dll).
-- **Style:** Mengikuti tema *Dark/Light mode* yang sudah ada.
+| File | Perubahan |
+|---|---|
+| `src/ui/ServerDown.jsx` | **File baru** — Komponen halaman "Server Sedang Tidak Tersedia" dengan animasi dan tombol retry |
+| `src/pages/Dashboard/AppLayout.jsx` | Tambahkan kondisi: jika `isServerError` → tampilkan `<ServerDown />` bukan `<Loader />` |
+| `src/features/dashboard/profileSlice.js` | Bedakan error: network error (server down) vs 401 (expired token). Tambah state `isServerError` |
+| `src/hooks/useFetch.jsx` | Tangkap error network dan set state `isServerError` di Redux |
 
-### 4. Detail Konten Halaman
-- **FAQ:** Akordion interaktif untuk pertanyaan umum.
-- **Support:** Formulir kontak atau informasi saluran dukungan.
-- **Bug Report:** Formulir pelaporan kendala teknis.
-- **About & Version:** Informasi aplikasi dan catatan rilis.
-- **Guide:** Langkah-langkah penggunaan fitur utama aplikasi.
+### 📋 Detail Implementasi
+
+```
+profileSlice.js
+  └── Tambah state: isServerError: false
+  └── fetchProfile catch: jika TypeError (network error) → isServerError = true
+  └── fetchProfile rejected: jika status 0 / network fail → isServerError = true
+
+AppLayout.jsx
+  └── Ambil isServerError dari Redux state
+  └── if (isServerError) return <ServerDown onRetry={() => dispatch(fetchProfile())} />
+  └── if (!dataProfile && isLoading) return <Loader />
+
+ServerDown.jsx (file baru)
+  └── Tampilan dengan ikon 🔌 atau ilustrasi server
+  └── Pesan: "Server sedang tidak tersedia. Silakan coba beberapa saat lagi."
+  └── Tombol retry yang dispatch ulang fetchProfile
+  └── Animasi framer-motion
+```
+
+---
+
+## Fix 3: Footer Landing Page Terpisah dari Dashboard
+
+### 🐛 Masalah
+Footer di halaman Landing Page (`/landingPage`) saat ini menggunakan komponen `Footer` dari `src/ui/Footer.jsx` yang sama dengan Footer di Dashboard. Footer Dashboard menggunakan `useLocation` dan `<Link>` dari React Router yang terhubung ke rute-rute dashboard (`/help/faq`, `/help/about`, dll.).
+
+Ketika pengguna yang **belum login** mengklik link di Footer (misalnya dari Landing Page), mereka diarahkan ke rute dashboard yang membutuhkan autentikasi, menyebabkan **loading tanpa henti** karena `AppLayout` menunggu data profil yang tidak ada.
+
+### 🎯 Target Perilaku
+- Landing Page memiliki **Footer sendiri** yang berbeda dari Footer Dashboard.
+- Footer Landing Page hanya berisi informasi publik (nama brand, deskripsi, link ke halaman publik seperti Login/Register).
+- Footer Dashboard tetap seperti sedia kala dengan link ke halaman help internal.
+
+### 📂 File yang Diubah
+
+| File | Perubahan |
+|---|---|
+| `src/pages/LandingPage/components/Footer.jsx` | **Diisi ulang** — Buat Footer khusus Landing Page yang mandiri, tidak bergantung pada React Router internal dashboard |
+| `src/pages/LandingPage/LandingPage.jsx` | Pastikan menggunakan `Footer` dari folder `components/` bukan dari `src/ui/` |
+| `src/ui/Footer.jsx` | Tetap sama (hanya untuk Dashboard/AppLayout) |
+
+### 📋 Detail Implementasi
+
+```
+LandingPage/components/Footer.jsx (diisi ulang)
+  └── Tidak ada link ke /help/* (rute protected)
+  └── Link hanya ke: /login, /register, /landingPage
+  └── Informasi: nama app, copyright, deskripsi singkat
+  └── Desain konsisten dengan tema Landing Page
+  └── Tidak menggunakan useLocation (tidak perlu)
+
+LandingPage.jsx
+  └── Import Footer dari ./components/Footer
+  └── Bukan dari ../../ui/Footer
+```
+
+---
+
+## 📊 Ringkasan Perubahan File
+
+| No | File | Status | Keterangan |
+|---|---|---|---|
+| 1 | `src/features/errorSlice/errorMiddleware.js` | 🔧 Diubah | Perbaiki deteksi 401 & redirect |
+| 2 | `src/services/axiosConfig.js` | 🔧 Diubah | Tambah response interceptor 401 |
+| 3 | `src/features/auth/authSlice.js` | 🔧 Diubah | Tambah action `forceLogout` |
+| 4 | `src/features/dashboard/profileSlice.js` | 🔧 Diubah | Bedakan network error vs 401, tambah `isServerError` |
+| 5 | `src/hooks/useFetch.jsx` | 🔧 Diubah | Tangkap error network |
+| 6 | `src/pages/Dashboard/AppLayout.jsx` | 🔧 Diubah | Tampilkan `<ServerDown />` jika server mati |
+| 7 | `src/ui/ServerDown.jsx` | 🆕 Baru | Halaman "Server Sedang Tidak Tersedia" |
+| 8 | `src/pages/LandingPage/components/Footer.jsx` | 🔧 Diubah | Footer khusus Landing Page (isi ulang) |
+| 9 | `src/pages/LandingPage/LandingPage.jsx` | ✅ Verifikasi | Pastikan import Footer dari folder lokal |
+
+---
+
+## 🔄 Alur Logika Baru (Flow Diagram)
+
+```
+User Buka Aplikasi
+  │
+  ├─→ AppLayout mount → useFetch() → fetchProfile()
+  │     │
+  │     ├─→ ✅ Sukses → Tampilkan Dashboard normal
+  │     │
+  │     ├─→ ❌ 401 Unauthorized (token expired)
+  │     │     └─→ errorMiddleware deteksi
+  │     │           └─→ clear localStorage (token, user)
+  │     │                 └─→ dispatch forceLogout
+  │     │                       └─→ redirect → /#/login
+  │     │
+  │     └─→ ❌ Network Error (server mati)
+  │           └─→ profileSlice set isServerError = true
+  │                 └─→ AppLayout render <ServerDown />
+  │                       └─→ User klik "Coba Lagi"
+  │                             └─→ dispatch fetchProfile() ulang
+  │
+  └─→ User di Landing Page
+        └─→ Klik Footer → hanya ke /login atau /register (aman)
+```

@@ -4,6 +4,7 @@ const initialState = {
   data: null,
   isLoading: false,
   isError: null,
+  isServerError: false,
   passwordSuccess: false,
 };
 
@@ -11,7 +12,14 @@ const initialState = {
 export const fetchProfile = createAsyncThunk(
   "profile/fetchProfile",
   async function (_, thunkAPI) {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token") || localStorage.getItem("access_token");
+
+    if (!token) {
+      return thunkAPI.rejectWithValue({
+        status: 401,
+        message: "Sesi telah habis, silakan login kembali.",
+      });
+    }
 
     try {
       const res = await fetch(
@@ -27,6 +35,21 @@ export const fetchProfile = createAsyncThunk(
         },
       );
 
+      if (res.status === 401) {
+        return thunkAPI.rejectWithValue({
+          status: 401,
+          message: "Sesi kedaluwarsa. Silakan login ulang.",
+        });
+      }
+
+      if (res.status >= 500) {
+        return thunkAPI.rejectWithValue({
+          status: res.status,
+          isServerError: true,
+          message: "Server sedang mengalami gangguan (500).",
+        });
+      }
+
       const data = await res.json();
 
       if (!res.ok) {
@@ -37,7 +60,11 @@ export const fetchProfile = createAsyncThunk(
 
       return data.data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
+      // Tangani error koneksi / server mati
+      return thunkAPI.rejectWithValue({
+        isServerError: true,
+        message: error.message || "Tidak dapat terhubung ke server",
+      });
     }
   },
 );
@@ -148,7 +175,12 @@ const profileSlice = createSlice({
   reducers: {
     clearProfileState(state) {
       state.isError = null;
+      state.isServerError = false;
       state.passwordSuccess = false;
+    },
+    resetServerError(state) {
+      state.isServerError = false;
+      state.isError = null;
     },
   },
   extraReducers: (builder) => {
@@ -157,14 +189,36 @@ const profileSlice = createSlice({
       .addCase(fetchProfile.pending, (state) => {
         state.isLoading = true;
         state.isError = null;
+        state.isServerError = false;
       })
       .addCase(fetchProfile.fulfilled, (state, action) => {
         state.isLoading = false;
         state.data = action.payload;
+        state.isServerError = false;
       })
       .addCase(fetchProfile.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = action.payload;
+
+        const is401 =
+          action.payload?.status === 401 ||
+          action.payload === "Unauthenticated." ||
+          (typeof action.payload === "string" &&
+            action.payload.toLowerCase().includes("unauthenticated"));
+
+        const isServerErr =
+          action.payload?.isServerError ||
+          action.payload?.status >= 500 ||
+          action.error?.message?.toLowerCase().includes("failed to fetch") ||
+          action.error?.message?.toLowerCase().includes("network") ||
+          (typeof action.payload === "string" &&
+            (action.payload.toLowerCase().includes("failed to fetch") ||
+              action.payload.toLowerCase().includes("network") ||
+              action.payload.toLowerCase().includes("koneksi")));
+
+        if (isServerErr && !is401) {
+          state.isServerError = true;
+        }
       })
 
       // UPDATE PROFILE
@@ -202,5 +256,5 @@ const profileSlice = createSlice({
   },
 });
 
-export const { clearProfileState } = profileSlice.actions;
+export const { clearProfileState, resetServerError } = profileSlice.actions;
 export default profileSlice.reducer;

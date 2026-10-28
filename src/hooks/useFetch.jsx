@@ -14,6 +14,9 @@ function useFetch() {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    const token = localStorage.getItem("token") || localStorage.getItem("access_token");
+    if (!token) return;
+
     const fetchInitialData = async () => {
       try {
         // 1. Tunggu sampai profile selesai di-fetch dan masuk ke Redux
