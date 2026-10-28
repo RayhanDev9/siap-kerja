@@ -56,6 +56,16 @@ export const registerUser = createAsyncThunk(
 
       return { user, access_token: token };
     } catch (error) {
+      const isNetError =
+        error.message?.toLowerCase().includes("failed to fetch") ||
+        error.message?.toLowerCase().includes("network") ||
+        error.name === "TypeError";
+
+      if (isNetError) {
+        return thunkAPI.rejectWithValue(
+          "Server sedang tidak dapat dijangkau (offline atau pemeliharaan sistem). Silakan periksa koneksi Anda atau coba beberapa saat lagi."
+        );
+      }
       return thunkAPI.rejectWithValue(error.message || "Terjadi kesalahan koneksi");
     }
   }
@@ -94,6 +104,16 @@ export const loginUser = createAsyncThunk(
 
       return { user, access_token: token };
     } catch (err) {
+      const isNetError =
+        err.message?.toLowerCase().includes("failed to fetch") ||
+        err.message?.toLowerCase().includes("network") ||
+        err.name === "TypeError";
+
+      if (isNetError) {
+        return thunkAPI.rejectWithValue(
+          "Server sedang tidak dapat dijangkau (offline atau pemeliharaan sistem). Silakan periksa koneksi Anda atau coba beberapa saat lagi."
+        );
+      }
       return thunkAPI.rejectWithValue(err.message || "Terjadi kesalahan koneksi");
     }
   }

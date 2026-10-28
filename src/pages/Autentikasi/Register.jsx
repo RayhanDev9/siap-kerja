@@ -13,13 +13,11 @@ import Text from "../../ui/Text";
 import { cardVariants } from "../../util/animations";
 import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
-import { registerUser } from "../../features/auth/authSlice";
-import Loader from "../../ui/Loader";
+import { registerUser, clearAuthError } from "../../features/auth/authSlice";
 
 function Register() {
   const navigate = useNavigate();
   const { pathname } = useLocation(); // Digabung agar tidak deklarasi 2 kali
-
 
   const [inputName, setInputName] = useState("");
   const [textErrorInputName, setTextErrorInputName] = useState("");
@@ -34,14 +32,26 @@ function Register() {
   const { isLoading, error } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
+  // Deteksi apakah error disebabkan oleh server mati/offline/koneksi putus
+  const isServerOffline = (err) => {
+    const msg = typeof err === "string" ? err : err?.message || "";
+    return (
+      msg.toLowerCase().includes("failed to fetch") ||
+      msg.toLowerCase().includes("tidak dapat dijangkau") ||
+      msg.toLowerCase().includes("offline") ||
+      msg.toLowerCase().includes("network") ||
+      msg.toLowerCase().includes("koneksi")
+    );
+  };
 
-  
-
-  if (isLoading) {
-    return <Loader />;
-  }
-
-  // HAPUS: if (error) return <Error />; --> Ini yang bikin halaman putih/Oops!
+  const getErrorMessage = (err) => {
+    if (isServerOffline(err)) {
+      return "Server sedang tidak dapat dijangkau (offline atau dalam pemeliharaan). Silakan periksa koneksi internet Anda atau coba beberapa saat lagi.";
+    }
+    if (typeof err === "string") return err;
+    if (err?.message && typeof err.message === "string") return err.message;
+    return "Email sudah digunakan atau terjadi kesalahan saat pendaftaran.";
+  };
 
   function handleSubmit() {
     // 1. Validasi Lokal
@@ -89,18 +99,28 @@ function Register() {
           />
 
           <div className="flex flex-col gap-5">
-            {/* TAMBAHAN: Kotak Error dari Backend yang Rapi dan Aman */}
+            {/* Kotak Error Ramah Pengguna & Deteksi Server Offline */}
             {error && (
-              <div className="rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-600 shadow-sm">
+              <div
+                className={`rounded-xl border p-4 text-sm shadow-sm transition-all ${
+                  isServerOffline(error)
+                    ? "border-amber-200 bg-amber-50 text-amber-900 dark:border-amber-900/50 dark:bg-amber-950/40 dark:text-amber-200"
+                    : "border-red-200 bg-red-50 text-red-700 dark:border-red-900/50 dark:bg-red-950/40 dark:text-red-300"
+                }`}
+              >
                 <div className="flex items-center gap-2 font-semibold">
-                  <i className="fa-solid fa-circle-exclamation"></i>
-                  Pendaftaran Gagal
+                  <i
+                    className={`fa-solid ${
+                      isServerOffline(error)
+                        ? "fa-server text-amber-600 dark:text-amber-400"
+                        : "fa-circle-exclamation text-red-600 dark:text-red-400"
+                    }`}
+                  ></i>
+                  {isServerOffline(error)
+                    ? "Server Tidak Dapat Dihubungi"
+                    : "Pendaftaran Gagal"}
                 </div>
-                <p className="mt-1">
-                  {typeof error === "string"
-                    ? error
-                    : "Email sudah digunakan atau terjadi kesalahan sistem."}
-                </p>
+                <p className="mt-1 leading-relaxed">{getErrorMessage(error)}</p>
               </div>
             )}
 
@@ -108,7 +128,10 @@ function Register() {
               {/* Input Name */}
               <InputName
                 value={inputName}
-                onChange={(e) => setInputName(e.target.value)}
+                onChange={(e) => {
+                  setInputName(e.target.value);
+                  if (error) dispatch(clearAuthError());
+                }}
               />
               {textErrorInputName && (
                 <Text className="my-3 rounded-2xl bg-red-600 px-2 py-2 text-red-50">
@@ -121,7 +144,10 @@ function Register() {
               {/* Input Email */}
               <Email
                 value={inputEmail}
-                onChange={(e) => setInputEmail(e.target.value)}
+                onChange={(e) => {
+                  setInputEmail(e.target.value);
+                  if (error) dispatch(clearAuthError());
+                }}
               />
               {textErrorInputEmail && (
                 <Text className="my-3 rounded-2xl bg-red-600 px-2 py-2 text-red-50">
@@ -133,7 +159,10 @@ function Register() {
               {/* Input Password */}
               <Password
                 value={inputPassword}
-                onChange={(e) => setInputPassword(e.target.value)}
+                onChange={(e) => {
+                  setInputPassword(e.target.value);
+                  if (error) dispatch(clearAuthError());
+                }}
               />
               {textErrorInputPassword && (
                 <Text className="my-3 rounded-2xl bg-red-600 px-2 py-2 text-red-50">
@@ -142,14 +171,22 @@ function Register() {
               )}
             </motion.div>
 
-            {/* Tombol Submit */}
+            {/* Tombol Submit dengan Spinner Loading */}
             <motion.div variants={cardVariants}>
               <button
-                className="my-8 inline-block w-full rounded-xl bg-blue-600 px-4 py-3 text-center text-sm font-semibold tracking-wide text-white uppercase transition-colors duration-300 hover:bg-blue-700 focus:bg-blue-700 focus:outline-none disabled:cursor-not-allowed disabled:bg-gray-400 md:px-6 md:py-4"
+                type="button"
+                className="my-8 inline-flex items-center justify-center gap-2.5 w-full rounded-xl bg-blue-600 px-4 py-3 text-center text-sm font-semibold tracking-wide text-white uppercase transition-colors duration-300 hover:bg-blue-700 focus:bg-blue-700 focus:outline-none disabled:cursor-not-allowed disabled:bg-gray-400 md:px-6 md:py-4 shadow-md shadow-blue-600/20 active:scale-[0.99]"
                 onClick={handleSubmit}
                 disabled={isLoading}
               >
-                {isLoading ? "Memproses..." : "Mulai Sekarang"}
+                {isLoading ? (
+                  <>
+                    <i className="fa-solid fa-circle-notch animate-spin text-base"></i>
+                    <span>Memproses...</span>
+                  </>
+                ) : (
+                  <span>Mulai Sekarang</span>
+                )}
               </button>
             </motion.div>
           </div>
