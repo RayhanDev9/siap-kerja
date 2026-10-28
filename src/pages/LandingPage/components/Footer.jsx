@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 
 function Footer() {
-  const [activeModal, setActiveModal] = useState(null); // 'privacy' | 'terms' | null
+  const [activeModal, setActiveModal] = useState(null); // 'privacy' | 'terms' | 'security' | null
 
   const scrollToSection = (e, id) => {
     e.preventDefault();
@@ -20,8 +19,8 @@ function Footer() {
     <>
       <footer className="mt-16 border-t border-slate-200 bg-white px-6 py-12 md:px-12 dark:border-neutral-800 dark:bg-neutral-900 transition-colors duration-200">
         <div className="mx-auto max-w-7xl">
-          {/* Main Grid */}
-          <div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-4">
+          {/* Main Grid: 4 Kolom yang Bersih dan Terorganisir */}
+          <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
             {/* Kolom 1: Profil Brand */}
             <div className="flex flex-col gap-4">
               <div className="flex items-center gap-2.5">
@@ -120,82 +119,78 @@ function Footer() {
               </ul>
             </div>
 
-            {/* Kolom 3: Akses Akun & Pelatihan */}
+            {/* Kolom 3: Pusat Bantuan (Terpisah) */}
             <div className="flex flex-col gap-3">
               <h4 className="text-sm font-bold tracking-wider text-slate-900 uppercase dark:text-white">
-                Mulai Karir
+                Bantuan
               </h4>
-              <ul className="flex flex-col gap-2.5 text-sm text-slate-600 dark:text-neutral-400">
-                <li>
-                  <Link
-                    to="/login"
-                    className="font-medium text-blue-600 transition hover:underline dark:text-blue-400"
-                  >
-                    <i className="fa-solid fa-right-to-bracket mr-1.5 text-xs"></i>
-                    Masuk ke Dashboard
-                  </Link>
+              <ul className="flex flex-col gap-3 text-sm text-slate-600 dark:text-neutral-400">
+                <li className="flex items-start gap-2.5">
+                  <i className="fa-regular fa-envelope mt-1 text-blue-600 dark:text-blue-400"></i>
+                  <div>
+                    <span className="block text-xs font-semibold text-slate-400 dark:text-neutral-500">Email Dukungan</span>
+                    <a
+                      href="mailto:support@siapkerja.id"
+                      className="font-medium text-slate-700 hover:text-blue-600 dark:text-neutral-300 dark:hover:text-blue-400"
+                    >
+                      support@siapkerja.id
+                    </a>
+                  </div>
                 </li>
-                <li>
-                  <Link
-                    to="/register"
-                    className="transition hover:text-blue-600 dark:hover:text-blue-400"
-                  >
-                    <i className="fa-solid fa-user-plus mr-1.5 text-xs"></i>
-                    Daftar Akun Baru
-                  </Link>
+                <li className="flex items-start gap-2.5">
+                  <i className="fa-solid fa-headset mt-1 text-blue-600 dark:text-blue-400"></i>
+                  <div>
+                    <span className="block text-xs font-semibold text-slate-400 dark:text-neutral-500">Layanan Komunitas</span>
+                    <span className="text-slate-700 dark:text-neutral-300">Tersedia 24/7 Online</span>
+                  </div>
                 </li>
-                <li>
-                  <Link
-                    to="/login"
-                    className="transition hover:text-blue-600 dark:hover:text-blue-400"
-                  >
-                    <i className="fa-solid fa-compass mr-1.5 text-xs"></i>
-                    Eksplorasi Karir & Skill
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/login"
-                    className="transition hover:text-blue-600 dark:hover:text-blue-400"
-                  >
-                    <i className="fa-solid fa-graduation-cap mr-1.5 text-xs"></i>
-                    Katalog Roadmap Pembelajaran
-                  </Link>
+                <li className="flex items-start gap-2.5">
+                  <i className="fa-solid fa-location-dot mt-1 text-blue-600 dark:text-blue-400"></i>
+                  <div>
+                    <span className="block text-xs font-semibold text-slate-400 dark:text-neutral-500">Lokasi</span>
+                    <span className="text-slate-700 dark:text-neutral-300">Jakarta, Indonesia</span>
+                  </div>
                 </li>
               </ul>
             </div>
 
-            {/* Kolom 4: Hubungi Kami & Info Legal */}
+            {/* Kolom 4: Legalitas (Terpisah) */}
             <div className="flex flex-col gap-3">
               <h4 className="text-sm font-bold tracking-wider text-slate-900 uppercase dark:text-white">
-                Bantuan & Legalitas
+                Legalitas
               </h4>
-              <div className="flex flex-col gap-2.5 text-sm text-slate-600 dark:text-neutral-400">
-                <div className="flex items-center gap-2">
-                  <i className="fa-regular fa-envelope text-blue-600 dark:text-blue-400"></i>
-                  <span>support@siapkerja.id</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <i className="fa-solid fa-location-dot text-blue-600 dark:text-blue-400"></i>
-                  <span>Jakarta, Indonesia</span>
-                </div>
-                <div className="pt-2 flex flex-col gap-2">
+              <ul className="flex flex-col gap-2.5 text-sm text-slate-600 dark:text-neutral-400">
+                <li>
                   <button
                     type="button"
                     onClick={() => setActiveModal("privacy")}
-                    className="text-left text-xs transition hover:text-blue-600 hover:underline dark:hover:text-blue-400"
+                    className="flex items-center gap-2 text-left transition hover:text-blue-600 dark:hover:text-blue-400"
                   >
-                    Kebijakan Privasi
+                    <i className="fa-solid fa-shield-halved text-xs text-slate-400 dark:text-neutral-500"></i>
+                    <span>Kebijakan Privasi</span>
                   </button>
+                </li>
+                <li>
                   <button
                     type="button"
                     onClick={() => setActiveModal("terms")}
-                    className="text-left text-xs transition hover:text-blue-600 hover:underline dark:hover:text-blue-400"
+                    className="flex items-center gap-2 text-left transition hover:text-blue-600 dark:hover:text-blue-400"
                   >
-                    Ketentuan Layanan
+                    <i className="fa-solid fa-file-contract text-xs text-slate-400 dark:text-neutral-500"></i>
+                    <span>Ketentuan Layanan</span>
                   </button>
-                </div>
-              </div>
+                </li>
+                <li>
+                  <button
+                    type="button"
+                    onClick={() => setActiveModal("security")}
+                    className="flex items-center gap-2 text-left transition hover:text-blue-600 dark:hover:text-blue-400"
+                  >
+                    <i className="fa-solid fa-lock text-xs text-slate-400 dark:text-neutral-500"></i>
+                    <span>Keamanan Data</span>
+                  </button>
+                </li>
+              </ul>
             </div>
           </div>
 
@@ -236,7 +231,9 @@ function Footer() {
               <h3 className="text-lg font-bold text-slate-900 dark:text-white">
                 {activeModal === "privacy"
                   ? "Kebijakan Privasi SiapKerja"
-                  : "Ketentuan Layanan SiapKerja"}
+                  : activeModal === "terms"
+                  ? "Ketentuan Layanan SiapKerja"
+                  : "Keamanan Data Pengguna"}
               </h3>
               <button
                 type="button"
@@ -251,19 +248,28 @@ function Footer() {
               {activeModal === "privacy" ? (
                 <>
                   <p>
-                    SiapKerja menghargai dan melindungi privasi data pribadi pengguna. Seluruh informasi seperti riwayat pembelajaran, evaluasi keahlian, dan target karir disimpan secara terenkripsi.
+                    SiapKerja menghargai dan melindungi privasi data pribadi pengguna. Seluruh informasi seperti riwayat pembelajaran, evaluasi keahlian, dan target karir disimpan secara aman.
                   </p>
                   <p>
-                    Data Anda hanya dimanfaatkan untuk memberikan rekomendasi pembelajaran yang relevan dan tidak akan diperjualbelikan kepada pihak ketiga manapun tanpa persetujuan Anda.
+                    Data Anda hanya dimanfaatkan untuk memberikan rekomendasi pembelajaran yang relevan dan tidak akan diperjualbelikan kepada pihak ketiga tanpa persetujuan Anda.
                   </p>
                 </>
-              ) : (
+              ) : activeModal === "terms" ? (
                 <>
                   <p>
                     Dengan mengakses platform SiapKerja, Anda menyetujui ketentuan penggunaan materi edukasi, panduan kurikulum karir, dan fitur pelacakan waktu aktif untuk keperluan peningkatan kompetensi pribadi secara sah.
                   </p>
                   <p>
                     Setiap materi yang disediakan dilindungi oleh hak kekayaan intelektual SiapKerja dan mitra penyedia kurikulum terkait.
+                  </p>
+                </>
+              ) : (
+                <>
+                  <p>
+                    Kami menerapkan standar keamanan enkripsi SSL/TLS pada setiap pengiriman data antara browser Anda dan server kami.
+                  </p>
+                  <p>
+                    Kata sandi disimpan menggunakan hashing satu arah (one-way hashing) standar industri dan sesi akses diamankan menggunakan token berbasis JSON Web Token (JWT).
                   </p>
                 </>
               )}
