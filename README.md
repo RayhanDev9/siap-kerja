@@ -1,167 +1,168 @@
+# 💼 SiapKerja — Platform Bimbingan Karir & Kesiapan Kerja Digital
 
+![React](https://img.shields.io/badge/React-19.2.7-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![Vite](https://img.shields.io/badge/Vite-8.1.1-646CFF?style=for-the-badge&logo=vite&logoColor=FFD62E)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)
+![Redux Toolkit](https://img.shields.io/badge/Redux_Toolkit-2.12-764ABC?style=for-the-badge&logo=redux&logoColor=white)
+![Framer Motion](https://img.shields.io/badge/Framer_Motion-12.4-0055FF?style=for-the-badge&logo=framer&logoColor=white)
+![GitHub Pages](https://img.shields.io/badge/Deployed-GitHub_Pages-222222?style=for-the-badge&logo=githubpages&logoColor=white)
 
-# 🛠️ Rencana Perbaikan & Peningkatan UX (Sprint Fix)
-
-Berikut adalah rencana perbaikan untuk 3 isu utama yang mempengaruhi pengalaman pengguna (UX):
-
----
-
-## Fix 1: Token Kadaluarsa → Hapus Token & Redirect ke Login
-
-### 🐛 Masalah
-Ketika token akses sudah kadaluarsa (API mengembalikan status `401 Unauthorized`), aplikasi tidak membersihkan data sesi dan tidak mengarahkan pengguna ke halaman login secara otomatis. Hal ini menyebabkan pengguna "terjebak" di halaman yang blank atau error.
-
-### 🎯 Target Perilaku
-- Jika API mengembalikan `401`, hapus `token` dan `user` dari `localStorage`.
-- Redirect otomatis ke halaman `/login`.
-- Tampilkan notifikasi/pesan kepada pengguna bahwa sesi telah berakhir.
-
-### 📂 File yang Diubah
-
-| File | Perubahan |
-|---|---|
-| `src/features/errorSlice/errorMiddleware.js` | Perbaiki deteksi 401, pastikan redirect ke `/#/login` (HashRouter), tambah penghapusan semua key localStorage terkait sesi |
-| `src/features/dashboard/profileSlice.js` | Tangkap error 401 di `fetchProfile`, dispatch action `logoutUser` |
-| `src/features/auth/authSlice.js` | Tambahkan action `forceLogout` untuk membersihkan state auth dari middleware |
-| `src/services/axiosConfig.js` | Tambahkan **response interceptor** untuk menangkap 401 secara global di semua request axios |
-
-### 📋 Detail Implementasi
-
-```
-errorMiddleware.js
-  └── Deteksi 401 dari semua action yang rejected
-  └── Dispatch logoutUser() (Redux action)
-  └── localStorage.clear() untuk semua data sesi
-  └── Redirect ke /#/login
-
-axiosConfig.js
-  └── Tambah response interceptor
-  └── Jika res.status === 401 → clear token → redirect login
-
-profileSlice.js
-  └── fetchProfile: jika res.status === 401 → thunkAPI.rejectWithValue({ status: 401 })
-```
+**SiapKerja** adalah aplikasi web modern yang dirancang untuk membantu para pencari kerja, mahasiswa, dan profesional muda mempersiapkan karir di industri digital. Aplikasi ini menyediakan fitur evaluasi keahlian (*Skill Gap Analysis*), roadmap belajar terstruktur (*Learning Roadmap*), analisis tren industri serta standar gaji (*Market Trends*), eksplorasi karir (*Career Explorer*), hingga pelacakan jam belajar harian secara *real-time*.
 
 ---
 
-## Fix 2: Server Mati → Tampilkan Halaman "Server Sedang Down"
+## 🔗 Live Demo & Deployment
 
-### 🐛 Masalah
-Ketika backend/server sedang tidak aktif (network error, timeout, atau server down), aplikasi menampilkan loading spinner yang tidak berhenti (`<Loader />`). Ini adalah UX yang buruk karena pengguna tidak tahu apakah ada masalah atau harus menunggu.
-
-### 🎯 Target Perilaku
-- Jika terjadi **network error** (server tidak bisa diakses) atau **timeout**, tampilkan halaman khusus "Server Sedang Tidak Tersedia".
-- Halaman ini berisi:
-  - Ilustrasi/ikon server down
-  - Pesan informatif (server sedang maintenance / tidak dapat dijangkau)
-  - Tombol **"Coba Lagi"** untuk me-refresh/retry fetch
-- Bedakan antara `loading`, `server error`, dan `unauthenticated`.
-
-### 📂 File yang Diubah
-
-| File | Perubahan |
-|---|---|
-| `src/ui/ServerDown.jsx` | **File baru** — Komponen halaman "Server Sedang Tidak Tersedia" dengan animasi dan tombol retry |
-| `src/pages/Dashboard/AppLayout.jsx` | Tambahkan kondisi: jika `isServerError` → tampilkan `<ServerDown />` bukan `<Loader />` |
-| `src/features/dashboard/profileSlice.js` | Bedakan error: network error (server down) vs 401 (expired token). Tambah state `isServerError` |
-| `src/hooks/useFetch.jsx` | Tangkap error network dan set state `isServerError` di Redux |
-
-### 📋 Detail Implementasi
-
-```
-profileSlice.js
-  └── Tambah state: isServerError: false
-  └── fetchProfile catch: jika TypeError (network error) → isServerError = true
-  └── fetchProfile rejected: jika status 0 / network fail → isServerError = true
-
-AppLayout.jsx
-  └── Ambil isServerError dari Redux state
-  └── if (isServerError) return <ServerDown onRetry={() => dispatch(fetchProfile())} />
-  └── if (!dataProfile && isLoading) return <Loader />
-
-ServerDown.jsx (file baru)
-  └── Tampilan dengan ikon 🔌 atau ilustrasi server
-  └── Pesan: "Server sedang tidak tersedia. Silakan coba beberapa saat lagi."
-  └── Tombol retry yang dispatch ulang fetchProfile
-  └── Animasi framer-motion
-```
+Aplikasi ini telah dipublikasikan dan dapat diakses langsung secara online:  
+👉 **[SiapKerja - Live Demo](https://rayhandev9.github.io/siap-kerja/)**
 
 ---
 
-## Fix 3: Footer Landing Page Terpisah dari Dashboard
+## ✨ Fitur-Fitur Utama
 
-### 🐛 Masalah
-Footer di halaman Landing Page (`/landingPage`) saat ini menggunakan komponen `Footer` dari `src/ui/Footer.jsx` yang sama dengan Footer di Dashboard. Footer Dashboard menggunakan `useLocation` dan `<Link>` dari React Router yang terhubung ke rute-rute dashboard (`/help/faq`, `/help/about`, dll.).
+### 1. 🌐 Landing Page Modern & Interaktif
+- **Hero Showcase:** Visualisasi evaluasi keahlian talenta dengan animasi mulus (*Framer Motion*).
+- **Visi & Misi:** Informasi seputar nilai-nilai dan dedikasi platform.
+- **Fitur Unggulan:** Rangkuman layanan utama (Analisis Tren Pasar, Roadmap, Evaluasi Keterampilan).
+- **Testimoni & Akordion FAQ:** Pengalaman alumni dan jawaban untuk pertanyaan seputar platform.
+- **Dedicated Landing Footer:** Footer publik mandiri dengan navigasi *smooth scroll* tanpa memicu pemuatan rute *dashboard* yang dilindungi.
 
-Ketika pengguna yang **belum login** mengklik link di Footer (misalnya dari Landing Page), mereka diarahkan ke rute dashboard yang membutuhkan autentikasi, menyebabkan **loading tanpa henti** karena `AppLayout` menunggu data profil yang tidak ada.
+### 2. 🔐 Autentikasi & Manajemen Sesi yang Andal
+- **Sistem Login & Register:** Terintegrasi dengan backend API token JWT (*Bearer Token*).
+- **Auto-Logout saat Token Kadaluarsa:** Middleware Redux dan interceptor Axios otomatis mendeteksi status `401 Unauthorized`, menghapus data sesi di `localStorage`, dan mengalihkan pengguna kembali ke halaman Login.
+- **Penanganan Server Offline:** Tampilan UI khusus `<ServerDown />` jika server backend mengalami gangguan atau koneksi terputus, dilengkapi tombol *retry* (Coba Hubungkan Lagi) agar pengalaman pengguna tetap terjaga.
 
-### 🎯 Target Perilaku
-- Landing Page memiliki **Footer sendiri** yang berbeda dari Footer Dashboard.
-- Footer Landing Page hanya berisi informasi publik (nama brand, deskripsi, link ke halaman publik seperti Login/Register).
-- Footer Dashboard tetap seperti sedia kala dengan link ke halaman help internal.
+### 3. 🎯 Onboarding Talenta Terarah
+- Alur multi-langkah interaktif untuk memetakan latar belakang, minat spesialisasi, dan target karir sebelum memasuki dashboard utama.
 
-### 📂 File yang Diubah
+### 4. 🧭 Career Explorer & Analisis Rekomendasi
+- Menjelajahi berbagai posisi industri teknologi (Frontend, Backend, UI/UX, Data Analyst, dll.).
+- Rincian kualifikasi, deskripsi tanggung jawab pekerjaan, dan penyimpanan karir favorit (*Saved Careers*).
 
-| File | Perubahan |
-|---|---|
-| `src/pages/LandingPage/components/Footer.jsx` | **Diisi ulang** — Buat Footer khusus Landing Page yang mandiri, tidak bergantung pada React Router internal dashboard |
-| `src/pages/LandingPage/LandingPage.jsx` | Pastikan menggunakan `Footer` dari folder `components/` bukan dari `src/ui/` |
-| `src/ui/Footer.jsx` | Tetap sama (hanya untuk Dashboard/AppLayout) |
+### 5. 📊 Skill Gap Analysis & Market Trends
+- **Skill Gap:** Mengidentifikasi keahlian yang sudah dikuasai dan kesenjangan kompetensi yang perlu ditingkatkan untuk mencapai peran impian.
+- **Market Trends:** Grafik visual (*Recharts*) mengenai tren keahlian yang paling banyak dicari dan rentang standar gaji pasar kerja saat ini.
 
-### 📋 Detail Implementasi
+### 6. 🗺️ Learning Roadmap & Kursus
+- Panduan modul pembelajaran terstruktur langkah demi langkah (*step-by-step*).
+- Status progres belajar dan daftar rekomendasi materi pelatihan terkait.
 
-```
-LandingPage/components/Footer.jsx (diisi ulang)
-  └── Tidak ada link ke /help/* (rute protected)
-  └── Link hanya ke: /login, /register, /landingPage
-  └── Informasi: nama app, copyright, deskripsi singkat
-  └── Desain konsisten dengan tema Landing Page
-  └── Tidak menggunakan useLocation (tidak perlu)
+### 7. ⏱️ Pelacak Waktu Belajar Aktif (*Active Time Tracker*)
+- Hook kustom `useActiveTimeTracker` yang memantau durasi interaksi pengguna saat aktif belajar di aplikasi dan mencatatnya ke analitik dashboard mingguan.
 
-LandingPage.jsx
-  └── Import Footer dari ./components/Footer
-  └── Bukan dari ../../ui/Footer
+### 8. 🌓 Dukungan Dark & Light Mode
+- Desain antarmuka fleksibel yang mendukung mode gelap (*Dark Mode*) dan terang (*Light Mode*) dengan transisi visual yang nyaman di mata.
+
+---
+
+## 🛠️ Teknologi & Dependensi (Tech Stack)
+
+| Kategori | Teknologi | Deskripsi |
+|---|---|---|
+| **Core Framework** | React 19 | Library UI reaktif generasi terbaru |
+| **Build Tool** | Vite 8 | Development server super cepat dan bundler optimal |
+| **State Management** | Redux Toolkit & React-Redux | Pengelolaan state global yang terstruktur |
+| **Routing** | React Router v7 (`createHashRouter`) | Sistem navigasi ramah GitHub Pages tanpa reload |
+| **Styling** | Tailwind CSS v4 | Framework styling berbasis utility-first |
+| **Animasi** | Framer Motion | Animasi mikro, transisi halaman, dan efek hover halus |
+| **Visualisasi Data** | Recharts | Komponen grafik interaktif dan responsif |
+| **Komponen Pendukung** | Headless UI, React Datepicker, Skeleton | Komponen UI aksesibel dan *loading state* |
+| **Hosting & Deploy** | GitHub Pages (`gh-pages`) | Otomatisasi deploy bundle produksi |
+
+---
+
+## 📁 Struktur Folder Proyek
+
+```text
+siap-kerja/
+├── public/                 # Aset statis publik
+├── src/
+│   ├── assets/             # Gambar, ikon SVG, dan ilustrasi
+│   ├── components/         # Komponen global reusable
+│   ├── features/           # Redux slices per modul
+│   │   ├── auth/           # authSlice (login, register, logout, forceLogout)
+│   │   ├── course/         # courseSlice
+│   │   ├── dashboard/      # profileSlice, marketTrendsSlice, skillGapSlice, dll.
+│   │   ├── errorSlice/     # errorMiddleware (penanganan 401 & sesi)
+│   │   └── onBoarding/     # onBoardingSlice
+│   ├── hooks/              # Custom hooks (useFetch, useActiveTimeTracker, useHelp)
+│   ├── pages/              # Halaman-halaman utama aplikasi
+│   │   ├── Autentikasi/    # Login & Register
+│   │   ├── Dashboard/      # AppLayout, Dashboard, CareerExplorer, Help, Profile, dll.
+│   │   ├── LandingPage/    # LandingPage, Main, About, QNA, Testimonial, Footer
+│   │   ├── Onboarding/     # Multi-step Onboarding (Page 1-5)
+│   │   └── course/         # Halaman detail materi kursus
+│   ├── services/           # Konfigurasi API Client (axiosConfig.js)
+│   ├── ui/                 # Komponen dasar (Button, Header, ServerDown, Loader, Error)
+│   ├── util/               # Konfigurasi animasi dan format data
+│   ├── App.jsx             # Konfigurasi rute utama (createHashRouter)
+│   ├── main.jsx            # Entry point React
+│   └── store.js            # Inisialisasi store Redux
+├── package.json            # Daftar paket dependensi dan npm scripts
+├── vite.config.js          # Konfigurasi Vite & Tailwind CSS
+└── README.md               # Dokumentasi proyek
 ```
 
 ---
 
-## 📊 Ringkasan Perubahan File
+## 💻 Panduan Instalasi Lokal
 
-| No | File | Status | Keterangan |
-|---|---|---|---|
-| 1 | `src/features/errorSlice/errorMiddleware.js` | 🔧 Diubah | Perbaiki deteksi 401 & redirect |
-| 2 | `src/services/axiosConfig.js` | 🔧 Diubah | Tambah response interceptor 401 |
-| 3 | `src/features/auth/authSlice.js` | 🔧 Diubah | Tambah action `forceLogout` |
-| 4 | `src/features/dashboard/profileSlice.js` | 🔧 Diubah | Bedakan network error vs 401, tambah `isServerError` |
-| 5 | `src/hooks/useFetch.jsx` | 🔧 Diubah | Tangkap error network |
-| 6 | `src/pages/Dashboard/AppLayout.jsx` | 🔧 Diubah | Tampilkan `<ServerDown />` jika server mati |
-| 7 | `src/ui/ServerDown.jsx` | 🆕 Baru | Halaman "Server Sedang Tidak Tersedia" |
-| 8 | `src/pages/LandingPage/components/Footer.jsx` | 🔧 Diubah | Footer khusus Landing Page (isi ulang) |
-| 9 | `src/pages/LandingPage/LandingPage.jsx` | ✅ Verifikasi | Pastikan import Footer dari folder lokal |
+Ikuti langkah-langkah berikut untuk menjalankan proyek di komputer lokal:
+
+### 1. Prasyarat
+- Pastikan telah menginstal [Node.js](https://nodejs.org/) (versi 18+ disarankan).
+- Git telah terpasang di sistem operasi Anda.
+
+### 2. Klon Repositori
+```bash
+git clone https://github.com/RayhanDev9/siap-kerja.git
+cd siap-kerja
+```
+
+### 3. Instalasi Dependensi
+```bash
+npm install
+```
+
+### 4. Menjalankan Server Pengembangan (Dev)
+```bash
+npm run dev
+```
+Buka browser dan akses alamat lokal yang ditampilkan pada terminal (biasanya `http://localhost:5173/`).
+
+### 5. Membangun Bundle Produksi (Build)
+```bash
+npm run build
+```
 
 ---
 
-## 🔄 Alur Logika Baru (Flow Diagram)
+## 🚀 Panduan Deployment ke GitHub Pages
 
+Proyek ini telah dikonfigurasi dengan skrip otomatisasi untuk deploy ke GitHub Pages:
+
+```bash
+npm run deploy
 ```
-User Buka Aplikasi
-  │
-  ├─→ AppLayout mount → useFetch() → fetchProfile()
-  │     │
-  │     ├─→ ✅ Sukses → Tampilkan Dashboard normal
-  │     │
-  │     ├─→ ❌ 401 Unauthorized (token expired)
-  │     │     └─→ errorMiddleware deteksi
-  │     │           └─→ clear localStorage (token, user)
-  │     │                 └─→ dispatch forceLogout
-  │     │                       └─→ redirect → /#/login
-  │     │
-  │     └─→ ❌ Network Error (server mati)
-  │           └─→ profileSlice set isServerError = true
-  │                 └─→ AppLayout render <ServerDown />
-  │                       └─→ User klik "Coba Lagi"
-  │                             └─→ dispatch fetchProfile() ulang
-  │
-  └─→ User di Landing Page
-        └─→ Klik Footer → hanya ke /login atau /register (aman)
-```
+*Perintah di atas akan secara otomatis menjalankan `npm run build` (melalui script `predeploy`), lalu mempublikasikan folder `dist` ke branch `gh-pages` repositori Anda.*
+
+---
+
+## 🛡️ Konvensi dan Penanganan Kasus Kritis (Error Handling)
+
+1. **Token Expired (401 Unauthorized):**
+   - Interceptor Axios dan Redux `errorMiddleware` mendeteksi status 401.
+   - Token dan data pengguna di `localStorage` langsung dihapus.
+   - Pengguna dialihkan secara otomatis ke hash rute `#/login`.
+2. **Koneksi Terputus / Server Mati:**
+   - Jika endpoint backend gagal dihubungi (*Network Error* / 500+), aplikasi menampilkan komponen `src/ui/ServerDown.jsx`.
+   - Pengguna dapat menekan tombol **"Coba Hubungkan Lagi"** untuk mencoba sinkronisasi data kembali tanpa perlu merefresh halaman secara manual.
+3. **Pemisahan Footer:**
+   - Landing Page memiliki footer tersendiri di `src/pages/LandingPage/components/Footer.jsx` yang bebas dari rute yang membutuhkan autentikasi profil, mencegah terjadinya pemuatan tanpa henti (*infinite loader*).
+
+---
+
+## 👥 Pengembang & Lisensi
+
+- **Pengembang:** Muhamad Rayhan ([@RayhanDev9](https://github.com/RayhanDev9))
+- **Lisensi:** Proyek ini dibuat untuk keperluan pengembangan dan portofolio profesional. Hak cipta dilindungi undang-undang.
